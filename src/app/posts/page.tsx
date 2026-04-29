@@ -1,9 +1,9 @@
-import { Pagination } from "@semantic/components/ui/pagination";
-import { PostList } from "@semantic/components/ui/post-list";
-import { ROUTES } from "@semantic/constants/menu";
-import { POST } from "@semantic/constants/metadata";
-import { generatePageMetadata } from "@semantic/utils/metadata-util";
-import { getAllPosts } from "@semantic/utils/post-util";
+import { Pagination } from "@components/ui/pagination";
+import { PostList } from "@components/ui/postList";
+import { ROUTES } from "@constants/menu.constants";
+import { POST } from "@constants/metadata.constants";
+import { generatePageMetadata } from "@utils/metadata-util";
+import { getAllPosts } from "@utils/post-util";
 import type { Metadata } from "next";
 
 interface PostsPageProps {
@@ -23,7 +23,7 @@ const PostsPage = async ({ searchParams }: PostsPageProps) => {
 
   const allPosts = await getAllPosts();
   const sortedPosts = [...allPosts].sort((a, b) =>
-    a.createdAt > b.createdAt ? -1 : 1
+    a.createdAt > b.createdAt ? -1 : 1,
   );
 
   const currentPosts = sortedPosts.slice(start, end);

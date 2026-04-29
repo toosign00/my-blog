@@ -8,16 +8,18 @@ Next.js (App Router) + MDX blog starter. Content lives in `src/app/**` with MDX 
 ./
 ├── src/
 │   ├── app/                      # Next.js App Router pages/routes + content
+│   ├── assets/                   # bundled static assets
+│   │   ├── images/posts/         # per-post images (slug folders)
+│   │   └── font/                 # next/font (Pretendard local + Geist Mono)
 │   ├── components/               # UI + icons + client-only helpers
 │   ├── constants/                # site metadata/menu/profile constants
 │   ├── styles/                   # global styles (Tailwind)
 │   ├── types/                    # shared TS types
 │   └── utils/                    # text/post helpers
-├── assets/images/posts/          # per-post images (slug folders)
 ├── public/                       # public static assets
 ├── next.config.ts                # MDX + Next config
 ├── mdx-components.tsx            # MDX component mapping
-├── biome.jsonc                   # Ultracite/Biome config
+├── biome.json                    # Biome config
 └── package.json                  # scripts + deps (pnpm)
 ```
 
@@ -26,14 +28,14 @@ Next.js (App Router) + MDX blog starter. Content lives in `src/app/**` with MDX 
 | Task | Location | Notes |
 | --- | --- | --- |
 | Add/edit a post | `src/app/posts/_articles/*.mdx` | Each MDX exports `metadata` (title/subtitle/dates/coverImage/category/tags/comments). |
-| Post images | `assets/images/posts/<slug>/...` | `coverImage` in MDX points here (e.g. `posts/<slug>/cover.webp`). |
-| About page content | `src/app/about/_content/about.mdx` | Rendered by `src/app/about/page.tsx`. |
+| Post images | `src/assets/images/posts/<slug>/...` | `coverImage` in MDX points here (e.g. `posts/<slug>/cover.webp`). |
+| About page | `src/app/about/` | `page.tsx` + `_components/` (TSX sections). |
 | Site shell + providers | `src/app/layout.tsx` | ThemeProvider (next-themes), global styles, fonts. |
 | Home/posts/category/tag pages | `src/app/**/page.tsx` | App Router route segments live here. |
-| RSS feed | `src/app/rss.xml/route.ts` | Generates RSS XML from posts. |
-| Sitemap | `src/app/sitemap.xml/route.ts` | Generates sitemap XML. |
-| MDX component styling | `mdx-components.tsx` | Delegates to `src/components/ui/mdx-component`. |
-| Navigation + metadata | `src/constants/*` | `menu.ts`, `metadata.ts`, `profile.ts` are the main knobs. |
+| RSS feed | `src/app/rss/route.ts` | Generates RSS XML from posts. |
+| Sitemap | `src/app/sitemap/route.ts` | Generates sitemap XML. |
+| MDX component styling | `mdx-components.tsx` | Delegates to `src/components/ui/mdxComponent.tsx`. |
+| Navigation + metadata | `src/constants/*` | `*.constants.ts` files (menu, metadata, profile, giscus). |
 
 ## Commands
 
@@ -43,10 +45,10 @@ pnpm dev               # Next dev server on http://localhost:1113
 pnpm build             # Build for production
 pnpm start             # Start production server
 
-# Lint & format (Ultracite powered by Biome)
-pnpm lint              # Run linter (ultracite check)
-pnpm fix               # Auto-fix formatting and lint issues (ultracite fix)
-pnpm dlx ultracite doctor  # Diagnose Ultracite setup
+# Lint & format (Biome)
+pnpm lint              # Run `biome check --write`
+pnpm type-check        # TypeScript (`tsc --noEmit`)
+pnpm check             # `type-check` + `lint`
 ```
 
 ## Conventions (Project-Specific)
@@ -58,8 +60,8 @@ pnpm dlx ultracite doctor  # Diagnose Ultracite setup
 
 ### TypeScript
 - **Configuration**: strict mode, noEmit (`tsconfig.json`).
-- **Path aliases**: `@/*` and `@semantic/*` resolve to `src/*`.
-- **Type imports**: Import types directly from their source (e.g., `@/types/content`), not from utility re-exports.
+- **Path aliases**: `@src/*` resolves to `src/*`.
+- **Type imports**: Import types directly from their source (e.g., `@src/types/content.types`), not from utility re-exports.
 
 ### MDX
 - **Framework**: `@next/mdx` (configured in `next.config.ts`).
@@ -68,18 +70,17 @@ pnpm dlx ultracite doctor  # Diagnose Ultracite setup
 
 ### Styling
 - **Framework**: Tailwind CSS v4 via PostCSS plugin (`postcss.config.js`).
-- **Global styles**: `@semantic/styles/globals.css`.
-- **Font**: Geist Mono (code), Pretendard (body) via `src/app/_fonts`.
+- **Global styles**: `@src/styles/globals.css`.
+- **Font**: Geist Mono (code), Pretendard (body) via `src/assets/font` (`layout.tsx` imports `@src/assets/font`).
 
-### Code Quality (Ultracite)
-- **Engine**: Ultracite (built on Biome) with project-specific config.
-- **Config**: `biome.jsonc` extends `ultracite/biome/core` + `ultracite/biome/next`.
-- **Pre-commit**: `lint-staged` runs `pnpm dlx ultracite fix` on staged files automatically.
-- **Exceptions**: `noUnknownTypeSelector` and `useFilenamingConvention` rules disabled in `biome.jsonc`.
+### Code Quality (Biome)
+- **Engine**: `@biomejs/biome` with project config in `biome.json`.
+- **Pre-commit**: `lint-staged` runs `biome check --write` on staged files.
+- **Exceptions**: `noUnknownTypeSelector` and `useFilenamingConvention` rules disabled in `biome.json`.
 
 ## Anti-Patterns (This Repo)
 
-- **Never bypass lint/format**: Always run `pnpm fix` before committing.
+- **Never bypass lint/format**: Run `pnpm lint` before committing when needed.
 - **No type suppression**: Avoid `as any`, `@ts-ignore`, `@ts-expect-error`.
 - **Image handling**: Use Next `<Image>` component instead of raw `<img>` for content.
 - **Type imports**: Don't import types from utility re-exports; import from source directly.

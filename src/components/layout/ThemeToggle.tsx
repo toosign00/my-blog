@@ -1,0 +1,25 @@
+"use client";
+
+import { useTheme } from "next-themes";
+import { AfterMount } from "@/components/AfterMount";
+
+export const ThemeToggle = () => {
+  const { resolvedTheme: theme, setTheme } = useTheme();
+
+  return (
+    <AfterMount
+      fallback={
+        <div className="ui-button h4 w-full text-[var(--color-gray-accent)]" />
+      }
+    >
+      <button
+        aria-label="Toggle dark or light mode"
+        className="ui-button h4 w-full text-[var(--color-gray-accent)] hover:bg-[var(--color-background02)]"
+        onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+        type="button"
+      >
+        {theme === "light" ? "🌚 Dark mode" : "🌞 Light mode"}
+      </button>
+    </AfterMount>
+  );
+};

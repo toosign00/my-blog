@@ -38,9 +38,9 @@
     inset 0 -0.125rem 0.125rem rgba(255, 255, 255, 0.3),
     inset 0 0.125rem 0.125rem rgba(255, 255, 255, 0.3);
 
-  --font-mono: "Geist Mono", Pretendard, "Courier New", Courier, monospace;
+  --font-mono: var(--font-geist-mono), "Courier New", Courier, monospace;
   --font-sans:
-    Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto,
+    var(--font-pretendard), -apple-system, BlinkMacSystemFont, system-ui, Roboto,
     "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic",
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
 

@@ -1,7 +1,7 @@
-import { ROUTES } from "@semantic/constants/menu";
-import { generatePageMetadata } from "@semantic/utils/metadata-util";
-import { getAllPosts } from "@semantic/utils/post-util";
-import { slugify } from "@semantic/utils/text-util";
+import { ROUTES } from "@constants/menu.constants";
+import { generatePageMetadata } from "@utils/metadata-util";
+import { getAllPosts } from "@utils/post-util";
+import { slugify } from "@utils/text-util";
 import type { Metadata } from "next";
 import Link from "next/link";
 
@@ -11,11 +11,11 @@ const CategoryListPage = async () => {
   const categoryCounts = categories.reduce(
     (acc, category) => {
       acc[category] = allPosts.filter(
-        (post) => post.category === category
+        (post) => post.category === category,
       ).length;
       return acc;
     },
-    {} as Record<string, number>
+    {} as Record<string, number>,
   );
 
   return (

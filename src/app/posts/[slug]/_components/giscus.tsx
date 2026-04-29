@@ -1,6 +1,6 @@
 "use client";
 
-import { GISCUS } from "@semantic/constants/giscus";
+import { GISCUS } from "@constants/giscus.constants";
 import { useTheme } from "next-themes";
 import {
   type ComponentProps,
@@ -19,7 +19,7 @@ export const Giscus = ({ ...props }: GiscusProps) => {
 
   const theme = useMemo(
     () => (appTheme === "dark" ? "noborder_gray" : "noborder_light"),
-    [appTheme]
+    [appTheme],
   );
 
   useEffect(() => {
@@ -64,11 +64,11 @@ export const Giscus = ({ ...props }: GiscusProps) => {
     }
 
     const iframe = document.querySelector<HTMLIFrameElement>(
-      "iframe.giscus-frame"
+      "iframe.giscus-frame",
     );
     iframe?.contentWindow?.postMessage(
       { giscus: { setConfig: { theme } } },
-      "https://giscus.app"
+      "https://giscus.app",
     );
   }, [theme, mounted]);
 

@@ -1,7 +1,7 @@
 "use client";
 
-import { ChevronLeftIcon } from "@semantic/components/icon/components/semantic/ChevronLeftIcon";
-import { ChevronRightIcon } from "@semantic/components/icon/components/semantic/ChevronRightIcon";
+import { ChevronLeftIcon } from "@components/icons/ChevronLeftIcon";
+import { ChevronRightIcon } from "@components/icons/ChevronRightIcon";
 import Link from "next/link";
 
 const TRAILING_SLASH = /\/$/;
@@ -70,7 +70,7 @@ export const Pagination = ({
           >
             {pageNumber}
           </Link>
-        )
+        ),
       )}
 
       {currentPage < totalPages && (

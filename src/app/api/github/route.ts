@@ -1,0 +1,99 @@
+import { NextResponse } from "next/server";
+
+export const revalidate = 3600;
+
+interface GitHubEvent {
+  type: string;
+  repo: { name: string };
+  payload: {
+    commits?: { message: string }[];
+    ref?: string;
+    ref_type?: string;
+    pull_request?: { title: string; html_url: string };
+  };
+  created_at: string;
+}
+
+export interface ActivityItem {
+  type: string;
+  repo: string;
+  message: string;
+  url: string;
+  createdAt: string;
+}
+
+const formatEvent = (event: GitHubEvent): ActivityItem | null => {
+  const repoFull = event.repo.name;
+  const repo = repoFull.split("/")[1];
+  const baseUrl = `https://github.com/${repoFull}`;
+
+  switch (event.type) {
+    case "PushEvent": {
+      const count = event.payload.commits?.length ?? 0;
+      const message = event.payload.commits?.[0]?.message ?? "";
+      return {
+        type: "push",
+        repo,
+        message: count > 1 ? `${message} 외 ${count - 1}개` : message,
+        url: `${baseUrl}/commits`,
+        createdAt: event.created_at,
+      };
+    }
+    case "CreateEvent":
+      if (event.payload.ref_type === "branch") {
+        return {
+          type: "branch",
+          repo,
+          message: event.payload.ref ?? "",
+          url: `${baseUrl}/tree/${event.payload.ref}`,
+          createdAt: event.created_at,
+        };
+      }
+      return null;
+    case "PullRequestEvent":
+      return {
+        type: "pr",
+        repo,
+        message: event.payload.pull_request?.title ?? "",
+        url: event.payload.pull_request?.html_url ?? baseUrl,
+        createdAt: event.created_at,
+      };
+    case "WatchEvent":
+      return {
+        type: "star",
+        repo,
+        message: repo,
+        url: baseUrl,
+        createdAt: event.created_at,
+      };
+    default:
+      return null;
+  }
+};
+
+export async function GET() {
+  const token = process.env.GITHUB_PERSONAL_ACCESS_TOKEN;
+
+  const res = await fetch(
+    "https://api.github.com/users/toosign00/events/public?per_page=30",
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/vnd.github+json",
+      },
+      next: { revalidate: 3600 },
+    },
+  );
+
+  if (!res.ok) {
+    return NextResponse.json({ error: "Failed to fetch" }, { status: 500 });
+  }
+
+  const events = (await res.json()) as GitHubEvent[];
+  const activities = events
+    .map(formatEvent)
+    .filter((a): a is ActivityItem => a !== null)
+    .slice(0, 30);
+
+  return NextResponse.json(activities);
+}

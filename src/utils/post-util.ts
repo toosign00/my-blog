@@ -1,7 +1,7 @@
 import { readdir } from "node:fs/promises";
 import path from "node:path";
 
-import type { Post, PostCoverImage, PostMetadata } from "@/types/content";
+import type { Post, PostCoverImage, PostMetadata } from "@/types/content.types";
 
 const MDX_EXTENSION = ".mdx";
 const POSTS_DIR = path.join(process.cwd(), "src", "app", "posts", "_articles");
@@ -12,14 +12,14 @@ interface PostModule {
 }
 
 const resolveCoverImage = async (
-  coverImage: string
+  coverImage: string,
 ): Promise<PostCoverImage> => {
   if (coverImage.startsWith("https://")) {
     return coverImage;
   }
 
   try {
-    const image = await import(`../../assets/images/${coverImage}`);
+    const image = await import(`../assets/images/${coverImage}`);
     return image.default;
   } catch {
     // Error is handled by falling back to the original coverImage string
@@ -29,7 +29,7 @@ const resolveCoverImage = async (
 
 const buildPost = async (
   slug: string,
-  metadata: PostMetadata
+  metadata: PostMetadata,
 ): Promise<Post> => {
   const coverImage = await resolveCoverImage(metadata.coverImage);
   return {
@@ -50,7 +50,7 @@ export const getAllPosts = async (): Promise<Post[]> => {
     }
 
     const postModule = (await import(
-      `@semantic/app/posts/_articles/${filename}`
+      `@/app/posts/_articles/${filename}`
     )) as PostModule;
     if (!postModule.metadata) {
       throw new Error(`Missing \`metadata\` in ${filename}`);
@@ -67,7 +67,7 @@ export const getAllPosts = async (): Promise<Post[]> => {
 export const getPostBySlug = async (slug: string): Promise<Post> => {
   try {
     const postModule = (await import(
-      `@semantic/app/posts/_articles/${slug}.mdx`
+      `@/app/posts/_articles/${slug}.mdx`
     )) as PostModule;
 
     if (!postModule.metadata) {

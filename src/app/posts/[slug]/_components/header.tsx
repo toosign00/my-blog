@@ -1,10 +1,9 @@
-import { RelativeTime } from "@semantic/components/ui/relative-time";
-import { ROUTES } from "@semantic/constants/menu";
-import { slugify } from "@semantic/utils/text-util";
+import { RelativeTime } from "@components/ui/relativeTime";
+import { ROUTES } from "@constants/menu.constants";
+import { slugify } from "@utils/text-util";
 import Image from "next/image";
 import Link from "next/link";
-
-import type { Post } from "@/types/content";
+import type { Post } from "@/types/content.types";
 
 export const Header = ({
   coverImage,

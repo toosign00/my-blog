@@ -1,12 +1,12 @@
-import { Divider } from "@semantic/components/ui/divider";
-import { ROUTES } from "@semantic/constants/menu";
-import { METADATA } from "@semantic/constants/metadata";
-import { generatePageMetadata } from "@semantic/utils/metadata-util";
-import { getAllPosts, getPostBySlug } from "@semantic/utils/post-util";
+import { Divider } from "@components/ui/divider";
+import { ROUTES } from "@constants/menu.constants";
+import { METADATA } from "@constants/metadata.constants";
+import { generatePageMetadata } from "@utils/metadata-util";
+import { getAllPosts, getPostBySlug } from "@utils/post-util";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import type { ComponentType } from "react";
-import type { Post } from "@/types/content";
+import type { Post } from "@/types/content.types";
 import { BackButton } from "./_components/back-button";
 import { Footer } from "./_components/footer";
 import { Giscus } from "./_components/giscus";
@@ -91,7 +91,7 @@ export async function generateStaticParams() {
 
 const getRecommendedPosts = (posts: Post[], slug: string): Post[] => {
   const sorted = [...posts].sort((a, b) =>
-    a.createdAt > b.createdAt ? -1 : 1
+    a.createdAt > b.createdAt ? -1 : 1,
   );
   const currentIndex = sorted.findIndex((p) => p.slug === slug);
 

@@ -15,7 +15,7 @@ export const Divider = forwardRef<HTMLHRElement, DividerProps>(
         {...props}
       />
     );
-  }
+  },
 );
 
 Divider.displayName = "Divider";

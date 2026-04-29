@@ -1,10 +1,10 @@
-import { Pagination } from "@semantic/components/ui/pagination";
-import { PostList } from "@semantic/components/ui/post-list";
-import { ROUTES } from "@semantic/constants/menu";
-import { POST } from "@semantic/constants/metadata";
-import { generatePageMetadata } from "@semantic/utils/metadata-util";
-import { getAllPosts } from "@semantic/utils/post-util";
-import { slugify } from "@semantic/utils/text-util";
+import { Pagination } from "@components/ui/pagination";
+import { PostList } from "@components/ui/postList";
+import { ROUTES } from "@constants/menu.constants";
+import { POST } from "@constants/metadata.constants";
+import { generatePageMetadata } from "@utils/metadata-util";
+import { getAllPosts } from "@utils/post-util";
+import { slugify } from "@utils/text-util";
 import type { Metadata } from "next";
 
 interface CategoriesPageProps {
@@ -28,11 +28,11 @@ const CategoriesPage = async ({
 
   const allPosts = await getAllPosts();
   const categoryPosts = allPosts.filter(
-    (post) => slugify(post.category) === category
+    (post) => slugify(post.category) === category,
   );
 
   const sortedPosts = categoryPosts.sort((a, b) =>
-    a.createdAt > b.createdAt ? -1 : 1
+    a.createdAt > b.createdAt ? -1 : 1,
   );
 
   const start = (currentPage - 1) * POST.PER_PAGE;
@@ -85,7 +85,7 @@ export const generateMetadata = async ({
   const current = parsePageParam(page);
   const allPosts = await getAllPosts();
   const categoryPosts = allPosts.filter(
-    (post) => slugify(post.category) === category
+    (post) => slugify(post.category) === category,
   );
   const categoryName = categoryPosts[0]?.category ?? category;
 

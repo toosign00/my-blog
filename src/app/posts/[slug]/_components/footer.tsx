@@ -1,10 +1,10 @@
 "use client";
 
-import { ShareIcon } from "@semantic/components/icon/components/semantic/ShareIcon";
-import { ROUTES } from "@semantic/constants/menu";
-import { METADATA } from "@semantic/constants/metadata";
+import { ShareIcon } from "@components/icons/ShareIcon";
+import { ROUTES } from "@constants/menu.constants";
+import { METADATA } from "@constants/metadata.constants";
 
-import type { Post } from "@/types/content";
+import type { Post } from "@/types/content.types";
 import { BackButton } from "./back-button";
 
 export const Footer = ({ slug, title, subtitle }: Post) => {
@@ -69,7 +69,6 @@ export const Footer = ({ slug, title, subtitle }: Post) => {
       return;
     }
 
-    // biome-ignore lint/suspicious/noAlert: user requested clipboard copy confirmation.
     alert("Link copied to clipboard.");
   };
 

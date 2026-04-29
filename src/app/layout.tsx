@@ -1,18 +1,25 @@
-import "@semantic/styles/globals.css";
+import "@styles/globals.css";
 
-import { METADATA } from "@semantic/constants/metadata";
+import { GeistMono, Pretendard } from "@assets/font";
+import appleTouchIcon from "@assets/icons/apple-icon.png";
+import siteIcon from "@assets/icons/icon.svg";
+import { Layout } from "@components/layout/Root";
+import { METADATA } from "@constants/metadata.constants";
 import type { Metadata, Viewport } from "next";
 import { ThemeProvider } from "next-themes";
 import type { PropsWithChildren } from "react";
 import { twMerge } from "tailwind-merge";
-import { Layout } from "./_components/layout/root";
-
-import { GeistMono, Pretendard } from "./_fonts";
 
 const RootLayout = ({ children }: PropsWithChildren) => {
   return (
     <html lang={METADATA.SITE.LANGUAGE} suppressHydrationWarning>
-      <body className={twMerge(Pretendard.variable, GeistMono.variable)}>
+      <body
+        className={twMerge(
+          Pretendard.variable,
+          Pretendard.className,
+          GeistMono.variable,
+        )}
+      >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <Layout>{children}</Layout>
         </ThemeProvider>
@@ -23,10 +30,16 @@ const RootLayout = ({ children }: PropsWithChildren) => {
 
 export default RootLayout;
 
+const siteIconUrl = typeof siteIcon === "string" ? siteIcon : siteIcon.src;
+
 export const metadata: Metadata = {
   title: METADATA.SITE.NAME,
   description: METADATA.SITE.DESCRIPTION,
   metadataBase: new URL(METADATA.SITE.URL),
+  icons: {
+    icon: [{ url: siteIconUrl, type: "image/svg+xml" }],
+    apple: [{ url: appleTouchIcon.src, type: "image/png" }],
+  },
   openGraph: {
     title: METADATA.SITE.NAME,
     description: METADATA.SITE.DESCRIPTION,

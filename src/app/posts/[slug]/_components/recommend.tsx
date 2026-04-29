@@ -1,5 +1,5 @@
-import { PostGrid } from "@semantic/components/ui/post-grid";
-import type { Post } from "@/types/content";
+import { PostGrid } from "@components/ui/postGrid";
+import type { Post } from "@/types/content.types";
 
 interface RecommendProps {
   posts: Post[];

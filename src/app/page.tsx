@@ -1,13 +1,11 @@
-import { PlusIcon } from "@semantic/components/icon/components/semantic/PlusIcon";
-import { PostGrid } from "@semantic/components/ui/post-grid";
-import { ROUTES } from "@semantic/constants/menu";
-import { getAllPosts } from "@semantic/utils/post-util";
+import { PlusIcon } from "@components/icons/PlusIcon";
+import { ProfileGrid } from "@components/ProfileGrid";
+import { PostGrid } from "@components/ui/postGrid";
+import { ROUTES } from "@constants/menu.constants";
+import { getAllPosts } from "@utils/post-util";
 import dayjs from "dayjs";
 import Link from "next/link";
-
-import type { Post } from "@/types/content";
-
-import { ProfileGrid } from "./_components/profile-grid";
+import type { Post } from "@/types/content.types";
 
 const getSortedPosts = (posts: Post[]) => {
   return posts
