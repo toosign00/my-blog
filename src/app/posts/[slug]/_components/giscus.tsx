@@ -40,7 +40,8 @@ export const Giscus = ({ ...props }: GiscusProps) => {
       "data-emit-metadata": "0",
       "data-input-position": "bottom",
       "data-theme": theme,
-      "data-lang": "en",
+      "data-lang": "ko",
+      "data-loading": "lazy",
       crossorigin: "anonymous",
     };
 
