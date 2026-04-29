@@ -5,6 +5,7 @@ import appleTouchIcon from "@assets/icons/apple-icon.png";
 import siteIcon from "@assets/icons/icon.svg";
 import { Layout } from "@components/layout/Root";
 import { METADATA } from "@constants/metadata.constants";
+import { Analytics } from "@vercel/analytics/next";
 import type { Metadata, Viewport } from "next";
 import { ThemeProvider } from "next-themes";
 import type { PropsWithChildren } from "react";
@@ -23,6 +24,7 @@ const RootLayout = ({ children }: PropsWithChildren) => {
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <Layout>{children}</Layout>
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );
