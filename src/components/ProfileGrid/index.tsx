@@ -1,10 +1,24 @@
 import { METADATA } from "@constants/metadata.constants";
 import { PROFILE } from "@constants/profile.constants";
+import { createBlur } from "@utils/blur-util";
 import Image from "next/image";
 import { RecentActivity } from "../RecentActivity";
 import Card from "./Card";
 
-export const ProfileGrid = () => {
+const authorProfileDetails = [
+  {
+    title: "Studying",
+    content: METADATA.AUTHOR.STUDYING.replace(/,\s+/g, "\n"),
+  },
+  {
+    title: "Location",
+    content: METADATA.AUTHOR.LOCATION,
+  },
+] as const;
+
+export const ProfileGrid = async () => {
+  const blurDataURL = await createBlur(METADATA.AUTHOR.PROFILE_IMAGE);
+
   return (
     <section
       aria-label={`${METADATA.AUTHOR.NAME}'s profile and playlist`}
@@ -30,9 +44,11 @@ export const ProfileGrid = () => {
               >
                 <Image
                   alt={`${METADATA.AUTHOR.NAME} profile image`}
+                  blurDataURL={blurDataURL}
                   className="h-full w-full rounded-none border-0 object-cover"
                   draggable={false}
                   fill
+                  placeholder="blur"
                   priority
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   src={PROFILE.profileImage}
@@ -48,7 +64,7 @@ export const ProfileGrid = () => {
             </fieldset>
 
             <dl className="row-between h-3/4 flex-col items-start">
-              {PROFILE.userDetails.map((item) => (
+              {authorProfileDetails.map((item) => (
                 <div className="w-full" key={item.title}>
                   <dt
                     className="profile-sub w-full"
