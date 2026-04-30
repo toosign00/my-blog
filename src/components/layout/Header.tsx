@@ -5,12 +5,12 @@ import { ROUTES } from "@constants/menu.constants";
 import { METADATA } from "@constants/metadata.constants";
 import * as Accordion from "@radix-ui/react-accordion";
 import dayjs from "dayjs";
+import { Network, Rss } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-
+import { ThemeToggle } from "../ThemeToggle";
 import { NavigateMenu } from "./NavigateMenu";
-import { ThemeToggle } from "./ThemeToggle";
 
 export const Header = () => {
   const [accordionOpen, setAccordionOpen] = useState(false);
@@ -36,8 +36,8 @@ export const Header = () => {
           type="button"
         />
 
-        <header className="fixed top-0 left-0 z-[var(--z-header)] flex tablet:hidden w-full bg-[var(--color-background)] px-[var(--spacing-inline)]">
-          <div className="row-between mx-auto w-full max-w-[var(--app-width)] py-[0.8125rem]">
+        <header className="fixed top-0 left-0 z-(--z-header) flex tablet:hidden w-full bg-color-background) px-(--spacing-inline)">
+          <div className="row-between mx-auto w-full max-w-(--app-width) py-3.25">
             <Link aria-label={METADATA.SITE.NAME} href={ROUTES.HOME}>
               <Image
                 alt={METADATA.SITE.NAME}
@@ -50,14 +50,14 @@ export const Header = () => {
 
             <Accordion.Item
               aria-label="Menu Accordion"
-              className="mt-[1px] overflow-hidden"
+              className="mt-px overflow-hidden"
               id="menu-accordion-item"
               value="menu"
             >
               <button
                 aria-controls="menu-accordion-content"
                 aria-expanded={accordionOpen}
-                className="ui-button h4 px-4 text-[var(--color-gray-mid)] hover:bg-[var(--color-background02)]"
+                className="ui-button h4 px-4 text-gray-mid hover:bg-background02"
                 onClick={() => setAccordionOpen((open) => !open)}
                 type="button"
               >
@@ -65,18 +65,40 @@ export const Header = () => {
               </button>
               <Accordion.Content
                 aria-labelledby="menu-accordion-item"
-                className="fixed top-[4.1875rem] left-0 w-full overflow-hidden bg-[var(--color-background)] px-[var(--spacing-inline)]"
+                className="fixed top-16.75 left-0 w-full overflow-hidden bg-background px-inline"
                 id="menu-accordion-content"
               >
-                <div className="column mx-auto w-full max-w-[var(--app-width)] pt-[1.5625rem] pb-[1.1875rem]">
-                  <div className="column w-full max-w-[122px] gap-[1.875rem]">
+                <div className="column mx-auto w-full max-w-app pt-6.25 pb-4.75">
+                  <div className="column w-full max-w-30.5 gap-7.5">
                     <NavigateMenu />
                     <ThemeToggle />
                   </div>
-                  <p className="h7 mt-[2.6875rem] w-full text-center text-[var(--color-license)]">
+                  <p className="h7 mt-10.75 w-full text-center text-license">
                     Copyright © {dayjs().year()} {METADATA.AUTHOR.NAME}, All
                     rights reserved.
                   </p>
+                  <div className="row-between mx-auto w-1/4 max-w-30.5 mt-4">
+                    <Link
+                      aria-label="RSS feed"
+                      className="flex h7 items-center gap-1 text-license no-underline opacity-100 transition-opacity duration-150 ease-in-out hover:opacity-70"
+                      href={ROUTES.RSS}
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      <Rss size={14} />
+                      RSS
+                    </Link>
+                    <Link
+                      aria-label="XML sitemap"
+                      className="flex h7 items-center gap-1 text-license no-underline opacity-100 transition-opacity duration-150 ease-in-out hover:opacity-70"
+                      href={ROUTES.SITEMAP}
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      <Network size={14} />
+                      Sitemap
+                    </Link>
+                  </div>
                 </div>
               </Accordion.Content>
             </Accordion.Item>
@@ -84,7 +106,7 @@ export const Header = () => {
         </header>
       </Accordion.Root>
 
-      <div className="block tablet:hidden pt-[4.1875rem]">
+      <div className="block tablet:hidden pt-16.75">
         <Divider />
       </div>
     </>
