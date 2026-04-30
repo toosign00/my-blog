@@ -1,20 +1,8 @@
 import { existsSync } from "node:fs";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
+import { cache } from "react";
 import sharp from "sharp";
-
-export type BlurData = {
-  blur: string;
-  ratio: number;
-};
-
-export type BlurMap = Record<string, BlurData>;
-
-export type MdxDocument = {
-  body: { raw: string; code: string };
-  _raw: { sourceFilePath: string };
-  r2Folder?: string;
-};
 
 export interface BlurOptions {
   width?: number;
@@ -22,11 +10,9 @@ export interface BlurOptions {
   blur?: number;
 }
 
-const MDX_IMAGE_REGEX = /!\[.*?]\((.*?)\)/g;
-const BLUR_SIZE = 128;
 const BLUR_STRENGTH = 5;
 
-export const isUrl = (value: string): boolean => {
+const isUrl = (value: string): boolean => {
   try {
     new URL(value);
     return true;
@@ -69,195 +55,22 @@ const loadBuffer = async (imagePath: string): Promise<Buffer> => {
   return await readFile(fullPath);
 };
 
-export const createBlur = async (
-  imagePath: string,
-  options: BlurOptions = {},
-): Promise<string> => {
-  const { width = 20, height = 20, blur = BLUR_STRENGTH } = options;
+export const createBlur = cache(
+  async (imagePath: string, options: BlurOptions = {}): Promise<string> => {
+    const { width = 20, height = 20, blur = BLUR_STRENGTH } = options;
 
-  try {
-    const buffer = await loadBuffer(imagePath);
-    const { data, info } = await sharp(buffer)
-      .resize(width, height, { fit: "inside" })
-      .blur(blur)
-      .toBuffer({ resolveWithObject: true });
+    try {
+      const buffer = await loadBuffer(imagePath);
+      const { data, info } = await sharp(buffer)
+        .resize(width, height, { fit: "inside" })
+        .blur(blur)
+        .toBuffer({ resolveWithObject: true });
 
-    return `data:image/${info.format};base64,${data.toString("base64")}`;
-  } catch (error) {
-    const errorMessage =
-      error instanceof Error ? error.message : "Unknown error";
-    console.error(`Failed to create blur for image: ${imagePath}`, error);
-    throw new Error(`createBlur failed: ${errorMessage}`);
-  }
-};
-
-export const createBlurData = async (imagePath: string): Promise<BlurData> => {
-  try {
-    const buffer = await loadBuffer(imagePath);
-    const metadata = await sharp(buffer).metadata();
-
-    if (!metadata.width || !metadata.height) {
-      throw new Error("Failed to get image dimensions");
+      return `data:image/${info.format};base64,${data.toString("base64")}`;
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : "Unknown error";
+      throw new Error(`createBlur failed: ${errorMessage}`);
     }
-
-    const { data, info } = await sharp(buffer)
-      .resize(BLUR_SIZE, BLUR_SIZE, { fit: "inside" })
-      .blur(BLUR_STRENGTH)
-      .toBuffer({ resolveWithObject: true });
-
-    return {
-      blur: `data:image/${info.format};base64,${data.toString("base64")}`,
-      ratio: metadata.width / metadata.height,
-    };
-  } catch (error) {
-    const errorMessage =
-      error instanceof Error ? error.message : "Unknown error";
-    console.error(`Failed to create blur data for image: ${imagePath}`, error);
-    throw new Error(`createBlurData failed: ${errorMessage}`);
-  }
-};
-
-export const extractImages = (mdxContent: string): string[] => {
-  const images: string[] = [];
-  let match: RegExpExecArray | null;
-
-  while (true) {
-    match = MDX_IMAGE_REGEX.exec(mdxContent);
-    if (!match) {
-      break;
-    }
-    const imagePath = match[1]?.trim();
-    if (imagePath) {
-      images.push(imagePath);
-    }
-  }
-
-  return images;
-};
-
-export const resolveSystemPath = (
-  mdxFilePath: string,
-  imagePath: string,
-): string => {
-  if (isUrl(imagePath)) {
-    return imagePath;
-  }
-
-  const mdxDir = path.dirname(mdxFilePath).replace(/^content[\\/]/, "");
-  const cleanPath = imagePath.startsWith("./") ? imagePath.slice(2) : imagePath;
-
-  return path.join(process.cwd(), "content", mdxDir, cleanPath);
-};
-
-export const resolveWebPath = (
-  mdxFilePath: string,
-  imagePath: string,
-): string => {
-  if (isUrl(imagePath)) {
-    return imagePath;
-  }
-
-  const mdxDir = path.dirname(mdxFilePath).replace(/^content[\\/]/, "");
-  const cleanPath = imagePath.startsWith("./") ? imagePath.slice(2) : imagePath;
-
-  return `/content/${path.join(mdxDir, cleanPath).replace(/\\/g, "/")}`;
-};
-
-export const resolveAssetPath = (
-  directory: string,
-  assetPath: string,
-): string => {
-  if (isUrl(assetPath)) {
-    return assetPath;
-  }
-
-  const cleanPath = assetPath.startsWith("./") ? assetPath.slice(2) : assetPath;
-  return `/content/${directory}/${cleanPath}`;
-};
-
-export const resolveR2Path = (
-  r2Folder: string,
-  imagePath: string,
-  contentType: "posts" | "projects",
-): string => {
-  if (isUrl(imagePath)) {
-    return imagePath;
-  }
-
-  const cleanPath = imagePath.startsWith("./") ? imagePath.slice(2) : imagePath;
-  const encodedPath = cleanPath.split("/").map(encodeURIComponent).join("/");
-  return `https://img.stile.im/${contentType}/${r2Folder}/${encodedPath}`;
-};
-
-export const createBlurMap = async (
-  mdxFilePath: string,
-  images: string[],
-): Promise<BlurMap> => {
-  const entries = await Promise.all(
-    images.map(async (imagePath) => {
-      try {
-        const systemPath = resolveSystemPath(mdxFilePath, imagePath);
-        const blurData = await createBlurData(systemPath);
-        return [imagePath, blurData] as const;
-      } catch (error) {
-        console.error(`Failed to process image: ${imagePath}`, error);
-        return [imagePath, { blur: "", ratio: 0 }] as const;
-      }
-    }),
-  );
-
-  return Object.fromEntries(entries);
-};
-
-export const transformMdxImages = (
-  document: MdxDocument,
-  r2Folder?: string,
-  contentType: "posts" | "projects" = "posts",
-) => {
-  const images = extractImages(document.body.raw);
-  let rawContent = document.body.raw;
-  let codeContent = document.body.code;
-
-  for (const imagePath of images) {
-    if (!isUrl(imagePath)) {
-      // Use R2 path if r2Folder is provided, otherwise use local web path
-      const webPath = r2Folder
-        ? resolveR2Path(r2Folder, imagePath, contentType)
-        : resolveWebPath(document._raw.sourceFilePath, imagePath);
-
-      const escapedPath = imagePath.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-
-      const markdownRegex = new RegExp(`!\\[.*?\\]\\(${escapedPath}\\)`, "g");
-      rawContent = rawContent.replace(markdownRegex, `![image](${webPath})`);
-
-      const jsxRegex = new RegExp(`src:\\s*["']${escapedPath}["']`, "g");
-      codeContent = codeContent.replace(jsxRegex, `src:"${webPath}"`);
-
-      // Try replacing encoded path in code content as MDX might encode it
-      try {
-        const encodedImagePath = encodeURIComponent(imagePath);
-        if (encodedImagePath !== imagePath) {
-          const escapedEncodedPath = encodedImagePath.replace(
-            /[.*+?^${}()|[\]\\]/g,
-            "\\$&",
-          );
-          const encodedJsxRegex = new RegExp(
-            `src:\\s*["']${escapedEncodedPath}["']`,
-            "g",
-          );
-          codeContent = codeContent.replace(
-            encodedJsxRegex,
-            `src:"${webPath}"`,
-          );
-        }
-      } catch {
-        // ignore encoding errors
-      }
-    }
-  }
-
-  return {
-    raw: rawContent,
-    code: codeContent,
-  };
-};
+  },
+);
