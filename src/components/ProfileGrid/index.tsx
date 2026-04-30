@@ -8,10 +8,10 @@ export const ProfileGrid = () => {
   return (
     <section
       aria-label={`${METADATA.AUTHOR.NAME}'s profile and playlist`}
-      className="grid w-full grid-cols-1 tablet:grid-cols-2 gap-[4.0625rem]"
+      className="grid w-full grid-cols-1 gap-16.25 tablet:grid-cols-2"
     >
       <div className="column w-full">
-        <h3 className="h3 text-[var(--color-gray-light)]" id="profile-heading">
+        <h3 className="h3 text-gray-light" id="profile-heading">
           Profile
         </h3>
         <Card.Root style={{ backgroundColor: PROFILE.cardBackgroundColor }}>
@@ -21,7 +21,7 @@ export const ProfileGrid = () => {
               className="row-between m-0 h-full flex-col items-start border-0 p-0"
             >
               <div
-                className="relative h-[6.0625rem] w-[6.0625rem] select-none overflow-hidden rounded-[var(--radius-md)] border"
+                className="relative h-24.25 w-24.25 select-none overflow-hidden rounded-md border"
                 style={{
                   borderColor: PROFILE.profileImageBorderColor,
                   boxShadow: `0px 10px 39px ${PROFILE.profileImageShadowColor}`,
@@ -70,7 +70,7 @@ export const ProfileGrid = () => {
       </div>
 
       <div className="column w-full">
-        <h3 className="h3 text-[var(--color-gray-light)]">Activity</h3>
+        <h3 className="h3 text-gray-light">Activity</h3>
         <Card.Root>
           <RecentActivity />
         </Card.Root>

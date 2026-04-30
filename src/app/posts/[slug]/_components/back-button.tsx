@@ -25,7 +25,7 @@ export const BackButton = () => {
   return (
     <button
       aria-label="Go back"
-      className="center-y h3 w-fit cursor-pointer select-none gap-[0.5rem] py-[0.3125rem] pr-[0.5625rem] text-[var(--color-gray-accent)] opacity-100 transition-opacity duration-150 ease-in-out hover:opacity-70"
+      className="center-y h3 w-fit cursor-pointer select-none gap-2 py-1.25 pr-2.25 text-gray-accent opacity-100 transition-opacity duration-150 ease-in-out hover:opacity-70"
       onClick={handleBack}
       type="button"
     >

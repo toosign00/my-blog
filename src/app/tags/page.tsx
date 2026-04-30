@@ -21,36 +21,29 @@ const TagListPage = async () => {
 
   return (
     <>
-      <header className="mx-auto mb-[2.25rem] text-center font-mono">
-        <h1 className="post-title mb-[0.75rem] text-[var(--color-gray-accent)]">
-          Tags
-        </h1>
-        <p className="font-medium text-[var(--color-gray-mid)] text-sm">
-          Explore all tags.
-        </p>
+      <header className="mx-auto mb-9 text-center">
+        <h1 className="post-title mb-3 text-gray-accent">Tags</h1>
+        <p className="font-medium text-gray-mid text-sm">Explore all tags.</p>
       </header>
 
-      <section
-        aria-labelledby="tag-list-heading"
-        className="mx-auto mb-[2.25rem]"
-      >
+      <section aria-labelledby="tag-list-heading" className="mx-auto mb-9">
         <h2 className="sr-only" id="tag-list-heading">
           Tag list
         </h2>
         <nav aria-label="Tag list">
-          <ul className="m-0 grid list-none grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-[1rem] p-0">
+          <ul className="m-0 grid list-none grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-4 p-0">
             {tags.map((tag) => (
               <li
-                className="rounded-[0.5rem] border border-[var(--color-background03)] bg-[var(--color-background02)] font-mono transition-colors duration-150 ease-in-out hover:bg-[var(--color-background04)]"
+                className="rounded-sm border border-background03 bg-background02 transition-colors duration-150 ease-in-out hover:bg-background04"
                 key={tag}
               >
                 <Link
                   aria-label={`${tag} tag (${tagCounts[tag]} posts)`}
-                  className="row-between gap-[1rem] px-[1.25rem] py-[0.625rem] text-[var(--color-gray-accent)] no-underline"
+                  className="row-between gap-4 px-5 py-2.5 text-gray-accent no-underline"
                   href={`${ROUTES.TAGS}/${slugify(tag)}`}
                 >
                   <span className="font-medium text-sm">{tag}</span>
-                  <span className="text-[var(--color-gray-mid)] text-xs">
+                  <span className="text-gray-mid text-xs">
                     ({tagCounts[tag]})
                   </span>
                 </Link>

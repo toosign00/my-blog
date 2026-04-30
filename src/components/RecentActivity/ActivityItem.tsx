@@ -24,17 +24,17 @@ export const ActivityItem = ({
 }: ActivityItemType) => (
   <li className="w-full shrink-0">
     <a
-      className="row-between w-full gap-2 overflow-hidden rounded-[var(--radius-sm)] transition-opacity duration-150 hover:opacity-60"
+      className="row-between w-full gap-2 overflow-hidden rounded-sm transition-opacity duration-150 hover:opacity-60"
       href={url}
       rel="noopener noreferrer"
       target="_blank"
     >
       <span className="shrink-0 text-sm">{TYPE_ICON[type]}</span>
       <div className="column min-w-0 flex-1">
-        <p className="h6 truncate font-medium text-[var(--color-gray-accent)]">
+        <p className="h6 truncate font-medium text-gray-accent">
           {message || repo}
         </p>
-        <p className="h7 text-[var(--color-gray-light)]">
+        <p className="h7 text-gray-light">
           {repo} · {formatRelative(createdAt)}
         </p>
       </div>

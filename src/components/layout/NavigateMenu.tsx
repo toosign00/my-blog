@@ -11,21 +11,20 @@ export const NavigateMenu = () => {
 
   return (
     <nav aria-label="Main navigation">
-      <ul className="column w-full gap-[0.3125rem]">
+      <ul className="column w-full gap-1.5">
         {MENU.map((menu) => {
           const isActive = path === menu.link.replace(/\//g, "");
           return (
             <li
               className={twMerge(
-                "h-10 w-full rounded-[0.625rem] text-[var(--color-gray-mid)]",
-                isActive &&
-                  "bg-[var(--color-border)] text-[var(--color-gray-accent)]",
+                "h-10 w-full rounded-md text-gray-mid",
+                isActive && "bg-border text-gray-accent",
               )}
               key={menu.link}
             >
               <Link
                 aria-current={isActive ? "page" : undefined}
-                className="center-y a h-full w-full px-[0.625rem]"
+                className="center-y a h-full w-full px-2.5"
                 href={menu.link}
               >
                 {menu.title}

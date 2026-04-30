@@ -14,8 +14,8 @@ export const Header = ({
   tags,
 }: Post) => {
   return (
-    <header className="mt-[1.25rem] mb-[3.5rem]">
-      <div className="center relative aspect-[1.8/1] w-full select-none overflow-hidden rounded-[0.875rem] border border-[var(--color-border)]">
+    <header className="mt-5 mb-14">
+      <div className="center relative aspect-[1.8/1] w-full select-none overflow-hidden rounded-lg border border-border">
         <Image
           alt={`${title} Cover Image`}
           className="h-full w-full object-cover object-center"
@@ -28,21 +28,17 @@ export const Header = ({
         />
       </div>
 
-      <h1 className="post-title mt-[1.0625rem] break-keep p-0 text-[var(--color-gray-accent)]">
+      <h1 className="post-title mt-4.25 break-keep p-0 text-gray-accent">
         {title}
       </h1>
 
-      <h2 className="post-subtitle mt-[0.5rem] p-0 text-[var(--color-gray-bold)]">
-        {subtitle}
-      </h2>
+      <h2 className="post-subtitle mt-2 p-0 text-gray-bold">{subtitle}</h2>
 
-      <p className="center-y h5 mt-[1.125rem] break-keep text-[var(--color-gray-light)]">
+      <p className="center-y h5 mt-4.5 break-keep text-gray-light">
         <RelativeTime time={createdAt} />
         {category && (
           <>
-            <span className="text-[var(--color-gray-bold)]">
-              &nbsp;&middot;&nbsp;
-            </span>
+            <span className="text-gray-bold">&nbsp;&middot;&nbsp;</span>
             <Link
               className="no-underline opacity-100 transition-opacity duration-200 ease-in-out hover:opacity-70"
               href={`/categories/${slugify(category)}`}
@@ -54,10 +50,10 @@ export const Header = ({
       </p>
 
       {tags && tags?.length > 0 && (
-        <ul className="center-y mt-[1.5rem] w-full flex-wrap gap-[0.5rem]">
+        <ul className="center-y mt-6 w-full flex-wrap gap-2">
           {tags.map((tag) => (
             <li
-              className="center rounded-[0.5rem] border border-[var(--color-background03)] bg-[var(--color-background02)] px-[0.375rem] py-[0.125rem] font-medium font-mono text-[var(--color-gray-mid)] text-xs transition-colors duration-150 ease-in-out hover:bg-[var(--color-background04)]"
+              className="center rounded-sm border border-background03 bg-background02 px-1.5 py-0.5 font-medium text-gray-mid text-xs transition-colors duration-150 ease-in-out hover:bg-background04"
               key={tag}
             >
               <Link href={`${ROUTES.TAGS}/${slugify(tag)}`}>{tag}</Link>

@@ -39,7 +39,7 @@ const TagsPage = async ({ params, searchParams }: TagsPageProps) => {
 
   return (
     <>
-      <h1 className="h3 mb-[1.875rem] text-[var(--color-gray-light)]">
+      <h1 className="h3 mb-7.5 text-gray-light">
         {tagName} ({tagPosts.length})
       </h1>
       <PostList posts={currentPosts} />

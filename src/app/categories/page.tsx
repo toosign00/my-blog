@@ -20,30 +20,28 @@ const CategoryListPage = async () => {
 
   return (
     <>
-      <header className="mx-auto mb-[2.25rem] text-center font-mono">
-        <h1 className="post-title mb-[0.75rem] text-[var(--color-gray-accent)]">
-          Categories
-        </h1>
-        <p className="font-medium text-[var(--color-gray-mid)] text-sm">
+      <header className="mx-auto mb-9 text-center">
+        <h1 className="post-title mb-3 text-gray-accent">Categories</h1>
+        <p className="font-medium text-gray-mid text-sm">
           Explore all categories.
         </p>
       </header>
 
-      <section className="mx-auto mb-[2.25rem]">
+      <section className="mx-auto mb-9">
         <nav aria-label="Category list">
-          <ul className="m-0 grid list-none grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-[1rem] p-0">
+          <ul className="m-0 grid list-none grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-4 p-0">
             {categories.map((category) => (
               <li
-                className="rounded-[0.5rem] border border-[var(--color-background03)] bg-[var(--color-background02)] font-mono transition-colors duration-150 hover:bg-[var(--color-background04)]"
+                className="rounded-sm border border-background03 bg-background02 transition-colors duration-150 hover:bg-background04"
                 key={category}
               >
                 <Link
                   aria-label={`${category} category (${categoryCounts[category]} posts)`}
-                  className="row-between gap-[1rem] px-[1.25rem] py-[0.625rem] no-underline"
+                  className="row-between gap-4 px-5 py-2.5 no-underline"
                   href={`${ROUTES.CATEGORIES}/${slugify(category)}`}
                 >
                   <span className="font-medium text-sm">{category}</span>
-                  <span className="text-[var(--color-gray-mid)] text-xs">
+                  <span className="text-gray-mid text-xs">
                     ({categoryCounts[category]})
                   </span>
                 </Link>

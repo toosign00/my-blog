@@ -26,15 +26,15 @@ export const PostGrid = ({ posts, className, ...props }: PostGridProps) => {
             aria-label={`Read post: ${title}`}
             className={twMerge(
               "flex w-full cursor-pointer flex-col",
-              "hover:[&_.title]:bg-[var(--color-gray-hover)]",
-              "hover:[&_.description]:bg-[var(--color-gray-hover)]",
-              "active:[&_.title]:bg-[var(--color-border)]",
-              "active:[&_.description]:bg-[var(--color-border)]",
+              "hover:[&_.title]:bg-gray-hover",
+              "hover:[&_.description]:bg-gray-hover",
+              "active:[&_.title]:bg-border",
+              "active:[&_.description]:bg-border",
             )}
             href={`/posts/${slug}`}
             key={_id}
           >
-            <div className="relative aspect-[1.8/1] w-full overflow-hidden rounded-[var(--radius-lg)] border border-[var(--color-border)]">
+            <div className="relative aspect-[1.8/1] w-full overflow-hidden rounded-lg border border-border">
               <Image
                 alt={`${title} Cover Image`}
                 className="h-full w-full object-cover object-center"
@@ -47,12 +47,12 @@ export const PostGrid = ({ posts, className, ...props }: PostGridProps) => {
               />
             </div>
 
-            <h2 className="title post-subtitle mx-[-0.625rem] mt-[1rem] mb-[-0.125rem] line-clamp-2 flex overflow-hidden text-ellipsis rounded-[var(--radius-sm)] px-[0.625rem] py-[0.125rem] transition-colors duration-250 ease-in-out">
+            <h2 className="title post-subtitle -mx-2.5 mt-4 -mb-0.5 line-clamp-2 flex overflow-hidden text-ellipsis rounded-sm px-2.5 py-0.5 transition-colors duration-250 ease-in-out">
               {title}
             </h2>
 
             <RelativeTime
-              className="description h4 mx-[-0.625rem] mt-[1rem] mb-[-0.125rem] w-fit rounded-[var(--radius-sm)] px-[0.625rem] py-[0.125rem] text-[var(--color-gray-light)] transition-colors duration-250 ease-in-out"
+              className="description h4 -mx-2.5 mt-4 -mb-0.5 w-fit rounded-sm px-2.5 py-0.5 text-gray-light transition-colors duration-250 ease-in-out"
               time={createdAt}
             />
           </Link>

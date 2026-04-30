@@ -10,25 +10,25 @@ const cssVariablesTheme = createCssVariablesTheme({});
 
 const H1 = (props: ComponentProps<"h1">) => (
   <h1
-    className="mb-6 text-balance font-semibold text-[var(--color-gray-accent)] text-xl"
+    className="mb-6 text-balance font-semibold text-gray-accent text-xl"
     {...props}
   />
 );
 const H2 = (props: ComponentProps<"h2">) => (
   <h2
-    className="mt-12 mb-6 text-balance font-semibold text-[var(--color-gray-accent)] text-lg"
+    className="mt-12 mb-6 text-balance font-semibold text-gray-accent text-lg"
     {...props}
   />
 );
 const H3 = (props: ComponentProps<"h3">) => (
   <h3
-    className="mt-12 mb-6 text-balance font-semibold text-[var(--color-gray-accent)]"
+    className="mt-12 mb-6 text-balance font-semibold text-gray-accent"
     {...props}
   />
 );
 const H4 = (props: ComponentProps<"h4">) => (
   <h4
-    className="mt-12 mb-6 text-balance font-semibold text-[var(--color-gray-accent)] text-base"
+    className="mt-12 mb-6 text-balance font-semibold text-gray-accent text-base"
     {...props}
   />
 );
@@ -77,14 +77,14 @@ const Strong = (props: ComponentProps<"strong">) => (
 
 const P = (props: ComponentProps<"p">) => (
   <p
-    className="post-body mt-6 font-normal text-[var(--color-gray-accent)] text-md"
+    className="post-body mt-6 font-normal text-gray-accent text-md"
     {...props}
   />
 );
 
 const Blockquote = (props: ComponentProps<"blockquote">) => (
   <blockquote
-    className="column -ml-6 rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-background02)] p-4 pl-6 sm:-ml-10 sm:pl-10 md:-ml-14 md:pl-14"
+    className="column -ml-6 rounded-md border border-border bg-background02 p-4 pl-6 sm:-ml-10 sm:pl-10 md:-ml-14 md:pl-14"
     {...props}
   />
 );
@@ -168,7 +168,7 @@ const Img = async ({ src, alt, ...props }: ImgProps) => {
 };
 
 const HR = (props: ComponentProps<"hr">) => (
-  <hr className="mx-auto my-12 w-24 border-[var(--color-border)]" {...props} />
+  <hr className="mx-auto my-12 w-24 border-border" {...props} />
 );
 
 type CalloutType = "note" | "tip" | "warning" | "important";
@@ -192,14 +192,14 @@ const Callout = ({ type = "note", title, children }: CalloutProps) => {
   return (
     <aside
       className={twMerge(
-        "column mt-6 gap-2 rounded-[0.875rem] border p-3",
-        "border-[var(--callout-border)] bg-[var(--callout-bg)] text-[var(--color-gray-accent)]",
+        "column mt-6 gap-2 rounded-lg border p-3",
+        "border-callout-border bg-callout-bg text-gray-accent",
         "[&_p:first-child]:mt-0 [&_p]:mt-2",
         "[&_ol]:mt-2 [&_ul]:mt-2",
       )}
       data-callout={type}
     >
-      <div className="h6 font-medium font-mono" data-callout-title>
+      <div className="h6 font-medium" data-callout-title>
         {title ?? label}
       </div>
       <div className="mt-1">{children}</div>

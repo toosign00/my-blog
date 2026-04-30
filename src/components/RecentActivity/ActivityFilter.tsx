@@ -16,12 +16,10 @@ interface ActivityFilterProps {
 export type { FilterType };
 
 export const ActivityFilter = ({ value, onChange }: ActivityFilterProps) => (
-  <div className="row-between shrink-0 px-[1.25rem] pt-[1rem] pb-[0.5rem]">
-    <p className="h6 font-medium text-[var(--color-gray-light)]">
-      Recent Activity
-    </p>
+  <div className="row-between shrink-0 px-5 pt-4 pb-2">
+    <p className="h6 font-medium text-gray-light">Recent Activity</p>
     <select
-      className="h6 rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-[var(--color-background)] px-[0.5rem] py-[0.25rem] text-[var(--color-gray-mid)] focus:outline-none"
+      className="h6 rounded-sm border border-border bg-background px-2 py-1 text-gray-mid focus:outline-none"
       onChange={(e) => onChange(e.target.value as FilterType)}
       value={value}
     >

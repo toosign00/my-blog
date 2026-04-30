@@ -30,9 +30,7 @@ const PostsPage = async ({ searchParams }: PostsPageProps) => {
 
   return (
     <>
-      <h1 className="h3 mb-[1.875rem] text-[var(--color-gray-light)]">
-        Posts ({allPosts.length})
-      </h1>
+      <h1 className="h3 mb-7.5 text-gray-light">Posts ({allPosts.length})</h1>
 
       <PostList posts={currentPosts} />
 

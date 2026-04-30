@@ -41,13 +41,13 @@ const PostPage = async ({ params }: PostPageProps) => {
         <Header {...post} />
         <MDXContent />
 
-        {post.comments && <Giscus className="mt-[3.5rem]" />}
+        {post.comments && <Giscus className="mt-14" />}
 
-        <Divider className="mb-[3.5rem]" />
+        <Divider className="mb-14" />
         <Footer {...post} />
       </article>
 
-      <Divider className="my-[3.5rem]" />
+      <Divider className="my-14" />
       <Recommend posts={getRecommendedPosts(allPosts, slug)} />
     </>
   );
