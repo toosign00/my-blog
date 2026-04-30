@@ -1,15 +1,19 @@
 export const METADATA = {
   SITE: {
-    URL: "https://your-domain.com",
+    URL: "https://www.toosign.me",
     NAME: "Hyunsoo Ro",
     DESCRIPTION: "노현수의 블로그입니다",
-    PREVIEW_IMAGE: "https://your-domain.com/static/preview.png",
+    PREVIEW_IMAGE: "https://www.toosign.me/static/preview.png",
     LANGUAGE: "ko-KR",
   },
 
   AUTHOR: {
     NAME: "노현수",
-    INSTAGRAM: "https://instagram.com/too_sign",
+    EMAIL: "kevinsoo1014@gmail.com",
+    PROFILE_IMAGE: "/assets/images/profile.webp",
+    STUDYING: "Automation Testing, Load Testing",
+    LOCATION: "Ansan, South Korea",
+    BIRTH_DATE: "2000. 11. 07",
   },
 };
 

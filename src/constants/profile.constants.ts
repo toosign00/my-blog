@@ -7,13 +7,8 @@ export const PROFILE = {
   profileImageShadowColor: "rgba(30, 64, 175, 0.5)",
   profileImageFilter: "",
   profileImageBorderColor: "rgba(255, 255, 255, 0.2)",
-  authorTextColor: "#ffffff",
+  authorTextColor: "#000000",
 
   titleTextColor: "#bfdbfe",
-  contentTextColor: "#ffffff",
-
-  userDetails: [
-    { title: "Studying", content: "Automation Testing\nLoad Testing" },
-    { title: "Location", content: "Seoul, South Korea" },
-  ],
+  contentTextColor: "#000000",
 };
