@@ -22,10 +22,10 @@ export const Sidebar = () => {
         >
           <Image
             alt={METADATA.SITE.NAME}
-            className="h-4 w-14"
-            height={16}
+            className="h-3 w-10 shrink-0 border-0 rounded-none"
+            height={12}
             src="/static/favicon.svg"
-            width={56}
+            width={40}
           />
         </Link>
         <Divider />
