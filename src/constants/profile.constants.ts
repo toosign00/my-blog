@@ -13,7 +13,7 @@ export const PROFILE = {
   contentTextColor: "#ffffff",
 
   userDetails: [
-    { title: "Job", content: "Qa Engineer" },
+    { title: "Studying", content: "Automation Testing\nLoad Testing" },
     { title: "Location", content: "Seoul, South Korea" },
   ],
 };
