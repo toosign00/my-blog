@@ -29,7 +29,7 @@ Next.js (App Router) + MDX blog starter. Content lives in `src/app/**` with MDX 
 | --- | --- | --- |
 | Add/edit a post | `src/app/posts/_articles/*.mdx` | Each MDX exports `metadata` (title/subtitle/dates/coverImage/category/tags/comments). |
 | Post images | `src/assets/images/posts/<slug>/...` | `coverImage` in MDX points here (e.g. `posts/<slug>/cover.webp`). |
-| About page | `src/app/about/` | `page.tsx` + `_components/` (TSX sections). |
+| About page | `src/app/about/page.tsx`, `src/components/about/` | About route + 전용 섹션 컴포넌트. |
 | Site shell + providers | `src/app/layout.tsx` | ThemeProvider (next-themes), global styles, fonts. |
 | Home/posts/category/tag pages | `src/app/**/page.tsx` | App Router route segments live here. |
 | RSS feed | `src/app/rss/route.ts` | Generates RSS XML from posts. |
@@ -41,7 +41,7 @@ Next.js (App Router) + MDX blog starter. Content lives in `src/app/**` with MDX 
 
 ```bash
 pnpm install            # Install dependencies
-pnpm dev               # Next dev server on http://localhost:1113
+pnpm dev               # Next dev server on http://localhost:3000 (default)
 pnpm build             # Build for production
 pnpm start             # Start production server
 
@@ -54,14 +54,14 @@ pnpm check             # `type-check` + `lint`
 ## Conventions (Project-Specific)
 
 ### Package Management
-- **Package manager**: `pnpm@10.28.2` (configured in `package.json`).
+- **Package manager**: `pnpm@10.33.2` (configured in `package.json`).
 - Use `pnpm` for all dependency operations (install, add, remove).
 - `pnpm-lock.yaml` is committed; regenerate via `pnpm install`.
 
 ### TypeScript
 - **Configuration**: strict mode, noEmit (`tsconfig.json`).
-- **Path aliases**: `@src/*` resolves to `src/*`.
-- **Type imports**: Import types directly from their source (e.g., `@src/types/content.types`), not from utility re-exports.
+- **Path aliases**: `@/*`, `@assets/*`, `@components/*`, `@constants/*`, `@hooks/*`, `@styles/*`, `@utils/*`.
+- **Type imports**: Import types directly from their source (e.g., `@/types/content.types`), not from utility re-exports.
 
 ### MDX
 - **Framework**: `@next/mdx` (configured in `next.config.ts`).
@@ -72,6 +72,7 @@ pnpm check             # `type-check` + `lint`
 - **Framework**: Tailwind CSS v4 via PostCSS plugin (`postcss.config.js`).
 - **Global styles**: `@src/styles/globals.css`.
 - **Font**: Geist Mono (code), Pretendard (body) via `src/assets/font` (`layout.tsx` imports `@src/assets/font`).
+- **Asset placement**: `next/image`에서 import해서 쓰는 로컬 이미지는 `src/assets/images/**`, URL로 직접 참조되는 정적 파일(`favicon`, `robots`, `manifest`)은 `public/**`.
 
 ### Code Quality (Biome)
 - **Engine**: `@biomejs/biome` with project config in `biome.json`.
