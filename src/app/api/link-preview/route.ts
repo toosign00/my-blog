@@ -8,6 +8,7 @@ interface LinkPreviewResponse {
 }
 
 const LINK_PREVIEW_REVALIDATE_SECONDS = 3600;
+export const revalidate = 3600;
 const FETCH_TIMEOUT_MS = 5000;
 
 const META_CONTENT_PATTERN = (property: string) =>
@@ -56,8 +57,6 @@ const parseMetadata = (html: string, sourceUrl: URL): LinkPreviewResponse => {
     favicon,
   };
 };
-
-export const revalidate = LINK_PREVIEW_REVALIDATE_SECONDS;
 
 export const GET = async (
   request: Request,

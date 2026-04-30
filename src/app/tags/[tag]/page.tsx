@@ -5,7 +5,7 @@ import { POST } from "@constants/metadata.constants";
 import { generatePageMetadata } from "@utils/metadata-util";
 import { parsePageParam } from "@utils/page-param-util";
 import { getAllPosts } from "@utils/post-util";
-import { slugify } from "@utils/text-util";
+import { decodeSlugSegment, slugify } from "@utils/text-util";
 import type { Metadata } from "next";
 
 interface TagsPageProps {
@@ -14,20 +14,23 @@ interface TagsPageProps {
 }
 
 const TagsPage = async ({ params, searchParams }: TagsPageProps) => {
-  const { tag } = await params;
+  const { tag: rawTag } = await params;
+  const tagKey = slugify(decodeSlugSegment(rawTag));
   const { page } = await searchParams;
   const currentPage = parsePageParam(page);
 
   const allPosts = await getAllPosts();
   const tagPosts = allPosts.filter((post) =>
-    post.tags?.some((t) => slugify(t) === tag),
+    post.tags?.some((t) => slugify(t) === tagKey),
   );
 
   const start = (currentPage - 1) * POST.PER_PAGE;
   const end = start + POST.PER_PAGE;
   const currentPosts = tagPosts.slice(start, end);
 
-  const tagName = tagPosts[0]?.tags?.find((t) => slugify(t) === tag) ?? tag;
+  const tagName =
+    tagPosts[0]?.tags?.find((t) => slugify(t) === tagKey) ??
+    decodeSlugSegment(rawTag);
 
   return (
     <>
@@ -36,7 +39,7 @@ const TagsPage = async ({ params, searchParams }: TagsPageProps) => {
       </h1>
       <PostList posts={currentPosts} />
       <Pagination
-        basePath={`${ROUTES.TAGS}/${tag}`}
+        basePath={`${ROUTES.TAGS}/${encodeURIComponent(tagKey)}`}
         currentPage={currentPage}
         totalPages={Math.ceil(tagPosts.length / POST.PER_PAGE)}
       />
@@ -50,37 +53,36 @@ export const generateStaticParams = async () => {
   const allPosts = await getAllPosts();
   const tags = [...new Set(allPosts.flatMap((post) => post.tags || []))];
 
-  return tags.flatMap((tag) => {
-    const tagPosts = allPosts.filter((post) => post.tags?.includes(tag));
-    const totalPages = Math.ceil(tagPosts.length / POST.PER_PAGE);
-
-    return Array.from({ length: totalPages }, (_, i) => ({
-      tag: slugify(tag),
-      page: (i + 1).toString(),
-    }));
-  });
+  return tags.map((tag) => ({
+    tag: slugify(tag),
+  }));
 };
 
 export const generateMetadata = async ({
   params,
   searchParams,
 }: TagsPageProps): Promise<Metadata> => {
-  const { tag } = await params;
+  const { tag: rawTag } = await params;
+  const tagKey = slugify(decodeSlugSegment(rawTag));
   const { page } = await searchParams;
   const current = parsePageParam(page);
 
   const allPosts = await getAllPosts();
   const tagPosts = allPosts.filter((post) =>
-    post.tags?.some((t) => slugify(t) === tag),
+    post.tags?.some((t) => slugify(t) === tagKey),
   );
 
-  const tagName = tagPosts[0]?.tags?.find((t) => slugify(t) === tag) ?? tag;
+  const tagName =
+    tagPosts[0]?.tags?.find((t) => slugify(t) === tagKey) ??
+    decodeSlugSegment(rawTag);
+
+  const tagPathSegment = encodeURIComponent(tagKey);
 
   return generatePageMetadata({
     title: current === 1 ? tagName : `${tagName} - Page ${current}`,
     path:
       current === 1
-        ? `${ROUTES.TAGS}/${tag}`
-        : `${ROUTES.TAGS}/${tag}?page=${current}`,
+        ? `${ROUTES.TAGS}/${tagPathSegment}`
+        : `${ROUTES.TAGS}/${tagPathSegment}?page=${current}`,
   });
 };

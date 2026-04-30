@@ -1,10 +1,7 @@
 import { NextResponse } from "next/server";
-import {
-  fetchRecentGitHubActivities,
-  GITHUB_ACTIVITY_REVALIDATE_SECONDS,
-} from "@/utils/github-activity-util";
+import { fetchRecentGitHubActivities } from "@/utils/github-activity-util";
 
-export const revalidate = GITHUB_ACTIVITY_REVALIDATE_SECONDS;
+export const revalidate = 3600;
 
 export async function GET() {
   if (!process.env.GITHUB_PERSONAL_ACCESS_TOKEN) {
