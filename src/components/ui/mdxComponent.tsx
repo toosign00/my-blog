@@ -171,6 +171,105 @@ const HR = (props: ComponentProps<"hr">) => (
   <hr className="mx-auto my-12 w-24 border-border" {...props} />
 );
 
+interface StepsProps {
+  children: ReactNode;
+}
+
+const Steps = ({ children }: StepsProps) => (
+  <ol className="mt-6 flex flex-col gap-6 border-l border-border pl-6 [counter-reset:steps]">
+    {children}
+  </ol>
+);
+
+interface StepProps {
+  title: ReactNode;
+  children: ReactNode;
+}
+
+const Step = ({ title, children }: StepProps) => (
+  <li className="relative [counter-increment:steps] before:absolute before:-left-9 before:flex before:h-6 before:w-6 before:items-center before:justify-center before:rounded-full before:border before:border-border before:bg-background before:text-xs before:font-medium before:text-gray-mid before:content-[counter(steps)]">
+    <p className="mb-2 font-semibold text-gray-accent">{title}</p>
+    <div className="text-base text-gray-bold leading-relaxed">{children}</div>
+  </li>
+);
+
+interface TableProps {
+  headers: string[];
+  rows: string[][];
+}
+
+function TableCell({ cell, bordered }: { cell: string; bordered: boolean }) {
+  return (
+    <td
+      className={`px-4 py-2.5 text-gray-bold${bordered ? " border-b border-border" : ""}`}
+    >
+      {cell}
+    </td>
+  );
+}
+
+function TableRow({ row, bordered }: { row: string[]; bordered: boolean }) {
+  return (
+    <tr>
+      {row.map((cell) => (
+        <TableCell key={cell} cell={cell} bordered={bordered} />
+      ))}
+    </tr>
+  );
+}
+
+const Table = ({ headers, rows }: TableProps) => (
+  <div className="mt-6 w-full overflow-x-auto rounded-lg border border-border">
+    <table className="w-full border-collapse text-sm">
+      <thead>
+        <tr>
+          {headers.map((h) => (
+            <th
+              key={h}
+              className="border-b border-border bg-background02 px-4 py-2.5 text-left font-medium text-gray-mid"
+            >
+              {h}
+            </th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((row, i) => (
+          <TableRow
+            key={row.join("|")}
+            row={row}
+            bordered={i < rows.length - 1}
+          />
+        ))}
+      </tbody>
+    </table>
+  </div>
+);
+
+interface HighlightProps {
+  children: ReactNode;
+  color?: "yellow" | "blue" | "green" | "purple" | "red";
+}
+
+const HIGHLIGHT_COLOR: Record<NonNullable<HighlightProps["color"]>, string> = {
+  yellow:
+    "bg-yellow-100/80 dark:bg-yellow-400/15 text-yellow-900 dark:text-yellow-300",
+  blue: "bg-blue-100/80 dark:bg-blue-400/15 text-blue-900 dark:text-blue-300",
+  green:
+    "bg-green-100/80 dark:bg-green-400/15 text-green-900 dark:text-green-300",
+  purple:
+    "bg-purple-100/80 dark:bg-purple-400/15 text-purple-900 dark:text-purple-300",
+  red: "bg-red-100/80 dark:bg-red-400/15 text-red-900 dark:text-red-300",
+};
+
+const Highlight = ({ children, color = "yellow" }: HighlightProps) => (
+  <mark
+    className={`rounded px-1 py-0.5 font-medium not-italic ${HIGHLIGHT_COLOR[color]}`}
+  >
+    {children}
+  </mark>
+);
+
 type CalloutType = "note" | "tip" | "warning" | "important";
 
 interface CalloutProps {
@@ -224,5 +323,9 @@ export const components = {
   img: Img,
   hr: HR,
   Callout,
+  Steps,
+  Step,
+  Table,
+  Highlight,
   Image,
 };
