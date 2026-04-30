@@ -15,7 +15,7 @@ const NotFoundPage = () => {
 
         <div className="center gap-2 pt-2">
           <Link
-            className="ui-button h4 min-w-20 px-2 text-gray-bold"
+            className="ui-button h4 min-w-20 px-2 text-gray-bold transition-none"
             href={ROUTES.HOME}
           >
             Home
