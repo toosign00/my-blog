@@ -17,8 +17,6 @@
     "*.{js,jsx,ts,tsx,json,jsonc}": "biome check --write"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.1039.0",
-    "@aws-sdk/s3-request-presigner": "^3.1039.0",
     "@radix-ui/react-accordion": "^1.2.12",
     "@vercel/analytics": "^2.0.1",
     "dayjs": "^1.11.20",

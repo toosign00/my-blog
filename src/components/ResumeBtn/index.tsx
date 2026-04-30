@@ -3,15 +3,16 @@
 import { Loader2 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { type ComponentProps, useState } from "react";
+import { toast } from "sonner";
 import { twMerge } from "tailwind-merge";
 
 type ResumeDownloadButtonProps = {
-  fileKey: string;
+  fileUrl: string;
   children: React.ReactNode;
 } & Omit<ComponentProps<"button">, "onClick" | "type">;
 
 export const ResumeDownloadButton = ({
-  fileKey,
+  fileUrl,
   children,
   className,
   style,
@@ -25,18 +26,12 @@ export const ResumeDownloadButton = ({
     setIsLoading(true);
 
     try {
-      const response = await fetch(
-        `/api/r2?key=${encodeURIComponent(fileKey)}`,
-      );
-      if (!response.ok) {
-        throw new Error("Failed to get download URL");
-      }
-
-      const data = await response.json();
-      if (data.url) {
-        window.open(data.url, "_blank");
+      const popup = window.open(fileUrl, "_blank");
+      if (!popup) {
+        throw new Error("Failed to open download link");
       }
     } catch {
+      toast.error("다운로드에 실패했습니다. 다시 시도해 주세요.");
     } finally {
       setIsLoading(false);
     }
