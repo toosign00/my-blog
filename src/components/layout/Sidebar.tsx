@@ -1,12 +1,13 @@
 import { Divider } from "@components/ui/divider";
 import { ROUTES } from "@constants/menu.constants";
 import { METADATA } from "@constants/metadata.constants";
-import dayjs from "dayjs";
 import { Network, Rss } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { ThemeToggle } from "../ThemeToggle";
 import { NavigateMenu } from "./NavigateMenu";
+
+const CURRENT_YEAR = new Date().getFullYear();
 
 export const Sidebar = () => {
   return (
@@ -29,16 +30,14 @@ export const Sidebar = () => {
           />
         </Link>
         <Divider />
-        <nav>
-          <NavigateMenu />
-        </nav>
+        <NavigateMenu />
       </div>
 
       <div className="column w-full gap-5">
         <ThemeToggle />
         <div className="column w-full gap-1.5">
           <p className="h6 w-full text-license">
-            Copyright © {dayjs().year()} {METADATA.AUTHOR.NAME}, All rights
+            Copyright © {CURRENT_YEAR} {METADATA.AUTHOR.NAME}, All rights
             reserved.
           </p>
           <div className="row-between">

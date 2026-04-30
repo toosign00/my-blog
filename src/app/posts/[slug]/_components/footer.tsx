@@ -3,6 +3,7 @@
 import { ShareIcon } from "@components/icons/ShareIcon";
 import { ROUTES } from "@constants/menu.constants";
 import { METADATA } from "@constants/metadata.constants";
+import { toast } from "sonner";
 
 import type { Post } from "@/types/content.types";
 import { BackButton } from "./back-button";
@@ -69,7 +70,7 @@ export const Footer = ({ slug, title, subtitle }: Post) => {
       return;
     }
 
-    alert("Link copied to clipboard.");
+    toast.success("링크가 클립보드에 복사되었어요");
   };
 
   return (

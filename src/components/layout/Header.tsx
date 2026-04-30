@@ -4,7 +4,6 @@ import { Divider } from "@components/ui/divider";
 import { ROUTES } from "@constants/menu.constants";
 import { METADATA } from "@constants/metadata.constants";
 import * as Accordion from "@radix-ui/react-accordion";
-import dayjs from "dayjs";
 import { Network, Rss } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -12,6 +11,8 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ThemeToggle } from "../ThemeToggle";
 import { NavigateMenu } from "./NavigateMenu";
+
+const CURRENT_YEAR = new Date().getFullYear();
 
 export const Header = () => {
   const [accordionOpen, setAccordionOpen] = useState(false);
@@ -43,7 +44,7 @@ export const Header = () => {
           type="button"
         />
 
-        <header className="fixed top-0 left-0 z-(--z-header) flex tablet:hidden w-full bg-color-background) px-(--spacing-inline)">
+        <header className="fixed top-0 left-0 z-(--z-header) flex tablet:hidden w-full bg-background px-(--spacing-inline)">
           <div className="row-between mx-auto w-full max-w-(--app-width) py-3.25">
             <Link aria-label={METADATA.SITE.NAME} href={ROUTES.HOME}>
               <Image
@@ -81,7 +82,7 @@ export const Header = () => {
                     <ThemeToggle />
                   </div>
                   <p className="h7 mt-10.75 w-full text-center text-license">
-                    Copyright © {dayjs().year()} {METADATA.AUTHOR.NAME}, All
+                    Copyright © {CURRENT_YEAR} {METADATA.AUTHOR.NAME}, All
                     rights reserved.
                   </p>
                   <div className="row-between mx-auto max-w-30.5 mt-4 gap-2">

@@ -2,10 +2,9 @@ import { Divider } from "@components/ui/divider";
 import { ROUTES } from "@constants/menu.constants";
 import { METADATA } from "@constants/metadata.constants";
 import { generatePageMetadata } from "@utils/metadata-util";
-import { getAllPosts, getPostBySlug } from "@utils/post-util";
+import { getAllPosts, getPostPageDataBySlug } from "@utils/post-util";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import type { ComponentType } from "react";
 import type { Post } from "@/types/content.types";
 import { BackButton } from "./_components/back-button";
 import { Footer } from "./_components/footer";
@@ -22,15 +21,16 @@ const RECOMMEND_COUNT = 4;
 const PostPage = async ({ params }: PostPageProps) => {
   const { slug } = await params;
 
-  let MDXContent: ComponentType;
+  let MDXContent: Awaited<ReturnType<typeof getPostPageDataBySlug>>["content"];
+  let post: Awaited<ReturnType<typeof getPostPageDataBySlug>>["post"];
   try {
-    const mod = await import(`../_articles/${slug}.mdx`);
-    MDXContent = mod.default;
+    const pageData = await getPostPageDataBySlug(slug);
+    MDXContent = pageData.content;
+    post = pageData.post;
   } catch {
     notFound();
   }
 
-  const post = await getPostBySlug(slug);
   const allPosts = await getAllPosts();
 
   return (
@@ -90,17 +90,14 @@ export async function generateStaticParams() {
 }
 
 const getRecommendedPosts = (posts: Post[], slug: string): Post[] => {
-  const sorted = [...posts].sort((a, b) =>
-    a.createdAt > b.createdAt ? -1 : 1,
-  );
-  const currentIndex = sorted.findIndex((p) => p.slug === slug);
+  const currentIndex = posts.findIndex((p) => p.slug === slug);
 
   if (currentIndex === -1) {
-    return sorted.slice(0, RECOMMEND_COUNT);
+    return posts.slice(0, RECOMMEND_COUNT);
   }
 
   const sliceClamped = (start: number, end: number) =>
-    sorted.slice(Math.max(0, start), Math.min(sorted.length, end));
+    posts.slice(Math.max(0, start), Math.min(posts.length, end));
 
   const prev = sliceClamped(currentIndex - 2, currentIndex);
   const next = sliceClamped(currentIndex + 1, currentIndex + 3);
@@ -109,7 +106,7 @@ const getRecommendedPosts = (posts: Post[], slug: string): Post[] => {
 
   if (recommended.length < RECOMMEND_COUNT) {
     const need = RECOMMEND_COUNT - recommended.length;
-    const isFront = currentIndex < sorted.length / 2;
+    const isFront = currentIndex < posts.length / 2;
     const isIncluded = (post: Post) =>
       recommended.some((p) => p.slug === post.slug);
 

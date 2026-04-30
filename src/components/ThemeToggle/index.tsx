@@ -16,7 +16,10 @@ export const ThemeToggle = () => {
         onClick={() => setTheme(theme === "light" ? "dark" : "light")}
         type="button"
       >
-        {theme === "light" ? "🌚 Dark mode" : "🌞 Light mode"}
+        <span aria-hidden="true">{theme === "light" ? "🌚" : "🌞"}</span>
+        <span className="ml-1.5">
+          {theme === "light" ? "Dark mode" : "Light mode"}
+        </span>
       </button>
     </AfterMount>
   );

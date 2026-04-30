@@ -7,13 +7,15 @@ import { twMerge } from "tailwind-merge";
 
 export const NavigateMenu = () => {
   const pathname = usePathname();
-  const path: string = pathname.split("/")[1].trim();
 
   return (
     <nav aria-label="Main navigation">
       <ul className="column w-full gap-1.5">
         {MENU.map((menu) => {
-          const isActive = path === menu.link.replace(/\//g, "");
+          const isActive =
+            menu.link === "/"
+              ? pathname === "/"
+              : pathname === menu.link || pathname.startsWith(`${menu.link}/`);
           return (
             <li
               className={twMerge(

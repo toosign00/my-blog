@@ -2,20 +2,16 @@ import { PlusIcon } from "@components/icons/PlusIcon";
 import { ProfileGrid } from "@components/ProfileGrid";
 import { PostGrid } from "@components/ui/postGrid";
 import { ROUTES } from "@constants/menu.constants";
+import { generatePageMetadata } from "@utils/metadata-util";
 import { getAllPosts } from "@utils/post-util";
-import dayjs from "dayjs";
+import type { Metadata } from "next";
 import Link from "next/link";
-import type { Post } from "@/types/content.types";
 
-const getSortedPosts = (posts: Post[]) => {
-  return posts
-    .sort((a, b) => (dayjs(a.createdAt).isAfter(dayjs(b.createdAt)) ? -1 : 1))
-    .slice(0, 2);
-};
+const getLatestPosts = <T,>(posts: T[]) => posts.slice(0, 2);
 
 const HomePage = async () => {
   const allPosts = await getAllPosts();
-  const posts: Post[] = getSortedPosts(allPosts);
+  const posts = getLatestPosts(allPosts);
 
   return (
     <>
@@ -23,18 +19,15 @@ const HomePage = async () => {
 
       <section
         aria-labelledby="updates-heading"
-        className="column gap-[1.875rem] pt-[4.375rem] pb-[4.0625rem]"
+        className="column gap-7.5 pt-17.5 pb-16.25"
       >
         <div className="row-between">
-          <h3
-            className="h3 text-[var(--color-gray-light)]"
-            id="updates-heading"
-          >
+          <h3 className="h3 text-gray-light" id="updates-heading">
             Update
           </h3>
           <Link
             aria-label="Expand to see more posts"
-            className="center h4 h-8 gap-[0.375rem] rounded-[0.625rem] border border-[var(--color-border)] bg-[var(--color-toggle)] px-3 text-[var(--color-gray-light)]"
+            className="center h4 h-8 gap-1.5 rounded-md border border-border bg-toggle px-3 text-gray-light"
             href={ROUTES.POSTS}
           >
             Expand
@@ -48,3 +41,8 @@ const HomePage = async () => {
 };
 
 export default HomePage;
+
+export const generateMetadata = (): Metadata =>
+  generatePageMetadata({
+    path: ROUTES.HOME,
+  });

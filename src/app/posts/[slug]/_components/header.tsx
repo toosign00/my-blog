@@ -21,9 +21,9 @@ export const Header = ({
           className="h-full w-full object-cover object-center"
           draggable={false}
           fill
-          priority={false}
+          priority
           quality={100}
-          sizes="100vw"
+          sizes="(max-width: 60rem) 100vw, 47.375rem"
           src={coverImage}
         />
       </div>
