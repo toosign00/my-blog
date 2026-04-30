@@ -1,6 +1,4 @@
 "use client";
-/* eslint-disable @next/next/no-img-element */
-
 import type { ComponentProps } from "react";
 import { useEffect, useState } from "react";
 
@@ -168,7 +166,7 @@ export const LinkEmbed = ({
             />
           </svg>
         )}
-        <span className="text-gray-bold text-sm group-hover:text-gray-bold transition-colors">
+        <span className="text-gray-bold text-sm group-hover:text-gray-bold transition-colors max-w-48 truncate">
           {title}
         </span>
       </a>
