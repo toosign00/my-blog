@@ -1,4 +1,4 @@
-import type { ActivityItem as ActivityItemType } from "@/app/api/github/route";
+import type { ActivityItem as ActivityItemType } from "@/utils/github-activity-util";
 import { ActivityItem } from "./ActivityItem";
 
 interface ActivityListProps {

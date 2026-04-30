@@ -1,7 +1,9 @@
 import { METADATA } from "@constants/metadata.constants";
 import { PROFILE } from "@constants/profile.constants";
 import { createBlur } from "@utils/blur-util";
+import { fetchRecentGitHubActivities } from "@utils/github-activity-util";
 import Image from "next/image";
+import type { ActivityItem } from "@/utils/github-activity-util";
 import { RecentActivity } from "../RecentActivity";
 import Card from "./Card";
 
@@ -18,6 +20,13 @@ const authorProfileDetails = [
 
 export const ProfileGrid = async () => {
   const blurDataURL = await createBlur(METADATA.AUTHOR.PROFILE_IMAGE);
+  let activities: ActivityItem[] = [];
+
+  try {
+    activities = await fetchRecentGitHubActivities();
+  } catch {
+    activities = [];
+  }
 
   return (
     <section
@@ -88,7 +97,7 @@ export const ProfileGrid = async () => {
       <div className="column w-full">
         <h3 className="h3 text-gray-light">Activity</h3>
         <Card.Root>
-          <RecentActivity />
+          <RecentActivity initialActivities={activities} />
         </Card.Root>
       </div>
     </section>

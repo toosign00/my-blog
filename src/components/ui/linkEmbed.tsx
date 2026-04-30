@@ -1,7 +1,6 @@
 "use client";
 /* eslint-disable @next/next/no-img-element */
 
-import { motion } from "motion/react";
 import type { ComponentProps } from "react";
 import { useEffect, useState } from "react";
 
@@ -184,11 +183,7 @@ export const LinkEmbed = ({
       className="block w-full no-underline border-0"
       {...props}
     >
-      <motion.div
-        className="group flex flex-col mobile:flex-row gap-4 p-4 border border-border rounded-xl bg-background hover:bg-gray-hover transition-colors duration-200 overflow-hidden"
-        whileHover={{ y: -2 }}
-        transition={{ duration: 0.2 }}
-      >
+      <div className="group flex flex-col mobile:flex-row gap-4 p-4 border border-border rounded-xl bg-background hover:bg-gray-hover hover:-translate-y-0.5 transition-all duration-200 overflow-hidden">
         {thumbnail && !thumbnailError && (
           <div className="shrink-0 w-full mobile:w-32 aspect-video mobile:aspect-square rounded-lg overflow-hidden bg-background05">
             <img
@@ -265,7 +260,7 @@ export const LinkEmbed = ({
             </div>
           </div>
         </div>
-      </motion.div>
+      </div>
     </a>
   );
 };
