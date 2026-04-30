@@ -93,37 +93,73 @@ const Pre = (props: ComponentProps<"pre">) => (
   <pre className="mt-6 whitespace-pre md:whitespace-pre-wrap" {...props} />
 );
 
-type CodeProps = ComponentProps<"code">;
-const Code = async (props: CodeProps) => {
-  if (typeof props.children === "string") {
-    const highlightedCode = codeToHtml(props.children, {
-      lang: "jsx",
-      theme: cssVariablesTheme,
-      transformers: [
-        {
-          pre: (hast) => {
-            if (hast.children.length !== 1) {
-              throw new Error("<pre>: Expected a single <code> child");
-            }
-            if (hast.children[0]?.type !== "element") {
-              throw new Error("<pre>: Expected a <code> child");
-            }
-            return hast.children[0];
-          },
-          postprocess(html) {
-            return html.replace(/^<code>|<\/code>$/g, "");
-          },
-        },
-      ],
-    });
+type CodeProps = ComponentProps<"code"> & {
+  "data-language"?: string;
+};
+const LANGUAGE_CLASS_REGEX = /language-([\w-]+)/;
 
-    return (
-      <code
-        className="shiki css-variables inline text-xs md:text-sm"
-        // biome-ignore lint/security/noDangerouslySetInnerHtml: required to render the highlighted code.
-        dangerouslySetInnerHTML={{ __html: await highlightedCode }}
-      />
+const extractCodeLanguage = (
+  className?: string,
+  dataLanguage?: string,
+): string => {
+  if (dataLanguage) {
+    return dataLanguage;
+  }
+
+  const matched = className?.match(LANGUAGE_CLASS_REGEX)?.[1];
+  return matched ?? "text";
+};
+
+const Code = async (props: CodeProps) => {
+  if (typeof props.children === "string" && props.className) {
+    const language = extractCodeLanguage(
+      props.className,
+      props["data-language"],
     );
+
+    try {
+      const highlightedCode = codeToHtml(props.children, {
+        lang: language,
+        theme: cssVariablesTheme,
+        transformers: [
+          {
+            pre: (hast) => {
+              if (hast.children.length !== 1) {
+                throw new Error("<pre>: Expected a single <code> child");
+              }
+              if (hast.children[0]?.type !== "element") {
+                throw new Error("<pre>: Expected a <code> child");
+              }
+              return hast.children[0];
+            },
+            postprocess(html) {
+              return html.replace(/^<code>|<\/code>$/g, "");
+            },
+          },
+        ],
+      });
+
+      return (
+        <code
+          className="shiki css-variables inline text-xs md:text-sm"
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: required to render the highlighted code.
+          dangerouslySetInnerHTML={{ __html: await highlightedCode }}
+        />
+      );
+    } catch {
+      const highlightedCode = codeToHtml(props.children, {
+        lang: "text",
+        theme: cssVariablesTheme,
+      });
+
+      return (
+        <code
+          className="shiki css-variables inline text-xs md:text-sm"
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: required to render the highlighted code.
+          dangerouslySetInnerHTML={{ __html: await highlightedCode }}
+        />
+      );
+    }
   }
 
   return <code className="inline" {...props} />;
@@ -209,11 +245,22 @@ function TableCell({ cell, bordered }: { cell: string; bordered: boolean }) {
 }
 
 function TableRow({ row, bordered }: { row: string[]; bordered: boolean }) {
+  const cellOccurrenceMap = new Map<string, number>();
+
   return (
     <tr>
-      {row.map((cell) => (
-        <TableCell key={cell} cell={cell} bordered={bordered} />
-      ))}
+      {row.map((cell) => {
+        const occurrence = (cellOccurrenceMap.get(cell) ?? 0) + 1;
+        cellOccurrenceMap.set(cell, occurrence);
+
+        return (
+          <TableCell
+            key={`${cell}-${occurrence}`}
+            cell={cell}
+            bordered={bordered}
+          />
+        );
+      })}
     </tr>
   );
 }
