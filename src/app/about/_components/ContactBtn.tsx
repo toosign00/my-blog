@@ -1,12 +1,10 @@
 "use client";
 
 import { toast } from "sonner";
-import {
-  GithubIcon,
-  LinkedInIcon,
-  MailIcon,
-  PhoneIcon,
-} from "@/components/icons";
+import { GithubIcon } from "@/components/icons/GithubIcon";
+import { LinkedInIcon } from "@/components/icons/LinkedInIcon";
+import { MailIcon } from "@/components/icons/MailIcon";
+import { PhoneIcon } from "@/components/icons/PhoneIcon";
 import { ABOUT } from "@/constants/about.constants";
 
 const ICON_MAP = {

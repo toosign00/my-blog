@@ -2,7 +2,7 @@ import path from "node:path";
 import { createBlur } from "@utils/blur-util";
 import Image from "next/image";
 import { ContactButtons } from "@/app/about/_components/ContactBtn";
-import { DownloadIcon } from "@/components/icons";
+import { DownloadIcon } from "@/components/icons/DownloadIcon";
 import { ResumeDownloadButton } from "@/components/ResumeBtn";
 import { ABOUT } from "@/constants/about.constants";
 

@@ -1,9 +1,0 @@
-export { ChevronLeftIcon } from "./ChevronLeftIcon";
-export { ChevronRightIcon } from "./ChevronRightIcon";
-export { DownloadIcon } from "./DownloadIcon";
-export { GithubIcon } from "./GithubIcon";
-export { LinkedInIcon } from "./LinkedInIcon";
-export { MailIcon } from "./MailIcon";
-export { PhoneIcon } from "./PhoneIcon";
-export { PlusIcon } from "./PlusIcon";
-export { ShareIcon } from "./ShareIcon";
