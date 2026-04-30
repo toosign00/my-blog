@@ -50,7 +50,6 @@ export const Giscus = ({ ...props }: GiscusProps) => {
       script.setAttribute("data-input-position", "bottom");
       script.setAttribute("data-theme", theme);
       script.setAttribute("data-lang", "ko");
-      script.setAttribute("data-loading", "lazy");
       script.setAttribute("crossorigin", "anonymous");
       script.addEventListener("load", postThemeUpdate, { once: true });
       container.appendChild(script);
