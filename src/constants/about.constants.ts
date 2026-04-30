@@ -171,12 +171,15 @@ export const ABOUT = {
     },
     {
       title: "2024 제30회 커뮤니케이션디자인 국제공모전 우수상",
-      period: "2024.08",
+      href: "https://toosign00.github.io/OLLY",
+      period: "2024.07",
+      embed: "https://www.hani.co.kr/arti/economy/biznews/1143531.html",
       tags: ["한국커뮤니케이션디자인협회 주관 / 주체"],
       description: [
         "건강한 치매 생활을 위한 도우미 앱인 '올리' 서비스의 기획 및 서비스 소개 웹페이지 개발 담당",
         "기획부터 개발까지 전 과정 참여하며 매주 정기 회의를 통해  기획, 디자인 팀원들과 기술적 이슈와 해결 방안 공유",
         "페이지 개발 시 Git Flow 전략을 도입하여 팀원들과의 협업 프로세스 구축 및 주도",
+        "Vietnam Mobile Summit 2024 계원예술대학교 대표작 선정 및 참가",
         "역할: 웹 개발, 기획 보조",
       ],
     },
