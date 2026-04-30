@@ -1,5 +1,5 @@
 import type { ComponentType } from "react";
-import { SkillBadge } from "@/app/about/_components/SkillBadge";
+import { SkillBadge } from "@/components/about/SkillBadge";
 import { ChatGPTIcon } from "@/components/icons/ChatGPTIcon";
 import { ChromeIcon } from "@/components/icons/ChromeIcon";
 import { ClaudeIcon } from "@/components/icons/ClaudeIcon";

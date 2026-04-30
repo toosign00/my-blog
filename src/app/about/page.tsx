@@ -1,9 +1,9 @@
-import { CertificateSection } from "@/app/about/_components/CertificateSection";
-import { EducationSection } from "@/app/about/_components/EducationSection";
-import { HowIWork } from "@/app/about/_components/HowIWork";
-import { ProfileCard } from "@/app/about/_components/ProfileCard";
-import { SkillsSection } from "@/app/about/_components/SkillsSection";
-import { TimelineSection } from "@/app/about/_components/TimelineSection";
+import { CertificateSection } from "@/components/about/CertificateSection";
+import { EducationSection } from "@/components/about/EducationSection";
+import { HowIWork } from "@/components/about/HowIWork";
+import { ProfileCard } from "@/components/about/ProfileCard";
+import { SkillsSection } from "@/components/about/SkillsSection";
+import { TimelineSection } from "@/components/about/TimelineSection";
 import { ABOUT } from "@/constants/about.constants";
 
 const AboutPage = () => {
