@@ -176,11 +176,11 @@
   }
 
   img {
-    @apply h-auto w-auto flex-1 min-w-0 max-w-full border border-[var(--color-border)] rounded-[var(--radius-lg)];
+    @apply h-auto w-auto flex-1 min-w-0 max-w-full border border-border rounded-lg;
   }
 
   .video-wrapper {
-    @apply mt-6 mx-auto w-full border border-[var(--color-border)] rounded-[var(--radius-lg)];
+    @apply mt-6 mx-auto w-full border border-border rounded-lg;
   }
 }
 
