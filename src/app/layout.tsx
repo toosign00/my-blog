@@ -4,11 +4,10 @@ import { GeistMono, Pretendard } from "@assets/font";
 import appleTouchIcon from "@assets/icons/apple-icon.png";
 import siteIcon from "@assets/icons/icon.svg";
 import { Layout } from "@components/layout/Root";
-import { Toaster } from "@components/ui/toaster";
+import { AppProviders } from "@components/providers/AppProviders";
 import { METADATA } from "@constants/metadata.constants";
 import { Analytics } from "@vercel/analytics/next";
 import type { Metadata, Viewport } from "next";
-import { ThemeProvider } from "next-themes";
 import type { PropsWithChildren } from "react";
 import { twMerge } from "tailwind-merge";
 
@@ -22,10 +21,9 @@ const RootLayout = ({ children }: PropsWithChildren) => {
           GeistMono.variable,
         )}
       >
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        <AppProviders>
           <Layout>{children}</Layout>
-          <Toaster />
-        </ThemeProvider>
+        </AppProviders>
         <Analytics />
       </body>
     </html>
