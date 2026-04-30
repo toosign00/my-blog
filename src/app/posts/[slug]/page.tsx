@@ -61,7 +61,7 @@ export const generateMetadata = async ({
   const { slug } = await params;
 
   try {
-    const { metadata } = await import(`../_articles/${slug}.mdx`);
+    const { metadata } = await import(`../_articles/${slug}/post.mdx`);
     if (!metadata) {
       return generatePageMetadata({});
     }

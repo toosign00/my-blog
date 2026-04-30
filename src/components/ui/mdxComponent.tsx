@@ -187,7 +187,7 @@ const Img = async ({ src, alt, ...props }: ImgProps) => {
   }
 
   try {
-    const image = await import(`../../assets/images/${src}`);
+    const image = await import(`../../app/posts/_articles/${src}`);
 
     return (
       <Image

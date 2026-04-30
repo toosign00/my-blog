@@ -4,8 +4,6 @@ import { cache } from "react";
 import { PATHS } from "@/constants/paths.constants";
 import type { Post, PostCoverImage, PostMetadata } from "@/types/content.types";
 
-const MDX_EXTENSION = ".mdx";
-
 interface PostModule {
   default: ComponentType;
   metadata?: PostMetadata;
@@ -17,6 +15,7 @@ interface PostPageData {
 }
 
 const resolveCoverImage = async (
+  slug: string,
   coverImage: string,
 ): Promise<PostCoverImage> => {
   if (coverImage.startsWith("https://")) {
@@ -24,10 +23,9 @@ const resolveCoverImage = async (
   }
 
   try {
-    const image = await import(`../assets/images/${coverImage}`);
+    const image = await import(`@/app/posts/_articles/${slug}/${coverImage}`);
     return image.default;
   } catch {
-    // Error is handled by falling back to the original coverImage string
     return coverImage;
   }
 };
@@ -36,7 +34,7 @@ const buildPost = async (
   slug: string,
   metadata: PostMetadata,
 ): Promise<Post> => {
-  const coverImage = await resolveCoverImage(metadata.coverImage);
+  const coverImage = await resolveCoverImage(slug, metadata.coverImage);
   return {
     _id: slug,
     slug,
@@ -46,22 +44,24 @@ const buildPost = async (
 };
 
 export const getAllPosts = cache(async (): Promise<Post[]> => {
-  const entries = await readdir(PATHS.POSTS_ARTICLES_DIR);
+  const entries = await readdir(PATHS.POSTS_ARTICLES_DIR, {
+    withFileTypes: true,
+  });
 
   const items: Post[] = [];
-  for (const filename of entries) {
-    if (!filename.endsWith(MDX_EXTENSION)) {
+  for (const entry of entries) {
+    if (!entry.isDirectory()) {
       continue;
     }
 
+    const slug = entry.name;
     const postModule = (await import(
-      `@/app/posts/_articles/${filename}`
+      `@/app/posts/_articles/${slug}/post.mdx`
     )) as PostModule;
     if (!postModule.metadata) {
-      throw new Error(`Missing \`metadata\` in ${filename}`);
+      throw new Error(`Missing \`metadata\` in ${slug}/post.mdx`);
     }
 
-    const slug = filename.slice(0, -MDX_EXTENSION.length);
     items.push(await buildPost(slug, postModule.metadata));
   }
 
@@ -79,11 +79,11 @@ export const getPostPageDataBySlug = async (
 ): Promise<PostPageData> => {
   try {
     const postModule = (await import(
-      `@/app/posts/_articles/${slug}.mdx`
+      `@/app/posts/_articles/${slug}/post.mdx`
     )) as PostModule;
 
     if (!postModule.metadata) {
-      throw new Error(`Missing \`metadata\` in ${slug}.mdx`);
+      throw new Error(`Missing \`metadata\` in ${slug}/post.mdx`);
     }
 
     return {
