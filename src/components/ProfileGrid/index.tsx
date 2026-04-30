@@ -32,7 +32,7 @@ export const ProfileGrid = async () => {
           <Card.Content>
             <fieldset
               aria-labelledby="profile-heading"
-              className="row-between m-0 h-full flex-col items-start border-0 p-0"
+              className="column m-0 items-start gap-3 self-start border-0 p-0"
             >
               <div
                 className="relative h-24.25 w-24.25 select-none overflow-hidden rounded-md border"
