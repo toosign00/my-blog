@@ -45,7 +45,7 @@ export const Pagination = ({
       {currentPage > 1 && (
         <Link
           aria-label="Go to previous page"
-          className="center h-12.5 w-12.5 cursor-pointer rounded-full border border-border bg-toggle text-gray-accent text-sm transition-colors duration-150 ease-in-out hover:bg-background02"
+          className="center h-8 w-8 cursor-pointer rounded-full border border-border bg-toggle text-gray-accent text-sm transition-colors duration-150 ease-in-out hover:bg-background02"
           href={buildPageHref(currentPage - 1)}
         >
           <ChevronLeftIcon />
