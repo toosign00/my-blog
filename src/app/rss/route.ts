@@ -11,34 +11,29 @@ const generateRssItems = async (): Promise<
   {
     title: string;
     link: string;
-    slug: string;
     description: string;
     pubDate: string;
   }[]
 > => {
   const allPosts = await getAllPosts();
 
-  return allPosts
-    .sort((a, b) => (dayjs(a.createdAt).isAfter(dayjs(b.createdAt)) ? -1 : 1))
-    .map(({ title, slug, subtitle, modifiedAt, createdAt }) => {
-      const date = modifiedAt ?? createdAt;
-      const pubDate = dayjs(date).toDate().toUTCString();
-      const description = subtitle;
+  return allPosts.map(({ title, slug, subtitle, modifiedAt, createdAt }) => {
+    const date = modifiedAt ?? createdAt;
+    const pubDate = dayjs(date).toDate().toUTCString();
+    const description = subtitle;
 
-      return {
-        title,
-        link: `${METADATA.SITE.URL}${ROUTES.POSTS}/${slugify(slug)}`,
-        slug: slugify(slug),
-        description,
-        pubDate,
-      };
-    });
+    return {
+      title,
+      link: `${METADATA.SITE.URL}${ROUTES.POSTS}/${slugify(slug)}`,
+      description,
+      pubDate,
+    };
+  });
 };
 
 interface RssItem {
   title: string;
   link: string;
-  slug: string;
   description: string;
   pubDate: string;
 }
@@ -62,12 +57,12 @@ const rssToXml = (
     </image>
 ${items
   .map(
-    ({ title, link, slug, description, pubDate }) => `
+    ({ title, link, description, pubDate }) => `
     <item>
       <title><![CDATA[${title}]]></title>
       <link>${link}</link>
       <description><![CDATA[${description}]]></description>
-      <guid isPermaLink="true">${slug}</guid>
+      <guid isPermaLink="true">${link}</guid>
       <pubDate>${pubDate}</pubDate>
     </item>`,
   )

@@ -51,6 +51,11 @@ const generateSitemapUrls = async (): Promise<MetadataRoute.Sitemap> => {
   });
 
   return [
+    {
+      url: METADATA.SITE.URL,
+      changeFrequency: "daily",
+      priority: 1,
+    },
     { url: `${METADATA.SITE.URL}${ROUTES.ABOUT}` },
     { url: `${METADATA.SITE.URL}${ROUTES.CATEGORIES}` },
     { url: `${METADATA.SITE.URL}${ROUTES.TAGS}` },
