@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { ComponentProps } from "react";
 import { twMerge } from "tailwind-merge";
+import { POST_CARD_INTERACTION_CLASS } from "@/constants/style.constants";
 import type { Post } from "@/types/content.types";
 
 import { RelativeTime } from "./relativeTime";
@@ -26,23 +27,20 @@ export const PostGrid = ({ posts, className, ...props }: PostGridProps) => {
             aria-label={`Read post: ${title}`}
             className={twMerge(
               "flex w-full cursor-pointer flex-col",
-              "hover:[&_.title]:bg-gray-hover",
-              "hover:[&_.description]:bg-gray-hover",
-              "active:[&_.title]:bg-border",
-              "active:[&_.description]:bg-border",
+              POST_CARD_INTERACTION_CLASS,
             )}
             href={`/posts/${slug}`}
             key={_id}
           >
             <div className="relative aspect-[1.8/1] w-full overflow-hidden rounded-lg border border-border">
               <Image
-                alt={`${title} Cover Image`}
+                alt={title}
                 className="h-full w-full object-cover object-center"
                 draggable={false}
                 fill
                 priority={false}
                 quality={100}
-                sizes="100vw"
+                sizes="(max-width: 60rem) 100vw, (max-width: 80rem) calc(50vw - 9rem), 22rem"
                 src={coverImage}
               />
             </div>

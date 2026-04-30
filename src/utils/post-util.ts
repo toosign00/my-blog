@@ -1,14 +1,19 @@
 import { readdir } from "node:fs/promises";
-import path from "node:path";
-
+import type { ComponentType } from "react";
+import { cache } from "react";
+import { PATHS } from "@/constants/paths.constants";
 import type { Post, PostCoverImage, PostMetadata } from "@/types/content.types";
 
 const MDX_EXTENSION = ".mdx";
-const POSTS_DIR = path.join(process.cwd(), "src", "app", "posts", "_articles");
 
 interface PostModule {
-  default: unknown;
+  default: ComponentType;
   metadata?: PostMetadata;
+}
+
+interface PostPageData {
+  post: Post;
+  content: PostModule["default"];
 }
 
 const resolveCoverImage = async (
@@ -40,8 +45,8 @@ const buildPost = async (
   };
 };
 
-export const getAllPosts = async (): Promise<Post[]> => {
-  const entries = await readdir(POSTS_DIR);
+export const getAllPosts = cache(async (): Promise<Post[]> => {
+  const entries = await readdir(PATHS.POSTS_ARTICLES_DIR);
 
   const items: Post[] = [];
   for (const filename of entries) {
@@ -62,9 +67,16 @@ export const getAllPosts = async (): Promise<Post[]> => {
 
   items.sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1));
   return items;
-};
+});
 
 export const getPostBySlug = async (slug: string): Promise<Post> => {
+  const { post } = await getPostPageDataBySlug(slug);
+  return post;
+};
+
+export const getPostPageDataBySlug = async (
+  slug: string,
+): Promise<PostPageData> => {
   try {
     const postModule = (await import(
       `@/app/posts/_articles/${slug}.mdx`
@@ -74,7 +86,10 @@ export const getPostBySlug = async (slug: string): Promise<Post> => {
       throw new Error(`Missing \`metadata\` in ${slug}.mdx`);
     }
 
-    return await buildPost(slug, postModule.metadata);
+    return {
+      post: await buildPost(slug, postModule.metadata),
+      content: postModule.default,
+    };
   } catch {
     throw new Error(`Post not found: ${slug}`);
   }

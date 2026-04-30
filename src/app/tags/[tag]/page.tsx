@@ -3,6 +3,7 @@ import { PostList } from "@components/ui/postList";
 import { ROUTES } from "@constants/menu.constants";
 import { POST } from "@constants/metadata.constants";
 import { generatePageMetadata } from "@utils/metadata-util";
+import { parsePageParam } from "@utils/page-param-util";
 import { getAllPosts } from "@utils/post-util";
 import { slugify } from "@utils/text-util";
 import type { Metadata } from "next";
@@ -11,11 +12,6 @@ interface TagsPageProps {
   params: Promise<{ tag: string }>;
   searchParams: Promise<{ page: string }>;
 }
-
-const parsePageParam = (raw: string | undefined) => {
-  const page = Number.parseInt(raw ?? "1", 10);
-  return Number.isFinite(page) && page > 0 ? page : 1;
-};
 
 const TagsPage = async ({ params, searchParams }: TagsPageProps) => {
   const { tag } = await params;
@@ -27,13 +23,9 @@ const TagsPage = async ({ params, searchParams }: TagsPageProps) => {
     post.tags?.some((t) => slugify(t) === tag),
   );
 
-  const sortedPosts = tagPosts.sort((a, b) =>
-    a.createdAt > b.createdAt ? -1 : 1,
-  );
-
   const start = (currentPage - 1) * POST.PER_PAGE;
   const end = start + POST.PER_PAGE;
-  const currentPosts = sortedPosts.slice(start, end);
+  const currentPosts = tagPosts.slice(start, end);
 
   const tagName = tagPosts[0]?.tags?.find((t) => slugify(t) === tag) ?? tag;
 

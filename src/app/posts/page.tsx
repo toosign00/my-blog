@@ -3,17 +3,13 @@ import { PostList } from "@components/ui/postList";
 import { ROUTES } from "@constants/menu.constants";
 import { POST } from "@constants/metadata.constants";
 import { generatePageMetadata } from "@utils/metadata-util";
+import { parsePageParam } from "@utils/page-param-util";
 import { getAllPosts } from "@utils/post-util";
 import type { Metadata } from "next";
 
 interface PostsPageProps {
   searchParams: Promise<{ page: string }>;
 }
-
-const parsePageParam = (raw: string | undefined) => {
-  const page = Number.parseInt(raw ?? "1", 10);
-  return Number.isFinite(page) && page > 0 ? page : 1;
-};
 
 const PostsPage = async ({ searchParams }: PostsPageProps) => {
   const { page } = await searchParams;
@@ -22,11 +18,7 @@ const PostsPage = async ({ searchParams }: PostsPageProps) => {
   const end = start + POST.PER_PAGE;
 
   const allPosts = await getAllPosts();
-  const sortedPosts = [...allPosts].sort((a, b) =>
-    a.createdAt > b.createdAt ? -1 : 1,
-  );
-
-  const currentPosts = sortedPosts.slice(start, end);
+  const currentPosts = allPosts.slice(start, end);
 
   return (
     <>

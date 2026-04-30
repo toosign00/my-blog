@@ -1,4 +1,5 @@
 import { ROUTES } from "@constants/menu.constants";
+import { POST_CARD_INTERACTION_CLASS } from "@constants/style.constants";
 import Image from "next/image";
 import Link from "next/link";
 import type { ComponentProps } from "react";
@@ -21,12 +22,8 @@ export const PostList = ({ posts, className, ...props }: PostListProps) => {
               aria-label={`Read post: ${title}`}
               className={twMerge(
                 "flex cursor-pointer flex-col gap-4.5 tablet:flex-row tablet:gap-8.75",
-                "hover:[&_.title]:bg-gray-hover",
-                "hover:[&_.subtitle]:bg-gray-hover",
-                "hover:[&_.description]:bg-gray-hover",
-                "active:[&_.title]:bg-border",
-                "active:[&_.subtitle]:bg-border",
-                "active:[&_.description]:bg-border",
+                POST_CARD_INTERACTION_CLASS,
+                "hover:[&_.subtitle]:bg-gray-hover active:[&_.subtitle]:bg-border",
               )}
               href={`${ROUTES.POSTS}/${slug}`}
             >
