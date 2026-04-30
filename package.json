@@ -14,7 +14,7 @@
     "check": "pnpm type-check && pnpm lint"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx,json,jsonc,css}": "biome check --write"
+    "*.{js,jsx,ts,tsx,json,jsonc}": "biome check --write"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.12",
