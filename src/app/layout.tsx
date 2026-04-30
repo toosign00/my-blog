@@ -4,6 +4,7 @@ import { GeistMono, Pretendard } from "@assets/font";
 import appleTouchIcon from "@assets/icons/apple-icon.png";
 import siteIcon from "@assets/icons/icon.svg";
 import { Layout } from "@components/layout/Root";
+import { Toaster } from "@components/ui/toaster";
 import { METADATA } from "@constants/metadata.constants";
 import { Analytics } from "@vercel/analytics/next";
 import type { Metadata, Viewport } from "next";
@@ -23,6 +24,7 @@ const RootLayout = ({ children }: PropsWithChildren) => {
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <Layout>{children}</Layout>
+          <Toaster />
         </ThemeProvider>
         <Analytics />
       </body>
