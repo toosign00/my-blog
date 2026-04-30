@@ -8,12 +8,19 @@ import dayjs from "dayjs";
 import { Network, Rss } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import { ThemeToggle } from "../ThemeToggle";
 import { NavigateMenu } from "./NavigateMenu";
 
 export const Header = () => {
   const [accordionOpen, setAccordionOpen] = useState(false);
+  const pathname = usePathname();
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: pathname change is the intended trigger
+  useEffect(() => {
+    setAccordionOpen(false);
+  }, [pathname]);
 
   const overlayClassName =
     "fixed inset-0 bg-[rgba(0,0,0,0.2)] backdrop-blur-[11px] z-[var(--z-overlay)] transition-opacity duration-300";

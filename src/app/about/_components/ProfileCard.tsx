@@ -63,7 +63,7 @@ export const ProfileCard = async () => {
         <div className="flex flex-col tablet:flex-row w-full">
           <ResumeDownloadButton
             fileKey="노현수_이력서.pdf"
-            className="cursor-pointer relative overflow-hidden flex-1 flex items-center justify-center gap-2 px-4 py-3 hover:brightness-95 transition-all border-l border-b border-r border-t-0 border-white/5 rounded-none tablet:rounded-bl-2xl shadow-[inset_0_-0.125rem_0.125rem_rgba(255,255,255,0.3)]"
+            className="cursor-pointer relative overflow-hidden flex-1 flex items-center justify-center gap-2 px-4 py-3 hover:brightness-95 active:brightness-95 transition-all border-l border-b border-r border-t-0 border-white/5 rounded-none tablet:rounded-bl-2xl shadow-[inset_0_-0.125rem_0.125rem_rgba(255,255,255,0.3)]"
             style={{
               backgroundColor: ABOUT.profile.cardBackgroundColor,
               color: ABOUT.profile.contentTextColor,
@@ -77,7 +77,7 @@ export const ProfileCard = async () => {
           </ResumeDownloadButton>
           <ResumeDownloadButton
             fileKey="노현수_자기소개서.pdf"
-            className="cursor-pointer relative overflow-hidden flex-1 flex items-center justify-center gap-2 px-4 py-3 hover:brightness-95 transition-all border-l border-b border-r border-t-0 tablet:border-l-0 border-white/10 rounded-b-2xl tablet:rounded-bl-none tablet:rounded-br-2xl shadow-[inset_0_-0.125rem_0.125rem_rgba(255,255,255,0.3)]"
+            className="cursor-pointer relative overflow-hidden flex-1 flex items-center justify-center gap-2 px-4 py-3 hover:brightness-95 active:brightness-95 transition-all border-l border-b border-r border-t-0 tablet:border-l-0 border-white/10 rounded-b-2xl tablet:rounded-bl-none tablet:rounded-br-2xl shadow-[inset_0_-0.125rem_0.125rem_rgba(255,255,255,0.3)]"
             style={{
               backgroundColor: ABOUT.profile.cardBackgroundColor,
               color: ABOUT.profile.contentTextColor,
