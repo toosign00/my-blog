@@ -2,7 +2,11 @@ import { Divider } from "@components/ui/divider";
 import { ROUTES } from "@constants/menu.constants";
 import { METADATA } from "@constants/metadata.constants";
 import { generatePageMetadata } from "@utils/metadata-util";
-import { getAllPosts, getPostPageDataBySlug } from "@utils/post-util";
+import {
+  getAllPosts,
+  getPostBySlug,
+  getPostPageDataBySlug,
+} from "@utils/post-util";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import type { Post } from "@/types/content.types";
@@ -61,22 +65,22 @@ export const generateMetadata = async ({
   const { slug } = await params;
 
   try {
-    const { metadata } = await import(`../_articles/${slug}/post.mdx`);
-    if (!metadata) {
-      return generatePageMetadata({});
-    }
+    const post = await getPostBySlug(slug);
 
     return generatePageMetadata({
-      title: metadata.title,
-      description: metadata.subtitle,
+      title: post.title,
+      description: post.subtitle,
       path: `${ROUTES.POSTS}/${slug}`,
-      image: metadata.coverImage,
+      image:
+        typeof post.coverImage === "string"
+          ? post.coverImage
+          : post.coverImage.src,
       type: "article",
       openGraph: {
-        publishedTime: metadata.createdAt,
-        modifiedTime: metadata.modifiedAt,
+        publishedTime: post.createdAt,
+        modifiedTime: post.modifiedAt,
         authors: [METADATA.AUTHOR.NAME],
-        tags: metadata.tags,
+        tags: post.tags,
       },
     });
   } catch {
