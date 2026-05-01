@@ -1,5 +1,18 @@
 import { METADATA } from "@constants/metadata.constants";
 import type { Metadata } from "next";
+import type { StaticImageData } from "next/image";
+
+export const resolveAbsoluteImageUrl = (
+  image: string | StaticImageData,
+): string => {
+  if (typeof image === "string") {
+    if (image.startsWith("https://") || image.startsWith("http://")) {
+      return image;
+    }
+    return `${METADATA.SITE.URL}${image.startsWith("/") ? "" : "/"}${image}`;
+  }
+  return `${METADATA.SITE.URL}${image.src}`;
+};
 
 interface GeneratePageMetadataParams {
   title?: string;
