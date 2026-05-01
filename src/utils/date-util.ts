@@ -26,19 +26,5 @@ export const formatRelativeTime = (date: string | Date): string => {
     return `${diffHours}h ago`;
   }
 
-  const diffDays = now.diff(target, "day");
-  if (diffDays < 7) {
-    return `${diffDays}d ago`;
-  }
-  if (diffDays < 30) {
-    return `${Math.ceil(diffDays / 7)}w ago`;
-  }
-
-  const diffMonths = now.diff(target, "month");
-  if (diffMonths < 12) {
-    return `${diffMonths} month ago`;
-  }
-
-  const diffYears = now.diff(target, "year");
-  return `${diffYears}y ago`;
+  return target.format("YYYY. M. D.");
 };
