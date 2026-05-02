@@ -1,10 +1,7 @@
 import { Divider } from "@components/ui/divider";
 import { ROUTES } from "@constants/menu.constants";
 import { METADATA } from "@constants/metadata.constants";
-import {
-  generatePageMetadata,
-  resolveAbsoluteImageUrl,
-} from "@utils/metadata-util";
+import { generatePageMetadata } from "@utils/metadata-util";
 import {
   getAllPosts,
   getPostBySlug,
@@ -74,7 +71,7 @@ export const generateMetadata = async ({
       title: post.title,
       description: post.subtitle,
       path: `${ROUTES.POSTS}/${slug}`,
-      image: resolveAbsoluteImageUrl(post.coverImage),
+      image: post.coverImage,
       type: "article",
       openGraph: {
         publishedTime: post.createdAt,

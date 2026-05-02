@@ -1,5 +1,3 @@
-import type { StaticImageData } from "next/image";
-
 export interface PostMetadata {
   title: string;
   subtitle: string;
@@ -11,10 +9,7 @@ export interface PostMetadata {
   comments?: boolean;
 }
 
-export type PostCoverImage = string | StaticImageData;
-
-export interface Post extends Omit<PostMetadata, "coverImage"> {
+export interface Post extends PostMetadata {
   _id: string;
   slug: string;
-  coverImage: PostCoverImage;
 }
