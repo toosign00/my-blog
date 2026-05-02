@@ -2,7 +2,7 @@ import { readdir } from "node:fs/promises";
 import type { ComponentType } from "react";
 import { cache } from "react";
 import { PATHS } from "@/constants/paths.constants";
-import type { Post, PostCoverImage, PostMetadata } from "@/types/content.types";
+import type { Post, PostMetadata } from "@/types/content.types";
 
 interface PostModule {
   default: ComponentType;
@@ -14,32 +14,19 @@ interface PostPageData {
   content: PostModule["default"];
 }
 
-const resolveCoverImage = async (
-  slug: string,
-  coverImage: string,
-): Promise<PostCoverImage> => {
+const resolveCoverImage = (slug: string, coverImage: string): string => {
   if (coverImage.startsWith("https://")) {
     return coverImage;
   }
-
-  try {
-    const image = await import(`@/app/posts/_articles/${slug}/${coverImage}`);
-    return image.default;
-  } catch {
-    return coverImage;
-  }
+  return `/covers/${slug}/${coverImage}`;
 };
 
-const buildPost = async (
-  slug: string,
-  metadata: PostMetadata,
-): Promise<Post> => {
-  const coverImage = await resolveCoverImage(slug, metadata.coverImage);
+const buildPost = (slug: string, metadata: PostMetadata): Post => {
   return {
     _id: slug,
     slug,
     ...metadata,
-    coverImage,
+    coverImage: resolveCoverImage(slug, metadata.coverImage),
   };
 };
 
@@ -62,7 +49,7 @@ export const getAllPosts = cache(async (): Promise<Post[]> => {
       throw new Error(`Missing \`metadata\` in ${slug}/post.mdx`);
     }
 
-    items.push(await buildPost(slug, postModule.metadata));
+    items.push(buildPost(slug, postModule.metadata));
   }
 
   items.sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1));
@@ -87,7 +74,7 @@ export const getPostPageDataBySlug = async (
     }
 
     return {
-      post: await buildPost(slug, postModule.metadata),
+      post: buildPost(slug, postModule.metadata),
       content: postModule.default,
     };
   } catch {
