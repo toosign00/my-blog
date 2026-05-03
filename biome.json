@@ -1,35 +1,150 @@
 {
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
   "files": {
-    "includes": ["**", "!src/styles/**/*.css", "!.next", "!node_modules"]
+    "includes": ["**", "!src/styles/**/*.css", "!.next", "!node_modules"],
+    "ignoreUnknown": true
+  },
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true,
+    "root": ".",
+    "defaultBranch": "main"
+  },
+  "assist": {
+    "enabled": true,
+    "actions": {
+      "source": {
+        "organizeImports": "on",
+        "useSortedKeys": "off"
+      }
+    }
   },
   "formatter": {
+    "enabled": true,
+    "formatWithErrors": false,
     "indentStyle": "space",
-    "indentWidth": 2
+    "indentWidth": 2,
+    "lineEnding": "lf",
+    "lineWidth": 100,
+    "attributePosition": "auto"
   },
   "javascript": {
     "formatter": {
-      "indentStyle": "space",
-      "indentWidth": 2
+      "quoteStyle": "single",
+      "jsxQuoteStyle": "single",
+      "trailingCommas": "es5",
+      "semicolons": "always",
+      "arrowParentheses": "always"
     }
   },
   "json": {
     "formatter": {
       "indentStyle": "space",
-      "indentWidth": 2
+      "indentWidth": 2,
+      "lineWidth": 100
+    }
+  },
+  "css": {
+    "parser": {
+      "tailwindDirectives": true
+    },
+    "formatter": {
+      "enabled": true,
+      "indentStyle": "space",
+      "indentWidth": 2,
+      "lineWidth": 100
+    },
+    "linter": {
+      "enabled": true
     }
   },
   "linter": {
+    "enabled": true,
     "rules": {
-      "correctness": {
-        "noUnknownTypeSelector": "off"
-      },
+      "recommended": true,
       "style": {
+        "noParameterAssign": "error",
+        "useDefaultParameterLast": "error",
+        "useSingleVarDeclarator": "off",
+        "useConst": "error",
+        "noUselessElse": "error",
+        "useSelfClosingElements": "error",
+        "useTemplate": "error",
         "useFilenamingConvention": "off"
       },
+      "correctness": {
+        "noUnusedImports": "error",
+        "noUnusedVariables": "error",
+        "noUndeclaredDependencies": "error",
+        "noUnknownTypeSelector": "off",
+        "useUniqueElementIds": "off"
+      },
+      "suspicious": {
+        "noVar": "error",
+        "noExplicitAny": "warn",
+        "noEmptyBlockStatements": "error",
+        "noArrayIndexKey": "warn",
+        "noUnknownAtRules": "off"
+      },
+      "complexity": {
+        "useLiteralKeys": "error",
+        "noImportantStyles": "off"
+      },
       "performance": {
-        "noImgElement": "off"
+        "noDelete": "off",
+        "noImgElement": "warn"
+      },
+      "security": {
+        "noDangerouslySetInnerHtml": "off"
+      },
+      "a11y": {
+        "useKeyWithClickEvents": "error",
+        "useAltText": "error",
+        "noAutofocus": "warn",
+        "useValidAnchor": "error",
+        "useButtonType": "error",
+        "noStaticElementInteractions": "off",
+        "useAriaPropsSupportedByRole": "off",
+        "useSemanticElements": "off"
+      },
+      "nursery": {
+        "noFloatingPromises": "warn",
+        "useSortedClasses": "off"
       }
     }
-  }
+  },
+  "overrides": [
+    {
+      "includes": ["*.config.js", "*.config.ts", "next.config.*"],
+      "linter": {
+        "rules": {
+          "suspicious": {}
+        }
+      }
+    },
+    {
+      "includes": ["**/*.test.*", "**/*.spec.*", "src/test/**"],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noExplicitAny": "off"
+          },
+          "style": {
+            "noParameterAssign": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["**/*.d.ts"],
+      "linter": {
+        "rules": {
+          "correctness": {
+            "noUnusedVariables": "off"
+          }
+        }
+      }
+    }
+  ]
 }
