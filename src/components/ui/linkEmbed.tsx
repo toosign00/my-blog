@@ -3,14 +3,14 @@ import Image from 'next/image';
 import type { ComponentProps } from 'react';
 import { useEffect, useState } from 'react';
 
-type LinkEmbedProps = ComponentProps<'a'> & {
+interface LinkEmbedProps extends ComponentProps<'a'> {
   url: string;
   title?: string;
   description?: string;
   thumbnail?: string;
   favicon?: string;
   variant?: 'card' | 'mention';
-};
+}
 
 interface LinkMetadata {
   title?: string;
@@ -134,7 +134,7 @@ export const LinkEmbed = ({
         {!faviconError && (
           <Image
             alt=''
-            className='shrink-0 rounded-full'
+            className='h-3.5 w-3.5 shrink-0 rounded-full'
             height={14}
             src={favicon}
             unoptimized
@@ -205,7 +205,7 @@ export const LinkEmbed = ({
               {!faviconError && (
                 <Image
                   alt=''
-                  className='shrink-0 rounded'
+                  className='h-4 w-4 shrink-0 rounded'
                   height={16}
                   src={favicon}
                   unoptimized
