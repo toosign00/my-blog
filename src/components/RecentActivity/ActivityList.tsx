@@ -10,12 +10,8 @@ export const ActivityList = ({ activities, loading }: ActivityListProps) => {
   if (loading) {
     return (
       <div className='column h-full w-full gap-2.5 px-5 pb-4'>
-        {Array.from({ length: 4 }).map((_, i) => (
-          <div
-            // biome-ignore lint/suspicious/noArrayIndexKey: static skeleton
-            key={i}
-            className='h-3.5 w-full animate-pulse rounded-sm bg-border'
-          />
+        {['s0', 's1', 's2', 's3'].map((k) => (
+          <div key={k} className='h-3.5 w-full animate-pulse rounded-sm bg-border' />
         ))}
       </div>
     );
@@ -30,7 +26,7 @@ export const ActivityList = ({ activities, loading }: ActivityListProps) => {
   return (
     <ul className='column h-full w-full gap-2 overflow-y-auto px-5 pb-4'>
       {activities.map((activity) => (
-        <ActivityItem key={`${activity.repo}-${activity.createdAt}`} {...activity} />
+        <ActivityItem key={activity.id} {...activity} />
       ))}
     </ul>
   );

@@ -1,6 +1,7 @@
 export const GITHUB_ACTIVITY_REVALIDATE_SECONDS = 3600;
 
 interface GitHubEvent {
+  id: string | number;
   type: string;
   repo: { name: string };
   payload: {
@@ -13,6 +14,7 @@ interface GitHubEvent {
 }
 
 export interface ActivityItem {
+  id: string;
   type: string;
   repo: string;
   message: string;
@@ -24,12 +26,14 @@ const formatEvent = (event: GitHubEvent): ActivityItem | null => {
   const repoFull = event.repo.name;
   const repo = repoFull.split('/')[1];
   const baseUrl = `https://github.com/${repoFull}`;
+  const id = String(event.id);
 
   switch (event.type) {
     case 'PushEvent': {
       const count = event.payload.commits?.length ?? 0;
       const message = event.payload.commits?.[0]?.message ?? '';
       return {
+        id,
         type: 'push',
         repo,
         message: count > 1 ? `${message} 외 ${count - 1}개` : message,
@@ -40,6 +44,7 @@ const formatEvent = (event: GitHubEvent): ActivityItem | null => {
     case 'CreateEvent':
       if (event.payload.ref_type === 'branch') {
         return {
+          id,
           type: 'branch',
           repo,
           message: event.payload.ref ?? '',
@@ -50,6 +55,7 @@ const formatEvent = (event: GitHubEvent): ActivityItem | null => {
       return null;
     case 'PullRequestEvent':
       return {
+        id,
         type: 'pr',
         repo,
         message: event.payload.pull_request?.title ?? '',
@@ -58,6 +64,7 @@ const formatEvent = (event: GitHubEvent): ActivityItem | null => {
       };
     case 'WatchEvent':
       return {
+        id,
         type: 'star',
         repo,
         message: repo,
