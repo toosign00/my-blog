@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useHasMounted } from "@hooks/useHasMounted";
-import type { ReactNode } from "react";
+import type { ReactNode } from 'react';
+import { useHasMounted } from '@/hooks/useHasMounted';
 
 export interface AfterMountProps {
   children: ReactNode;

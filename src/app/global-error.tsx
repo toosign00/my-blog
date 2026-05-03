@@ -1,17 +1,14 @@
-"use client";
+'use client';
 
 interface GlobalErrorPageProps {
   error: Error & { digest?: string };
   reset: () => void;
 }
 
-export default function GlobalErrorPage({
-  error,
-  reset,
-}: GlobalErrorPageProps) {
+export default function GlobalErrorPage({ error, reset }: GlobalErrorPageProps) {
   return (
-    <html lang="ko">
-      <body className="global-error-body">
+    <html lang='ko'>
+      <body className='global-error-body'>
         <style>{`
           :root {
             --ge-bg: #fcfcfd;
@@ -96,27 +93,21 @@ export default function GlobalErrorPage({
             cursor: pointer;
           }
         `}</style>
-        <section className="global-error-wrap">
-          <p className="global-error-title">Error</p>
-          <h1 className="global-error-heading">문제가 발생했어요</h1>
-          <p className="global-error-description">
-            잠시 후 다시 시도하거나 홈으로 이동해 주세요.
-          </p>
+        <section className='global-error-wrap'>
+          <p className='global-error-title'>Error</p>
+          <h1 className='global-error-heading'>문제가 발생했어요</h1>
+          <p className='global-error-description'>잠시 후 다시 시도하거나 홈으로 이동해 주세요.</p>
 
-          <div className="global-error-actions">
-            <button
-              className="global-error-button"
-              onClick={reset}
-              type="button"
-            >
+          <div className='global-error-actions'>
+            <button className='global-error-button' onClick={reset} type='button'>
               Retry
             </button>
-            <a className="global-error-button" href="/">
+            <a className='global-error-button' href='/'>
               Home
             </a>
           </div>
         </section>
-        <span aria-hidden className="sr-only">
+        <span aria-hidden className='sr-only'>
           {error.digest}
         </span>
       </body>

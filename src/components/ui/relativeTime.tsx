@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { formatRelativeTime } from "@utils/date-util";
-import type { ComponentProps } from "react";
-import { AfterMount } from "@/components/AfterMount";
+import type { ComponentProps } from 'react';
+import { AfterMount } from '@/components/AfterMount';
+import { formatRelativeTime } from '@/utils/date-util';
 
-type RelativeTimeProps = ComponentProps<"time"> & {
+type RelativeTimeProps = ComponentProps<'time'> & {
   time: string | Date;
 };
 

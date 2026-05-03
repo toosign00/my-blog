@@ -1,12 +1,12 @@
-import { Pagination } from "@components/ui/pagination";
-import { PostList } from "@components/ui/postList";
-import { ROUTES } from "@constants/menu.constants";
-import { POST } from "@constants/metadata.constants";
-import { generatePageMetadata } from "@utils/metadata-util";
-import { parsePageParam } from "@utils/page-param-util";
-import { getAllPosts } from "@utils/post-util";
-import { decodeSlugSegment, slugify } from "@utils/text-util";
-import type { Metadata } from "next";
+import type { Metadata } from 'next';
+import { Pagination } from '@/components/ui/pagination';
+import { PostList } from '@/components/ui/postList';
+import { ROUTES } from '@/constants/menu.constants';
+import { POST } from '@/constants/metadata.constants';
+import { generatePageMetadata } from '@/utils/metadata-util';
+import { parsePageParam } from '@/utils/page-param-util';
+import { getAllPosts } from '@/utils/post-util';
+import { decodeSlugSegment, slugify } from '@/utils/text-util';
 
 interface TagsPageProps {
   params: Promise<{ tag: string }>;
@@ -20,21 +20,18 @@ const TagsPage = async ({ params, searchParams }: TagsPageProps) => {
   const currentPage = parsePageParam(page);
 
   const allPosts = await getAllPosts();
-  const tagPosts = allPosts.filter((post) =>
-    post.tags?.some((t) => slugify(t) === tagKey),
-  );
+  const tagPosts = allPosts.filter((post) => post.tags?.some((t) => slugify(t) === tagKey));
 
   const start = (currentPage - 1) * POST.PER_PAGE;
   const end = start + POST.PER_PAGE;
   const currentPosts = tagPosts.slice(start, end);
 
   const tagName =
-    tagPosts[0]?.tags?.find((t) => slugify(t) === tagKey) ??
-    decodeSlugSegment(rawTag);
+    tagPosts[0]?.tags?.find((t) => slugify(t) === tagKey) ?? decodeSlugSegment(rawTag);
 
   return (
     <>
-      <h1 className="h3 mb-7.5 text-gray-light">
+      <h1 className='h3 mb-7.5 text-gray-light'>
         {tagName} ({tagPosts.length})
       </h1>
       <PostList posts={currentPosts} />
@@ -68,13 +65,10 @@ export const generateMetadata = async ({
   const current = parsePageParam(page);
 
   const allPosts = await getAllPosts();
-  const tagPosts = allPosts.filter((post) =>
-    post.tags?.some((t) => slugify(t) === tagKey),
-  );
+  const tagPosts = allPosts.filter((post) => post.tags?.some((t) => slugify(t) === tagKey));
 
   const tagName =
-    tagPosts[0]?.tags?.find((t) => slugify(t) === tagKey) ??
-    decodeSlugSegment(rawTag);
+    tagPosts[0]?.tags?.find((t) => slugify(t) === tagKey) ?? decodeSlugSegment(rawTag);
 
   const tagPathSegment = encodeURIComponent(tagKey);
 

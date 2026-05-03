@@ -1,8 +1,8 @@
-import { existsSync } from "node:fs";
-import { readFile } from "node:fs/promises";
-import path from "node:path";
-import { cache } from "react";
-import sharp from "sharp";
+import { existsSync } from 'node:fs';
+import { readFile } from 'node:fs/promises';
+import path from 'node:path';
+import { cache } from 'react';
+import sharp from 'sharp';
 
 export interface BlurOptions {
   width?: number;
@@ -32,9 +32,7 @@ const loadBuffer = async (imagePath: string): Promise<Buffer> => {
   if (isUrl(imagePath)) {
     const response = await fetch(imagePath);
     if (!response.ok) {
-      throw new Error(
-        `Failed to fetch image: ${response.status} ${response.statusText}`,
-      );
+      throw new Error(`Failed to fetch image: ${response.status} ${response.statusText}`);
     }
     const arrayBuffer = await response.arrayBuffer();
     return Buffer.from(arrayBuffer);
@@ -44,9 +42,9 @@ const loadBuffer = async (imagePath: string): Promise<Buffer> => {
 
   if (isSystemPath(imagePath)) {
     fullPath = imagePath;
-  } else if (imagePath.startsWith("/")) {
-    const publicPath = path.join(process.cwd(), "public", imagePath);
-    const srcAssetPath = path.join(process.cwd(), "src", imagePath.slice(1));
+  } else if (imagePath.startsWith('/')) {
+    const publicPath = path.join(process.cwd(), 'public', imagePath);
+    const srcAssetPath = path.join(process.cwd(), 'src', imagePath.slice(1));
     fullPath = existsSync(publicPath) ? publicPath : srcAssetPath;
   } else {
     fullPath = imagePath;
@@ -62,15 +60,14 @@ export const createBlur = cache(
     try {
       const buffer = await loadBuffer(imagePath);
       const { data, info } = await sharp(buffer)
-        .resize(width, height, { fit: "inside" })
+        .resize(width, height, { fit: 'inside' })
         .blur(blur)
         .toBuffer({ resolveWithObject: true });
 
-      return `data:image/${info.format};base64,${data.toString("base64")}`;
+      return `data:image/${info.format};base64,${data.toString('base64')}`;
     } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : "Unknown error";
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       throw new Error(`createBlur failed: ${errorMessage}`);
     }
-  },
+  }
 );

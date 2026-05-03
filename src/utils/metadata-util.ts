@@ -1,12 +1,12 @@
-import { METADATA } from "@constants/metadata.constants";
-import type { Metadata } from "next";
+import type { Metadata } from 'next';
+import { METADATA } from '@/constants/metadata.constants';
 
 interface GeneratePageMetadataParams {
   title?: string;
   description?: string;
   path?: string;
   image?: string;
-  type?: "website" | "article";
+  type?: 'website' | 'article';
   openGraph?: {
     publishedTime?: string;
     modifiedTime?: string;
@@ -18,23 +18,19 @@ interface GeneratePageMetadataParams {
 export const generatePageMetadata = ({
   title = METADATA.SITE.NAME,
   description = METADATA.SITE.DESCRIPTION,
-  path = "",
+  path = '',
   image = METADATA.SITE.PREVIEW_IMAGE,
-  type = "website",
+  type = 'website',
   openGraph,
 }: GeneratePageMetadataParams): Metadata => {
   const url = `${METADATA.SITE.URL}${path}`;
 
   return {
-    title:
-      title === METADATA.SITE.NAME ? title : `${title} - ${METADATA.SITE.NAME}`,
+    title: title === METADATA.SITE.NAME ? title : `${title} - ${METADATA.SITE.NAME}`,
     description,
     metadataBase: new URL(METADATA.SITE.URL),
     openGraph: {
-      title:
-        title === METADATA.SITE.NAME
-          ? title
-          : `${title} - ${METADATA.SITE.NAME}`,
+      title: title === METADATA.SITE.NAME ? title : `${title} - ${METADATA.SITE.NAME}`,
       description,
       url,
       siteName: METADATA.SITE.NAME,
@@ -46,7 +42,7 @@ export const generatePageMetadata = ({
         },
       ],
       type,
-      ...(type === "article" &&
+      ...(type === 'article' &&
         openGraph && {
           publishedTime: openGraph.publishedTime,
           modifiedTime: openGraph.modifiedTime,
@@ -55,11 +51,8 @@ export const generatePageMetadata = ({
         }),
     },
     twitter: {
-      card: "summary_large_image",
-      title:
-        title === METADATA.SITE.NAME
-          ? title
-          : `${title} - ${METADATA.SITE.NAME}`,
+      card: 'summary_large_image',
+      title: title === METADATA.SITE.NAME ? title : `${title} - ${METADATA.SITE.NAME}`,
       description,
       images: [image],
     },
@@ -69,15 +62,15 @@ export const generatePageMetadata = ({
       googleBot: {
         index: true,
         follow: true,
-        "max-video-preview": -1,
-        "max-image-preview": "large",
-        "max-snippet": -1,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
       },
     },
     alternates: {
       canonical: url,
     },
-    generator: "Next.js",
+    generator: 'Next.js',
     applicationName: METADATA.SITE.NAME,
     creator: METADATA.AUTHOR.NAME,
     publisher: METADATA.AUTHOR.NAME,

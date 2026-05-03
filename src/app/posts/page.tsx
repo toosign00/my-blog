@@ -1,11 +1,11 @@
-import { Pagination } from "@components/ui/pagination";
-import { PostList } from "@components/ui/postList";
-import { ROUTES } from "@constants/menu.constants";
-import { POST } from "@constants/metadata.constants";
-import { generatePageMetadata } from "@utils/metadata-util";
-import { parsePageParam } from "@utils/page-param-util";
-import { getAllPosts } from "@utils/post-util";
-import type { Metadata } from "next";
+import type { Metadata } from 'next';
+import { Pagination } from '@/components/ui/pagination';
+import { PostList } from '@/components/ui/postList';
+import { ROUTES } from '@/constants/menu.constants';
+import { POST } from '@/constants/metadata.constants';
+import { generatePageMetadata } from '@/utils/metadata-util';
+import { parsePageParam } from '@/utils/page-param-util';
+import { getAllPosts } from '@/utils/post-util';
 
 interface PostsPageProps {
   searchParams: Promise<{ page: string }>;
@@ -22,7 +22,7 @@ const PostsPage = async ({ searchParams }: PostsPageProps) => {
 
   return (
     <>
-      <h1 className="h3 mb-7.5 text-gray-light">Posts ({allPosts.length})</h1>
+      <h1 className='h3 mb-7.5 text-gray-light'>Posts ({allPosts.length})</h1>
 
       <PostList posts={currentPosts} />
 
@@ -46,14 +46,12 @@ export const generateStaticParams = async () => {
   }));
 };
 
-export const generateMetadata = async ({
-  searchParams,
-}: PostsPageProps): Promise<Metadata> => {
+export const generateMetadata = async ({ searchParams }: PostsPageProps): Promise<Metadata> => {
   const { page } = await searchParams;
   const current = parsePageParam(page);
 
   return generatePageMetadata({
-    title: current === 1 ? "Posts" : `Posts - Page ${current}`,
+    title: current === 1 ? 'Posts' : `Posts - Page ${current}`,
     path: current === 1 ? ROUTES.POSTS : `${ROUTES.POSTS}/p/${current}`,
   });
 };

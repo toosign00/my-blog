@@ -1,36 +1,31 @@
-import { ROUTES } from "@constants/menu.constants";
-import { METADATA, POST } from "@constants/metadata.constants";
-import { getAllPosts } from "@utils/post-util";
-import { slugify } from "@utils/text-util";
-import type { MetadataRoute } from "next";
+import type { MetadataRoute } from 'next';
+import { ROUTES } from '@/constants/menu.constants';
+import { METADATA, POST } from '@/constants/metadata.constants';
+import { getAllPosts } from '@/utils/post-util';
+import { slugify } from '@/utils/text-util';
 
-export const dynamic = "force-static";
+export const dynamic = 'force-static';
 export const revalidate = false;
 
 const generateSitemapUrls = async (): Promise<MetadataRoute.Sitemap> => {
   const posts = await getAllPosts();
   const postsPageCount = Math.ceil(posts.length / POST.PER_PAGE);
 
-  const categoryCountMap = posts.reduce<Record<string, number>>(
-    (map, { category }) => {
-      map[category] = (map[category] || 0) + 1;
-      return map;
-    },
-    {},
-  );
+  const categoryCountMap = posts.reduce<Record<string, number>>((map, { category }) => {
+    map[category] = (map[category] || 0) + 1;
+    return map;
+  }, {});
 
-  const categoryUrls = Object.entries(categoryCountMap).flatMap(
-    ([category, count]) => {
-      const categorySlug = slugify(category);
-      const categoryPages = Math.ceil(count / POST.PER_PAGE);
-      return [
-        { url: `${METADATA.SITE.URL}${ROUTES.CATEGORIES}/${categorySlug}` },
-        ...Array.from({ length: categoryPages }, (_, pageIndex) => ({
-          url: `${METADATA.SITE.URL}${ROUTES.CATEGORIES}/${categorySlug}/p/${pageIndex + 1}`,
-        })),
-      ];
-    },
-  );
+  const categoryUrls = Object.entries(categoryCountMap).flatMap(([category, count]) => {
+    const categorySlug = slugify(category);
+    const categoryPages = Math.ceil(count / POST.PER_PAGE);
+    return [
+      { url: `${METADATA.SITE.URL}${ROUTES.CATEGORIES}/${categorySlug}` },
+      ...Array.from({ length: categoryPages }, (_, pageIndex) => ({
+        url: `${METADATA.SITE.URL}${ROUTES.CATEGORIES}/${categorySlug}/p/${pageIndex + 1}`,
+      })),
+    ];
+  });
 
   const tagCountMap = posts.reduce<Record<string, number>>((map, { tags }) => {
     for (const tag of tags ?? []) {
@@ -53,7 +48,7 @@ const generateSitemapUrls = async (): Promise<MetadataRoute.Sitemap> => {
   return [
     {
       url: METADATA.SITE.URL,
-      changeFrequency: "daily",
+      changeFrequency: 'daily',
       priority: 1,
     },
     { url: `${METADATA.SITE.URL}${ROUTES.ABOUT}` },
@@ -68,14 +63,14 @@ const generateSitemapUrls = async (): Promise<MetadataRoute.Sitemap> => {
     ...posts.map(({ slug, modifiedAt, createdAt }) => ({
       url: `${METADATA.SITE.URL}${ROUTES.POSTS}/${slug}`,
       lastModified: modifiedAt ?? createdAt,
-      changeFrequency: "monthly",
+      changeFrequency: 'monthly',
       priority: 0.9,
     })),
   ];
 };
 
 const sitemapToXml = (
-  urls: MetadataRoute.Sitemap,
+  urls: MetadataRoute.Sitemap
 ): string => `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urls
@@ -90,19 +85,19 @@ ${urls
               ? item.lastModified.toISOString()
               : new Date(item.lastModified).toISOString()
           }</lastmod>`
-        : ""
+        : ''
     }
-    ${item.changeFrequency ? `<changefreq>${item.changeFrequency}</changefreq>` : ""}
-    ${item.priority ? `<priority>${item.priority}</priority>` : ""}
-  </url>`,
+    ${item.changeFrequency ? `<changefreq>${item.changeFrequency}</changefreq>` : ''}
+    ${item.priority ? `<priority>${item.priority}</priority>` : ''}
+  </url>`
   )
-  .join("")}
+  .join('')}
 </urlset>`;
 
 export const GET = async (): Promise<Response> => {
   const urls = await generateSitemapUrls();
   const xml = sitemapToXml(urls);
   return new Response(xml, {
-    headers: { "Content-Type": "text/xml; charset=utf-8" },
+    headers: { 'Content-Type': 'text/xml; charset=utf-8' },
   });
 };

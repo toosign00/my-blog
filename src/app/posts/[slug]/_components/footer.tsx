@@ -1,34 +1,31 @@
-"use client";
+'use client';
 
-import { ShareIcon } from "@components/icons/ShareIcon";
-import { ROUTES } from "@constants/menu.constants";
-import { METADATA } from "@constants/metadata.constants";
-import { toast } from "sonner";
+import { toast } from 'sonner';
+import { ShareIcon } from '@/components/icons/ShareIcon';
+import { ROUTES } from '@/constants/menu.constants';
+import { METADATA } from '@/constants/metadata.constants';
 
-import type { Post } from "@/types/content.types";
-import { BackButton } from "./back-button";
+import type { Post } from '@/types/content.types';
+import { BackButton } from './back-button';
 
 export const Footer = ({ slug, title, subtitle }: Post) => {
   const copyText = async (text: string): Promise<boolean> => {
     try {
-      if (
-        navigator.clipboard &&
-        typeof navigator.clipboard.writeText === "function"
-      ) {
+      if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
         await navigator.clipboard.writeText(text);
         return true;
       }
 
-      const textarea = document.createElement("textarea");
+      const textarea = document.createElement('textarea');
       textarea.value = text;
-      textarea.setAttribute("readonly", "");
-      textarea.style.position = "fixed";
-      textarea.style.left = "-9999px";
-      textarea.style.top = "-9999px";
+      textarea.setAttribute('readonly', '');
+      textarea.style.position = 'fixed';
+      textarea.style.left = '-9999px';
+      textarea.style.top = '-9999px';
       document.body.appendChild(textarea);
       textarea.select();
 
-      const ok = document.execCommand("copy");
+      const ok = document.execCommand('copy');
       document.body.removeChild(textarea);
       return ok;
     } catch {
@@ -44,10 +41,9 @@ export const Footer = ({ slug, title, subtitle }: Post) => {
     };
 
     const canShare =
-      typeof navigator !== "undefined" &&
-      typeof navigator.share === "function" &&
-      (typeof navigator.canShare !== "function" ||
-        navigator.canShare(shareData));
+      typeof navigator !== 'undefined' &&
+      typeof navigator.share === 'function' &&
+      (typeof navigator.canShare !== 'function' || navigator.canShare(shareData));
 
     let shared = false;
 
@@ -66,21 +62,21 @@ export const Footer = ({ slug, title, subtitle }: Post) => {
 
     const copied = await copyText(shareData.url);
     if (!copied) {
-      window.open(shareData.url, "_blank", "noopener,noreferrer");
+      window.open(shareData.url, '_blank', 'noopener,noreferrer');
       return;
     }
 
-    toast.success("링크가 클립보드에 복사되었어요");
+    toast.success('링크가 클립보드에 복사되었어요');
   };
 
   return (
-    <footer className="row-between">
+    <footer className='row-between'>
       <BackButton />
       <button
-        aria-label="Share this post"
-        className="center-y h3 w-fit cursor-pointer select-none gap-2 py-1.25 pr-2.25 text-gray-accent opacity-100 transition-opacity duration-150 ease-in-out hover:opacity-70"
+        aria-label='Share this post'
+        className='center-y h3 w-fit cursor-pointer select-none gap-2 py-1.25 pr-2.25 text-gray-accent opacity-100 transition-opacity duration-150 ease-in-out hover:opacity-70'
         onClick={handleShare}
-        type="button"
+        type='button'
       >
         Share this post
         <ShareIcon size={18} />

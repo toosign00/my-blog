@@ -1,20 +1,16 @@
-import { Divider } from "@components/ui/divider";
-import { ROUTES } from "@constants/menu.constants";
-import { METADATA } from "@constants/metadata.constants";
-import { generatePageMetadata } from "@utils/metadata-util";
-import {
-  getAllPosts,
-  getPostBySlug,
-  getPostPageDataBySlug,
-} from "@utils/post-util";
-import type { Metadata } from "next";
-import { notFound } from "next/navigation";
-import type { Post } from "@/types/content.types";
-import { BackButton } from "./_components/back-button";
-import { Footer } from "./_components/footer";
-import { Giscus } from "./_components/giscus";
-import { Header } from "./_components/header";
-import { Recommend } from "./_components/recommend";
+import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
+import { Divider } from '@/components/ui/divider';
+import { ROUTES } from '@/constants/menu.constants';
+import { METADATA } from '@/constants/metadata.constants';
+import type { Post } from '@/types/content.types';
+import { generatePageMetadata } from '@/utils/metadata-util';
+import { getAllPosts, getPostBySlug, getPostPageDataBySlug } from '@/utils/post-util';
+import { BackButton } from './_components/back-button';
+import { Footer } from './_components/footer';
+import { Giscus } from './_components/giscus';
+import { Header } from './_components/header';
+import { Recommend } from './_components/recommend';
 
 interface PostPageProps {
   params: Promise<{ slug: string }>;
@@ -25,8 +21,8 @@ const RECOMMEND_COUNT = 4;
 const PostPage = async ({ params }: PostPageProps) => {
   const { slug } = await params;
 
-  let MDXContent: Awaited<ReturnType<typeof getPostPageDataBySlug>>["content"];
-  let post: Awaited<ReturnType<typeof getPostPageDataBySlug>>["post"];
+  let MDXContent: Awaited<ReturnType<typeof getPostPageDataBySlug>>['content'];
+  let post: Awaited<ReturnType<typeof getPostPageDataBySlug>>['post'];
   try {
     const pageData = await getPostPageDataBySlug(slug);
     MDXContent = pageData.content;
@@ -45,13 +41,13 @@ const PostPage = async ({ params }: PostPageProps) => {
         <Header {...post} />
         <MDXContent />
 
-        {post.comments && <Giscus className="mt-14" />}
+        {post.comments && <Giscus className='mt-14' />}
 
-        <Divider className="mb-14" />
+        <Divider className='mb-14' />
         <Footer {...post} />
       </article>
 
-      <Divider className="my-14" />
+      <Divider className='my-14' />
       <Recommend posts={getRecommendedPosts(allPosts, slug)} />
     </>
   );
@@ -59,9 +55,7 @@ const PostPage = async ({ params }: PostPageProps) => {
 
 export default PostPage;
 
-export const generateMetadata = async ({
-  params,
-}: PostPageProps): Promise<Metadata> => {
+export const generateMetadata = async ({ params }: PostPageProps): Promise<Metadata> => {
   const { slug } = await params;
 
   try {
@@ -72,7 +66,7 @@ export const generateMetadata = async ({
       description: post.subtitle,
       path: `${ROUTES.POSTS}/${slug}`,
       image: post.coverImage,
-      type: "article",
+      type: 'article',
       openGraph: {
         publishedTime: post.createdAt,
         modifiedTime: post.modifiedAt,
@@ -108,8 +102,7 @@ const getRecommendedPosts = (posts: Post[], slug: string): Post[] => {
   if (recommended.length < RECOMMEND_COUNT) {
     const need = RECOMMEND_COUNT - recommended.length;
     const isFront = currentIndex < posts.length / 2;
-    const isIncluded = (post: Post) =>
-      recommended.some((p) => p.slug === post.slug);
+    const isIncluded = (post: Post) => recommended.some((p) => p.slug === post.slug);
 
     if (isFront) {
       const more = sliceClamped(currentIndex + 3, currentIndex + 3 + need * 2)

@@ -22,43 +22,43 @@ export interface ActivityItem {
 
 const formatEvent = (event: GitHubEvent): ActivityItem | null => {
   const repoFull = event.repo.name;
-  const repo = repoFull.split("/")[1];
+  const repo = repoFull.split('/')[1];
   const baseUrl = `https://github.com/${repoFull}`;
 
   switch (event.type) {
-    case "PushEvent": {
+    case 'PushEvent': {
       const count = event.payload.commits?.length ?? 0;
-      const message = event.payload.commits?.[0]?.message ?? "";
+      const message = event.payload.commits?.[0]?.message ?? '';
       return {
-        type: "push",
+        type: 'push',
         repo,
         message: count > 1 ? `${message} 외 ${count - 1}개` : message,
         url: `${baseUrl}/commits`,
         createdAt: event.created_at,
       };
     }
-    case "CreateEvent":
-      if (event.payload.ref_type === "branch") {
+    case 'CreateEvent':
+      if (event.payload.ref_type === 'branch') {
         return {
-          type: "branch",
+          type: 'branch',
           repo,
-          message: event.payload.ref ?? "",
+          message: event.payload.ref ?? '',
           url: `${baseUrl}/tree/${event.payload.ref}`,
           createdAt: event.created_at,
         };
       }
       return null;
-    case "PullRequestEvent":
+    case 'PullRequestEvent':
       return {
-        type: "pr",
+        type: 'pr',
         repo,
-        message: event.payload.pull_request?.title ?? "",
+        message: event.payload.pull_request?.title ?? '',
         url: event.payload.pull_request?.html_url ?? baseUrl,
         createdAt: event.created_at,
       };
-    case "WatchEvent":
+    case 'WatchEvent':
       return {
-        type: "star",
+        type: 'star',
         repo,
         message: repo,
         url: baseUrl,
@@ -69,27 +69,22 @@ const formatEvent = (event: GitHubEvent): ActivityItem | null => {
   }
 };
 
-export const fetchRecentGitHubActivities = async (): Promise<
-  ActivityItem[]
-> => {
+export const fetchRecentGitHubActivities = async (): Promise<ActivityItem[]> => {
   const token = process.env.GITHUB_PERSONAL_ACCESS_TOKEN;
   if (!token) {
-    throw new Error("Missing GITHUB_PERSONAL_ACCESS_TOKEN");
+    throw new Error('Missing GITHUB_PERSONAL_ACCESS_TOKEN');
   }
 
-  const res = await fetch(
-    "https://api.github.com/users/toosign00/events/public?per_page=30",
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        Accept: "application/vnd.github+json",
-      },
-      next: { revalidate: GITHUB_ACTIVITY_REVALIDATE_SECONDS },
+  const res = await fetch('https://api.github.com/users/toosign00/events/public?per_page=30', {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: 'application/vnd.github+json',
     },
-  );
+    next: { revalidate: GITHUB_ACTIVITY_REVALIDATE_SECONDS },
+  });
 
   if (!res.ok) {
-    throw new Error("Failed to fetch GitHub activities");
+    throw new Error('Failed to fetch GitHub activities');
   }
 
   const events = (await res.json()) as GitHubEvent[];

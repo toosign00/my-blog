@@ -1,8 +1,8 @@
-import { readdir } from "node:fs/promises";
-import type { ComponentType } from "react";
-import { cache } from "react";
-import { PATHS } from "@/constants/paths.constants";
-import type { Post, PostMetadata } from "@/types/content.types";
+import { readdir } from 'node:fs/promises';
+import type { ComponentType } from 'react';
+import { cache } from 'react';
+import { PATHS } from '@/constants/paths.constants';
+import type { Post, PostMetadata } from '@/types/content.types';
 
 interface PostModule {
   default: ComponentType;
@@ -11,11 +11,11 @@ interface PostModule {
 
 interface PostPageData {
   post: Post;
-  content: PostModule["default"];
+  content: PostModule['default'];
 }
 
 const resolveCoverImage = (slug: string, coverImage: string): string => {
-  if (coverImage.startsWith("https://")) {
+  if (coverImage.startsWith('https://')) {
     return coverImage;
   }
   return `/covers/${slug}/${coverImage}`;
@@ -42,9 +42,7 @@ export const getAllPosts = cache(async (): Promise<Post[]> => {
     }
 
     const slug = entry.name;
-    const postModule = (await import(
-      `@/app/posts/_articles/${slug}/post.mdx`
-    )) as PostModule;
+    const postModule = (await import(`@/app/posts/_articles/${slug}/post.mdx`)) as PostModule;
     if (!postModule.metadata) {
       throw new Error(`Missing \`metadata\` in ${slug}/post.mdx`);
     }
@@ -61,13 +59,9 @@ export const getPostBySlug = async (slug: string): Promise<Post> => {
   return post;
 };
 
-export const getPostPageDataBySlug = async (
-  slug: string,
-): Promise<PostPageData> => {
+export const getPostPageDataBySlug = async (slug: string): Promise<PostPageData> => {
   try {
-    const postModule = (await import(
-      `@/app/posts/_articles/${slug}/post.mdx`
-    )) as PostModule;
+    const postModule = (await import(`@/app/posts/_articles/${slug}/post.mdx`)) as PostModule;
 
     if (!postModule.metadata) {
       throw new Error(`Missing \`metadata\` in ${slug}/post.mdx`);
