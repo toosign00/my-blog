@@ -1,42 +1,51 @@
-"use client";
+'use client';
 
-import { useEffect, useRef, useState } from "react";
-import { twMerge } from "tailwind-merge";
+import Image, { type ImageProps } from 'next/image';
+import type { CSSProperties } from 'react';
+import { useState } from 'react';
+import { twMerge } from 'tailwind-merge';
 
-type LazyImageProps = React.ImgHTMLAttributes<HTMLImageElement> & {
+export type LazyImageProps = {
   src: string;
   alt: string;
+  className?: string;
+  draggable?: boolean;
+  title?: string;
+  style?: CSSProperties;
+  onLoadingComplete?: ImageProps['onLoadingComplete'];
 };
 
 export const LazyImage = ({
   src,
   alt,
   className,
-  ...props
+  draggable = false,
+  title,
+  style,
+  onLoadingComplete,
 }: LazyImageProps) => {
   const [isLoaded, setIsLoaded] = useState(false);
-  const imgRef = useRef<HTMLImageElement | null>(null);
-
-  useEffect(() => {
-    if (imgRef.current?.complete) {
-      setIsLoaded(true);
-    }
-  }, []);
 
   return (
-    <img
+    <Image
       alt={alt}
       className={twMerge(
-        "transition-opacity duration-500",
-        isLoaded ? "opacity-100" : "opacity-0",
-        className,
+        'h-auto max-w-full transition-opacity duration-500',
+        isLoaded ? 'opacity-100' : 'opacity-0',
+        className
       )}
-      decoding="async"
-      loading="lazy"
-      onLoad={() => setIsLoaded(true)}
-      ref={imgRef}
+      draggable={draggable}
+      height={800}
+      onLoadingComplete={(img) => {
+        setIsLoaded(true);
+        onLoadingComplete?.(img);
+      }}
+      sizes='(max-width: 768px) 100vw, 1200px'
       src={src}
-      {...props}
+      style={style}
+      title={title}
+      unoptimized
+      width={1200}
     />
   );
 };
