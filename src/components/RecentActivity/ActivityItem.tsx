@@ -1,3 +1,6 @@
+'use client';
+
+import { AfterMount } from '@/components/AfterMount';
 import type { ActivityItem as ActivityItemType } from '@/utils/github-activity-util';
 
 const TYPE_ICON: Record<string, string> = {
@@ -37,7 +40,7 @@ export const ActivityItem = ({ type, repo, message, url, createdAt }: ActivityIt
         <div className='column min-w-0 flex-1'>
           <p className='h6 truncate font-medium text-gray-accent'>{message || repo}</p>
           <p className='h7 text-gray-light'>
-            {repo} · {formatRelative(createdAt)}
+            {repo} · <AfterMount>{formatRelative(createdAt)}</AfterMount>
           </p>
         </div>
       </a>
