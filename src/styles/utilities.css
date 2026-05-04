@@ -15,7 +15,6 @@
     border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
     background-color: var(--color-toggle);
-    box-shadow: var(--shadow-inset-soft);
   }
 
   .ui-button {
