@@ -1,9 +1,10 @@
 import Image from 'next/image';
-import { Suspense } from 'react';
 import { METADATA } from '@/constants/metadata.constants';
 import { PROFILE } from '@/constants/profile.constants';
 import { createBlur } from '@/utils/blur-util';
-import { ActivityServer } from '../RecentActivity/ActivityServer';
+import type { ActivityItem } from '@/utils/github-activity-util';
+import { fetchRecentGitHubActivities } from '@/utils/github-activity-util';
+import { RecentActivity } from '../RecentActivity';
 import Card from './Card';
 
 const authorProfileDetails = [
@@ -17,22 +18,15 @@ const authorProfileDetails = [
   },
 ] as const;
 
-const ActivityFallback = () => (
-  <div className='column h-full w-full overflow-hidden'>
-    <div className='row-between shrink-0 px-5 pt-4 pb-2'>
-      <p className='h6 font-medium text-gray-light'>Recent Activity</p>
-      <div className='h-6 w-14 animate-pulse rounded-sm bg-border' />
-    </div>
-    <div className='column h-full w-full gap-2.5 px-5 pb-4'>
-      {['s0', 's1', 's2', 's3'].map((k) => (
-        <div key={k} className='h-3.5 w-full animate-pulse rounded-sm bg-border' />
-      ))}
-    </div>
-  </div>
-);
-
 export const ProfileGrid = async () => {
   const blurDataURL = await createBlur(METADATA.AUTHOR.PROFILE_IMAGE);
+  let activities: ActivityItem[] = [];
+
+  try {
+    activities = await fetchRecentGitHubActivities();
+  } catch {
+    activities = [];
+  }
 
   return (
     <section
@@ -100,9 +94,7 @@ export const ProfileGrid = async () => {
       <div className='column w-full'>
         <h3 className='h3 text-gray-light'>Activity</h3>
         <Card.Root>
-          <Suspense fallback={<ActivityFallback />}>
-            <ActivityServer />
-          </Suspense>
+          <RecentActivity initialActivities={activities} />
         </Card.Root>
       </div>
     </section>
