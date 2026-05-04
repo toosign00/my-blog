@@ -18,7 +18,7 @@ export const PostGrid = ({ posts, className, ...props }: PostGridProps) => {
       className={twMerge('grid w-full grid-cols-1 tablet:grid-cols-2 gap-16', className)}
       {...props}
     >
-      {posts.map(({ _id, slug, title, coverImage, createdAt }) => {
+      {posts.map(({ _id, slug, title, coverImage, createdAt }, index) => {
         return (
           <Link
             aria-label={`Read post: ${title}`}
@@ -32,7 +32,7 @@ export const PostGrid = ({ posts, className, ...props }: PostGridProps) => {
                 className='h-full w-full object-cover object-center'
                 draggable={false}
                 fill
-                priority={false}
+                priority={index === 0}
                 quality={100}
                 sizes='(max-width: 60rem) 100vw, (max-width: 80rem) calc(50vw - 9rem), 22rem'
                 src={coverImage}

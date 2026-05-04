@@ -15,7 +15,7 @@ type PostListProps = ComponentProps<'ul'> & {
 export const PostList = ({ posts, className, ...props }: PostListProps) => {
   return (
     <ul className={twMerge('column list-none gap-7.5', className)} {...props}>
-      {posts.map(({ _id, slug, title, subtitle, coverImage, category, createdAt }) => (
+      {posts.map(({ _id, slug, title, subtitle, coverImage, category, createdAt }, index) => (
         <li key={_id}>
           <Link
             aria-label={`Read post: ${title}`}
@@ -32,7 +32,7 @@ export const PostList = ({ posts, className, ...props }: PostListProps) => {
                 className='h-full w-full object-cover object-center'
                 draggable={false}
                 fill
-                priority={false}
+                priority={index === 0}
                 quality={100}
                 sizes='(max-width: 59.9375rem) 100vw, 21.625rem'
                 src={coverImage}
