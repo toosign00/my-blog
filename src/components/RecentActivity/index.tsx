@@ -10,10 +10,10 @@ interface RecentActivityProps {
 }
 
 export const RecentActivity = ({ initialActivities }: RecentActivityProps) => {
-  const [activities] = useState<ActivityItem[]>(initialActivities);
   const [filter, setFilter] = useState<FilterType>('all');
 
-  const filtered = filter === 'all' ? activities : activities.filter((a) => a.type === filter);
+  const filtered =
+    filter === 'all' ? initialActivities : initialActivities.filter((a) => a.type === filter);
 
   return (
     <div className='column h-full w-full overflow-hidden'>
