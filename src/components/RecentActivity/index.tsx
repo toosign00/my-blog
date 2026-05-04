@@ -16,7 +16,7 @@ export const RecentActivity = ({ initialActivities }: RecentActivityProps) => {
     filter === 'all' ? initialActivities : initialActivities.filter((a) => a.type === filter);
 
   return (
-    <div className='column h-full w-full overflow-hidden'>
+    <div className='column h-full min-h-0 w-full overflow-hidden'>
       <ActivityFilter onChange={setFilter} value={filter} />
       <ActivityList activities={filtered} />
     </div>

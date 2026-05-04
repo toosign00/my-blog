@@ -173,6 +173,7 @@
   .subtle-scrollbar {
     scrollbar-width: thin;
     scrollbar-color: transparent transparent;
+    scrollbar-gutter: stable;
     transition: scrollbar-color 0.2s ease;
   }
 
@@ -196,5 +197,26 @@
 
   .subtle-scrollbar:hover::-webkit-scrollbar-thumb {
     background: var(--color-gray-light);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .subtle-scrollbar,
+    .subtle-scrollbar::-webkit-scrollbar-thumb {
+      transition: none;
+    }
+  }
+
+  @media (hover: none) and (any-pointer: coarse) {
+    .subtle-scrollbar,
+    .subtle-scrollbar:hover {
+      scrollbar-color: var(--color-gray-light) transparent;
+      transition: none;
+    }
+
+    .subtle-scrollbar::-webkit-scrollbar-thumb,
+    .subtle-scrollbar:hover::-webkit-scrollbar-thumb {
+      background: var(--color-gray-light);
+      transition: none;
+    }
   }
 }
