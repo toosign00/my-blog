@@ -7,7 +7,16 @@ const withMDX = createMDX({
   },
 });
 
+const securityHeaders = [
+  { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
+  { key: 'X-Content-Type-Options', value: 'nosniff' },
+  { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+];
+
 const nextConfig: NextConfig = {
+  async headers() {
+    return [{ source: '/(.*)', headers: securityHeaders }];
+  },
   pageExtensions: ['js', 'jsx', 'mdx', 'ts', 'tsx'],
   experimental: {
     mdxRs: {

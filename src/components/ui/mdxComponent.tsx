@@ -163,7 +163,7 @@ const Img = async ({ src, alt, ...props }: ImgProps) => {
         alt={alt ?? ''}
         draggable={false}
         placeholder='blur'
-        quality={95}
+        quality={100}
         src={image.default}
       />
     );
