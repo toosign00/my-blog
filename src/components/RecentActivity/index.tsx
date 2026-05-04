@@ -18,7 +18,7 @@ export const RecentActivity = ({ initialActivities }: RecentActivityProps) => {
   return (
     <div className='column h-full w-full overflow-hidden'>
       <ActivityFilter onChange={setFilter} value={filter} />
-      <ActivityList activities={filtered} loading={false} />
+      <ActivityList activities={filtered} />
     </div>
   );
 };
