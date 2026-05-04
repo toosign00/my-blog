@@ -13,8 +13,6 @@ import { METADATA } from '@/constants/metadata.constants';
 import { ThemeToggle } from '../ThemeToggle';
 import { NavigateMenu } from './NavigateMenu';
 
-const CURRENT_YEAR = new Date().getFullYear();
-
 export const Header = () => {
   const [accordionOpen, setAccordionOpen] = useState(false);
   const pathname = usePathname();
@@ -79,7 +77,8 @@ export const Header = () => {
                     <ThemeToggle />
                   </div>
                   <p className='h7 mt-10.75 w-full text-center text-license'>
-                    Copyright © {CURRENT_YEAR} {METADATA.AUTHOR.NAME}, All rights reserved.
+                    Copyright © <span suppressHydrationWarning>{new Date().getFullYear()}</span>{' '}
+                    {METADATA.AUTHOR.NAME}, All rights reserved.
                   </p>
                   <div className='row-between mx-auto max-w-30.5 mt-4 gap-2'>
                     <Link

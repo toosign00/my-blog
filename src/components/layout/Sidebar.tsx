@@ -8,8 +8,6 @@ import { METADATA } from '@/constants/metadata.constants';
 import { ThemeToggle } from '../ThemeToggle';
 import { NavigateMenu } from './NavigateMenu';
 
-const CURRENT_YEAR = new Date().getFullYear();
-
 export const Sidebar = () => {
   return (
     <aside
@@ -34,7 +32,8 @@ export const Sidebar = () => {
         <ThemeToggle />
         <div className='column w-full gap-1.5'>
           <p className='h6 w-full text-license'>
-            Copyright © {CURRENT_YEAR} {METADATA.AUTHOR.NAME}, All rights reserved.
+            Copyright © <span suppressHydrationWarning>{new Date().getFullYear()}</span>{' '}
+            {METADATA.AUTHOR.NAME}, All rights reserved.
           </p>
           <div className='row-between'>
             <Link
