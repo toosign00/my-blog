@@ -6,6 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import logoSvg from '@/assets/images/logo.svg';
 import { Divider } from '@/components/ui/divider';
 import { ROUTES } from '@/constants/menu.constants';
 import { METADATA } from '@/constants/metadata.constants';
@@ -47,7 +48,7 @@ export const Header = () => {
                 alt={METADATA.SITE.NAME}
                 className='h-3 w-10 shrink-0 border-0 rounded-none'
                 height={12}
-                src='/static/favicon.svg'
+                src={logoSvg}
                 width={40}
               />
             </Link>
