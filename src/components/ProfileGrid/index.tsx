@@ -21,6 +21,7 @@ const ActivityFallback = () => (
   <div className='column h-full w-full overflow-hidden'>
     <div className='row-between shrink-0 px-5 pt-4 pb-2'>
       <p className='h6 font-medium text-gray-light'>Recent Activity</p>
+      <div className='h-6 w-14 animate-pulse rounded-sm bg-border' />
     </div>
     <div className='column h-full w-full gap-2.5 px-5 pb-4'>
       {['s0', 's1', 's2', 's3'].map((k) => (
@@ -35,7 +36,7 @@ export const ProfileGrid = async () => {
 
   return (
     <section
-      aria-label={`${METADATA.AUTHOR.NAME}'s profile and playlist`}
+      aria-label={`${METADATA.AUTHOR.NAME}'s profile and recent activity`}
       className='grid w-full grid-cols-1 gap-16.25 tablet:grid-cols-2'
     >
       <div className='column w-full'>
