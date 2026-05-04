@@ -169,4 +169,32 @@
     font-weight: 500;
     font-size: 14px;
   }
+
+  .subtle-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+    transition: scrollbar-color 0.2s ease;
+  }
+
+  .subtle-scrollbar:hover {
+    scrollbar-color: var(--color-gray-light) transparent;
+  }
+
+  .subtle-scrollbar::-webkit-scrollbar {
+    width: 3px;
+  }
+
+  .subtle-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .subtle-scrollbar::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 999px;
+    transition: background 0.2s ease;
+  }
+
+  .subtle-scrollbar:hover::-webkit-scrollbar-thumb {
+    background: var(--color-gray-light);
+  }
 }

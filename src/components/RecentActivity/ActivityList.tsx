@@ -13,7 +13,7 @@ export const ActivityList = ({ activities }: ActivityListProps) => {
   }
 
   return (
-    <ul className='column h-full w-full gap-2 overflow-y-auto px-5 pb-4'>
+    <ul className='subtle-scrollbar column h-full w-full gap-2 overflow-y-auto px-5 pb-4'>
       {activities.map((activity) => (
         <ActivityItem key={activity.id} {...activity} />
       ))}
