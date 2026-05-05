@@ -16,7 +16,7 @@ export const ProfileCard = async () => {
       <h1 className='h3 text-gray-light'>About</h1>
       <section>
         <div
-          className='w-full p-7.5 rounded-t-2xl shadow-[inset_0_0.125rem_0.125rem_rgba(255,255,255,0.3)]'
+          className='w-full p-7.5 rounded-t-2xl'
           style={{ backgroundColor: ABOUT.profile.cardBackgroundColor }}
         >
           <div className='flex items-center gap-8'>
@@ -54,7 +54,7 @@ export const ProfileCard = async () => {
         <div className='flex flex-col tablet:flex-row w-full'>
           <ResumeDownloadButton
             fileUrl={ABOUT.profile.resumeUrl}
-            className='cursor-pointer relative overflow-hidden flex-1 flex items-center justify-center gap-2 px-4 py-3 hover:brightness-95 active:brightness-95 transition-all border-l border-b border-r border-t-0 border-white/5 rounded-none tablet:rounded-bl-2xl shadow-[inset_0_-0.125rem_0.125rem_rgba(255,255,255,0.3)]'
+            className='cursor-pointer relative overflow-hidden flex-1 flex items-center justify-center gap-2 px-4 py-3 hover:brightness-95 active:brightness-95 transition-all border-l border-b border-r border-t-0 border-white/5 rounded-none tablet:rounded-bl-2xl'
             style={{
               backgroundColor: ABOUT.profile.cardBackgroundColor,
               color: ABOUT.profile.contentTextColor,
@@ -68,7 +68,7 @@ export const ProfileCard = async () => {
           </ResumeDownloadButton>
           <ResumeDownloadButton
             fileUrl={ABOUT.profile.coverLetterUrl}
-            className='cursor-pointer relative overflow-hidden flex-1 flex items-center justify-center gap-2 px-4 py-3 hover:brightness-95 active:brightness-95 transition-all border-l border-b border-r border-t-0 tablet:border-l-0 border-white/10 rounded-b-2xl tablet:rounded-bl-none tablet:rounded-br-2xl shadow-[inset_0_-0.125rem_0.125rem_rgba(255,255,255,0.3)]'
+            className='cursor-pointer relative overflow-hidden flex-1 flex items-center justify-center gap-2 px-4 py-3 hover:brightness-95 active:brightness-95 transition-all border-l border-b border-r border-t-0 tablet:border-l-0 border-white/10 rounded-b-2xl tablet:rounded-bl-none tablet:rounded-br-2xl'
             style={{
               backgroundColor: ABOUT.profile.cardBackgroundColor,
               color: ABOUT.profile.contentTextColor,
