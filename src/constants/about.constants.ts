@@ -77,6 +77,7 @@ export const ABOUT = {
         { label: 'Confluence', icon: 'confluence' },
         { label: 'Slack', icon: 'slack' },
         { label: 'Notion', icon: 'notion' },
+        { label: 'Google Sheets', icon: 'googlesheets' },
         { label: 'Git', icon: 'git' },
         { label: 'GitHub', icon: 'github' },
         { label: 'Figma', icon: 'figma' },

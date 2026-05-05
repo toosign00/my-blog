@@ -8,6 +8,7 @@ import { FigmaIcon } from '@/components/icons/FigmaIcon';
 import { GeminiIcon } from '@/components/icons/GeminiIcon';
 import { GithubIcon } from '@/components/icons/GithubIcon';
 import { GitIcon } from '@/components/icons/GitIcon';
+import { GoogleSheetsIcon } from '@/components/icons/GoogleSheetsIcon';
 import { JavaScriptIcon } from '@/components/icons/JavaScriptIcon';
 import { JiraIcon } from '@/components/icons/JiraIcon';
 import { MySQLIcon } from '@/components/icons/MySQLIcon';
@@ -38,6 +39,7 @@ const ICON_MAP: Record<string, ComponentType<IconProps>> = {
   git: GitIcon,
   github: GithubIcon,
   figma: FigmaIcon,
+  googlesheets: GoogleSheetsIcon,
 };
 
 export const SkillsSection = () => {
