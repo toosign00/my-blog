@@ -87,7 +87,7 @@ export const LinkEmbed = ({
         href={url}
         target='_blank'
         rel='noopener noreferrer'
-        className='block w-full text-gray-bold hover:opacity-70 transition-opacity'
+        className='block w-full text-gray-bold transition-opacity hover:opacity-70'
         {...props}
       >
         🔗 {manualTitle || url}
@@ -128,7 +128,7 @@ export const LinkEmbed = ({
         href={url}
         target='_blank'
         rel='noopener noreferrer'
-        className='inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-border transition-colors duration-200 hover:bg-background03 group'
+        className='ui-chip group inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 transition-colors duration-200 hover:bg-background03'
         {...props}
       >
         {!faviconError && (
@@ -160,7 +160,7 @@ export const LinkEmbed = ({
             />
           </svg>
         )}
-        <span className='text-gray-bold text-sm group-hover:text-gray-bold transition-colors max-w-48 truncate'>
+        <span className='max-w-48 truncate text-gray-bold text-sm transition-colors group-hover:text-gray-accent'>
           {title}
         </span>
       </a>
@@ -175,7 +175,7 @@ export const LinkEmbed = ({
       className='block w-full no-underline border-0'
       {...props}
     >
-      <div className='group flex flex-col mobile:flex-row gap-4 p-4 border border-border rounded-xl bg-background hover:bg-gray-hover hover:-translate-y-0.5 transition-all duration-200 overflow-hidden'>
+      <div className='ui-card group flex flex-col gap-4 overflow-hidden rounded-xl p-4 transition-all duration-200 hover:-translate-y-0.5 hover:bg-gray-hover mobile:flex-row'>
         {thumbnail && !thumbnailError && (
           <div className='relative shrink-0 w-full mobile:w-32 aspect-video mobile:aspect-square overflow-hidden rounded-lg bg-background05'>
             <Image

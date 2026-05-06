@@ -43,7 +43,6 @@ const PostPage = async ({ params }: PostPageProps) => {
 
         {post.comments && <Giscus className='mt-14' />}
 
-        <Divider className='mb-14' />
         <Footer {...post} />
       </article>
 

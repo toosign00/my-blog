@@ -12,13 +12,22 @@ const H1 = (props: ComponentProps<'h1'>) => (
   <h1 className='mb-6 text-balance font-semibold text-gray-accent text-xl' {...props} />
 );
 const H2 = (props: ComponentProps<'h2'>) => (
-  <h2 className='mt-12 mb-6 text-balance font-semibold text-gray-accent text-lg' {...props} />
+  <h2
+    className='mt-12 mb-6 text-balance font-semibold text-gray-accent text-lg leading-tight tracking-[-0.01em]'
+    {...props}
+  />
 );
 const H3 = (props: ComponentProps<'h3'>) => (
-  <h3 className='mt-12 mb-6 text-balance font-semibold text-gray-accent' {...props} />
+  <h3
+    className='mt-12 mb-6 text-balance font-semibold text-gray-accent leading-tight tracking-[-0.01em]'
+    {...props}
+  />
 );
 const H4 = (props: ComponentProps<'h4'>) => (
-  <h4 className='mt-12 mb-6 text-balance font-semibold text-gray-accent text-base' {...props} />
+  <h4
+    className='mt-12 mb-6 text-balance font-semibold text-gray-accent text-base leading-snug'
+    {...props}
+  />
 );
 const UL = (props: ComponentProps<'ul'>) => (
   <ul className='mt-6 flex list-outside list-disc flex-col gap-2 pl-5' {...props} />
@@ -35,7 +44,7 @@ const A = ({ href, ...props }: AnchorProps) => (
   <Link
     className={twMerge(
       'break-keep underline decoration-from-font underline-offset-3 transition-colors duration-150',
-      'outline-offset-2 hover:opacity-80',
+      'text-gray-bold outline-offset-2 hover:text-gray-accent hover:opacity-80',
       href?.startsWith('https://') && 'external-link'
     )}
     draggable={false}
@@ -61,12 +70,13 @@ const P = (props: ComponentProps<'p'>) => (
 const Blockquote = (props: ComponentProps<'blockquote'>) => (
   <blockquote
     className='column -ml-6 rounded-md border border-border bg-background02 p-4 pl-6 sm:-ml-10 sm:pl-10 md:-ml-14 md:pl-14'
+    style={{ borderLeftWidth: '3px' }}
     {...props}
   />
 );
 
 const Pre = (props: ComponentProps<'pre'>) => (
-  <pre className='mt-6 whitespace-pre md:whitespace-pre-wrap' {...props} />
+  <pre className='mt-6 whitespace-pre md:whitespace-pre-wrap md:leading-relaxed' {...props} />
 );
 
 type CodeProps = ComponentProps<'code'> & {
@@ -227,7 +237,7 @@ function TableRow({ row, bordered }: { row: string[]; bordered: boolean }) {
 }
 
 const Table = ({ headers, rows }: TableProps) => (
-  <div className='mt-6 w-full overflow-x-auto rounded-lg border border-border'>
+  <div className='ui-card mt-6 w-full overflow-x-auto rounded-lg'>
     <table className='w-full border-collapse text-sm'>
       <thead>
         <tr>

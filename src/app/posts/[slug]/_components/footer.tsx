@@ -70,11 +70,11 @@ export const Footer = ({ slug, title, subtitle }: Post) => {
   };
 
   return (
-    <footer className='row-between'>
+    <footer className='row-between mt-14 flex-wrap gap-2'>
       <BackButton />
       <button
         aria-label='Share this post'
-        className='section-action-chip-strong w-fit cursor-pointer select-none'
+        className='center-y h3 w-fit cursor-pointer select-none gap-2 py-1.25 pr-2.25 text-gray-accent opacity-100 transition-opacity duration-150 ease-in-out hover:opacity-70'
         onClick={handleShare}
         type='button'
       >

@@ -36,6 +36,8 @@
   [data-mdx-article] :is(h2, h3, h4, h5, h6) {
     color: var(--color-gray-accent);
     font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.35;
     scroll-margin-top: 67px;
   }
 
@@ -71,16 +73,17 @@
   }
 
   [data-mdx-article] a {
-    color: var(--color-gray-bold);
+    color: var(--color-primary);
     text-decoration: none;
     line-height: 180%;
     border-bottom: 1px solid var(--color-background06);
     opacity: 1;
-    transition: opacity 150ms ease-in-out;
+    transition: opacity 150ms ease-in-out, border-color 150ms ease-in-out;
   }
 
   [data-mdx-article] a:hover {
     opacity: 0.7;
+    border-color: var(--color-primary-focus);
   }
 
   [data-mdx-article] a[target="_blank"]::after {
