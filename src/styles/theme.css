@@ -100,6 +100,13 @@
     rgba(217, 219, 231, 0) 100%
   );
 
+  /* Activity heatmap colors (light) */
+  --activity-0: #ebedf0;
+  --activity-1: rgba(49, 130, 246, 0.25);
+  --activity-2: rgba(49, 130, 246, 0.50);
+  --activity-3: rgba(49, 130, 246, 0.75);
+  --activity-4: #3182f6;
+
   /* Callout styles (light) */
   --callout-bg: rgba(0, 0, 0, 0.015);
   --callout-border: var(--color-border);
@@ -153,6 +160,13 @@
     #36363a 0%,
     rgba(61, 61, 67, 0) 100%
   );
+
+  /* Activity heatmap colors (dark) */
+  --activity-0: #2d2d2d;
+  --activity-1: rgba(49, 130, 246, 0.25);
+  --activity-2: rgba(49, 130, 246, 0.50);
+  --activity-3: rgba(49, 130, 246, 0.75);
+  --activity-4: #3182f6;
 
   /* Callout styles (dark) */
   --callout-bg: rgba(255, 255, 255, 0.02);

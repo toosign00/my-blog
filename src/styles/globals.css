@@ -182,6 +182,26 @@
   .video-wrapper {
     @apply mt-6 mx-auto w-full border border-border rounded-lg;
   }
+
+  .github-heatmap-wrapper > article {
+    width: 100% !important;
+    max-width: none !important;
+  }
+
+  .github-heatmap-wrapper > article > div {
+    width: 100% !important;
+  }
+
+  .github-heatmap-wrapper svg {
+    width: 100% !important;
+    height: auto !important;
+    display: block !important;
+    overflow: visible;
+  }
+
+  .github-heatmap-wrapper footer {
+    display: none !important;
+  }
 }
 
 @supports (view-transition-name: none) {
