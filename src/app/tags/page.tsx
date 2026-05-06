@@ -32,7 +32,7 @@ const TagListPage = async () => {
           <ul className='m-0 grid list-none grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-4 p-0'>
             {tags.map((tag) => (
               <li
-                className='rounded-sm border border-background03 bg-background02 transition-colors duration-150 ease-in-out hover:bg-background04'
+                className='ui-card rounded-sm transition-colors duration-150 ease-in-out hover:bg-background02'
                 key={tag}
               >
                 <Link

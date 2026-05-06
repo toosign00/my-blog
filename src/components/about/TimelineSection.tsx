@@ -35,7 +35,7 @@ const ExternalLinkIcon = () => (
 export const TimelineSection = ({ heading, items }: TimelineSectionProps) => {
   return (
     <section className='column gap-6'>
-      <h3 className='h3 text-gray-light'>{heading}</h3>
+      <h3 className='section-heading'>{heading}</h3>
       <ul className='column gap-8'>
         {items.map((item) => (
           <li key={item.title} className='flex flex-col gap-2'>

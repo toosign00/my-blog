@@ -45,7 +45,7 @@ const ICON_MAP: Record<string, ComponentType<IconProps>> = {
 export const SkillsSection = () => {
   return (
     <section className='column gap-6'>
-      <h3 className='h3 text-gray-light'>Tools & Skills</h3>
+      <h3 className='section-heading'>Tools & Skills</h3>
       <div className='column gap-6'>
         {ABOUT.skills.map((group) => (
           <div key={group.category} className='column gap-3'>

@@ -3,7 +3,7 @@ import { ABOUT } from '@/constants/about.constants';
 export const EducationSection = () => {
   return (
     <section className='column gap-6'>
-      <h3 className='h3 text-gray-light'>Education</h3>
+      <h3 className='section-heading'>Education</h3>
       <ul className='column gap-6'>
         {ABOUT.education.map((item) => (
           <li

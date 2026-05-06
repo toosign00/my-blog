@@ -13,10 +13,13 @@ export const ProfileCard = async () => {
 
   return (
     <div className='flex flex-col gap-6'>
-      <h1 className='h3 text-gray-light'>About</h1>
-      <section>
+      <h1 className='section-heading'>About</h1>
+      <section
+        className='overflow-hidden rounded-2xl border'
+        style={{ borderColor: 'var(--color-profile-divider)' }}
+      >
         <div
-          className='w-full p-7.5 rounded-t-2xl'
+          className='w-full p-7.5'
           style={{ backgroundColor: ABOUT.profile.cardBackgroundColor }}
         >
           <div className='flex items-center gap-8'>
@@ -51,10 +54,13 @@ export const ProfileCard = async () => {
           </div>
         </div>
 
-        <div className='flex flex-col tablet:flex-row w-full'>
+        <div
+          className='flex w-full flex-col border-t tablet:flex-row'
+          style={{ borderColor: 'var(--color-profile-divider)' }}
+        >
           <ResumeDownloadButton
             fileUrl={ABOUT.profile.resumeUrl}
-            className='cursor-pointer relative overflow-hidden flex-1 flex items-center justify-center gap-2 px-4 py-3 hover:brightness-95 active:brightness-95 transition-all border-l border-b border-r border-t-0 border-white/5 rounded-none tablet:rounded-bl-2xl'
+            className='relative flex flex-1 cursor-pointer items-center justify-center gap-2 overflow-hidden px-4 py-3 transition-all hover:brightness-95 active:brightness-95'
             style={{
               backgroundColor: ABOUT.profile.cardBackgroundColor,
               color: ABOUT.profile.contentTextColor,
@@ -66,9 +72,17 @@ export const ProfileCard = async () => {
               <span className='font-medium'>이력서 다운로드</span>
             </div>
           </ResumeDownloadButton>
+          <div
+            className='h-px w-full tablet:hidden'
+            style={{ backgroundColor: 'var(--color-profile-divider)' }}
+          />
+          <div
+            className='hidden w-px tablet:block'
+            style={{ backgroundColor: 'var(--color-background08)' }}
+          />
           <ResumeDownloadButton
             fileUrl={ABOUT.profile.coverLetterUrl}
-            className='cursor-pointer relative overflow-hidden flex-1 flex items-center justify-center gap-2 px-4 py-3 hover:brightness-95 active:brightness-95 transition-all border-l border-b border-r border-t-0 tablet:border-l-0 border-white/10 rounded-b-2xl tablet:rounded-bl-none tablet:rounded-br-2xl'
+            className='relative flex flex-1 cursor-pointer items-center justify-center gap-2 overflow-hidden px-4 py-3 transition-all hover:brightness-95 active:brightness-95'
             style={{
               backgroundColor: ABOUT.profile.cardBackgroundColor,
               color: ABOUT.profile.contentTextColor,

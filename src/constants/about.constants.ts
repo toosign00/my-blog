@@ -9,12 +9,12 @@ export const ABOUT = {
       'https://files.toosign.me/%E1%84%82%E1%85%A9%E1%84%92%E1%85%A7%E1%86%AB%E1%84%89%E1%85%AE_%E1%84%8B%E1%85%B5%E1%84%85%E1%85%A7%E1%86%A8%E1%84%89%E1%85%A5.pdf',
     coverLetterUrl:
       'https://files.toosign.me/%E1%84%82%E1%85%A9%E1%84%92%E1%85%A7%E1%86%AB%E1%84%89%E1%85%AE_%E1%84%8C%E1%85%A1%E1%84%80%E1%85%B5%E1%84%89%E1%85%A9%E1%84%80%E1%85%A2%E1%84%89%E1%85%A5.pdf',
-    cardBackgroundColor: '#3182F6',
-    profileImageShadowColor: 'rgba(49, 130, 246, 0.5)',
-    profileImageBorderColor: 'rgba(255, 255, 255, 0.2)',
+    cardBackgroundColor: 'var(--color-profile-card)',
+    profileImageShadowColor: 'var(--color-profile-image-shadow)',
+    profileImageBorderColor: 'var(--color-profile-image-border)',
     profileImageFilter: '',
-    authorTextColor: '#000000',
-    contentTextColor: '#000000',
+    authorTextColor: 'var(--color-profile-title)',
+    contentTextColor: 'var(--color-ink)',
   },
 
   howIWork: [
@@ -27,9 +27,9 @@ export const ABOUT = {
   contacts: [
     {
       type: 'copy',
-      value: '+821085148477',
+      value: '+8210-8514-8477',
       copyType: 'phone',
-      label: '+821085148477',
+      label: '+8210-8514-8477',
       icon: 'phone',
     },
     {

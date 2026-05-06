@@ -28,7 +28,7 @@ const CategoryListPage = async () => {
           <ul className='m-0 grid list-none grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-4 p-0'>
             {categories.map((category) => (
               <li
-                className='rounded-sm border border-background03 bg-background02 transition-colors duration-150 hover:bg-background04'
+                className='ui-card rounded-sm transition-colors duration-150 hover:bg-background02'
                 key={category}
               >
                 <Link

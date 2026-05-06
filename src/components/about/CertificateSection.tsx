@@ -12,7 +12,7 @@ interface CertificateSectionProps {
 export const CertificateSection = ({ items }: CertificateSectionProps) => {
   return (
     <section className='column gap-6'>
-      <h3 className='h3 text-gray-light'>Certificate</h3>
+      <h3 className='section-heading'>Certificate</h3>
       <ul className='column gap-6'>
         {items.map((item) => (
           <li

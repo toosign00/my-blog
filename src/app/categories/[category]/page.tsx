@@ -28,7 +28,7 @@ const CategoriesPage = async ({ params, searchParams }: CategoriesPageProps) => 
 
   return (
     <>
-      <h1 className='h3 mb-7.5 text-gray-light'>
+      <h1 className='section-heading mb-7.5'>
         {categoryPosts.length > 0
           ? `${categoryPosts[0].category} (${categoryPosts.length})`
           : `${category} (0 posts)`}

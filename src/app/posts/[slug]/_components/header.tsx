@@ -44,7 +44,7 @@ export const Header = ({ coverImage, title, subtitle, createdAt, category, tags 
         <ul className='center-y mt-6 w-full flex-wrap gap-2'>
           {tags.map((tag) => (
             <li
-              className='center rounded-sm border border-background03 bg-background02 px-1.5 py-0.5 font-medium text-gray-mid text-xs transition-colors duration-150 ease-in-out hover:bg-background04'
+              className='ui-chip center rounded-sm px-1.5 py-0.5 font-medium text-gray-mid text-xs'
               key={tag}
             >
               <Link href={`${ROUTES.TAGS}/${slugify(tag)}`}>{tag}</Link>
