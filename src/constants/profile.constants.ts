@@ -1,14 +1,14 @@
 import profileImage from '@/assets/images/profile.webp';
 
 export const PROFILE = {
-  cardBackgroundColor: '#3182F6',
+  cardBackgroundColor: 'var(--color-profile-card)',
 
   profileImage,
-  profileImageShadowColor: 'rgba(49, 130, 246, 0.5)',
+  profileImageShadowColor: 'var(--color-profile-image-shadow)',
   profileImageFilter: '',
-  profileImageBorderColor: 'rgba(255, 255, 255, 0.2)',
-  authorTextColor: '#000000',
+  profileImageBorderColor: 'var(--color-profile-image-border)',
+  authorTextColor: 'var(--color-ink)',
 
-  titleTextColor: '#bfdBFE',
-  contentTextColor: '#000000',
+  titleTextColor: 'var(--color-profile-title)',
+  contentTextColor: 'var(--color-ink)',
 };

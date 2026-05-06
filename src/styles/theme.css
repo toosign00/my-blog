@@ -24,6 +24,20 @@
   --color-license: var(--color-license);
 
   --color-gradient-sidebar-divider: var(--color-gradient-sidebar-divider);
+  --color-primary: var(--color-primary);
+  --color-primary-focus: var(--color-primary-focus);
+  --color-primary-on-dark: var(--color-primary-on-dark);
+  --color-ink: var(--color-ink);
+  --color-canvas: var(--color-canvas);
+  --color-hairline: var(--color-hairline);
+  --color-surface-strong: var(--color-surface-strong);
+  --color-surface-muted: var(--color-surface-muted);
+  --color-overlay: var(--color-overlay);
+  --color-profile-card: var(--color-profile-card);
+  --color-profile-title: var(--color-profile-title);
+  --color-profile-image-border: var(--color-profile-image-border);
+  --color-profile-image-shadow: var(--color-profile-image-shadow);
+  --color-profile-divider: var(--color-profile-divider);
 
   --spacing-app: 47.375rem;
   --spacing-inline: 1.5rem;
@@ -39,6 +53,8 @@
     inset 0 0.125rem 0.125rem rgba(255, 255, 255, 0.3);
 
   --font-mono: var(--font-geist-mono), "Courier New", Courier, monospace;
+  --font-display: var(--font-sans);
+  --font-body: var(--font-sans);
   --font-sans:
     var(--font-pretendard), -apple-system, BlinkMacSystemFont, system-ui, Roboto,
     "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic",
@@ -99,6 +115,20 @@
     #d9dbe7 0%,
     rgba(217, 219, 231, 0) 100%
   );
+  --color-primary: #3182f6;
+  --color-primary-focus: #2997ff;
+  --color-primary-on-dark: #63a9ff;
+  --color-ink: #1d1d30;
+  --color-canvas: #fcfcfd;
+  --color-hairline: #f4f4f8;
+  --color-surface-strong: #ffffff;
+  --color-surface-muted: #f9f9fc;
+  --color-overlay: rgba(15, 15, 15, 0.35);
+  --color-profile-card: #ffffff;
+  --color-profile-title: #2997ff;
+  --color-profile-image-border: rgba(255, 255, 255, 0.2);
+  --color-profile-image-shadow: rgba(0, 0, 0, 0.08);
+  --color-profile-divider: #f4f4f8;
 
   /* Activity heatmap colors (light) */
   --activity-0: #ebedf0;
@@ -160,6 +190,20 @@
     #36363a 0%,
     rgba(61, 61, 67, 0) 100%
   );
+  --color-primary: #63a9ff;
+  --color-primary-focus: #8ec2ff;
+  --color-primary-on-dark: #8ec2ff;
+  --color-ink: #ffffff;
+  --color-canvas: #0f0f0f;
+  --color-hairline: #1b1b1b;
+  --color-surface-strong: #101010;
+  --color-surface-muted: #141414;
+  --color-overlay: rgba(0, 0, 0, 0.5);
+  --color-profile-card: #1b1b1b;
+  --color-profile-title: #8ec2ff;
+  --color-profile-image-border: rgba(255, 255, 255, 0.1);
+  --color-profile-image-shadow: rgba(0, 0, 0, 0.35);
+  --color-profile-divider: rgba(255, 255, 255, 0.16);
 
   /* Activity heatmap colors (dark) */
   --activity-0: #2d2d2d;

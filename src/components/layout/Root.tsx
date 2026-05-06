@@ -5,7 +5,7 @@ import { Sidebar } from './Sidebar';
 
 export const Layout = ({ children }: PropsWithChildren) => {
   return (
-    <div className='mx-auto h-full w-full max-w-app desktop:max-w-app tablet:max-w-[calc(var(--spacing-app)+var(--spacing-sidebar))] pl-0 tablet:pl-sidebar desktop:pl-0'>
+    <div className='mx-auto h-full w-full max-w-app bg-background desktop:max-w-app tablet:max-w-[calc(var(--spacing-app)+var(--spacing-sidebar))] pl-0 tablet:pl-sidebar desktop:pl-0'>
       <Sidebar />
       <Header />
       <ViewTransition name='cross'>

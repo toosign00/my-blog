@@ -12,7 +12,7 @@ export const Sidebar = () => {
   return (
     <aside
       aria-label='Sidebar navigation'
-      className='fixed top-0 left-0 tablet:flex hidden h-dvh w-sidebar flex-col justify-between px-10 py-11'
+      className='fixed top-0 left-0 hidden h-dvh w-sidebar flex-col justify-between border-r border-border bg-background px-10 py-11 tablet:flex'
     >
       <div className='column w-full gap-6'>
         <Link aria-label={METADATA.SITE.NAME} className='px-2.5 py-3' href={ROUTES.HOME}>

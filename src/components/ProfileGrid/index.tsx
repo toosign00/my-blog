@@ -25,7 +25,7 @@ export const ProfileGrid = async () => {
       className='grid w-full grid-cols-1 gap-16.25 tablet:grid-cols-2'
     >
       <div className='column w-full'>
-        <h3 className='h3 text-gray-light' id='profile-heading'>
+        <h3 className='section-heading' id='profile-heading'>
           Profile
         </h3>
         <Card.Root style={{ backgroundColor: PROFILE.cardBackgroundColor }}>
@@ -83,7 +83,7 @@ export const ProfileGrid = async () => {
       </div>
 
       <div className='column w-full'>
-        <h3 className='h3 text-gray-light'>Stats</h3>
+        <h3 className='section-heading'>Stats</h3>
         <Card.Root>
           <StatsWidget />
         </Card.Root>

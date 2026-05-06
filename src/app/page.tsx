@@ -22,12 +22,12 @@ const HomePage = async () => {
 
       <section aria-labelledby='updates-heading' className='column gap-7.5 pt-17.5 pb-16.25'>
         <div className='row-between'>
-          <h3 className='h3 text-gray-light' id='updates-heading'>
+          <h3 className='section-heading' id='updates-heading'>
             Update
           </h3>
           <Link
             aria-label='Expand to see more posts'
-            className='center h4 h-8 gap-1.5 rounded-md border border-border bg-toggle px-3 text-gray-light'
+            className='section-action-chip'
             href={ROUTES.POSTS}
           >
             Expand

@@ -23,7 +23,7 @@ export const Header = () => {
   }, [pathname]);
 
   const overlayClassName =
-    'fixed inset-0 bg-[rgba(0,0,0,0.2)] backdrop-blur-[11px] z-[var(--z-overlay)] transition-opacity duration-300';
+    'fixed inset-0 z-[var(--z-overlay)] backdrop-blur-[11px] transition-opacity duration-300';
 
   return (
     <>
@@ -36,10 +36,11 @@ export const Header = () => {
               : `${overlayClassName} pointer-events-none opacity-0`
           }
           onClick={() => setAccordionOpen(false)}
+          style={{ backgroundColor: 'var(--color-overlay)' }}
           type='button'
         />
 
-        <header className='fixed top-0 left-0 z-(--z-header) flex tablet:hidden w-full bg-background px-(--spacing-inline)'>
+        <header className='fixed top-0 left-0 z-(--z-header) flex w-full border-b border-border bg-background tablet:hidden px-(--spacing-inline)'>
           <div className='row-between mx-auto w-full max-w-(--app-width) py-3.25'>
             <Link aria-label={METADATA.SITE.NAME} href={ROUTES.HOME}>
               <Image
@@ -68,7 +69,7 @@ export const Header = () => {
               </button>
               <Accordion.Content
                 aria-labelledby='menu-accordion-item'
-                className='fixed top-16.75 left-0 w-full overflow-hidden bg-background px-inline'
+                className='fixed top-16.75 left-0 w-full overflow-hidden border-b border-border bg-background px-inline'
                 id='menu-accordion-content'
               >
                 <div className='column mx-auto w-full max-w-app pt-6.25 pb-4.75'>
