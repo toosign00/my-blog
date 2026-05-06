@@ -38,6 +38,8 @@
   --color-profile-image-border: var(--color-profile-image-border);
   --color-profile-image-shadow: var(--color-profile-image-shadow);
   --color-profile-divider: var(--color-profile-divider);
+  --color-profile-button-overlay: var(--color-profile-button-overlay);
+  --color-focus-ring: var(--color-focus-ring);
 
   --spacing-app: 47.375rem;
   --spacing-inline: 1.5rem;
@@ -129,6 +131,8 @@
   --color-profile-image-border: rgba(255, 255, 255, 0.2);
   --color-profile-image-shadow: rgba(0, 0, 0, 0.08);
   --color-profile-divider: #f4f4f8;
+  --color-profile-button-overlay: rgba(255, 255, 255, 0.14);
+  --color-focus-ring: rgba(41, 151, 255, 0.7);
 
   /* Activity heatmap colors (light) */
   --activity-0: #ebedf0;
@@ -204,6 +208,8 @@
   --color-profile-image-border: rgba(255, 255, 255, 0.1);
   --color-profile-image-shadow: rgba(0, 0, 0, 0.35);
   --color-profile-divider: rgba(255, 255, 255, 0.16);
+  --color-profile-button-overlay: rgba(255, 255, 255, 0.1);
+  --color-focus-ring: rgba(142, 194, 255, 0.8);
 
   /* Activity heatmap colors (dark) */
   --activity-0: #2d2d2d;

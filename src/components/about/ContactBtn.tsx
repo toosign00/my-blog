@@ -15,7 +15,7 @@ const ICON_MAP = {
 } as const;
 
 const cardClass =
-  'ui-card flex items-center justify-center gap-2 rounded-xl px-3 py-3 transition-colors hover:bg-background02';
+  'ui-card focus-ring flex items-center justify-center gap-2 rounded-xl px-3 py-3 transition-colors hover:bg-background02';
 
 const labelClass = 'text-sm font-medium text-gray-bold';
 

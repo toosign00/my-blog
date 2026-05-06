@@ -165,6 +165,14 @@
     background-color: var(--color-background02);
   }
 
+  .focus-ring {
+    outline: none;
+  }
+
+  .focus-ring:focus-visible {
+    box-shadow: 0 0 0 2px var(--color-focus-ring);
+  }
+
   .post-subtitle {
     font-family: var(--font-body);
     font-weight: 500;

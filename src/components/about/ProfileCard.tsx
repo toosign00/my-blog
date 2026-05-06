@@ -57,13 +57,16 @@ export const ProfileCard = async () => {
         >
           <ResumeDownloadButton
             fileUrl={ABOUT.profile.resumeUrl}
-            className='relative flex flex-1 cursor-pointer items-center justify-center gap-2 overflow-hidden px-4 py-3 transition-all hover:brightness-95 active:brightness-95'
+            className='focus-ring relative flex flex-1 cursor-pointer items-center justify-center gap-2 overflow-hidden px-4 py-3 transition-all hover:brightness-95 active:brightness-95'
             style={{
               backgroundColor: ABOUT.profile.cardBackgroundColor,
               color: ABOUT.profile.contentTextColor,
             }}
           >
-            <div className='absolute inset-0 bg-white/15 pointer-events-none' />
+            <div
+              className='pointer-events-none absolute inset-0'
+              style={{ backgroundColor: 'var(--color-profile-button-overlay)' }}
+            />
             <div className='relative z-10 flex items-center gap-2'>
               <DownloadIcon size={20} />
               <span className='font-medium'>이력서 다운로드</span>
@@ -79,13 +82,16 @@ export const ProfileCard = async () => {
           />
           <ResumeDownloadButton
             fileUrl={ABOUT.profile.coverLetterUrl}
-            className='relative flex flex-1 cursor-pointer items-center justify-center gap-2 overflow-hidden px-4 py-3 transition-all hover:brightness-95 active:brightness-95'
+            className='focus-ring relative flex flex-1 cursor-pointer items-center justify-center gap-2 overflow-hidden px-4 py-3 transition-all hover:brightness-95 active:brightness-95'
             style={{
               backgroundColor: ABOUT.profile.cardBackgroundColor,
               color: ABOUT.profile.contentTextColor,
             }}
           >
-            <div className='absolute inset-0 bg-white/15 pointer-events-none' />
+            <div
+              className='pointer-events-none absolute inset-0'
+              style={{ backgroundColor: 'var(--color-profile-button-overlay)' }}
+            />
             <div className='relative z-10 flex items-center gap-2'>
               <DownloadIcon size={20} />
               <span className='font-medium'>자기소개서 다운로드</span>

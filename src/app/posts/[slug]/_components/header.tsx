@@ -31,7 +31,7 @@ export const Header = ({ coverImage, title, subtitle, createdAt, category, tags 
           <>
             <span className='text-gray-bold'>&nbsp;&middot;&nbsp;</span>
             <Link
-              className='text-gray-bold no-underline opacity-100 transition-opacity duration-200 ease-in-out hover:opacity-70'
+              className='focus-ring text-gray-bold no-underline opacity-100 transition-opacity duration-200 ease-in-out hover:opacity-70'
               href={`/categories/${slugify(category)}`}
             >
               {category}
@@ -45,7 +45,7 @@ export const Header = ({ coverImage, title, subtitle, createdAt, category, tags 
           {tags.map((tag) => (
             <li className='ui-chip center rounded-sm px-1.5 py-0.5 text-gray-mid text-xs' key={tag}>
               <Link
-                className='font-medium no-underline opacity-100 transition-opacity duration-150 ease-in-out hover:opacity-70'
+                className='focus-ring font-medium no-underline opacity-100 transition-opacity duration-150 ease-in-out hover:opacity-70'
                 href={`${ROUTES.TAGS}/${slugify(tag)}`}
               >
                 {tag}

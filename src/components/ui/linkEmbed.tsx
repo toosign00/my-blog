@@ -87,7 +87,7 @@ export const LinkEmbed = ({
         href={url}
         target='_blank'
         rel='noopener noreferrer'
-        className='block w-full text-gray-bold transition-opacity hover:opacity-70'
+        className='focus-ring block w-full text-gray-bold transition-opacity hover:opacity-70'
         {...props}
       >
         🔗 {manualTitle || url}
@@ -128,7 +128,7 @@ export const LinkEmbed = ({
         href={url}
         target='_blank'
         rel='noopener noreferrer'
-        className='ui-chip group inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 transition-colors duration-200 hover:bg-background03'
+        className='ui-chip focus-ring group inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 transition-colors duration-200 hover:bg-background03'
         {...props}
       >
         {!faviconError && (
@@ -172,7 +172,7 @@ export const LinkEmbed = ({
       href={url}
       target='_blank'
       rel='noopener noreferrer'
-      className='block w-full no-underline border-0'
+      className='focus-ring block w-full border-0 no-underline'
       {...props}
     >
       <div className='ui-card group flex flex-col gap-4 overflow-hidden rounded-xl p-4 transition-all duration-200 hover:-translate-y-0.5 hover:bg-gray-hover mobile:flex-row'>
