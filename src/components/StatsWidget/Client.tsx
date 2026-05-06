@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 
 interface StatsWidgetClientProps {
   postCount: number;
+  initialStats: Stats;
 }
 
 interface Stats {
@@ -13,7 +14,7 @@ interface Stats {
 
 const metricNumberStyle = { fontSize: '20px', letterSpacing: '-0.374px' } as const;
 
-function useCountUp(target: number, duration = 1200) {
+function useCountUp(target: number, duration = 1400) {
   const [value, setValue] = useState(0);
 
   useEffect(() => {
@@ -31,8 +32,13 @@ function useCountUp(target: number, duration = 1200) {
   return value;
 }
 
-export const StatsWidgetClient = ({ postCount }: StatsWidgetClientProps) => {
-  const [stats, setStats] = useState<Stats>({ today: 0, total: 0 });
+interface CountResponse {
+  ok: boolean;
+  counted?: boolean;
+}
+
+export const StatsWidgetClient = ({ postCount, initialStats }: StatsWidgetClientProps) => {
+  const [stats, setStats] = useState<Stats>(initialStats);
   const hasCounted = useRef(false);
 
   useEffect(() => {
@@ -40,10 +46,14 @@ export const StatsWidgetClient = ({ postCount }: StatsWidgetClientProps) => {
     hasCounted.current = true;
 
     void (async () => {
-      await fetch('/api/stats', { method: 'POST' });
-      const read = await fetch('/api/stats');
-      const data = (await read.json()) as Stats;
-      setStats(data);
+      const postRes = await fetch('/api/stats', { method: 'POST' });
+      const postData = (await postRes.json()) as CountResponse;
+
+      if (!postData.counted) {
+        return;
+      }
+
+      setStats((prev) => ({ today: prev.today + 1, total: prev.total + 1 }));
     })();
   }, []);
 
