@@ -14,10 +14,7 @@ export const ProfileCard = async () => {
   return (
     <div className='flex flex-col gap-6'>
       <h1 className='section-heading'>About</h1>
-      <section
-        className='overflow-hidden rounded-2xl border'
-        style={{ borderColor: 'var(--color-profile-divider)' }}
-      >
+      <section className='overflow-hidden rounded-2xl border border-border'>
         <div
           className='w-full p-7.5'
           style={{ backgroundColor: ABOUT.profile.cardBackgroundColor }}
