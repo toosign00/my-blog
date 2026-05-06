@@ -1,6 +1,7 @@
 import '@/styles/globals.css';
 
 import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import type { Metadata, Viewport } from 'next';
 import type { PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
@@ -19,6 +20,7 @@ const RootLayout = ({ children }: PropsWithChildren) => {
           <Layout>{children}</Layout>
         </AppProviders>
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
