@@ -28,53 +28,17 @@
 
 ---
 
-## Task 1: Cloudflare D1 세팅 (수동 작업)
+## Task 1: Cloudflare D1 세팅 ✅ 완료
 
-> 이 태스크는 Cloudflare 대시보드에서 직접 진행한다. 코드 작업 없음.
+> wrangler CLI로 이미 완료됨. 아래는 참고용 기록.
 
-**Files:** 없음
+**결과:**
+- Database Name: `blog-stats`
+- Database ID: `0bfaa8be-32f7-4a33-b06a-26035f0aae8f`
+- Account ID: `5b6fb20754f07c10d80c9003c006a24f`
+- `page_views` 테이블 생성 완료 (remote)
 
-- [ ] **Step 1: D1 데이터베이스 생성**
-
-  Cloudflare 대시보드 → Workers & Pages → D1 → Create database
-  - Name: `blog-stats` (아무 이름이나 가능)
-  - 생성 후 **Database ID** 복사해둘 것
-
-- [ ] **Step 2: 테이블 생성**
-
-  D1 대시보드 → Console 탭에서 아래 SQL 실행:
-
-  ```sql
-  CREATE TABLE IF NOT EXISTS page_views (
-    id       INTEGER PRIMARY KEY AUTOINCREMENT,
-    date     TEXT NOT NULL,
-    pathname TEXT NOT NULL,
-    count    INTEGER NOT NULL DEFAULT 0,
-    UNIQUE(date, pathname)
-  );
-  ```
-
-  실행 후 Tables 탭에서 `page_views` 확인
-
-- [ ] **Step 3: API Token 발급**
-
-  Cloudflare 대시보드 → My Profile → API Tokens → Create Token
-  - "Create Custom Token" 선택
-  - Permissions: `Account` → `D1` → `Edit`
-  - Account Resources: 본인 계정 선택
-  - 생성 후 **Token 값** 복사 (다시 볼 수 없음)
-
-- [ ] **Step 4: Account ID 확인**
-
-  Cloudflare 대시보드 → 우측 사이드바 → Account ID 복사
-
-- [ ] **Step 5: 값 3개 메모**
-
-  ```
-  CLOUDFLARE_ACCOUNT_ID=<Account ID>
-  CLOUDFLARE_D1_DATABASE_ID=<Database ID>
-  CLOUDFLARE_API_TOKEN=<API Token>
-  ```
+API Token은 Task 2에서 발급한다.
 
 ---
 
@@ -83,17 +47,25 @@
 **Files:**
 - Modify: `.env.local`
 
-- [ ] **Step 1: .env.local에 추가**
+- [ ] **Step 1: API Token 발급**
+
+  Cloudflare 대시보드 → My Profile → API Tokens → Create Token
+  - "Create Custom Token" 선택
+  - Permissions: `Account` → `D1` → `Edit`
+  - Account Resources: `Hello@toosign.me's Account` 선택
+  - 생성 후 **Token 값** 복사 (다시 볼 수 없음)
+
+- [ ] **Step 2: .env.local에 추가**
 
   `.env.local` 파일에 아래 3줄 추가 (기존 내용 유지):
 
   ```
-  CLOUDFLARE_ACCOUNT_ID=여기에_account_id
-  CLOUDFLARE_D1_DATABASE_ID=여기에_database_id
-  CLOUDFLARE_API_TOKEN=여기에_api_token
+  CLOUDFLARE_ACCOUNT_ID=5b6fb20754f07c10d80c9003c006a24f
+  CLOUDFLARE_D1_DATABASE_ID=0bfaa8be-32f7-4a33-b06a-26035f0aae8f
+  CLOUDFLARE_API_TOKEN=여기에_발급받은_api_token
   ```
 
-- [ ] **Step 2: .env.local이 .gitignore에 있는지 확인**
+- [ ] **Step 3: .env.local이 .gitignore에 있는지 확인**
 
   ```bash
   grep ".env.local" .gitignore
@@ -104,12 +76,12 @@
   echo ".env.local" >> .gitignore
   ```
 
-- [ ] **Step 3: Vercel 환경 변수 등록 (배포용)**
+- [ ] **Step 4: Vercel 환경 변수 등록 (배포용)**
 
   Vercel 대시보드 → 프로젝트 → Settings → Environment Variables
-  - `CLOUDFLARE_ACCOUNT_ID` 추가
-  - `CLOUDFLARE_D1_DATABASE_ID` 추가
-  - `CLOUDFLARE_API_TOKEN` 추가
+  - `CLOUDFLARE_ACCOUNT_ID` = `5b6fb20754f07c10d80c9003c006a24f`
+  - `CLOUDFLARE_D1_DATABASE_ID` = `0bfaa8be-32f7-4a33-b06a-26035f0aae8f`
+  - `CLOUDFLARE_API_TOKEN` = 발급받은 토큰 값
   - Environment: Production + Preview + Development 모두 체크
 
 ---
