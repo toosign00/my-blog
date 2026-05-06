@@ -79,7 +79,7 @@ export const ProfileGrid = async () => {
                     {item.title}
                   </dt>
                   <dd
-                    className='profile-title whitespace-pre-wrap text-[#302C1D]'
+                    className='profile-title whitespace-pre-wrap'
                     style={{ color: PROFILE.contentTextColor }}
                   >
                     {item.content}
