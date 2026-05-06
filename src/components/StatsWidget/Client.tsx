@@ -37,12 +37,12 @@ export const StatsWidgetClient = ({ postCount }: StatsWidgetClientProps) => {
     if (hasCounted.current) return;
     hasCounted.current = true;
 
-    void Promise.all([
-      fetch('/api/stats').then((r) => r.json() as Promise<Stats>),
-      fetch('/api/stats', { method: 'POST' }),
-    ]).then(([data]) => {
+    void (async () => {
+      await fetch('/api/stats', { method: 'POST' });
+      const read = await fetch('/api/stats');
+      const data = (await read.json()) as Stats;
       setStats(data);
-    });
+    })();
   }, []);
 
   const todayCount = useCountUp(stats.today);

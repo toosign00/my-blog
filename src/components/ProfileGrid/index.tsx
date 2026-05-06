@@ -2,9 +2,7 @@ import Image from 'next/image';
 import { METADATA } from '@/constants/metadata.constants';
 import { PROFILE } from '@/constants/profile.constants';
 import { createBlur } from '@/utils/blur-util';
-import type { ActivityItem } from '@/utils/github-activity-util';
-import { fetchRecentGitHubActivities } from '@/utils/github-activity-util';
-import { RecentActivity } from '../RecentActivity';
+import { StatsWidget } from '../StatsWidget';
 import Card from './Card';
 
 const authorProfileDetails = [
@@ -20,17 +18,10 @@ const authorProfileDetails = [
 
 export const ProfileGrid = async () => {
   const blurDataURL = await createBlur(METADATA.AUTHOR.PROFILE_IMAGE);
-  let activities: ActivityItem[] = [];
-
-  try {
-    activities = await fetchRecentGitHubActivities();
-  } catch {
-    activities = [];
-  }
 
   return (
     <section
-      aria-label={`${METADATA.AUTHOR.NAME}'s profile and recent activity`}
+      aria-label={`${METADATA.AUTHOR.NAME}'s profile and stats`}
       className='grid w-full grid-cols-1 gap-16.25 tablet:grid-cols-2'
     >
       <div className='column w-full'>
@@ -92,9 +83,9 @@ export const ProfileGrid = async () => {
       </div>
 
       <div className='column w-full'>
-        <h3 className='h3 text-gray-light'>Activity</h3>
+        <h3 className='h3 text-gray-light'>Stats</h3>
         <Card.Root>
-          <RecentActivity initialActivities={activities} />
+          <StatsWidget />
         </Card.Root>
       </div>
     </section>

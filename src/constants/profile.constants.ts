@@ -9,6 +9,6 @@ export const PROFILE = {
   profileImageBorderColor: 'rgba(255, 255, 255, 0.2)',
   authorTextColor: '#000000',
 
-  titleTextColor: '#BFD6FE',
+  titleTextColor: '#bfdBFE',
   contentTextColor: '#000000',
 };

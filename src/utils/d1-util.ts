@@ -1,7 +1,13 @@
-interface D1Result<T = Record<string, unknown>> {
-  results: T[];
+interface D1BatchResult<T> {
   success: boolean;
-  errors: { message: string }[];
+  results: T[];
+  errors?: { message: string }[];
+}
+
+interface D1ApiResponse<T> {
+  success: boolean;
+  errors?: { message: string }[];
+  result?: D1BatchResult<T>[];
 }
 
 export async function queryD1<T = Record<string, unknown>>(
@@ -32,11 +38,22 @@ export async function queryD1<T = Record<string, unknown>>(
     throw new Error(`D1 request failed: ${res.status}`);
   }
 
-  const data = (await res.json()) as D1Result<T>;
+  const data = (await res.json()) as D1ApiResponse<T>;
 
   if (!data.success) {
-    throw new Error(`D1 query error: ${data.errors.map((e) => e.message).join(', ')}`);
+    const msg = data.errors?.map((e) => e.message).join(', ') ?? 'unknown error';
+    throw new Error(`D1 query error: ${msg}`);
   }
 
-  return data.results;
+  const first = data.result?.[0];
+  if (!first) {
+    return [];
+  }
+
+  if (!first.success) {
+    const msg = first.errors?.map((e) => e.message).join(', ') ?? 'unknown error';
+    throw new Error(`D1 query error: ${msg}`);
+  }
+
+  return first.results ?? [];
 }
