@@ -1,17 +1,14 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import type { Stats } from '@/utils/stats-util';
 
 interface StatsWidgetClientProps {
   postCount: number;
+  initialStats: Stats;
 }
 
-interface Stats {
-  today: number;
-  total: number;
-}
-
-const metricNumberStyle = { fontSize: '20px', letterSpacing: '-0.374px' } as const;
+const metricNumberStyle = { fontSize: '1.25rem', letterSpacing: '-0.375px' } as const;
 
 function useCountUp(target: number, duration = 1200) {
   const [value, setValue] = useState(0);
@@ -31,20 +28,14 @@ function useCountUp(target: number, duration = 1200) {
   return value;
 }
 
-export const StatsWidgetClient = ({ postCount }: StatsWidgetClientProps) => {
-  const [stats, setStats] = useState<Stats>({ today: 0, total: 0 });
+export const StatsWidgetClient = ({ postCount, initialStats }: StatsWidgetClientProps) => {
+  const [stats] = useState<Stats>(initialStats);
   const hasCounted = useRef(false);
 
   useEffect(() => {
     if (hasCounted.current) return;
     hasCounted.current = true;
-
-    void Promise.all([
-      fetch('/api/stats').then((r) => r.json() as Promise<Stats>),
-      fetch('/api/stats', { method: 'POST' }),
-    ]).then(([data]) => {
-      setStats(data);
-    });
+    void fetch('/api/stats', { method: 'POST' });
   }, []);
 
   const todayCount = useCountUp(stats.today);

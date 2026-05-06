@@ -1,5 +1,5 @@
 import { fetchGitHubContributions } from '@/utils/github-contributions-util';
-import { ActivityHeatmapClient } from './Client';
+import { ActivityHeatmapClient } from './ActivityHeatmapClient';
 
 export interface PostActivityData {
   date: string; // 'YYYY-MM-DD'
