@@ -23,7 +23,7 @@ export const ProfileCard = async () => {
             <div
               className='relative w-25 h-25 tablet:w-30 tablet:h-30 shrink-0 select-none rounded-2xl overflow-hidden border'
               style={{
-                borderColor: 'rgba(255, 255, 255, 0.2)',
+                borderColor: ABOUT.profile.profileImageBorderColor,
                 boxShadow: `0px 10px 39px ${ABOUT.profile.profileImageShadowColor}`,
                 filter: ABOUT.profile.profileImageFilter,
               }}

@@ -9,11 +9,12 @@ export const ABOUT = {
       'https://files.toosign.me/%E1%84%82%E1%85%A9%E1%84%92%E1%85%A7%E1%86%AB%E1%84%89%E1%85%AE_%E1%84%8B%E1%85%B5%E1%84%85%E1%85%A7%E1%86%A8%E1%84%89%E1%85%A5.pdf',
     coverLetterUrl:
       'https://files.toosign.me/%E1%84%82%E1%85%A9%E1%84%92%E1%85%A7%E1%86%AB%E1%84%89%E1%85%AE_%E1%84%8C%E1%85%A1%E1%84%80%E1%85%B5%E1%84%89%E1%85%A9%E1%84%80%E1%85%A2%E1%84%89%E1%85%A5.pdf',
-    cardBackgroundColor: '#3B82F6',
-    profileImageShadowColor: 'rgba(30, 64, 175, 0.5)',
+    cardBackgroundColor: '#3182F6',
+    profileImageShadowColor: 'rgba(49, 130, 246, 0.5)',
+    profileImageBorderColor: 'rgba(255, 255, 255, 0.2)',
     profileImageFilter: '',
-    authorTextColor: '#000',
-    contentTextColor: '#000',
+    authorTextColor: '#000000',
+    contentTextColor: '#000000',
   },
 
   howIWork: [

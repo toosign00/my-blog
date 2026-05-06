@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { ActivityHeatmap } from '@/components/ActivityHeatmap';
 import { PlusIcon } from '@/components/icons/PlusIcon';
 import { ProfileGrid } from '@/components/ProfileGrid';
 import { PostGrid } from '@/components/ui/postGrid';
@@ -16,6 +17,8 @@ const HomePage = async () => {
   return (
     <>
       <ProfileGrid />
+
+      <ActivityHeatmap />
 
       <section aria-labelledby='updates-heading' className='column gap-7.5 pt-17.5 pb-16.25'>
         <div className='row-between'>
