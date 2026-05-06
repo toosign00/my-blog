@@ -9,8 +9,13 @@ export interface VisitorStats {
   total: number;
 }
 
+export function getKstDateKey(date = new Date()): string {
+  const KST_OFFSET_MS = 9 * 60 * 60 * 1000;
+  return new Date(date.getTime() + KST_OFFSET_MS).toISOString().slice(0, 10);
+}
+
 export async function getVisitorStats(): Promise<VisitorStats> {
-  const today = new Date().toISOString().slice(0, 10);
+  const today = getKstDateKey();
 
   const [todayRows, totalRows] = await Promise.all([
     queryD1<CountRow>('SELECT COALESCE(SUM(count), 0) as total FROM page_views WHERE date = ?', [
