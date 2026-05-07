@@ -33,7 +33,7 @@ export const PostGrid = ({ posts, className, ...props }: PostGridProps) => {
                 draggable={false}
                 fill
                 priority={index === 0}
-                quality={100}
+                quality={75}
                 sizes='(max-width: 60rem) 100vw, (max-width: 80rem) calc(50vw - 9rem), 22rem'
                 src={coverImage}
               />
