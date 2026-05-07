@@ -1,11 +1,24 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import type { ReactNode } from 'react';
 import { RelativeTime } from '@/components/ui/relativeTime';
 import { ROUTES } from '@/constants/menu.constants';
 import type { Post } from '@/types/content.types';
 import { slugify } from '@/utils/text-util';
 
-export const Header = ({ coverImage, title, subtitle, createdAt, category, tags }: Post) => {
+interface HeaderProps extends Post {
+  viewCounter: ReactNode;
+}
+
+export const Header = ({
+  coverImage,
+  title,
+  subtitle,
+  createdAt,
+  category,
+  tags,
+  viewCounter,
+}: HeaderProps) => {
   return (
     <header className='mt-5 mb-14'>
       <div className='center relative aspect-[1.8/1] w-full select-none overflow-hidden rounded-lg border border-border'>
@@ -38,6 +51,7 @@ export const Header = ({ coverImage, title, subtitle, createdAt, category, tags 
             </Link>
           </>
         )}
+        <span className='ml-auto mr-2'>{viewCounter}</span>
       </p>
 
       {tags && tags?.length > 0 && (

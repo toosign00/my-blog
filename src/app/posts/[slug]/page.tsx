@@ -6,11 +6,13 @@ import { METADATA } from '@/constants/metadata.constants';
 import type { Post } from '@/types/content.types';
 import { generatePageMetadata } from '@/utils/metadata-util';
 import { getAllPosts, getPostBySlug, getPostPageDataBySlug } from '@/utils/post-util';
+import { getStats } from '@/utils/stats-util';
 import { BackButton } from './_components/back-button';
 import { Footer } from './_components/footer';
 import { Giscus } from './_components/giscus';
 import { Header } from './_components/header';
 import { Recommend } from './_components/recommend';
+import { ViewCounter } from './_components/view-counter';
 
 interface PostPageProps {
   params: Promise<{ slug: string }>;
@@ -31,14 +33,18 @@ const PostPage = async ({ params }: PostPageProps) => {
     notFound();
   }
 
-  const allPosts = await getAllPosts();
+  const pathname = `/posts/${slug}`;
+  const [allPosts, postStats] = await Promise.all([getAllPosts(), getStats(pathname)]);
 
   return (
     <>
       <BackButton />
 
       <article>
-        <Header {...post} />
+        <Header
+          {...post}
+          viewCounter={<ViewCounter initialTotal={postStats.total} pathname={pathname} />}
+        />
         <MDXContent />
 
         {post.comments && <Giscus className='mt-14' />}

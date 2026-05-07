@@ -18,7 +18,7 @@ export const PostGrid = ({ posts, className, ...props }: PostGridProps) => {
       className={twMerge('grid w-full grid-cols-1 tablet:grid-cols-2 gap-16', className)}
       {...props}
     >
-      {posts.map(({ _id, slug, title, coverImage, createdAt }, index) => {
+      {posts.map(({ _id, slug, title, coverImage, createdAt, views }, index) => {
         return (
           <Link
             aria-label={`Read post: ${title}`}
@@ -43,10 +43,12 @@ export const PostGrid = ({ posts, className, ...props }: PostGridProps) => {
               {title}
             </h2>
 
-            <RelativeTime
-              className='description h4 -mx-2.5 mt-4 -mb-0.5 w-fit rounded-sm px-2.5 py-0.5 text-gray-light transition-colors duration-250 ease-in-out'
-              time={createdAt}
-            />
+            <p className='description h4 center-y -mx-2.5 mt-4 -mb-0.5 w-fit rounded-sm px-2.5 py-0.5 text-gray-light transition-colors duration-250 ease-in-out'>
+              <RelativeTime time={createdAt} />
+              {views !== undefined && (
+                <span className='ml-4 tabular-nums'>{views.toLocaleString()} views</span>
+              )}
+            </p>
           </Link>
         );
       })}

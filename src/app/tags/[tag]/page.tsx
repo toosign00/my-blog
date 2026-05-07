@@ -6,6 +6,7 @@ import { POST } from '@/constants/metadata.constants';
 import { generatePageMetadata } from '@/utils/metadata-util';
 import { parsePageParam } from '@/utils/page-param-util';
 import { getAllPosts } from '@/utils/post-util';
+import { getPostsViews } from '@/utils/stats-util';
 import { decodeSlugSegment, slugify } from '@/utils/text-util';
 
 interface TagsPageProps {
@@ -24,7 +25,9 @@ const TagsPage = async ({ params, searchParams }: TagsPageProps) => {
 
   const start = (currentPage - 1) * POST.PER_PAGE;
   const end = start + POST.PER_PAGE;
-  const currentPosts = tagPosts.slice(start, end);
+  const pageTagPosts = tagPosts.slice(start, end);
+  const views = await getPostsViews(pageTagPosts.map((p) => p.slug));
+  const currentPosts = pageTagPosts.map((p) => ({ ...p, views: views[`/posts/${p.slug}`] ?? 0 }));
 
   const tagName =
     tagPosts[0]?.tags?.find((t) => slugify(t) === tagKey) ?? decodeSlugSegment(rawTag);

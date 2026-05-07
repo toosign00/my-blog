@@ -1,6 +1,6 @@
 'use client';
 
-import Image, { type ImageProps } from 'next/image';
+import Image from 'next/image';
 import type { CSSProperties } from 'react';
 import { useState } from 'react';
 import { twMerge } from 'tailwind-merge';
@@ -12,7 +12,7 @@ export type LazyImageProps = {
   draggable?: boolean;
   title?: string;
   style?: CSSProperties;
-  onLoadingComplete?: ImageProps['onLoadingComplete'];
+  onLoad?: () => void;
 };
 
 export const LazyImage = ({
@@ -22,7 +22,7 @@ export const LazyImage = ({
   draggable = false,
   title,
   style,
-  onLoadingComplete,
+  onLoad,
 }: LazyImageProps) => {
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -36,9 +36,9 @@ export const LazyImage = ({
       )}
       draggable={draggable}
       height={800}
-      onLoadingComplete={(img) => {
+      onLoad={() => {
         setIsLoaded(true);
-        onLoadingComplete?.(img);
+        onLoad?.();
       }}
       sizes='(max-width: 768px) 100vw, 1200px'
       src={src}

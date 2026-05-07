@@ -7,12 +7,15 @@ import { PostGrid } from '@/components/ui/postGrid';
 import { ROUTES } from '@/constants/menu.constants';
 import { generatePageMetadata } from '@/utils/metadata-util';
 import { getAllPosts } from '@/utils/post-util';
+import { getPostsViews } from '@/utils/stats-util';
 
-const getLatestPosts = <T,>(posts: T[]) => posts.slice(0, 2);
+const getLatestPosts = <T extends { slug: string }>(posts: T[]) => posts.slice(0, 2);
 
 const HomePage = async () => {
   const allPosts = await getAllPosts();
-  const posts = getLatestPosts(allPosts);
+  const latestPosts = getLatestPosts(allPosts);
+  const views = await getPostsViews(latestPosts.map((p) => p.slug));
+  const posts = latestPosts.map((p) => ({ ...p, views: views[`/posts/${p.slug}`] ?? 0 }));
 
   return (
     <>

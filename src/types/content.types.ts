@@ -12,4 +12,5 @@ export interface PostMetadata {
 export interface Post extends PostMetadata {
   _id: string;
   slug: string;
+  views?: number;
 }
