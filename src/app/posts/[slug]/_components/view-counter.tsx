@@ -1,6 +1,5 @@
 'use client';
 
-import { Eye } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 
 interface ViewCounterProps {
@@ -21,10 +20,5 @@ export const ViewCounter = ({ pathname, initialTotal }: ViewCounterProps) => {
     });
   }, [pathname]);
 
-  return (
-    <span className='center-y gap-1'>
-      <Eye size={12} />
-      {initialTotal.toLocaleString()}
-    </span>
-  );
+  return <span>{initialTotal.toLocaleString()} views</span>;
 };
