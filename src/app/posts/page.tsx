@@ -40,6 +40,8 @@ const PostsPage = async ({ searchParams }: PostsPageProps) => {
 
 export default PostsPage;
 
+export const dynamic = 'force-dynamic';
+
 export const generateStaticParams = async () => {
   const allPosts = await getAllPosts();
   const totalPages = Math.ceil(allPosts.length / POST.PER_PAGE);
