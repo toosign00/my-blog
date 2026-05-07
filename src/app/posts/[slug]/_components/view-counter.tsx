@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { useStatsMutation, useStatsQuery } from '@/hooks/useStats';
 
 interface ViewCounterProps {
   pathname: string;
@@ -9,16 +10,14 @@ interface ViewCounterProps {
 
 export const ViewCounter = ({ pathname, initialTotal }: ViewCounterProps) => {
   const hasCounted = useRef(false);
+  const { data } = useStatsQuery(pathname, { today: 0, total: initialTotal });
+  const { mutate } = useStatsMutation(pathname);
 
   useEffect(() => {
     if (hasCounted.current) return;
     hasCounted.current = true;
-    void fetch('/api/stats', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ pathname }),
-    });
-  }, [pathname]);
+    mutate();
+  }, [mutate]);
 
-  return <span>{initialTotal.toLocaleString()} views</span>;
+  return <span>{data.total.toLocaleString()} views</span>;
 };

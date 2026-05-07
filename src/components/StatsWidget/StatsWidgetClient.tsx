@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { useStatsMutation, useStatsQuery } from '@/hooks/useStats';
 import type { Stats } from '@/utils/stats-util';
 
 interface StatsWidgetClientProps {
@@ -29,14 +30,15 @@ function useCountUp(target: number, duration = 1200) {
 }
 
 export const StatsWidgetClient = ({ postCount, initialStats }: StatsWidgetClientProps) => {
-  const [stats] = useState<Stats>(initialStats);
   const hasCounted = useRef(false);
+  const { data: stats } = useStatsQuery('/', initialStats);
+  const { mutate } = useStatsMutation('/');
 
   useEffect(() => {
     if (hasCounted.current) return;
     hasCounted.current = true;
-    void fetch('/api/stats', { method: 'POST' });
-  }, []);
+    mutate();
+  }, [mutate]);
 
   const todayCount = useCountUp(stats.today);
   const totalCount = useCountUp(stats.total);
