@@ -22,7 +22,7 @@ export function useStatsQuery(pathname: string, initialData: Stats) {
     queryKey: statsQueryKey(pathname),
     queryFn: () => fetchStats(pathname),
     initialData,
-    staleTime: Infinity,
+    staleTime: 30_000,
   });
 }
 

@@ -8,6 +8,8 @@ import { parsePageParam } from '@/utils/page-param-util';
 import { getAllPosts } from '@/utils/post-util';
 import { getPostsViews } from '@/utils/stats-util';
 
+export const revalidate = 60;
+
 interface PostsPageProps {
   searchParams: Promise<{ page: string }>;
 }
@@ -39,15 +41,6 @@ const PostsPage = async ({ searchParams }: PostsPageProps) => {
 };
 
 export default PostsPage;
-
-export const generateStaticParams = async () => {
-  const allPosts = await getAllPosts();
-  const totalPages = Math.ceil(allPosts.length / POST.PER_PAGE);
-
-  return Array.from({ length: totalPages }, (_, i) => ({
-    page: (i + 1).toString(),
-  }));
-};
 
 export const generateMetadata = async ({ searchParams }: PostsPageProps): Promise<Metadata> => {
   const { page } = await searchParams;

@@ -9,6 +9,8 @@ import { generatePageMetadata } from '@/utils/metadata-util';
 import { getAllPosts } from '@/utils/post-util';
 import { getPostsViews } from '@/utils/stats-util';
 
+export const revalidate = 60;
+
 const getLatestPosts = <T extends { slug: string }>(posts: T[]) => posts.slice(0, 2);
 
 const HomePage = async () => {

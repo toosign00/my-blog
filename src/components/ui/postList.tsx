@@ -1,18 +1,20 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import type { ComponentProps } from 'react';
+import { type ComponentProps, Suspense } from 'react';
 import { twMerge } from 'tailwind-merge';
 import { ROUTES } from '@/constants/menu.constants';
 import { POST_CARD_INTERACTION_CLASS } from '@/constants/style.constants';
 import type { Post } from '@/types/content.types';
+import { PostViewCount } from './postViewCount';
 import { RelativeTime } from './relativeTime';
 
 type PostListProps = ComponentProps<'ul'> & {
   className?: string;
   posts: Post[];
+  liveViews?: boolean;
 };
 
-export const PostList = ({ posts, className, ...props }: PostListProps) => {
+export const PostList = ({ posts, className, liveViews = false, ...props }: PostListProps) => {
   return (
     <ul className={twMerge('column list-none gap-7.5', className)} {...props}>
       {posts.map(
@@ -55,8 +57,18 @@ export const PostList = ({ posts, className, ...props }: PostListProps) => {
                       {category}
                     </>
                   )}
-                  {views !== undefined && (
-                    <span className='ml-4 tabular-nums'>{views.toLocaleString()} views</span>
+                  {liveViews ? (
+                    <Suspense
+                      fallback={
+                        <span className='ml-4 inline-block h-3 w-12 animate-pulse rounded bg-gray-light/30' />
+                      }
+                    >
+                      <PostViewCount slug={slug} />
+                    </Suspense>
+                  ) : (
+                    views !== undefined && (
+                      <span className='ml-4 tabular-nums'>{views.toLocaleString()} views</span>
+                    )
                   )}
                 </p>
               </div>

@@ -14,6 +14,8 @@ import { Header } from './_components/header';
 import { Recommend } from './_components/recommend';
 import { ViewCounter } from './_components/view-counter';
 
+export const revalidate = 60;
+
 interface PostPageProps {
   params: Promise<{ slug: string }>;
 }
