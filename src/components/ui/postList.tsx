@@ -34,7 +34,7 @@ export const PostList = ({ posts, className, ...props }: PostListProps) => {
                   draggable={false}
                   fill
                   priority={index === 0}
-                  quality={100}
+                  quality={75}
                   sizes='(max-width: 59.9375rem) 100vw, 21.625rem'
                   src={coverImage}
                 />
