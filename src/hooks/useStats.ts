@@ -22,7 +22,7 @@ export function useStatsQuery(pathname: string, initialData: Stats) {
     queryKey: statsQueryKey(pathname),
     queryFn: () => fetchStats(pathname),
     initialData,
-    staleTime: Infinity,
+    staleTime: 60_000,
   });
 }
 
@@ -31,10 +31,8 @@ export function useStatsMutation(pathname: string) {
 
   return useMutation({
     mutationFn: () => postStats(pathname),
-    onSuccess: ({ counted }) => {
-      if (counted) {
-        void queryClient.invalidateQueries({ queryKey: statsQueryKey(pathname) });
-      }
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: statsQueryKey(pathname) });
     },
   });
 }
