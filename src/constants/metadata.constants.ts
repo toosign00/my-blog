@@ -6,6 +6,13 @@ export const METADATA = {
     PREVIEW_IMAGE: 'https://www.toosign.me/og-image.png',
     LANGUAGE: 'ko-KR',
   },
+  PAGES: {
+    POSTS: '글 목록을 확인할 수 있습니다.',
+    CATEGORIES: '카테고리별로 글을 탐색할 수 있습니다.',
+    TAGS: '태그별로 글을 탐색할 수 있습니다.',
+    CATEGORY: (name: string) => `${name} 카테고리의 글 목록입니다.`,
+    TAG: (name: string) => `${name} 태그의 글 목록입니다.`,
+  },
 
   AUTHOR: {
     NAME: '노현수',

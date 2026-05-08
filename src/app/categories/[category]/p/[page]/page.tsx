@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import { Pagination } from '@/components/ui/pagination';
 import { PostList } from '@/components/ui/postList';
 import { ROUTES } from '@/constants/menu.constants';
@@ -9,15 +10,21 @@ import { getPostsViews } from '@/utils/stats-util';
 import { slugify } from '@/utils/text-util';
 
 interface CategoriesPageProps {
-  params: Promise<{ category: string }>;
+  params: Promise<{ category: string; page: string }>;
 }
 
 const CategoriesPage = async ({ params }: CategoriesPageProps) => {
-  const { category } = await params;
+  const { category, page } = await params;
+  const currentPage = Number.parseInt(page, 10);
 
   const allPosts = await getAllPosts();
   const categoryPosts = allPosts.filter((post) => slugify(post.category) === category);
-  const pageCategoryPosts = categoryPosts.slice(0, POST.PER_PAGE);
+  const totalPages = Math.ceil(categoryPosts.length / POST.PER_PAGE);
+  if (categoryPosts.length === 0 || currentPage < 1 || currentPage > totalPages) notFound();
+
+  const start = (currentPage - 1) * POST.PER_PAGE;
+  const end = start + POST.PER_PAGE;
+  const pageCategoryPosts = categoryPosts.slice(start, end);
   const views = await getPostsViews(pageCategoryPosts.map((p) => p.slug));
   const currentPosts = pageCategoryPosts.map((p) => ({
     ...p,
@@ -31,13 +38,11 @@ const CategoriesPage = async ({ params }: CategoriesPageProps) => {
           ? `${categoryPosts[0].category} (${categoryPosts.length})`
           : `${category} (0 posts)`}
       </h1>
-
       <PostList posts={currentPosts} />
-
       <Pagination
         basePath={`${ROUTES.CATEGORIES}/${category}`}
-        currentPage={1}
-        totalPages={Math.ceil(categoryPosts.length / POST.PER_PAGE)}
+        currentPage={currentPage}
+        totalPages={totalPages}
       />
     </>
   );
@@ -49,21 +54,29 @@ export const generateStaticParams = async () => {
   const allPosts = await getAllPosts();
   const categories = [...new Set(allPosts.map((post) => post.category))];
 
-  return categories.map((category) => ({
-    category: slugify(category),
-  }));
+  return categories.flatMap((category) => {
+    const categoryPosts = allPosts.filter((post) => post.category === category);
+    const totalPages = Math.ceil(categoryPosts.length / POST.PER_PAGE);
+
+    return Array.from({ length: totalPages }, (_, i) => ({
+      category: slugify(category),
+      page: (i + 1).toString(),
+    }));
+  });
 };
 
 export const generateMetadata = async ({ params }: CategoriesPageProps): Promise<Metadata> => {
-  const { category } = await params;
+  const { category, page } = await params;
+  const current = Number.parseInt(page, 10);
 
   const allPosts = await getAllPosts();
   const categoryPosts = allPosts.filter((post) => slugify(post.category) === category);
   const categoryName = categoryPosts[0]?.category ?? category;
 
   return generatePageMetadata({
-    title: categoryName,
+    title: `${categoryName} - Page ${current}`,
     description: METADATA.PAGES.CATEGORY(categoryName),
-    path: `${ROUTES.CATEGORIES}/${category}`,
+    path: `${ROUTES.CATEGORIES}/${category}/p/${current}`,
+    canonicalPath: `${ROUTES.CATEGORIES}/${category}`,
   });
 };
