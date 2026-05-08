@@ -5,6 +5,7 @@ interface GeneratePageMetadataParams {
   title?: string;
   description?: string;
   path?: string;
+  canonicalPath?: string;
   image?: string;
   type?: 'website' | 'article';
   openGraph?: {
@@ -19,18 +20,20 @@ export const generatePageMetadata = ({
   title = METADATA.SITE.NAME,
   description = METADATA.SITE.DESCRIPTION,
   path = '',
+  canonicalPath,
   image = METADATA.SITE.PREVIEW_IMAGE,
   type = 'website',
   openGraph,
 }: GeneratePageMetadataParams): Metadata => {
   const url = `${METADATA.SITE.URL}${path}`;
+  const canonical = `${METADATA.SITE.URL}${canonicalPath ?? path}`;
 
   return {
-    title: title === METADATA.SITE.NAME ? title : `${title} - ${METADATA.SITE.NAME}`,
+    title,
     description,
     metadataBase: new URL(METADATA.SITE.URL),
     openGraph: {
-      title: title === METADATA.SITE.NAME ? title : `${title} - ${METADATA.SITE.NAME}`,
+      title,
       description,
       url,
       siteName: METADATA.SITE.NAME,
@@ -52,7 +55,7 @@ export const generatePageMetadata = ({
     },
     twitter: {
       card: 'summary_large_image',
-      title: title === METADATA.SITE.NAME ? title : `${title} - ${METADATA.SITE.NAME}`,
+      title,
       description,
       images: [image],
     },
@@ -68,7 +71,7 @@ export const generatePageMetadata = ({
       },
     },
     alternates: {
-      canonical: url,
+      canonical,
     },
     generator: 'Next.js',
     applicationName: METADATA.SITE.NAME,

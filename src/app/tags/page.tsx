@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ROUTES } from '@/constants/menu.constants';
+import { METADATA } from '@/constants/metadata.constants';
 import { generatePageMetadata } from '@/utils/metadata-util';
 import { getAllPosts } from '@/utils/post-util';
 import { slugify } from '@/utils/text-util';
@@ -55,5 +56,9 @@ const TagListPage = async () => {
 export default TagListPage;
 
 export const generateMetadata = async (): Promise<Metadata> => {
-  return generatePageMetadata({ title: 'Tags', path: ROUTES.TAGS });
+  return generatePageMetadata({
+    title: 'Tags',
+    description: METADATA.PAGES.TAGS,
+    path: ROUTES.TAGS,
+  });
 };

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ROUTES } from '@/constants/menu.constants';
+import { METADATA } from '@/constants/metadata.constants';
 import { generatePageMetadata } from '@/utils/metadata-util';
 import { getAllPosts } from '@/utils/post-util';
 import { slugify } from '@/utils/text-util';
@@ -51,5 +52,9 @@ const CategoryListPage = async () => {
 export default CategoryListPage;
 
 export const generateMetadata = async (): Promise<Metadata> => {
-  return generatePageMetadata({ title: 'Categories', path: ROUTES.CATEGORIES });
+  return generatePageMetadata({
+    title: 'Categories',
+    description: METADATA.PAGES.CATEGORIES,
+    path: ROUTES.CATEGORIES,
+  });
 };
