@@ -63,6 +63,7 @@ export const generateMetadata = async ({ params }: CategoriesPageProps): Promise
 
   return generatePageMetadata({
     title: categoryName,
+    description: `${categoryName} 카테고리의 글 목록입니다.`,
     path: `${ROUTES.CATEGORIES}/${category}`,
   });
 };

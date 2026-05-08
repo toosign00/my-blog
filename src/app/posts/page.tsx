@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Pagination } from '@/components/ui/pagination';
 import { PostList } from '@/components/ui/postList';
 import { ROUTES } from '@/constants/menu.constants';
-import { POST } from '@/constants/metadata.constants';
+import { METADATA, POST } from '@/constants/metadata.constants';
 import { generatePageMetadata } from '@/utils/metadata-util';
 import { getAllPosts } from '@/utils/post-util';
 import { getPostsViews } from '@/utils/stats-util';
@@ -35,6 +35,7 @@ export const dynamic = 'force-dynamic';
 export const generateMetadata = async (): Promise<Metadata> => {
   return generatePageMetadata({
     title: 'Posts',
+    description: METADATA.PAGES.POSTS,
     path: ROUTES.POSTS,
   });
 };

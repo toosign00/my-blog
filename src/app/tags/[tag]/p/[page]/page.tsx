@@ -77,6 +77,8 @@ export const generateMetadata = async ({ params }: TagsPageProps): Promise<Metad
 
   return generatePageMetadata({
     title: `${tagName} - Page ${current}`,
+    description: `${tagName} 태그의 글 목록입니다.`,
     path: `${ROUTES.TAGS}/${encodeURIComponent(tagKey)}/p/${current}`,
+    canonicalPath: `${ROUTES.TAGS}/${encodeURIComponent(tagKey)}`,
   });
 };
