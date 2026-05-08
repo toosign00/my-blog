@@ -28,7 +28,7 @@ export const Pagination = ({ currentPage, totalPages, basePath }: PaginationProp
 
   const buildPageHref = (page: number) => {
     const path = basePath.replace(TRAILING_SLASH, '');
-    return `${path}?page=${page}`;
+    return page === 1 ? path : `${path}/p/${page}`;
   };
 
   const pageList = generatePageRange();
