@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import { Pagination } from '@/components/ui/pagination';
 import { PostList } from '@/components/ui/postList';
 import { ROUTES } from '@/constants/menu.constants';
-import { POST } from '@/constants/metadata.constants';
+import { METADATA, POST } from '@/constants/metadata.constants';
 import { generatePageMetadata } from '@/utils/metadata-util';
 import { getAllPosts } from '@/utils/post-util';
 import { getPostsViews } from '@/utils/stats-util';
@@ -75,7 +75,7 @@ export const generateMetadata = async ({ params }: CategoriesPageProps): Promise
 
   return generatePageMetadata({
     title: `${categoryName} - Page ${current}`,
-    description: `${categoryName} 카테고리의 글 목록입니다.`,
+    description: METADATA.PAGES.CATEGORY(categoryName),
     path: `${ROUTES.CATEGORIES}/${category}/p/${current}`,
     canonicalPath: `${ROUTES.CATEGORIES}/${category}`,
   });
