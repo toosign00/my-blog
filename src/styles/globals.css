@@ -13,6 +13,7 @@
     -webkit-text-size-adjust: 100%;
     overflow-x: hidden;
     overflow-y: scroll;
+    word-break: keep-all;
     background-color: var(--color-background);
   }
 
