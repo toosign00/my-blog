@@ -403,4 +403,9 @@ public/content/**
 .claude
 .cursor
 
+# Playwright
+playwright-report/
+test-results/
+.playwright-mcp/
+
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,macos,windows,webstorm,git,node,nextjs,react
