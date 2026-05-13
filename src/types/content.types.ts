@@ -14,3 +14,9 @@ export interface Post extends PostMetadata {
   slug: string;
   views?: number;
 }
+
+export interface TocItem {
+  id: string;
+  text: string;
+  level: 2 | 3;
+}

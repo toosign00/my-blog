@@ -1,8 +1,9 @@
-import { readdir } from 'node:fs/promises';
+import { readdir, readFile } from 'node:fs/promises';
+import path from 'node:path';
 import type { ComponentType } from 'react';
 import { cache } from 'react';
 import { PATHS } from '@/constants/paths.constants';
-import type { Post, PostMetadata } from '@/types/content.types';
+import type { Post, PostMetadata, TocItem } from '@/types/content.types';
 
 interface PostModule {
   default: ComponentType;
@@ -13,6 +14,26 @@ interface PostPageData {
   post: Post;
   content: PostModule['default'];
 }
+
+const HEADING_REGEX = /^(#{2,3})\s+(.+)$/gm;
+
+export const getPostToc = async (slug: string): Promise<TocItem[]> => {
+  const filePath = path.join(PATHS.POSTS_ARTICLES_DIR, slug, 'post.mdx');
+  const content = await readFile(filePath, 'utf-8');
+  const items: TocItem[] = [];
+
+  for (const match of content.matchAll(HEADING_REGEX)) {
+    const level = match[1].length as 2 | 3;
+    const text = match[2].trim();
+    const id = text
+      .toLowerCase()
+      .replace(/[^\w\sㄱ-힣]/g, '')
+      .replace(/\s+/g, '-');
+    items.push({ id, text, level });
+  }
+
+  return items;
+};
 
 const resolveCoverImage = (slug: string, coverImage: string): string => {
   if (coverImage.startsWith('https://')) {
