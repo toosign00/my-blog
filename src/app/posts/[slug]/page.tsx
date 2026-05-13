@@ -5,13 +5,14 @@ import { ROUTES } from '@/constants/menu.constants';
 import { METADATA } from '@/constants/metadata.constants';
 import type { Post } from '@/types/content.types';
 import { generatePageMetadata } from '@/utils/metadata-util';
-import { getAllPosts, getPostBySlug, getPostPageDataBySlug } from '@/utils/post-util';
+import { getAllPosts, getPostBySlug, getPostPageDataBySlug, getPostToc } from '@/utils/post-util';
 import { getStats } from '@/utils/stats-util';
 import { BackButton } from './_components/back-button';
 import { Footer } from './_components/footer';
 import { Giscus } from './_components/giscus';
 import { Header } from './_components/header';
 import { Recommend } from './_components/recommend';
+import { Toc } from './_components/toc';
 import { ViewCounter } from './_components/view-counter';
 
 interface PostPageProps {
@@ -34,10 +35,15 @@ const PostPage = async ({ params }: PostPageProps) => {
   }
 
   const pathname = `/posts/${slug}`;
-  const [allPosts, postStats] = await Promise.all([getAllPosts(), getStats(pathname)]);
+  const [allPosts, postStats, tocItems] = await Promise.all([
+    getAllPosts(),
+    getStats(pathname),
+    getPostToc(slug),
+  ]);
 
   return (
     <>
+      <Toc items={tocItems} />
       <BackButton />
 
       <article>

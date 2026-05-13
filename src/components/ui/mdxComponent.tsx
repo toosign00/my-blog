@@ -8,20 +8,34 @@ import { LazyImage } from './lazyImage';
 
 const cssVariablesTheme = createCssVariablesTheme({});
 
+const toHeadingId = (children: ReactNode): string => {
+  const text = typeof children === 'string' ? children : '';
+  return text
+    .toLowerCase()
+    .replace(/[^\w\sㄱ-힣]/g, '')
+    .replace(/\s+/g, '-');
+};
+
 const H1 = (props: ComponentProps<'h1'>) => (
   <h1 className='mb-6 text-balance font-semibold text-gray-accent text-xl' {...props} />
 );
-const H2 = (props: ComponentProps<'h2'>) => (
+const H2 = ({ children, ...props }: ComponentProps<'h2'>) => (
   <h2
+    id={toHeadingId(children)}
     className='mt-12 mb-6 text-balance font-semibold text-gray-accent text-lg leading-tight tracking-[-0.01em]'
     {...props}
-  />
+  >
+    {children}
+  </h2>
 );
-const H3 = (props: ComponentProps<'h3'>) => (
+const H3 = ({ children, ...props }: ComponentProps<'h3'>) => (
   <h3
+    id={toHeadingId(children)}
     className='mt-12 mb-6 text-balance font-semibold text-gray-accent leading-tight tracking-[-0.01em]'
     {...props}
-  />
+  >
+    {children}
+  </h3>
 );
 const H4 = (props: ComponentProps<'h4'>) => (
   <h4
