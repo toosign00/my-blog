@@ -1,40 +1,48 @@
-contentlayer:
-  - any:
-      - changed-files:
-          - any-glob-to-any-file:
-              - 'contentlayer.config.ts'
-              - 'config/contentlayer/**'
-
 dependencies:
   - any:
       - changed-files:
           - any-glob-to-any-file:
               - 'pnpm-lock.yaml'
+              - 'package.json'
 
-documentation:
+post:
   - any:
       - changed-files:
           - any-glob-to-any-file:
-              - 'content/**/*'
+              - 'src/app/posts/_articles/**/*'
 
-eslint:
+feature:
   - any:
       - changed-files:
           - any-glob-to-any-file:
-              - 'eslint.*'
+              - 'src/app/**/*'
+              - 'src/components/**/*'
 
-tsconfig:
+style:
   - any:
       - changed-files:
           - any-glob-to-any-file:
+              - 'src/styles/**/*'
+              - '*.css'
+
+test:
+  - any:
+      - changed-files:
+          - any-glob-to-any-file:
+              - 'tests/**/*'
+              - 'playwright.config.ts'
+
+config:
+  - any:
+      - changed-files:
+          - any-glob-to-any-file:
+              - 'next.config.ts'
               - 'tsconfig.json'
-
-v2:
-  - any:
-      - head-branch: [ '^wip/v2$' ]
+              - 'biome.json'
+              - 'postcss.config.js'
 
 workflows:
   - any:
       - changed-files:
           - any-glob-to-any-file:
-              - '.github/workflows/**/*'
+              - '.github/**/*'
