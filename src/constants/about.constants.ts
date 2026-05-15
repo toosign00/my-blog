@@ -109,7 +109,7 @@ export const ABOUT = {
     {
       title: '고퀄',
       href: 'https://www.goqual.com',
-      period: '2026.05 - 2026.07',
+      period: '2026.05 - 현재',
       tags: ['Intern', 'QA Engineer'],
       description: [
         'IoT 앱, 디바이스, 클라우드기반 테스트 시나리오 및 테스트 케이스 설계',
