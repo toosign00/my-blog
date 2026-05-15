@@ -113,7 +113,7 @@ export const ABOUT = {
       tags: ['Intern', 'QA Engineer'],
       description: [
         'IoT 앱, 디바이스, 클라우드기반 테스트 시나리오 및 테스트 케이스 설계',
-        '단위 기능 테스트, E2E 통합 테스트, Regression 테스트, Exploratory 테스트 수행',
+        'E2E 통합 테스트, Regression 테스트, Exploratory 테스트 수행',
         '디바이스 등록, 제어, 상태 동기화 등 IoT 연동 기능 및 네트워크 환경 기반 테스트 수행',
         'Jira를 활용한 버그 리포트 작성 및 이슈 트래킹 관리',
         '다양한 디바이스 및 OS 환경 호환성 검증 및 품질 리포트 산출',
