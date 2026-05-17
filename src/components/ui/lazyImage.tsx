@@ -32,7 +32,7 @@ export const LazyImage = ({
 
   return (
     <span
-      className='relative block overflow-hidden'
+      className='relative block overflow-hidden rounded-lg'
       style={{ aspectRatio: `${width} / ${height}` }}
     >
       {!isLoaded && (
