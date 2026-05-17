@@ -12,6 +12,7 @@ export interface PostMetadata {
 export interface Post extends PostMetadata {
   _id: string;
   slug: string;
+  coverImageBlur?: string;
   views?: number;
 }
 

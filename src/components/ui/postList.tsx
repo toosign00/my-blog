@@ -16,7 +16,10 @@ export const PostList = ({ posts, className, ...props }: PostListProps) => {
   return (
     <ul className={twMerge('column list-none gap-7.5', className)} {...props}>
       {posts.map(
-        ({ _id, slug, title, subtitle, coverImage, category, createdAt, views }, index) => (
+        (
+          { _id, slug, title, subtitle, coverImage, coverImageBlur, category, createdAt, views },
+          index
+        ) => (
           <li key={_id}>
             <Link
               aria-label={`Read post: ${title}`}
@@ -37,6 +40,7 @@ export const PostList = ({ posts, className, ...props }: PostListProps) => {
                   quality={75}
                   sizes='(max-width: 59.9375rem) 100vw, 21.625rem'
                   src={coverImage}
+                  {...(coverImageBlur && { placeholder: 'blur', blurDataURL: coverImageBlur })}
                 />
               </div>
 

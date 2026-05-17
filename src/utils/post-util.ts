@@ -4,6 +4,7 @@ import type { ComponentType } from 'react';
 import { cache } from 'react';
 import { PATHS } from '@/constants/paths.constants';
 import type { Post, PostMetadata, TocItem } from '@/types/content.types';
+import { createBlur } from '@/utils/blur-util';
 
 interface PostModule {
   default: ComponentType;
@@ -42,12 +43,23 @@ const resolveCoverImage = (slug: string, coverImage: string): string => {
   return `/covers/${slug}/${coverImage}`;
 };
 
-const buildPost = (slug: string, metadata: PostMetadata): Post => {
+const buildPost = async (slug: string, metadata: PostMetadata): Promise<Post> => {
+  const coverImage = resolveCoverImage(slug, metadata.coverImage);
+  let coverImageBlur: string | undefined;
+
+  try {
+    const systemPath = path.join(PATHS.POSTS_ARTICLES_DIR, slug, metadata.coverImage);
+    coverImageBlur = await createBlur(systemPath);
+  } catch {
+    // blur 생성 실패 시 무시
+  }
+
   return {
     _id: slug,
     slug,
     ...metadata,
-    coverImage: resolveCoverImage(slug, metadata.coverImage),
+    coverImage,
+    coverImageBlur,
   };
 };
 
@@ -68,7 +80,7 @@ export const getAllPosts = cache(async (): Promise<Post[]> => {
       throw new Error(`Missing \`metadata\` in ${slug}/post.mdx`);
     }
 
-    items.push(buildPost(slug, postModule.metadata));
+    items.push(await buildPost(slug, postModule.metadata));
   }
 
   items.sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1));
@@ -89,7 +101,7 @@ export const getPostPageDataBySlug = async (slug: string): Promise<PostPageData>
     }
 
     return {
-      post: buildPost(slug, postModule.metadata),
+      post: await buildPost(slug, postModule.metadata),
       content: postModule.default,
     };
   } catch {

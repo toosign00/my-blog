@@ -12,6 +12,7 @@ interface HeaderProps extends Post {
 
 export const Header = ({
   coverImage,
+  coverImageBlur,
   title,
   subtitle,
   createdAt,
@@ -31,6 +32,7 @@ export const Header = ({
           quality={100}
           sizes='(max-width: 60rem) 100vw, 47.375rem'
           src={coverImage}
+          {...(coverImageBlur && { placeholder: 'blur', blurDataURL: coverImageBlur })}
         />
       </div>
 
