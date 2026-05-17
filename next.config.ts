@@ -40,6 +40,7 @@ const nextConfig: NextConfig = {
     },
   },
   images: {
+    minimumCacheTTL: 2592000,
     qualities: [75, 100],
     remotePatterns: [
       {

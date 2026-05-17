@@ -8,6 +8,8 @@ import { twMerge } from 'tailwind-merge';
 export type LazyImageProps = {
   src: string;
   alt: string;
+  width?: number;
+  height?: number;
   className?: string;
   draggable?: boolean;
   title?: string;
@@ -18,6 +20,8 @@ export type LazyImageProps = {
 export const LazyImage = ({
   src,
   alt,
+  width = 1200,
+  height = 800,
   className,
   draggable = false,
   title,
@@ -27,7 +31,10 @@ export const LazyImage = ({
   const [isLoaded, setIsLoaded] = useState(false);
 
   return (
-    <span className='relative block overflow-hidden'>
+    <span
+      className='relative block overflow-hidden'
+      style={{ aspectRatio: `${width} / ${height}` }}
+    >
       {!isLoaded && (
         <span className='absolute inset-0 animate-shimmer bg-[linear-gradient(90deg,var(--color-background02)_25%,var(--color-border)_50%,var(--color-background02)_75%)] bg-[length:200%_100%]' />
       )}
@@ -39,7 +46,7 @@ export const LazyImage = ({
           className
         )}
         draggable={draggable}
-        height={800}
+        height={height}
         onLoad={() => {
           setIsLoaded(true);
           onLoad?.();
@@ -48,7 +55,7 @@ export const LazyImage = ({
         src={src}
         style={style}
         title={title}
-        width={1200}
+        width={width}
       />
     </span>
   );

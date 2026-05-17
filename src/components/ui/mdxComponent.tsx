@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import type { ComponentProps, ReactNode } from 'react';
+import { cache } from 'react';
 import { codeToHtml, createCssVariablesTheme } from 'shiki';
 import { twMerge } from 'tailwind-merge';
 
@@ -157,6 +158,22 @@ const Code = async (props: CodeProps) => {
   return <code className='inline' {...props} />;
 };
 
+const getImageSize = cache(
+  async (url: string): Promise<{ width: number; height: number } | null> => {
+    try {
+      const response = await fetch(url);
+      if (!response.ok) return null;
+      const buffer = Buffer.from(await response.arrayBuffer());
+      const sharp = (await import('sharp')).default;
+      const { width, height } = await sharp(buffer).metadata();
+      if (!width || !height) return null;
+      return { width, height };
+    } catch {
+      return null;
+    }
+  }
+);
+
 type ImgProps = Omit<ComponentProps<'img'>, 'src' | 'alt'> & {
   src?: string;
   alt?: string;
@@ -167,14 +184,17 @@ const Img = async ({ src, alt, ...props }: ImgProps) => {
   }
 
   if (src.startsWith('https://')) {
+    const size = await getImageSize(src);
     return (
       <LazyImage
         alt={alt ?? ''}
         className={twMerge('h-auto max-w-full', props.className)}
         draggable={props.draggable === true || props.draggable === 'true'}
+        height={size?.height}
         src={src}
         style={props.style}
         title={props.title}
+        width={size?.width}
       />
     );
   }
