@@ -1,5 +1,21 @@
+import { cpSync, mkdirSync, readdirSync, statSync } from 'node:fs';
+import { join } from 'node:path';
 import createMDX from '@next/mdx';
 import type { NextConfig } from 'next';
+
+const articlesDir = join(process.cwd(), 'src', 'app', 'posts', '_articles');
+const coversDir = join(process.cwd(), 'public', 'covers');
+
+for (const slug of readdirSync(articlesDir)) {
+  const articleDir = join(articlesDir, slug);
+  if (!statSync(articleDir).isDirectory()) continue;
+  for (const file of readdirSync(articleDir)) {
+    if (file.startsWith('cover.')) {
+      mkdirSync(join(coversDir, slug), { recursive: true });
+      cpSync(join(articleDir, file), join(coversDir, slug, file));
+    }
+  }
+}
 
 const withMDX = createMDX({
   options: {
