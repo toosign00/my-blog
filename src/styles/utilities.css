@@ -1,4 +1,12 @@
+@keyframes shimmer {
+  from { background-position: 200% 0; }
+  to { background-position: -200% 0; }
+}
+
 @layer utilities {
+  .animate-shimmer {
+    animation: shimmer 1.8s ease-in-out infinite;
+  }
   .ui-surface {
     border: 1px solid var(--color-hairline);
     border-radius: var(--radius-md);

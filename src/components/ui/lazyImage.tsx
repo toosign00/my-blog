@@ -27,25 +27,29 @@ export const LazyImage = ({
   const [isLoaded, setIsLoaded] = useState(false);
 
   return (
-    <Image
-      alt={alt}
-      className={twMerge(
-        'h-auto max-w-full transition-opacity duration-500',
-        isLoaded ? 'opacity-100' : 'opacity-0',
-        className
+    <span className='relative block overflow-hidden'>
+      {!isLoaded && (
+        <span className='absolute inset-0 animate-shimmer bg-[linear-gradient(90deg,var(--color-background02)_25%,var(--color-border)_50%,var(--color-background02)_75%)] bg-[length:200%_100%]' />
       )}
-      draggable={draggable}
-      height={800}
-      onLoad={() => {
-        setIsLoaded(true);
-        onLoad?.();
-      }}
-      sizes='(max-width: 768px) 100vw, 1200px'
-      src={src}
-      style={style}
-      title={title}
-      unoptimized
-      width={1200}
-    />
+      <Image
+        alt={alt}
+        className={twMerge(
+          'h-auto max-w-full transition-opacity duration-300',
+          isLoaded ? 'opacity-100' : 'opacity-0',
+          className
+        )}
+        draggable={draggable}
+        height={800}
+        onLoad={() => {
+          setIsLoaded(true);
+          onLoad?.();
+        }}
+        sizes='(max-width: 60rem) 100vw, 47.375rem'
+        src={src}
+        style={style}
+        title={title}
+        width={1200}
+      />
+    </span>
   );
 };
