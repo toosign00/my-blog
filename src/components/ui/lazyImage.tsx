@@ -1,9 +1,14 @@
 'use client';
 
+import type { ImageLoaderProps } from 'next/image';
 import Image from 'next/image';
 import type { CSSProperties } from 'react';
 import { useState } from 'react';
 import { twMerge } from 'tailwind-merge';
+
+const cloudflareLoader = ({ src, width }: ImageLoaderProps) => {
+  return src.replace(/width=\d+/, `width=${width}`);
+};
 
 export type LazyImageProps = {
   src: string;
@@ -40,11 +45,11 @@ export const LazyImage = ({
         setIsLoaded(true);
         onLoad?.();
       }}
-      sizes='(max-width: 768px) 100vw, 1200px'
+      loader={cloudflareLoader}
+      sizes='(max-width: 768px) 100vw, 800px'
       src={src}
       style={style}
       title={title}
-      unoptimized
       width={1200}
     />
   );
