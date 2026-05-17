@@ -16,6 +16,7 @@
 # feat: add a new feature
 # bugfix: fix a bug
 # fix: minor fix
+# perf: performance improvements (no functional change)
 # test: add, modify, or delete test code (no business logic change)
 # chore: build, dependency, or config file changes
 # revert: revert a commit
