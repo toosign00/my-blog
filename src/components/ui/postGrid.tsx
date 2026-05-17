@@ -18,7 +18,7 @@ export const PostGrid = ({ posts, className, ...props }: PostGridProps) => {
       className={twMerge('grid w-full grid-cols-1 tablet:grid-cols-2 gap-16', className)}
       {...props}
     >
-      {posts.map(({ _id, slug, title, coverImage, createdAt, views }, index) => {
+      {posts.map(({ _id, slug, title, coverImage, coverImageBlur, createdAt, views }, index) => {
         return (
           <Link
             aria-label={`Read post: ${title}`}
@@ -36,6 +36,7 @@ export const PostGrid = ({ posts, className, ...props }: PostGridProps) => {
                 quality={75}
                 sizes='(max-width: 60rem) 100vw, (max-width: 80rem) calc(50vw - 9rem), 22rem'
                 src={coverImage}
+                {...(coverImageBlur && { placeholder: 'blur', blurDataURL: coverImageBlur })}
               />
             </div>
 
