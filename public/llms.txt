@@ -1,0 +1,15 @@
+# Hyunsoo Ro
+
+> QA Engineer. 기획·디자인·개발을 경험한 시각으로 서비스 품질을 책임집니다.
+
+노현수의 개발 블로그입니다. QA, 테스트 자동화, 부하 테스트, 웹 개발 등의 주제를 다룹니다.
+
+## 링크
+
+- 블로그: https://toosign.me
+- 포스트 목록: https://toosign.me/posts
+- 카테고리: https://toosign.me/categories
+- 태그: https://toosign.me/tags
+- About: https://toosign.me/about
+- RSS: https://toosign.me/rss
+- 사이트맵: https://toosign.me/sitemap.xml

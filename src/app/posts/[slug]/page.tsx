@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import type { BlogPosting, WithContext } from 'schema-dts';
+import JsonLd from '@/components/JsonLd';
 import { Divider } from '@/components/ui/divider';
 import { ROUTES } from '@/constants/menu.constants';
 import { METADATA } from '@/constants/metadata.constants';
@@ -41,8 +43,32 @@ const PostPage = async ({ params }: PostPageProps) => {
     getPostToc(slug),
   ]);
 
+  const blogPostingSchema: WithContext<BlogPosting> = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: post.title,
+    description: post.subtitle,
+    datePublished: post.createdAt,
+    dateModified: post.modifiedAt ?? post.createdAt,
+    image: post.coverImage,
+    url: `${METADATA.SITE.URL}${pathname}`,
+    author: {
+      '@type': 'Person',
+      name: METADATA.AUTHOR.NAME,
+      url: METADATA.SITE.URL,
+    },
+    publisher: {
+      '@type': 'Person',
+      name: METADATA.AUTHOR.NAME,
+      url: METADATA.SITE.URL,
+    },
+    keywords: post.tags?.join(', '),
+    inLanguage: METADATA.SITE.LANGUAGE,
+  };
+
   return (
     <>
+      <JsonLd data={blogPostingSchema} />
       <Toc items={tocItems} />
       <BackButton />
 

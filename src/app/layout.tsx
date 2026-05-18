@@ -4,18 +4,46 @@ import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import type { Metadata, Viewport } from 'next';
 import type { PropsWithChildren } from 'react';
+import type { Person, WebSite, WithContext } from 'schema-dts';
 import { twMerge } from 'tailwind-merge';
 import { GeistMono, Pretendard } from '@/assets/font';
 import appleTouchIcon from '@/assets/images/apple-icon.png';
 import siteIcon from '@/assets/images/logo.svg';
+import JsonLd from '@/components/JsonLd';
 import { Layout } from '@/components/layout/Root';
 import { AppProviders } from '@/components/providers/AppProviders';
 import { METADATA } from '@/constants/metadata.constants';
+
+const websiteSchema: WithContext<WebSite> = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: METADATA.SITE.NAME,
+  url: METADATA.SITE.URL,
+  description: METADATA.SITE.DESCRIPTION,
+  inLanguage: METADATA.SITE.LANGUAGE,
+  author: {
+    '@type': 'Person',
+    name: METADATA.AUTHOR.NAME,
+  },
+};
+
+const personSchema: WithContext<Person> = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: METADATA.AUTHOR.NAME,
+  email: METADATA.AUTHOR.EMAIL,
+  url: METADATA.SITE.URL,
+  image: `${METADATA.SITE.URL}${METADATA.AUTHOR.PROFILE_IMAGE}`,
+  jobTitle: 'QA Engineer',
+  sameAs: [METADATA.SITE.URL],
+};
 
 const RootLayout = ({ children }: PropsWithChildren) => {
   return (
     <html lang={METADATA.SITE.LANGUAGE} suppressHydrationWarning>
       <body className={twMerge(Pretendard.variable, Pretendard.className, GeistMono.variable)}>
+        <JsonLd data={websiteSchema} />
+        <JsonLd data={personSchema} />
         <AppProviders>
           <Layout>{children}</Layout>
         </AppProviders>
@@ -51,6 +79,7 @@ export const metadata: Metadata = {
       },
     ],
     type: 'website',
+    locale: METADATA.SITE.LANGUAGE,
   },
   twitter: {
     card: 'summary_large_image',
@@ -81,6 +110,4 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
 };

@@ -45,6 +45,7 @@ export const generatePageMetadata = ({
         },
       ],
       type,
+      locale: METADATA.SITE.LANGUAGE,
       ...(type === 'article' &&
         openGraph && {
           publishedTime: openGraph.publishedTime,

@@ -1,9 +1,9 @@
 export const METADATA = {
   SITE: {
-    URL: 'https://www.toosign.me',
+    URL: 'https://toosign.me',
     NAME: 'Hyunsoo Ro',
     DESCRIPTION: '노현수의 블로그입니다',
-    PREVIEW_IMAGE: 'https://www.toosign.me/og-image.png',
+    PREVIEW_IMAGE: 'https://toosign.me/og-image.png',
     LANGUAGE: 'ko-KR',
   },
   PAGES: {
