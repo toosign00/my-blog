@@ -36,7 +36,7 @@ export const Sidebar = () => {
             {METADATA.AUTHOR.NAME}, All rights reserved.
           </p>
           <div className='row-between'>
-            <Link
+            <a
               aria-label='RSS feed'
               className='flex h6 items-center gap-1 text-license no-underline opacity-100 transition-opacity duration-150 ease-in-out hover:opacity-70'
               href={ROUTES.RSS}
@@ -45,8 +45,8 @@ export const Sidebar = () => {
             >
               <Rss size={16} />
               RSS
-            </Link>
-            <Link
+            </a>
+            <a
               aria-label='XML sitemap'
               className='flex h6 items-center gap-1 text-license no-underline opacity-100 transition-opacity duration-150 ease-in-out hover:opacity-70'
               href={ROUTES.SITEMAP}
@@ -55,7 +55,7 @@ export const Sidebar = () => {
             >
               <Network size={16} />
               Sitemap
-            </Link>
+            </a>
           </div>
         </div>
       </div>

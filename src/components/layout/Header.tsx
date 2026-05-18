@@ -82,7 +82,7 @@ export const Header = () => {
                     {METADATA.AUTHOR.NAME}, All rights reserved.
                   </p>
                   <div className='row-between mx-auto max-w-30.5 mt-4 gap-2'>
-                    <Link
+                    <a
                       aria-label='RSS feed'
                       className='flex h7 items-center gap-1 text-license no-underline opacity-100 transition-opacity duration-150 ease-in-out hover:opacity-70'
                       href={ROUTES.RSS}
@@ -91,8 +91,8 @@ export const Header = () => {
                     >
                       <Rss size={14} />
                       RSS
-                    </Link>
-                    <Link
+                    </a>
+                    <a
                       aria-label='XML sitemap'
                       className='flex h7 items-center gap-1 text-license no-underline opacity-100 transition-opacity duration-150 ease-in-out hover:opacity-70'
                       href={ROUTES.SITEMAP}
@@ -101,7 +101,7 @@ export const Header = () => {
                     >
                       <Network size={14} />
                       Sitemap
-                    </Link>
+                    </a>
                   </div>
                 </div>
               </Accordion.Content>
