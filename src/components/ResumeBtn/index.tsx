@@ -1,7 +1,6 @@
 'use client';
 
 import { Loader2 } from 'lucide-react';
-import { AnimatePresence, motion } from 'motion/react';
 import { type ComponentProps, useState } from 'react';
 import { toast } from 'sonner';
 import { twMerge } from 'tailwind-merge';
@@ -51,20 +50,12 @@ export const ResumeDownloadButton = ({
         {children}
       </div>
 
-      <AnimatePresence>
-        {isLoading && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className='absolute inset-0 flex items-center justify-center gap-2'
-          >
-            <Loader2 className='w-5 h-5 animate-spin' />
-            <span className='font-medium text-sm'>다운로드 중...</span>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <div
+        className={`absolute inset-0 flex items-center justify-center gap-2 transition-opacity duration-200 ${isLoading ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+      >
+        <Loader2 className='w-5 h-5 animate-spin' />
+        <span className='font-medium text-sm'>다운로드 중...</span>
+      </div>
     </button>
   );
 };
