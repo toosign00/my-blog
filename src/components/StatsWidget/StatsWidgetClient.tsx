@@ -40,8 +40,8 @@ export const StatsWidgetClient = ({ postCount, initialStats }: StatsWidgetClient
     mutate();
   }, [mutate]);
 
-  const todayCount = useCountUp(stats.today);
-  const totalCount = useCountUp(stats.total);
+  const todayCount = useCountUp(stats?.today ?? 0);
+  const totalCount = useCountUp(stats?.total ?? 0);
   const postCountAnimated = useCountUp(postCount, 800);
 
   return (

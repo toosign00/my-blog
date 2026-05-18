@@ -54,10 +54,8 @@ export const PostGrid = ({ posts, className, ...props }: PostGridProps) => {
 
             <p className='description h4 center-y -mx-2.5 mt-4 -mb-0.5 w-fit rounded-sm px-2.5 py-0.5 text-gray-light transition-colors duration-250 ease-in-out'>
               <RelativeTime time={createdAt} />
-              <span className='ml-4 tabular-nums'>
-                {viewsState.status === 'loading'
-                  ? '-'
-                  : `${(viewCount ?? 0).toLocaleString()} views`}
+              <span className='ml-4 tabular-nums' suppressHydrationWarning>
+                {viewsState.status === 'loading' ? '-' : (viewCount ?? 0).toLocaleString()} views
               </span>
             </p>
           </Link>

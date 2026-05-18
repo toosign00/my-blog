@@ -69,10 +69,9 @@ export const PostList = ({ posts, className, ...props }: PostListProps) => {
                         {category}
                       </>
                     )}
-                    <span className='ml-4 tabular-nums'>
-                      {viewsState.status === 'loading'
-                        ? '-'
-                        : `${(viewCount ?? 0).toLocaleString()} views`}
+                    <span className='ml-4 tabular-nums' suppressHydrationWarning>
+                      {viewsState.status === 'loading' ? '-' : (viewCount ?? 0).toLocaleString()}{' '}
+                      views
                     </span>
                   </p>
                 </div>

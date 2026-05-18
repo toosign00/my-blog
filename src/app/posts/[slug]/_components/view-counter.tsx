@@ -5,12 +5,11 @@ import { useStatsMutation, useStatsQuery } from '@/hooks/useStats';
 
 interface ViewCounterProps {
   pathname: string;
-  initialTotal: number;
 }
 
-export const ViewCounter = ({ pathname, initialTotal }: ViewCounterProps) => {
+export const ViewCounter = ({ pathname }: ViewCounterProps) => {
   const hasCounted = useRef(false);
-  const { data } = useStatsQuery(pathname, { today: 0, total: initialTotal });
+  const { data } = useStatsQuery(pathname);
   const { mutate } = useStatsMutation(pathname);
 
   useEffect(() => {
@@ -19,5 +18,5 @@ export const ViewCounter = ({ pathname, initialTotal }: ViewCounterProps) => {
     mutate();
   }, [mutate]);
 
-  return <span>{data.total.toLocaleString()} views</span>;
+  return <span>{data ? data.total.toLocaleString() : '-'} views</span>;
 };

@@ -17,11 +17,11 @@ const postStats = async (pathname: string): Promise<{ ok: boolean; counted: bool
   return res.json() as Promise<{ ok: boolean; counted: boolean }>;
 };
 
-export function useStatsQuery(pathname: string, initialData: Stats) {
+export function useStatsQuery(pathname: string, initialData?: Stats) {
   return useQuery({
     queryKey: statsQueryKey(pathname),
     queryFn: () => fetchStats(pathname),
-    initialData,
+    ...(initialData && { initialData }),
     staleTime: 60_000,
   });
 }

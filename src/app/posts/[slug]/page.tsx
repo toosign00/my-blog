@@ -68,7 +68,7 @@ const PostPage = async ({ params }: PostPageProps) => {
       <BackButton />
 
       <article>
-        <Header {...post} viewCounter={<ViewCounter initialTotal={0} pathname={pathname} />} />
+        <Header {...post} viewCounter={<ViewCounter pathname={pathname} />} />
         <MDXContent />
 
         {post.comments && <Giscus className='mt-14' />}
