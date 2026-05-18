@@ -32,5 +32,7 @@ export default AboutPage;
 export const generateMetadata = (): Metadata =>
   generatePageMetadata({
     title: 'About',
+    description:
+      'QA 엔지니어 노현수의 소개 페이지. 경력, 기술 스택, 자격증, 활동 내역을 확인할 수 있습니다.',
     path: ROUTES.ABOUT,
   });

@@ -43,6 +43,7 @@ export const metadata: Metadata = {
     description: METADATA.SITE.DESCRIPTION,
     url: METADATA.SITE.URL,
     siteName: METADATA.SITE.NAME,
+    locale: 'ko_KR',
     images: [
       {
         url: METADATA.SITE.PREVIEW_IMAGE,
@@ -81,6 +82,4 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
 };

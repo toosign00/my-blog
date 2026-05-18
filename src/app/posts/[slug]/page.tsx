@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { BlogPostingJsonLd, BreadcrumbJsonLd } from '@/components/JsonLd';
 import { Divider } from '@/components/ui/divider';
 import { ROUTES } from '@/constants/menu.constants';
 import { METADATA } from '@/constants/metadata.constants';
@@ -43,6 +44,14 @@ const PostPage = async ({ params }: PostPageProps) => {
 
   return (
     <>
+      <BlogPostingJsonLd post={post} />
+      <BreadcrumbJsonLd
+        items={[
+          { name: 'Home', url: METADATA.SITE.URL },
+          { name: 'Posts', url: `${METADATA.SITE.URL}${ROUTES.POSTS}` },
+          { name: post.title, url: `${METADATA.SITE.URL}${ROUTES.POSTS}/${slug}` },
+        ]}
+      />
       <Toc items={tocItems} />
       <BackButton />
 

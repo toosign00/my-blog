@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ActivityHeatmap } from '@/components/ActivityHeatmap';
 import { PlusIcon } from '@/components/icons/PlusIcon';
+import { WebsiteJsonLd } from '@/components/JsonLd';
 import { ProfileGrid } from '@/components/ProfileGrid';
 import { PostGrid } from '@/components/ui/postGrid';
 import { ROUTES } from '@/constants/menu.constants';
@@ -19,6 +20,8 @@ const HomePage = async () => {
 
   return (
     <>
+      <WebsiteJsonLd />
+      <h1 className='sr-only'>Hyunsoo Ro - QA 엔지니어 블로그</h1>
       <ProfileGrid />
 
       <ActivityHeatmap />
@@ -49,5 +52,6 @@ export const dynamic = 'force-dynamic';
 
 export const generateMetadata = (): Metadata =>
   generatePageMetadata({
+    title: 'Hyunsoo Ro',
     path: ROUTES.HOME,
   });

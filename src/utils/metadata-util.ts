@@ -37,6 +37,7 @@ export const generatePageMetadata = ({
       description,
       url,
       siteName: METADATA.SITE.NAME,
+      locale: 'ko_KR',
       images: [
         {
           url: image,

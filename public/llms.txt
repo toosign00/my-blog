@@ -1,0 +1,12 @@
+# Hyunsoo Ro - QA 엔지니어 블로그
+> 노현수의 한국어 기술 블로그. QA 엔지니어.
+
+## 소개
+- 자기소개: https://toosign.me/about
+- 포스트 목록: https://toosign.me/posts
+
+## 포스트
+- ISTQB CTFL 합격 후기: https://toosign.me/posts/istqb-ctfl-pass-review
+- Cloudflare D1 블로그 조회수: https://toosign.me/posts/cloudflare-d1-blog-views
+- Film Log 02: https://toosign.me/posts/filmlog-02
+- Film Log 01: https://toosign.me/posts/filmlog-01
