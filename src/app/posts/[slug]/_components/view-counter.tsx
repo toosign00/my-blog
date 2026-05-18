@@ -18,5 +18,5 @@ export const ViewCounter = ({ pathname }: ViewCounterProps) => {
     mutate();
   }, [mutate]);
 
-  return <span>{data ? data.total.toLocaleString() : '-'} views</span>;
+  return <span>{data?.total != null ? data.total.toLocaleString() : '-'} views</span>;
 };
