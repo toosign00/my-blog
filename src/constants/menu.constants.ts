@@ -11,5 +11,5 @@ export const ROUTES = {
   CATEGORIES: '/categories',
   TAGS: '/tags',
   RSS: '/rss',
-  SITEMAP: '/sitemap',
+  SITEMAP: '/sitemap.xml',
 } as const;
