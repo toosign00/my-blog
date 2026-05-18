@@ -1,10 +1,13 @@
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import type { ComponentProps } from 'react';
+import { useMemo } from 'react';
 import { twMerge } from 'tailwind-merge';
 import { POST_CARD_INTERACTION_CLASS } from '@/constants/style.constants';
+import { usePostViews } from '@/hooks/usePostViews';
 import type { Post } from '@/types/content.types';
-
 import { RelativeTime } from './relativeTime';
 
 type PostGridProps = ComponentProps<'div'> & {
@@ -13,12 +16,17 @@ type PostGridProps = ComponentProps<'div'> & {
 };
 
 export const PostGrid = ({ posts, className, ...props }: PostGridProps) => {
+  const slugs = useMemo(() => posts.map((p) => p.slug), [posts]);
+  const viewsState = usePostViews(slugs);
+
   return (
     <div
       className={twMerge('grid w-full grid-cols-1 tablet:grid-cols-2 gap-16', className)}
       {...props}
     >
-      {posts.map(({ _id, slug, title, coverImage, coverImageBlur, createdAt, views }, index) => {
+      {posts.map(({ _id, slug, title, coverImage, coverImageBlur, createdAt }, index) => {
+        const viewCount =
+          viewsState.status === 'done' ? viewsState.data[`/posts/${slug}`] : undefined;
         return (
           <Link
             aria-label={`Read post: ${title}`}
@@ -46,9 +54,11 @@ export const PostGrid = ({ posts, className, ...props }: PostGridProps) => {
 
             <p className='description h4 center-y -mx-2.5 mt-4 -mb-0.5 w-fit rounded-sm px-2.5 py-0.5 text-gray-light transition-colors duration-250 ease-in-out'>
               <RelativeTime time={createdAt} />
-              {views !== undefined && (
-                <span className='ml-4 tabular-nums'>{views.toLocaleString()} views</span>
-              )}
+              <span className='ml-4 tabular-nums'>
+                {viewsState.status === 'loading'
+                  ? '-'
+                  : `${(viewCount ?? 0).toLocaleString()} views`}
+              </span>
             </p>
           </Link>
         );

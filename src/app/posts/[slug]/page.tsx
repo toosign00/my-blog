@@ -8,7 +8,6 @@ import { METADATA } from '@/constants/metadata.constants';
 import type { Post } from '@/types/content.types';
 import { generatePageMetadata } from '@/utils/metadata-util';
 import { getAllPosts, getPostBySlug, getPostPageDataBySlug, getPostToc } from '@/utils/post-util';
-import { getStats } from '@/utils/stats-util';
 import { BackButton } from './_components/back-button';
 import { Footer } from './_components/footer';
 import { Giscus } from './_components/giscus';
@@ -37,11 +36,7 @@ const PostPage = async ({ params }: PostPageProps) => {
   }
 
   const pathname = `/posts/${slug}`;
-  const [allPosts, postStats, tocItems] = await Promise.all([
-    getAllPosts(),
-    getStats(pathname),
-    getPostToc(slug),
-  ]);
+  const [allPosts, tocItems] = await Promise.all([getAllPosts(), getPostToc(slug)]);
 
   const blogPostingSchema: WithContext<BlogPosting> = {
     '@context': 'https://schema.org',
@@ -73,10 +68,7 @@ const PostPage = async ({ params }: PostPageProps) => {
       <BackButton />
 
       <article>
-        <Header
-          {...post}
-          viewCounter={<ViewCounter initialTotal={postStats.total} pathname={pathname} />}
-        />
+        <Header {...post} viewCounter={<ViewCounter initialTotal={0} pathname={pathname} />} />
         <MDXContent />
 
         {post.comments && <Giscus className='mt-14' />}

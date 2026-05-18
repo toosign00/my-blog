@@ -6,7 +6,6 @@ import { ROUTES } from '@/constants/menu.constants';
 import { METADATA, POST } from '@/constants/metadata.constants';
 import { generatePageMetadata } from '@/utils/metadata-util';
 import { getAllPosts } from '@/utils/post-util';
-import { getPostsViews } from '@/utils/stats-util';
 import { slugify } from '@/utils/text-util';
 
 interface CategoriesPageProps {
@@ -24,12 +23,7 @@ const CategoriesPage = async ({ params }: CategoriesPageProps) => {
 
   const start = (currentPage - 1) * POST.PER_PAGE;
   const end = start + POST.PER_PAGE;
-  const pageCategoryPosts = categoryPosts.slice(start, end);
-  const views = await getPostsViews(pageCategoryPosts.map((p) => p.slug));
-  const currentPosts = pageCategoryPosts.map((p) => ({
-    ...p,
-    views: views[`/posts/${p.slug}`] ?? 0,
-  }));
+  const currentPosts = categoryPosts.slice(start, end);
 
   return (
     <>

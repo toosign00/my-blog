@@ -6,7 +6,6 @@ import { ROUTES } from '@/constants/menu.constants';
 import { METADATA, POST } from '@/constants/metadata.constants';
 import { generatePageMetadata } from '@/utils/metadata-util';
 import { getAllPosts } from '@/utils/post-util';
-import { getPostsViews } from '@/utils/stats-util';
 
 interface PostsPageProps {
   params: Promise<{ page: string }>;
@@ -22,9 +21,7 @@ const PostsPage = async ({ params }: PostsPageProps) => {
   const totalPages = Math.ceil(allPosts.length / POST.PER_PAGE);
   if (currentPage < 1 || currentPage > totalPages) notFound();
 
-  const pagePosts = allPosts.slice(start, end);
-  const views = await getPostsViews(pagePosts.map((p) => p.slug));
-  const currentPosts = pagePosts.map((p) => ({ ...p, views: views[`/posts/${p.slug}`] ?? 0 }));
+  const currentPosts = allPosts.slice(start, end);
 
   return (
     <>
