@@ -1,23 +1,20 @@
-'use client';
-
-import { useEffect, useRef } from 'react';
-import { useStatsMutation, useStatsQuery } from '@/hooks/useStats';
+import { Suspense } from 'react';
+import { getViews } from '@/utils/stats-util';
+import { ViewCounterClient } from './view-counter-client';
 
 interface ViewCounterProps {
   pathname: string;
-  initialTotal: number;
 }
 
-export const ViewCounter = ({ pathname, initialTotal }: ViewCounterProps) => {
-  const hasCounted = useRef(false);
-  const { data } = useStatsQuery(pathname, { today: 0, total: initialTotal });
-  const { mutate } = useStatsMutation(pathname);
+const ViewCounterServer = async ({ pathname }: ViewCounterProps) => {
+  const initialViews = await getViews(pathname);
+  return <ViewCounterClient initialViews={initialViews} pathname={pathname} />;
+};
 
-  useEffect(() => {
-    if (hasCounted.current) return;
-    hasCounted.current = true;
-    mutate();
-  }, [mutate]);
-
-  return <span>{data.total.toLocaleString()} views</span>;
+export const ViewCounter = ({ pathname }: ViewCounterProps) => {
+  return (
+    <Suspense fallback={<span>- views</span>}>
+      <ViewCounterServer pathname={pathname} />
+    </Suspense>
+  );
 };
