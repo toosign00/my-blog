@@ -5,13 +5,10 @@ import { ROUTES } from '@/constants/menu.constants';
 import { METADATA, POST } from '@/constants/metadata.constants';
 import { generatePageMetadata } from '@/utils/metadata-util';
 import { getAllPosts } from '@/utils/post-util';
-import { getPostsViews } from '@/utils/stats-util';
 
 const PostsPage = async () => {
   const allPosts = await getAllPosts();
-  const pagePosts = allPosts.slice(0, POST.PER_PAGE);
-  const views = await getPostsViews(pagePosts.map((p) => p.slug));
-  const currentPosts = pagePosts.map((p) => ({ ...p, views: views[`/posts/${p.slug}`] ?? 0 }));
+  const currentPosts = allPosts.slice(0, POST.PER_PAGE);
 
   return (
     <>
@@ -29,8 +26,6 @@ const PostsPage = async () => {
 };
 
 export default PostsPage;
-
-export const dynamic = 'force-dynamic';
 
 export const generateMetadata = async (): Promise<Metadata> => {
   return generatePageMetadata({
