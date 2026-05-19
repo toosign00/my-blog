@@ -1,8 +1,17 @@
+import { Suspense } from 'react';
 import { getAllPosts } from '@/utils/post-util';
-import { getStats } from '@/utils/stats-util';
+import { getViews } from '@/utils/stats-util';
 import { StatsWidgetClient } from './StatsWidgetClient';
 
-export const StatsWidget = async () => {
-  const [posts, initialStats] = await Promise.all([getAllPosts(), getStats()]);
-  return <StatsWidgetClient postCount={posts.length} initialStats={initialStats} />;
+const StatsWidgetServer = async () => {
+  const [posts, initialViews] = await Promise.all([getAllPosts(), getViews()]);
+  return <StatsWidgetClient postCount={posts.length} initialViews={initialViews} />;
+};
+
+export const StatsWidget = () => {
+  return (
+    <Suspense fallback={<div className='h-full w-full' />}>
+      <StatsWidgetServer />
+    </Suspense>
+  );
 };
