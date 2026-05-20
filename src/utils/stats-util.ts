@@ -11,19 +11,15 @@ export interface Stats {
   total: number;
 }
 
-export function getKstDateKey(date = new Date()): string {
-  return dayjs(date).tz('Asia/Seoul').format('YYYY-MM-DD');
-}
-
 export async function getStats(pathname = '/'): Promise<Stats> {
-  const today = getKstDateKey();
+  const todayStart = dayjs().tz('Asia/Seoul').startOf('day').unix();
   const rows = await queryD1<Stats>(
     `SELECT
-      COALESCE(SUM(CASE WHEN date = ? THEN count ELSE 0 END), 0) as today,
-      COALESCE(SUM(count), 0) as total
+      COALESCE(SUM(CASE WHEN visited_at >= ? THEN 1 ELSE 0 END), 0) as today,
+      COUNT(*) as total
     FROM page_views
     WHERE pathname = ?`,
-    [today, pathname]
+    [todayStart, pathname]
   );
   return { today: rows[0]?.today ?? 0, total: rows[0]?.total ?? 0 };
 }
@@ -33,7 +29,7 @@ export async function getPostsViews(slugs: string[]): Promise<Record<string, num
   const placeholders = slugs.map(() => '?').join(', ');
   const pathnames = slugs.map((slug) => `/posts/${slug}`);
   const rows = await queryD1<{ pathname: string; total: number }>(
-    `SELECT pathname, COALESCE(SUM(count), 0) as total
+    `SELECT pathname, COUNT(*) as total
      FROM page_views
      WHERE pathname IN (${placeholders})
      GROUP BY pathname`,

@@ -1,10 +1,8 @@
-import { cookies } from 'next/headers';
 import { type NextRequest, NextResponse } from 'next/server';
 import { queryD1 } from '@/utils/d1-util';
-import { getKstDateKey, getStats } from '@/utils/stats-util';
+import { getStats } from '@/utils/stats-util';
 
-const COUNT_INTERVAL_MS = 15 * 60 * 1000;
-const LAST_COUNTED_COOKIE = 'stats_last_counted_at';
+const INTERVAL_MS = 30 * 60 * 1000;
 
 export async function GET(request: NextRequest) {
   try {
@@ -21,36 +19,31 @@ export async function POST(request: NextRequest) {
     const body = await request.json().catch(() => ({}));
     const pathname: string = body.pathname ?? '/';
 
-    const cookieStore = await cookies();
-    const cookieKey = `${LAST_COUNTED_COOKIE}_${pathname.replace(/\//g, '_')}`;
-    const lastCountedAt = Number(cookieStore.get(cookieKey)?.value ?? '0');
-    const now = Date.now();
+    const ip = (request.headers.get('x-forwarded-for') ?? '127.0.0.1').split(',')[0].trim();
 
-    if (lastCountedAt > 0 && now - lastCountedAt < COUNT_INTERVAL_MS) {
+    if (ip === '127.0.0.1' || ip === '::1') {
       return NextResponse.json({ ok: true, counted: false });
     }
 
-    const today = getKstDateKey();
+    const cutoff = Math.floor((Date.now() - INTERVAL_MS) / 1000);
 
-    await queryD1(
-      `INSERT INTO page_views (date, pathname, count)
-       VALUES (?, ?, 1)
-       ON CONFLICT(date, pathname) DO UPDATE SET count = count + 1`,
-      [today, pathname]
+    const recent = await queryD1<{ cnt: number }>(
+      `SELECT COUNT(*) as cnt FROM page_views WHERE ip = ? AND pathname = ? AND visited_at >= ?`,
+      [ip, pathname, cutoff]
     );
 
-    const response = NextResponse.json({ ok: true, counted: true });
-    response.cookies.set({
-      name: cookieKey,
-      value: String(now),
-      httpOnly: true,
-      sameSite: 'lax',
-      secure: process.env.NODE_ENV === 'production',
-      path: '/',
-      maxAge: 60 * 60 * 24 * 365,
-    });
+    if ((recent[0]?.cnt ?? 0) > 0) {
+      return NextResponse.json({ ok: true, counted: false });
+    }
 
-    return response;
+    const now = Math.floor(Date.now() / 1000);
+    await queryD1(`INSERT INTO page_views (ip, pathname, visited_at) VALUES (?, ?, ?)`, [
+      ip,
+      pathname,
+      now,
+    ]);
+
+    return NextResponse.json({ ok: true, counted: true });
   } catch {
     return NextResponse.json({ ok: false }, { status: 500 });
   }
