@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 interface PostViewsLoaderProps {
   slugs: string[];
@@ -8,16 +8,24 @@ interface PostViewsLoaderProps {
 }
 
 export const PostViewsLoader = ({ slugs, onLoad }: PostViewsLoaderProps) => {
-  useEffect(() => {
-    if (slugs.length === 0) return;
+  const onLoadRef = useRef(onLoad);
+  onLoadRef.current = onLoad;
 
-    const params = slugs.map((s) => `slugs=${encodeURIComponent(s)}`).join('&');
+  const slugsKey = slugs.join(',');
+
+  useEffect(() => {
+    if (!slugsKey) return;
+
+    const params = slugsKey
+      .split(',')
+      .map((s) => `slugs=${encodeURIComponent(s)}`)
+      .join('&');
 
     fetch(`/api/views/bulk?${params}`)
       .then((r) => r.json())
-      .then((data: Record<string, number>) => onLoad(data))
+      .then((data: Record<string, number>) => onLoadRef.current(data))
       .catch(() => undefined);
-  }, [slugs, onLoad]);
+  }, [slugsKey]);
 
   return null;
 };
