@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from 'next/server';
 import { queryD1 } from '@/utils/d1-util';
-import { getKstDateKey, getViews } from '@/utils/stats-util';
+import { getViews } from '@/utils/stats-util';
 
 const INTERVAL_MS = 30 * 60 * 1000;
 
@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
     const cutoff = Math.floor((Date.now() - INTERVAL_MS) / 1000);
 
     const recent = await queryD1<{ cnt: number }>(
-      `SELECT COUNT(*) as cnt FROM page_visits
+      `SELECT COUNT(*) as cnt FROM page_views
        WHERE ip = ? AND pathname = ? AND visited_at >= ?`,
       [ip, pathname, cutoff]
     );
@@ -38,19 +38,11 @@ export async function POST(request: NextRequest) {
     }
 
     const now = Math.floor(Date.now() / 1000);
-    await queryD1(`INSERT INTO page_visits (ip, pathname, visited_at) VALUES (?, ?, ?)`, [
+    await queryD1(`INSERT INTO page_views (ip, pathname, visited_at) VALUES (?, ?, ?)`, [
       ip,
       pathname,
       now,
     ]);
-
-    const today = getKstDateKey();
-    await queryD1(
-      `INSERT INTO page_views (date, pathname, count)
-       VALUES (?, ?, 1)
-       ON CONFLICT(date, pathname) DO UPDATE SET count = count + 1`,
-      [today, pathname]
-    );
 
     const views = await getViews(pathname);
     return NextResponse.json({ ok: true, counted: true, views });

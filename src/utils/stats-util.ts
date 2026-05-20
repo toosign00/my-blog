@@ -11,19 +11,15 @@ export interface Views {
   total: number;
 }
 
-export function getKstDateKey(date = new Date()): string {
-  return dayjs(date).tz('Asia/Seoul').format('YYYY-MM-DD');
-}
-
 export async function getViews(pathname = '/'): Promise<Views> {
-  const today = getKstDateKey();
+  const todayStart = dayjs().tz('Asia/Seoul').startOf('day').unix();
   const rows = await queryD1<Views>(
     `SELECT
-      COALESCE(SUM(CASE WHEN date = ? THEN count ELSE 0 END), 0) as today,
-      COALESCE(SUM(count), 0) as total
+      COALESCE(SUM(CASE WHEN visited_at >= ? THEN 1 ELSE 0 END), 0) as today,
+      COUNT(*) as total
     FROM page_views
     WHERE pathname = ?`,
-    [today, pathname]
+    [todayStart, pathname]
   );
   return { today: rows[0]?.today ?? 0, total: rows[0]?.total ?? 0 };
 }

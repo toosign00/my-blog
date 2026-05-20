@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
     const placeholders = pathnames.map(() => '?').join(', ');
 
     const rows = await queryD1<{ pathname: string; total: number }>(
-      `SELECT pathname, COALESCE(SUM(count), 0) as total
+      `SELECT pathname, COUNT(*) as total
        FROM page_views
        WHERE pathname IN (${placeholders})
        GROUP BY pathname`,
