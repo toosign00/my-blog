@@ -1,14 +1,14 @@
 import { type NextRequest, NextResponse } from 'next/server';
 import { queryD1 } from '@/utils/d1-util';
-import { getStats } from '@/utils/stats-util';
+import { getViews } from '@/utils/views-util';
 
 const INTERVAL_MS = 30 * 60 * 1000;
 
 export async function GET(request: NextRequest) {
   try {
     const pathname = request.nextUrl.searchParams.get('pathname') ?? '/';
-    const stats = await getStats(pathname);
-    return NextResponse.json(stats);
+    const views = await getViews(pathname);
+    return NextResponse.json(views);
   } catch {
     return NextResponse.json({ today: 0, total: 0 }, { status: 500 });
   }

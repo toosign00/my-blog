@@ -8,7 +8,7 @@ import { METADATA } from '@/constants/metadata.constants';
 import type { Post } from '@/types/content.types';
 import { generatePageMetadata } from '@/utils/metadata-util';
 import { getAllPosts, getPostBySlug, getPostPageDataBySlug, getPostToc } from '@/utils/post-util';
-import { getStats } from '@/utils/stats-util';
+import { getViews } from '@/utils/views-util';
 import { BackButton } from './_components/back-button';
 import { Footer } from './_components/footer';
 import { Giscus } from './_components/giscus';
@@ -37,9 +37,9 @@ const PostPage = async ({ params }: PostPageProps) => {
   }
 
   const pathname = `/posts/${slug}`;
-  const [allPosts, postStats, tocItems] = await Promise.all([
+  const [allPosts, postViews, tocItems] = await Promise.all([
     getAllPosts(),
-    getStats(pathname),
+    getViews(pathname),
     getPostToc(slug),
   ]);
 
@@ -75,7 +75,7 @@ const PostPage = async ({ params }: PostPageProps) => {
       <article>
         <Header
           {...post}
-          viewCounter={<ViewCounter initialTotal={postStats.total} pathname={pathname} />}
+          viewCounter={<ViewCounter initialTotal={postViews.total} pathname={pathname} />}
         />
         <MDXContent />
 

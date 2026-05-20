@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { METADATA } from '@/constants/metadata.constants';
 import { PROFILE } from '@/constants/profile.constants';
 import { createBlur } from '@/utils/blur-util';
-import { StatsWidget } from '../StatsWidget';
+import { ViewsWidget } from '../ViewsWidget';
 import Card from './Card';
 
 const authorProfileDetails = [
@@ -21,7 +21,7 @@ export const ProfileGrid = async () => {
 
   return (
     <section
-      aria-label={`${METADATA.AUTHOR.NAME}'s profile and stats`}
+      aria-label={`${METADATA.AUTHOR.NAME}'s profile and views`}
       className='grid w-full grid-cols-1 gap-16.25 tablet:grid-cols-2'
     >
       <div className='column w-full'>
@@ -83,9 +83,9 @@ export const ProfileGrid = async () => {
       </div>
 
       <div className='column w-full'>
-        <h3 className='section-heading'>Stats</h3>
+        <h3 className='section-heading'>Views</h3>
         <Card.Root>
-          <StatsWidget />
+          <ViewsWidget />
         </Card.Root>
       </div>
     </section>

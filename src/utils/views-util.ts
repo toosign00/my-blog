@@ -6,14 +6,14 @@ import { queryD1 } from '@/utils/d1-util';
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-export interface Stats {
+export interface Views {
   today: number;
   total: number;
 }
 
-export async function getStats(pathname = '/'): Promise<Stats> {
+export async function getViews(pathname = '/'): Promise<Views> {
   const todayStart = dayjs().tz('Asia/Seoul').startOf('day').unix();
-  const rows = await queryD1<Stats>(
+  const rows = await queryD1<Views>(
     `SELECT
       COALESCE(SUM(CASE WHEN visited_at >= ? THEN 1 ELSE 0 END), 0) as today,
       COUNT(*) as total

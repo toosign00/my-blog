@@ -7,7 +7,7 @@ import { PostGrid } from '@/components/ui/postGrid';
 import { ROUTES } from '@/constants/menu.constants';
 import { generatePageMetadata } from '@/utils/metadata-util';
 import { getAllPosts } from '@/utils/post-util';
-import { getPostsViews } from '@/utils/stats-util';
+import { getPostsViews } from '@/utils/views-util';
 
 const getLatestPosts = <T extends { slug: string }>(posts: T[]) => posts.slice(0, 2);
 

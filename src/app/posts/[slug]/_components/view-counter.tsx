@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { useStatsMutation, useStatsQuery } from '@/hooks/useStats';
+import { useViewsMutation, useViewsQuery } from '@/hooks/useViews';
 
 interface ViewCounterProps {
   pathname: string;
@@ -10,8 +10,8 @@ interface ViewCounterProps {
 
 export const ViewCounter = ({ pathname, initialTotal }: ViewCounterProps) => {
   const hasCounted = useRef(false);
-  const { data } = useStatsQuery(pathname, { today: 0, total: initialTotal });
-  const { mutate } = useStatsMutation(pathname);
+  const { data } = useViewsQuery(pathname, { today: 0, total: initialTotal });
+  const { mutate } = useViewsMutation(pathname);
 
   useEffect(() => {
     if (hasCounted.current) return;

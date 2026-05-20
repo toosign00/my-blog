@@ -6,7 +6,7 @@ import { ROUTES } from '@/constants/menu.constants';
 import { METADATA, POST } from '@/constants/metadata.constants';
 import { generatePageMetadata } from '@/utils/metadata-util';
 import { getAllPosts } from '@/utils/post-util';
-import { getPostsViews } from '@/utils/stats-util';
+import { getPostsViews } from '@/utils/views-util';
 
 interface PostsPageProps {
   params: Promise<{ page: string }>;

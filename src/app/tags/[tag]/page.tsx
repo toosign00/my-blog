@@ -5,8 +5,8 @@ import { ROUTES } from '@/constants/menu.constants';
 import { METADATA, POST } from '@/constants/metadata.constants';
 import { generatePageMetadata } from '@/utils/metadata-util';
 import { getAllPosts } from '@/utils/post-util';
-import { getPostsViews } from '@/utils/stats-util';
 import { decodeSlugSegment, slugify } from '@/utils/text-util';
+import { getPostsViews } from '@/utils/views-util';
 
 interface TagsPageProps {
   params: Promise<{ tag: string }>;

@@ -1,12 +1,12 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { useStatsMutation, useStatsQuery } from '@/hooks/useStats';
-import type { Stats } from '@/utils/stats-util';
+import { useViewsMutation, useViewsQuery } from '@/hooks/useViews';
+import type { Views } from '@/utils/views-util';
 
-interface StatsWidgetClientProps {
+interface ViewsWidgetClientProps {
   postCount: number;
-  initialStats: Stats;
+  initialViews: Views;
 }
 
 const metricNumberStyle = { fontSize: '1.25rem', letterSpacing: '-0.375px' } as const;
@@ -29,10 +29,10 @@ function useCountUp(target: number, duration = 1200) {
   return value;
 }
 
-export const StatsWidgetClient = ({ postCount, initialStats }: StatsWidgetClientProps) => {
+export const ViewsWidgetClient = ({ postCount, initialViews }: ViewsWidgetClientProps) => {
   const hasCounted = useRef(false);
-  const { data: stats } = useStatsQuery('/', initialStats);
-  const { mutate } = useStatsMutation('/');
+  const { data: views } = useViewsQuery('/', initialViews);
+  const { mutate } = useViewsMutation('/');
 
   useEffect(() => {
     if (hasCounted.current) return;
@@ -40,8 +40,8 @@ export const StatsWidgetClient = ({ postCount, initialStats }: StatsWidgetClient
     mutate();
   }, [mutate]);
 
-  const todayCount = useCountUp(stats.today);
-  const totalCount = useCountUp(stats.total);
+  const todayCount = useCountUp(views.today);
+  const totalCount = useCountUp(views.total);
   const postCountAnimated = useCountUp(postCount, 800);
 
   return (

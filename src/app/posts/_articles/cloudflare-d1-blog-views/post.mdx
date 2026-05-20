@@ -2,7 +2,7 @@ export const metadata = {
   title: "Cloudflare D1으로 블로그 조회수 기능 만들기",
   subtitle: "서버리스 SQL DB를 붙여 조회수를 직접 집계하기까지",
   createdAt: "2026-05-13T00:00:00.000Z",
-  modifiedAt: "2026-05-13T00:00:00.000Z",
+  modifiedAt: "2026-05-21T00:00:00.000Z",
   coverImage: "cover.webp",
   category: "Dev",
   tags: ["Cloudflare", "Next.js", "블로그"],
@@ -25,19 +25,18 @@ D1은 Cloudflare가 제공하는 서버리스 SQLite 데이터베이스입니다
 
 ## 테이블 구조
 
-조회수를 날짜별로 집계하는 단순한 구조입니다.
+방문 이벤트를 행 단위로 기록하는 구조입니다.
 
 ```sql
 CREATE TABLE page_views (
-  id       INTEGER PRIMARY KEY AUTOINCREMENT,
-  date     TEXT    NOT NULL,
-  pathname TEXT    NOT NULL,
-  count    INTEGER NOT NULL DEFAULT 0,
-  UNIQUE(date, pathname)
+  id         INTEGER PRIMARY KEY AUTOINCREMENT,
+  ip         TEXT    NOT NULL,
+  pathname   TEXT    NOT NULL,
+  visited_at INTEGER NOT NULL
 );
 ```
 
-`date`와 `pathname`을 복합 유니크 키로 잡아서, 같은 날 같은 페이지의 조회수를 한 행에 누적합니다.
+`ip`와 `visited_at`을 함께 저장해서, 짧은 시간 안에 같은 IP가 같은 페이지를 재방문하면 카운트하지 않도록 서버에서 직접 판단합니다.
 
 ---
 
@@ -77,42 +76,56 @@ export async function queryD1<T = Record<string, unknown>>(
 
 ## 조회수 기록 API
 
-Next.js Route Handler로 `GET`(조회)과 `POST`(기록) 두 가지를 만들었습니다.
+Next.js Route Handler로 `GET /api/views`(조회)와 `POST /api/views`(기록) 두 가지를 만들었습니다.
 
-조회수를 기록할 때 한 가지 문제가 있었습니다. 새로고침할 때마다 카운트가 올라가면 안 된다는 것입니다. **쿠키로 마지막 카운트 시각을 기록해서 15분 이내 재방문은 카운트하지 않도록** 처리했습니다.
+새로고침할 때마다 카운트가 올라가면 안 되기 때문에, **쿠키 대신 IP 기반으로 중복 방문을 서버에서 걸러냅니다.** 로컬호스트 IP는 즉시 스킵하고, 같은 IP가 30분 이내에 같은 페이지를 재방문한 기록이 있으면 카운트하지 않습니다.
 
 ```ts
-const COUNT_INTERVAL_MS = 15 * 60 * 1000;
+const INTERVAL_MS = 30 * 60 * 1000;
 
-// 15분 이내 재방문이면 카운트 스킵
-if (lastCountedAt > 0 && now - lastCountedAt < COUNT_INTERVAL_MS) {
+const ip = (request.headers.get('x-forwarded-for') ?? '127.0.0.1').split(',')[0].trim();
+
+if (ip === '127.0.0.1' || ip === '::1') {
+  return NextResponse.json({ ok: true, counted: false });
+}
+
+const cutoff = Math.floor((Date.now() - INTERVAL_MS) / 1000);
+const recent = await queryD1<{ cnt: number }>(
+  `SELECT COUNT(*) as cnt FROM page_views WHERE ip = ? AND pathname = ? AND visited_at >= ?`,
+  [ip, pathname, cutoff]
+);
+
+if ((recent[0]?.cnt ?? 0) > 0) {
   return NextResponse.json({ ok: true, counted: false });
 }
 ```
 
-카운트가 발생했을 때는 `INSERT ... ON CONFLICT DO UPDATE`로 날짜별 행을 upsert합니다.
+중복이 아니면 현재 Unix 타임스탬프와 함께 행을 insert합니다.
 
-```sql
-INSERT INTO page_views (date, pathname, count)
-VALUES (?, ?, 1)
-ON CONFLICT(date, pathname) DO UPDATE SET count = count + 1
+```ts
+const now = Math.floor(Date.now() / 1000);
+await queryD1(`INSERT INTO page_views (ip, pathname, visited_at) VALUES (?, ?, ?)`, [
+  ip,
+  pathname,
+  now,
+]);
 ```
 
 ---
 
 ## 오늘 조회수 / 전체 조회수 계산
 
-날짜별로 저장해뒀기 때문에 오늘 조회수와 누적 조회수를 한 번의 쿼리로 뽑을 수 있습니다.
+행 단위로 저장하기 때문에 오늘 조회수와 누적 조회수를 한 번의 쿼리로 뽑을 수 있습니다. `visited_at`이 Unix 타임스탬프라서, 오늘 자정(Asia/Seoul 기준)을 기준으로 조건을 나눕니다.
 
 ```sql
 SELECT
-  COALESCE(SUM(CASE WHEN date = ? THEN count ELSE 0 END), 0) AS today,
-  COALESCE(SUM(count), 0) AS total
+  COALESCE(SUM(CASE WHEN visited_at >= ? THEN 1 ELSE 0 END), 0) AS today,
+  COUNT(*) AS total
 FROM page_views
 WHERE pathname = ?
 ```
 
-`date = ?` 조건이 맞는 행만 `today`로, 전체 합산은 `total`로 가져옵니다.
+`?`에는 오늘 자정의 Unix 타임스탬프를 넘깁니다. `visited_at >= ?`에 해당하는 행만 `today`로, 전체 행 수는 `total`로 가져옵니다.
 
 ---
 
@@ -120,14 +133,14 @@ WHERE pathname = ?
 
 처음에는 서버 컴포넌트에서 조회수를 가져왔는데, 문제가 있었습니다. 페이지가 렌더링된 시점의 조회수가 보이기 때문에, 지금 막 올라간 내 조회수는 화면에 빠져 있었습니다.
 
-TanStack Query를 붙여서 해결했습니다. `POST /api/stats`의 응답에 `counted: true`가 오면 쿼리를 invalidate해서 최신 조회수를 다시 fetch합니다.
+TanStack Query를 붙여서 해결했습니다. `POST /api/views`의 응답에 `counted: true`가 오면 쿼리를 invalidate해서 최신 조회수를 다시 fetch합니다.
 
 ```ts
 const mutation = useMutation({
-  mutationFn: () => postStats(pathname),
+  mutationFn: () => postViews(pathname),
   onSuccess: (data) => {
     if (data.counted) {
-      queryClient.invalidateQueries({ queryKey: ['stats', pathname] });
+      queryClient.invalidateQueries({ queryKey: ['views', pathname] });
     }
   },
 });
