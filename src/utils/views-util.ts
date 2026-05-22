@@ -11,27 +11,28 @@ export interface Views {
   total: number;
 }
 
+export function getTodayVisitDate() {
+  return dayjs().tz('Asia/Seoul').format('YYYY-MM-DD');
+}
+
 export async function getViews(pathname = '/'): Promise<Views> {
-  const todayStart = dayjs().tz('Asia/Seoul').startOf('day').unix();
   const rows = await queryD1<Views>(
-    `SELECT
-      COALESCE(SUM(CASE WHEN visited_at >= ? THEN 1 ELSE 0 END), 0) as today,
-      COUNT(*) as total
-    FROM page_views
-    WHERE pathname = ?`,
-    [todayStart, pathname]
+    `SELECT 0 as today, total
+     FROM page_view_counts
+     WHERE pathname = ?`,
+    [pathname]
   );
   return { today: rows[0]?.today ?? 0, total: rows[0]?.total ?? 0 };
 }
 
 export async function getSiteVisits(): Promise<Views> {
-  const todayStart = dayjs().tz('Asia/Seoul').startOf('day').unix();
+  const today = getTodayVisitDate();
   const rows = await queryD1<Views>(
     `SELECT
-      COALESCE(SUM(CASE WHEN visited_at >= ? THEN 1 ELSE 0 END), 0) as today,
-      COUNT(*) as total
-    FROM site_visits`,
-    [todayStart]
+      COALESCE(SUM(CASE WHEN visit_date = ? THEN total ELSE 0 END), 0) as today,
+      COALESCE(SUM(total), 0) as total
+    FROM daily_site_visit_counts`,
+    [today]
   );
   return { today: rows[0]?.today ?? 0, total: rows[0]?.total ?? 0 };
 }

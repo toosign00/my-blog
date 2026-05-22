@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from 'next/server';
 import { queryD1 } from '@/utils/d1-util';
-import { getSiteVisits, getViews } from '@/utils/views-util';
+import { getSiteVisits, getTodayVisitDate, getViews } from '@/utils/views-util';
 
 const INTERVAL_MS = 30 * 60 * 1000;
 const NO_STORE_HEADERS = { 'Cache-Control': 'no-store, max-age=0' };
@@ -30,16 +30,66 @@ const getVisitor = (request: NextRequest) => {
 
 const recordSiteVisit = async (visitorKey: string, cutoff: number, now: number) => {
   const recent = await queryD1<{ cnt: number }>(
-    `SELECT COUNT(*) as cnt FROM site_visits WHERE visitor_key = ? AND visited_at >= ?`,
+    `SELECT COUNT(*) as cnt
+     FROM recent_site_visitors
+     WHERE visitor_key = ? AND visited_at >= ?`,
     [visitorKey, cutoff]
   );
 
   if ((recent[0]?.cnt ?? 0) > 0) return;
 
-  await queryD1(`INSERT INTO site_visits (visitor_key, visited_at) VALUES (?, ?)`, [
-    visitorKey,
-    now,
-  ]);
+  await queryD1(
+    `INSERT INTO daily_site_visit_counts (visit_date, total)
+     VALUES (?, 1)
+     ON CONFLICT(visit_date) DO UPDATE SET total = total + 1`,
+    [getTodayVisitDate()]
+  );
+
+  await queryD1(
+    `INSERT INTO recent_site_visitors (visitor_key, visited_at)
+     VALUES (?, ?)
+     ON CONFLICT(visitor_key) DO UPDATE SET visited_at = excluded.visited_at`,
+    [visitorKey, now]
+  );
+};
+
+const recordPageView = async (
+  visitorKey: string,
+  pathname: string,
+  cutoff: number,
+  now: number
+) => {
+  const recent = await queryD1<{ cnt: number }>(
+    `SELECT COUNT(*) as cnt
+     FROM recent_page_viewers
+     WHERE visitor_key = ? AND pathname = ? AND visited_at >= ?`,
+    [visitorKey, pathname, cutoff]
+  );
+
+  if ((recent[0]?.cnt ?? 0) > 0) return false;
+
+  await queryD1(
+    `INSERT INTO page_view_counts (pathname, total, updated_at)
+     VALUES (?, 1, ?)
+     ON CONFLICT(pathname) DO UPDATE SET
+       total = total + 1,
+       updated_at = excluded.updated_at`,
+    [pathname, now]
+  );
+
+  await queryD1(
+    `INSERT INTO recent_page_viewers (visitor_key, pathname, visited_at)
+     VALUES (?, ?, ?)
+     ON CONFLICT(visitor_key, pathname) DO UPDATE SET visited_at = excluded.visited_at`,
+    [visitorKey, pathname, now]
+  );
+
+  return true;
+};
+
+const cleanupRecentViewers = async (cutoff: number) => {
+  await queryD1(`DELETE FROM recent_site_visitors WHERE visited_at < ?`, [cutoff]);
+  await queryD1(`DELETE FROM recent_page_viewers WHERE visited_at < ?`, [cutoff]);
 };
 
 const jsonWithNoStore = (
@@ -97,21 +147,12 @@ export async function POST(request: NextRequest) {
     const cutoff = Math.floor((Date.now() - INTERVAL_MS) / 1000);
     const now = Math.floor(Date.now() / 1000);
     await recordSiteVisit(visitor.key, cutoff, now);
+    await cleanupRecentViewers(cutoff);
 
-    const recent = await queryD1<{ cnt: number }>(
-      `SELECT COUNT(*) as cnt FROM page_views WHERE ip = ? AND pathname = ? AND visited_at >= ?`,
-      [visitor.key, pathname, cutoff]
-    );
-
-    if ((recent[0]?.cnt ?? 0) > 0) {
+    const counted = await recordPageView(visitor.key, pathname, cutoff, now);
+    if (!counted) {
       return jsonWithNoStore({ ok: true, counted: false }, undefined, visitor);
     }
-
-    await queryD1(`INSERT INTO page_views (ip, pathname, visited_at) VALUES (?, ?, ?)`, [
-      visitor.key,
-      pathname,
-      now,
-    ]);
 
     return jsonWithNoStore({ ok: true, counted: true }, undefined, visitor);
   } catch {
