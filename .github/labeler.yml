@@ -1,9 +1,156 @@
+"area: app":
+  - any:
+      - changed-files:
+          - any-glob-to-any-file:
+              - 'src/app/**/page.tsx'
+              - 'src/app/**/layout.tsx'
+              - 'src/app/**/_components/**/*'
+              - 'src/app/error.tsx'
+              - 'src/app/global-error.tsx'
+              - 'src/app/not-found.tsx'
+              - 'src/app/layout.tsx'
+              - 'src/proxy.ts'
+
+"area: api":
+  - any:
+      - changed-files:
+          - any-glob-to-any-file:
+              - 'src/app/api/**/route.ts'
+
+"area: assets":
+  - any:
+      - changed-files:
+          - any-glob-to-any-file:
+              - 'public/**/*'
+              - 'src/assets/**/*'
+              - 'src/app/posts/_articles/**/cover.*'
+
+"area: ci":
+  - any:
+      - changed-files:
+          - any-glob-to-any-file:
+              - '.github/**/*'
+              - '.husky/**/*'
+
+"area: components":
+  - any:
+      - changed-files:
+          - any-glob-to-any-file:
+              - 'src/components/**/*'
+              - 'src/app/**/_components/**/*'
+              - 'mdx-components.tsx'
+
+"area: config":
+  - any:
+      - changed-files:
+          - any-glob-to-any-file:
+              - 'biome.json'
+              - 'next.config.ts'
+              - 'postcss.config.js'
+              - 'tsconfig.json'
+
+"area: content":
+  - any:
+      - changed-files:
+          - any-glob-to-any-file:
+              - 'src/app/posts/_articles/**/*.mdx'
+
+"area: deps":
+  - any:
+      - changed-files:
+          - any-glob-to-any-file:
+              - 'package.json'
+              - 'pnpm-lock.yaml'
+              - 'pnpm-workspace.yaml'
+
+"area: docs":
+  - any:
+      - changed-files:
+          - any-glob-to-any-file:
+              - '*.md'
+              - 'DESIGN.md'
+              - 'public/llms.txt'
+
+"area: hooks":
+  - any:
+      - changed-files:
+          - any-glob-to-any-file:
+              - 'src/hooks/**/*'
+
+"area: seo":
+  - any:
+      - changed-files:
+          - any-glob-to-any-file:
+              - 'src/app/robots.ts'
+              - 'src/app/rss/route.ts'
+              - 'src/app/sitemap.xml/route.ts'
+              - 'src/components/JsonLd.tsx'
+              - 'src/constants/metadata.constants.ts'
+              - 'src/utils/metadata-util.ts'
+              - 'public/llms.txt'
+
+"area: styles":
+  - any:
+      - changed-files:
+          - any-glob-to-any-file:
+              - 'src/styles/**/*'
+
+"area: tests":
+  - any:
+      - changed-files:
+          - any-glob-to-any-file:
+              - '**/*.spec.*'
+              - '**/*.test.*'
+              - 'src/test/**/*'
+              - 'tests/**/*'
+
+"area: tooling":
+  - any:
+      - changed-files:
+          - any-glob-to-any-file:
+              - 'scripts/**/*'
+              - 'biome.json'
+              - 'postcss.config.js'
+
+"area: types":
+  - any:
+      - changed-files:
+          - any-glob-to-any-file:
+              - 'src/types/**/*'
+              - 'next-env.d.ts'
+              - 'tsconfig.json'
+
+"area: utils":
+  - any:
+      - changed-files:
+          - any-glob-to-any-file:
+              - 'src/utils/**/*'
+
 dependencies:
   - any:
       - changed-files:
           - any-glob-to-any-file:
-              - 'pnpm-lock.yaml'
               - 'package.json'
+              - 'pnpm-lock.yaml'
+              - 'pnpm-workspace.yaml'
+
+documentation:
+  - any:
+      - changed-files:
+          - any-glob-to-any-file:
+              - '*.md'
+              - 'DESIGN.md'
+              - 'public/llms.txt'
+
+feature:
+  - any:
+      - changed-files:
+          - any-glob-to-any-file:
+              - 'src/app/**/page.tsx'
+              - 'src/app/**/route.ts'
+              - 'src/components/**/*'
+              - 'src/hooks/**/*'
+              - 'src/utils/**/*'
 
 post:
   - any:
@@ -11,28 +158,20 @@ post:
           - any-glob-to-any-file:
               - 'src/app/posts/_articles/**/*'
 
-feature:
-  - any:
-      - changed-files:
-          - any-glob-to-any-file:
-              - 'src/app/**/*'
-              - 'src/components/**/*'
-
 style:
   - any:
       - changed-files:
           - any-glob-to-any-file:
               - 'src/styles/**/*'
-              - '*.css'
 
-config:
+test:
   - any:
       - changed-files:
           - any-glob-to-any-file:
-              - 'next.config.ts'
-              - 'tsconfig.json'
-              - 'biome.json'
-              - 'postcss.config.js'
+              - '**/*.spec.*'
+              - '**/*.test.*'
+              - 'src/test/**/*'
+              - 'tests/**/*'
 
 workflows:
   - any:
