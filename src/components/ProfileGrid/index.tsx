@@ -83,7 +83,7 @@ export const ProfileGrid = async () => {
       </div>
 
       <div className='column w-full'>
-        <h3 className='section-heading'>Views</h3>
+        <h3 className='section-heading'>Visits</h3>
         <Card.Root>
           <ViewsWidget />
         </Card.Root>
