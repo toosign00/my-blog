@@ -5,6 +5,7 @@ import { twMerge } from 'tailwind-merge';
 import { ROUTES } from '@/constants/menu.constants';
 import { POST_CARD_INTERACTION_CLASS } from '@/constants/style.constants';
 import type { Post } from '@/types/content.types';
+import { PostViews } from './postViews';
 import { RelativeTime } from './relativeTime';
 
 type PostListProps = ComponentProps<'ul'> & {
@@ -17,7 +18,7 @@ export const PostList = ({ posts, className, ...props }: PostListProps) => {
     <ul className={twMerge('column list-none gap-7.5', className)} {...props}>
       {posts.map(
         (
-          { _id, slug, title, subtitle, coverImage, coverImageBlur, category, createdAt, views },
+          { _id, slug, title, subtitle, coverImage, coverImageBlur, category, createdAt },
           index
         ) => (
           <li key={_id}>
@@ -59,9 +60,7 @@ export const PostList = ({ posts, className, ...props }: PostListProps) => {
                       {category}
                     </>
                   )}
-                  {views !== undefined && (
-                    <span className='ml-4 tabular-nums'>{views.toLocaleString()} views</span>
-                  )}
+                  <PostViews slug={slug} />
                 </p>
               </div>
             </Link>

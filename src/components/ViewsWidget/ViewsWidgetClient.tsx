@@ -2,11 +2,9 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { useViewsMutation, useViewsQuery } from '@/hooks/useViews';
-import type { Views } from '@/utils/views-util';
 
 interface ViewsWidgetClientProps {
   postCount: number;
-  initialViews: Views;
 }
 
 const metricNumberStyle = { fontSize: '1.25rem', letterSpacing: '-0.375px' } as const;
@@ -29,9 +27,9 @@ function useCountUp(target: number, duration = 1200) {
   return value;
 }
 
-export const ViewsWidgetClient = ({ postCount, initialViews }: ViewsWidgetClientProps) => {
+export const ViewsWidgetClient = ({ postCount }: ViewsWidgetClientProps) => {
   const hasCounted = useRef(false);
-  const { data: views } = useViewsQuery('/', initialViews);
+  const { data: views } = useViewsQuery();
   const { mutate } = useViewsMutation('/');
 
   useEffect(() => {
@@ -40,8 +38,8 @@ export const ViewsWidgetClient = ({ postCount, initialViews }: ViewsWidgetClient
     mutate();
   }, [mutate]);
 
-  const todayCount = useCountUp(views.today);
-  const totalCount = useCountUp(views.total);
+  const todayCount = useCountUp(views?.today ?? 0);
+  const totalCount = useCountUp(views?.total ?? 0);
   const postCountAnimated = useCountUp(postCount, 800);
 
   return (
@@ -58,14 +56,14 @@ export const ViewsWidgetClient = ({ postCount, initialViews }: ViewsWidgetClient
           className='font-semibold tabular-nums'
           style={{ ...metricNumberStyle, color: 'var(--color-primary-focus)' }}
         >
-          {todayCount.toLocaleString()}
+          {views ? todayCount.toLocaleString() : '-'}
         </span>
       </div>
 
       <div className='flex items-baseline justify-between border-b border-border py-3'>
-        <span className='text-xs text-gray-light'>Total Visitors</span>
+        <span className='text-xs text-gray-light'>Total Visits</span>
         <span className='font-semibold tabular-nums text-gray-accent' style={metricNumberStyle}>
-          {totalCount.toLocaleString()}
+          {views ? totalCount.toLocaleString() : '-'}
         </span>
       </div>
 

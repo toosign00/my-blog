@@ -6,7 +6,6 @@ import { METADATA, POST } from '@/constants/metadata.constants';
 import { generatePageMetadata } from '@/utils/metadata-util';
 import { getAllPosts } from '@/utils/post-util';
 import { decodeSlugSegment, slugify } from '@/utils/text-util';
-import { getPostsViews } from '@/utils/views-util';
 
 interface TagsPageProps {
   params: Promise<{ tag: string }>;
@@ -18,9 +17,7 @@ const TagsPage = async ({ params }: TagsPageProps) => {
 
   const allPosts = await getAllPosts();
   const tagPosts = allPosts.filter((post) => post.tags?.some((t) => slugify(t) === tagKey));
-  const pageTagPosts = tagPosts.slice(0, POST.PER_PAGE);
-  const views = await getPostsViews(pageTagPosts.map((p) => p.slug));
-  const currentPosts = pageTagPosts.map((p) => ({ ...p, views: views[`/posts/${p.slug}`] ?? 0 }));
+  const currentPosts = tagPosts.slice(0, POST.PER_PAGE);
 
   const tagName =
     tagPosts[0]?.tags?.find((t) => slugify(t) === tagKey) ?? decodeSlugSegment(rawTag);

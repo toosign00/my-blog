@@ -26,6 +26,7 @@ export async function queryD1<T = Record<string, unknown>>(
     `https://api.cloudflare.com/client/v4/accounts/${accountId}/d1/database/${databaseId}/query`,
     {
       method: 'POST',
+      cache: 'no-store',
       headers: {
         Authorization: `Bearer ${apiToken}`,
         'Content-Type': 'application/json',
