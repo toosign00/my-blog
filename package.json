@@ -4,9 +4,12 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "predev": "pnpm sync-covers",
     "dev": "next dev",
+    "prebuild": "pnpm sync-covers",
     "build": "next build",
     "start": "next start",
+    "sync-covers": "node scripts/sync-covers.mjs",
     "prepare": "husky",
     "lint": "biome check --write",
     "type-check": "tsc --noEmit",

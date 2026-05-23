@@ -1,7 +1,4 @@
-import path from 'node:path';
-
 const MAX_VIEW_PATHNAME_LENGTH = 160;
-const ALLOWED_COVER_EXTENSIONS = new Set(['.webp', '.png', '.jpg', '.jpeg', '.gif']);
 
 const isIPv4 = (hostname: string): boolean => {
   const parts = hostname.split('.');
@@ -65,20 +62,4 @@ export const isAllowedViewPathname = (pathname: string, postSlugs: readonly stri
   }
 
   return postSlugs.some((slug) => pathname === `/posts/${slug}`);
-};
-
-export const resolveSafeCoverPath = (articlesRoot: string, segments: string[]): string | null => {
-  const root = path.resolve(articlesRoot);
-  const resolved = path.resolve(root, ...segments);
-  const relative = path.relative(root, resolved);
-
-  if (relative.startsWith('..') || path.isAbsolute(relative)) {
-    return null;
-  }
-
-  if (!ALLOWED_COVER_EXTENSIONS.has(path.extname(resolved).toLowerCase())) {
-    return null;
-  }
-
-  return resolved;
 };
