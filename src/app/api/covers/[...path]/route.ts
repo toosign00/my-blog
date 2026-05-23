@@ -1,7 +1,9 @@
-import fs from 'node:fs';
+import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
+import { PATHS } from '@/constants/paths.constants';
+import { resolveSafeCoverPath } from '@/utils/api-validation-util';
 
 const MIME_TYPES: Record<string, string> = {
   '.webp': 'image/webp',
@@ -9,6 +11,7 @@ const MIME_TYPES: Record<string, string> = {
   '.jpg': 'image/jpeg',
   '.jpeg': 'image/jpeg',
   '.gif': 'image/gif',
+  '.avif': 'image/avif',
 };
 
 export const GET = async (
@@ -16,16 +19,22 @@ export const GET = async (
   { params }: { params: Promise<{ path: string[] }> }
 ) => {
   const { path: segments } = await params;
-  const filePath = path.join(process.cwd(), 'src', 'app', 'posts', '_articles', ...segments);
+  const filePath = resolveSafeCoverPath(PATHS.POSTS_ARTICLES_DIR, segments);
 
-  if (!fs.existsSync(filePath)) {
+  if (!filePath) {
     return NextResponse.json({ error: 'Not found' }, { status: 404 });
   }
 
   const ext = path.extname(filePath).toLowerCase();
-  const file = fs.readFileSync(filePath);
+  let file: Buffer;
 
-  return new NextResponse(file, {
+  try {
+    file = await readFile(filePath);
+  } catch {
+    return NextResponse.json({ error: 'Not found' }, { status: 404 });
+  }
+
+  return new NextResponse(new Uint8Array(file), {
     headers: {
       'Content-Type': MIME_TYPES[ext] ?? 'application/octet-stream',
       'Cache-Control': 'public, max-age=31536000, immutable',

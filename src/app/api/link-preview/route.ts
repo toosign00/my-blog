@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { isHtmlContentType, isSafeLinkPreviewUrl } from '@/utils/api-validation-util';
 
 interface LinkPreviewResponse {
   title?: string;
@@ -10,6 +11,7 @@ interface LinkPreviewResponse {
 const LINK_PREVIEW_REVALIDATE_SECONDS = 3600;
 export const revalidate = 3600;
 const FETCH_TIMEOUT_MS = 5000;
+const MAX_HTML_BYTES = 512_000;
 
 const META_CONTENT_PATTERN = (property: string) =>
   new RegExp(
@@ -72,6 +74,10 @@ export const GET = async (
     return NextResponse.json({ error: 'Unsupported protocol' }, { status: 400 });
   }
 
+  if (!isSafeLinkPreviewUrl(targetUrl)) {
+    return NextResponse.json({ error: 'Blocked private or internal URL' }, { status: 400 });
+  }
+
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
 
@@ -88,7 +94,15 @@ export const GET = async (
       return NextResponse.json({ error: 'Failed to fetch target URL' }, { status: 502 });
     }
 
+    if (!isHtmlContentType(response.headers.get('content-type'))) {
+      return NextResponse.json({ error: 'Target URL did not return HTML' }, { status: 415 });
+    }
+
     const html = await response.text();
+    if (new TextEncoder().encode(html).byteLength > MAX_HTML_BYTES) {
+      return NextResponse.json({ error: 'Target HTML is too large' }, { status: 413 });
+    }
+
     const metadata = parseMetadata(html, targetUrl);
     return NextResponse.json(metadata);
   } catch {
