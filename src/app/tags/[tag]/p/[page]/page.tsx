@@ -20,14 +20,13 @@ const TagsPage = async ({ params }: TagsPageProps) => {
   const allPosts = await getAllPosts();
   const tagPosts = allPosts.filter((post) => post.tags?.some((t) => slugify(t) === tagKey));
   const totalPages = Math.ceil(tagPosts.length / POST.PER_PAGE);
-  if (tagPosts.length === 0 || currentPage < 1 || currentPage > totalPages) notFound();
+  if (tagPosts.length === 0 || currentPage <= 1 || currentPage > totalPages) notFound();
 
   const start = (currentPage - 1) * POST.PER_PAGE;
   const end = start + POST.PER_PAGE;
   const currentPosts = tagPosts.slice(start, end);
 
-  const tagName =
-    tagPosts[0]?.tags?.find((t) => slugify(t) === tagKey) ?? decodeSlugSegment(rawTag);
+  const tagName = tagPosts[0].tags?.find((t) => slugify(t) === tagKey) ?? decodeSlugSegment(rawTag);
 
   return (
     <>
@@ -55,9 +54,9 @@ export const generateStaticParams = async () => {
     const tagPosts = allPosts.filter((post) => post.tags?.some((t) => slugify(t) === tagSlug));
     const totalPages = Math.ceil(tagPosts.length / POST.PER_PAGE);
 
-    return Array.from({ length: totalPages }, (_, i) => ({
+    return Array.from({ length: Math.max(0, totalPages - 1) }, (_, i) => ({
       tag: tagSlug,
-      page: (i + 1).toString(),
+      page: (i + 2).toString(),
     }));
   });
 };
@@ -69,8 +68,9 @@ export const generateMetadata = async ({ params }: TagsPageProps): Promise<Metad
 
   const allPosts = await getAllPosts();
   const tagPosts = allPosts.filter((post) => post.tags?.some((t) => slugify(t) === tagKey));
-  const tagName =
-    tagPosts[0]?.tags?.find((t) => slugify(t) === tagKey) ?? decodeSlugSegment(rawTag);
+  if (tagPosts.length === 0 || current <= 1) notFound();
+
+  const tagName = tagPosts[0].tags?.find((t) => slugify(t) === tagKey) ?? decodeSlugSegment(rawTag);
 
   return generatePageMetadata({
     title: `${tagName} - Page ${current}`,

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import { Pagination } from '@/components/ui/pagination';
 import { PostList } from '@/components/ui/postList';
 import { ROUTES } from '@/constants/menu.constants';
@@ -17,10 +18,11 @@ const TagsPage = async ({ params }: TagsPageProps) => {
 
   const allPosts = await getAllPosts();
   const tagPosts = allPosts.filter((post) => post.tags?.some((t) => slugify(t) === tagKey));
+  if (tagPosts.length === 0) notFound();
+
   const currentPosts = tagPosts.slice(0, POST.PER_PAGE);
 
-  const tagName =
-    tagPosts[0]?.tags?.find((t) => slugify(t) === tagKey) ?? decodeSlugSegment(rawTag);
+  const tagName = tagPosts[0].tags?.find((t) => slugify(t) === tagKey) ?? decodeSlugSegment(rawTag);
 
   return (
     <>
@@ -54,8 +56,9 @@ export const generateMetadata = async ({ params }: TagsPageProps): Promise<Metad
 
   const allPosts = await getAllPosts();
   const tagPosts = allPosts.filter((post) => post.tags?.some((t) => slugify(t) === tagKey));
-  const tagName =
-    tagPosts[0]?.tags?.find((t) => slugify(t) === tagKey) ?? decodeSlugSegment(rawTag);
+  if (tagPosts.length === 0) notFound();
+
+  const tagName = tagPosts[0].tags?.find((t) => slugify(t) === tagKey) ?? decodeSlugSegment(rawTag);
 
   return generatePageMetadata({
     title: tagName,

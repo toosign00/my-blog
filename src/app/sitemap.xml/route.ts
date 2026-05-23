@@ -3,6 +3,7 @@ import { ROUTES } from '@/constants/menu.constants';
 import { METADATA, POST } from '@/constants/metadata.constants';
 import { getAllPosts } from '@/utils/post-util';
 import { slugify } from '@/utils/text-util';
+import { escapeXml } from '@/utils/xml-util';
 
 export const dynamic = 'force-static';
 export const revalidate = false;
@@ -21,8 +22,8 @@ const generateSitemapUrls = async (): Promise<MetadataRoute.Sitemap> => {
     const categoryPages = Math.ceil(count / POST.PER_PAGE);
     return [
       { url: `${METADATA.SITE.URL}${ROUTES.CATEGORIES}/${categorySlug}` },
-      ...Array.from({ length: categoryPages }, (_, pageIndex) => ({
-        url: `${METADATA.SITE.URL}${ROUTES.CATEGORIES}/${categorySlug}/p/${pageIndex + 1}`,
+      ...Array.from({ length: Math.max(0, categoryPages - 1) }, (_, pageIndex) => ({
+        url: `${METADATA.SITE.URL}${ROUTES.CATEGORIES}/${categorySlug}/p/${pageIndex + 2}`,
       })),
     ];
   });
@@ -39,8 +40,8 @@ const generateSitemapUrls = async (): Promise<MetadataRoute.Sitemap> => {
     const tagPages = Math.ceil(count / POST.PER_PAGE);
     return [
       { url: `${METADATA.SITE.URL}${ROUTES.TAGS}/${tagSlug}` },
-      ...Array.from({ length: tagPages }, (_, pageIndex) => ({
-        url: `${METADATA.SITE.URL}${ROUTES.TAGS}/${tagSlug}/p/${pageIndex + 1}`,
+      ...Array.from({ length: Math.max(0, tagPages - 1) }, (_, pageIndex) => ({
+        url: `${METADATA.SITE.URL}${ROUTES.TAGS}/${tagSlug}/p/${pageIndex + 2}`,
       })),
     ];
   });
@@ -57,8 +58,8 @@ const generateSitemapUrls = async (): Promise<MetadataRoute.Sitemap> => {
     { url: `${METADATA.SITE.URL}${ROUTES.POSTS}` },
     ...categoryUrls,
     ...tagUrls,
-    ...Array.from({ length: postsPageCount }, (_, pageIndex) => ({
-      url: `${METADATA.SITE.URL}${ROUTES.POSTS}/p/${pageIndex + 1}`,
+    ...Array.from({ length: Math.max(0, postsPageCount - 1) }, (_, pageIndex) => ({
+      url: `${METADATA.SITE.URL}${ROUTES.POSTS}/p/${pageIndex + 2}`,
     })),
     ...posts.map(({ slug, modifiedAt, createdAt }) => ({
       url: `${METADATA.SITE.URL}${ROUTES.POSTS}/${slug}`,
@@ -77,7 +78,7 @@ ${urls
   .map(
     (item) => `
   <url>
-    <loc>${item.url}</loc>
+    <loc>${escapeXml(item.url)}</loc>
     ${
       item.lastModified
         ? `<lastmod>${
@@ -87,8 +88,8 @@ ${urls
           }</lastmod>`
         : ''
     }
-    ${item.changeFrequency ? `<changefreq>${item.changeFrequency}</changefreq>` : ''}
-    ${item.priority ? `<priority>${item.priority}</priority>` : ''}
+    ${item.changeFrequency ? `<changefreq>${escapeXml(item.changeFrequency)}</changefreq>` : ''}
+    ${item.priority ? `<priority>${escapeXml(item.priority.toString())}</priority>` : ''}
   </url>`
   )
   .join('')}

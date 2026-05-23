@@ -19,7 +19,7 @@ const PostsPage = async ({ params }: PostsPageProps) => {
 
   const allPosts = await getAllPosts();
   const totalPages = Math.ceil(allPosts.length / POST.PER_PAGE);
-  if (currentPage < 1 || currentPage > totalPages) notFound();
+  if (currentPage <= 1 || currentPage > totalPages) notFound();
 
   const currentPosts = allPosts.slice(start, end);
 
@@ -38,8 +38,8 @@ export const generateStaticParams = async () => {
   const allPosts = await getAllPosts();
   const totalPages = Math.ceil(allPosts.length / POST.PER_PAGE);
 
-  return Array.from({ length: totalPages }, (_, i) => ({
-    page: (i + 1).toString(),
+  return Array.from({ length: Math.max(0, totalPages - 1) }, (_, i) => ({
+    page: (i + 2).toString(),
   }));
 };
 

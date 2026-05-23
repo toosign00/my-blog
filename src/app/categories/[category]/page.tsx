@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import { Pagination } from '@/components/ui/pagination';
 import { PostList } from '@/components/ui/postList';
 import { ROUTES } from '@/constants/menu.constants';
@@ -16,14 +17,14 @@ const CategoriesPage = async ({ params }: CategoriesPageProps) => {
 
   const allPosts = await getAllPosts();
   const categoryPosts = allPosts.filter((post) => slugify(post.category) === category);
+  if (categoryPosts.length === 0) notFound();
+
   const currentPosts = categoryPosts.slice(0, POST.PER_PAGE);
 
   return (
     <>
       <h1 className='section-heading mb-7.5'>
-        {categoryPosts.length > 0
-          ? `${categoryPosts[0].category} (${categoryPosts.length})`
-          : `${category} (0 posts)`}
+        {categoryPosts[0].category} ({categoryPosts.length})
       </h1>
 
       <PostList posts={currentPosts} />
@@ -53,7 +54,9 @@ export const generateMetadata = async ({ params }: CategoriesPageProps): Promise
 
   const allPosts = await getAllPosts();
   const categoryPosts = allPosts.filter((post) => slugify(post.category) === category);
-  const categoryName = categoryPosts[0]?.category ?? category;
+  if (categoryPosts.length === 0) notFound();
+
+  const categoryName = categoryPosts[0].category;
 
   return generatePageMetadata({
     title: categoryName,

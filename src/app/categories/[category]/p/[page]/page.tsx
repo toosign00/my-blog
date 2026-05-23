@@ -19,7 +19,7 @@ const CategoriesPage = async ({ params }: CategoriesPageProps) => {
   const allPosts = await getAllPosts();
   const categoryPosts = allPosts.filter((post) => slugify(post.category) === category);
   const totalPages = Math.ceil(categoryPosts.length / POST.PER_PAGE);
-  if (categoryPosts.length === 0 || currentPage < 1 || currentPage > totalPages) notFound();
+  if (categoryPosts.length === 0 || currentPage <= 1 || currentPage > totalPages) notFound();
 
   const start = (currentPage - 1) * POST.PER_PAGE;
   const end = start + POST.PER_PAGE;
@@ -28,9 +28,7 @@ const CategoriesPage = async ({ params }: CategoriesPageProps) => {
   return (
     <>
       <h1 className='section-heading mb-7.5'>
-        {categoryPosts.length > 0
-          ? `${categoryPosts[0].category} (${categoryPosts.length})`
-          : `${category} (0 posts)`}
+        {categoryPosts[0].category} ({categoryPosts.length})
       </h1>
       <PostList posts={currentPosts} />
       <Pagination
@@ -52,9 +50,9 @@ export const generateStaticParams = async () => {
     const categoryPosts = allPosts.filter((post) => post.category === category);
     const totalPages = Math.ceil(categoryPosts.length / POST.PER_PAGE);
 
-    return Array.from({ length: totalPages }, (_, i) => ({
+    return Array.from({ length: Math.max(0, totalPages - 1) }, (_, i) => ({
       category: slugify(category),
-      page: (i + 1).toString(),
+      page: (i + 2).toString(),
     }));
   });
 };
@@ -65,7 +63,9 @@ export const generateMetadata = async ({ params }: CategoriesPageProps): Promise
 
   const allPosts = await getAllPosts();
   const categoryPosts = allPosts.filter((post) => slugify(post.category) === category);
-  const categoryName = categoryPosts[0]?.category ?? category;
+  if (categoryPosts.length === 0 || current <= 1) notFound();
+
+  const categoryName = categoryPosts[0].category;
 
   return generatePageMetadata({
     title: `${categoryName} - Page ${current}`,

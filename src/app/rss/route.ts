@@ -3,6 +3,7 @@ import { ROUTES } from '@/constants/menu.constants';
 import { METADATA } from '@/constants/metadata.constants';
 import { getAllPosts } from '@/utils/post-util';
 import { slugify } from '@/utils/text-util';
+import { escapeXml, toCdata } from '@/utils/xml-util';
 
 export const dynamic = 'force-static';
 export const revalidate = false;
@@ -57,10 +58,10 @@ ${items
   .map(
     ({ title, link, description, pubDate }) => `
     <item>
-      <title><![CDATA[${title}]]></title>
-      <link>${link}</link>
-      <description><![CDATA[${description}]]></description>
-      <guid isPermaLink="true">${link}</guid>
+      <title>${toCdata(title)}</title>
+      <link>${escapeXml(link)}</link>
+      <description>${toCdata(description)}</description>
+      <guid isPermaLink="true">${escapeXml(link)}</guid>
       <pubDate>${pubDate}</pubDate>
     </item>`
   )
