@@ -11,5 +11,5 @@
 - 카테고리: https://toosign.me/categories
 - 태그: https://toosign.me/tags
 - About: https://toosign.me/about
-- RSS: https://toosign.me/rss
+- RSS: https://toosign.me/rss.xml
 - 사이트맵: https://toosign.me/sitemap.xml

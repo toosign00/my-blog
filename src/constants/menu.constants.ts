@@ -10,6 +10,6 @@ export const ROUTES = {
   POSTS: '/posts',
   CATEGORIES: '/categories',
   TAGS: '/tags',
-  RSS: '/rss',
+  RSS: '/rss.xml',
   SITEMAP: '/sitemap.xml',
 } as const;
