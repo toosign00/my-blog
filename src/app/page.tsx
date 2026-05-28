@@ -16,6 +16,7 @@ const HomePage = async () => {
 
   return (
     <>
+      <h1 className='sr-only'>노현수의 QA 엔지니어링 및 취미 블로그</h1>
       <ProfileGrid />
 
       <ActivityHeatmap />
