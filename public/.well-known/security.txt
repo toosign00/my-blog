@@ -1,8 +1,8 @@
 Contact: mailto:hello@toosign.me
-Contact: https://toosign.dev/contact
+Contact: https://toosign.me/security-policy
 
-Policy: https://toosign.dev/security-policy
-Acknowledgments: https://toosign.dev/acknowledgments
+Policy: https://toosign.me/security-policy
+Acknowledgments: https://toosign.me/acknowledgments
 
 Preferred-Languages: ko, en, ja
 Expires: 2028-05-05T00:00:00z

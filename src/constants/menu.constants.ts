@@ -11,5 +11,7 @@ export const ROUTES = {
   CATEGORIES: '/categories',
   TAGS: '/tags',
   RSS: '/rss.xml',
+  SECURITY_POLICY: '/security-policy',
+  ACKNOWLEDGMENTS: '/acknowledgments',
   SITEMAP: '/sitemap.xml',
 } as const;

@@ -46,7 +46,7 @@ export const Header = () => {
                 alt={METADATA.SITE.NAME}
                 className='h-3 w-10 shrink-0 border-0 rounded-none'
                 height={12}
-                src='/assets/icons/favicon.svg'
+                src='/favicon.svg'
                 width={40}
               />
             </Link>

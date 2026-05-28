@@ -59,8 +59,8 @@ export const metadata: Metadata = {
   description: METADATA.SITE.DESCRIPTION,
   metadataBase: new URL(METADATA.SITE.URL),
   icons: {
-    icon: [{ url: '/assets/icons/favicon.svg', type: 'image/svg+xml' }],
-    apple: [{ url: '/assets/icons/apple-icon.png', type: 'image/png' }],
+    icon: [{ url: '/favicon.svg', type: 'image/svg+xml' }],
+    apple: [{ url: '/apple-touch-icon.png', type: 'image/png' }],
   },
   openGraph: {
     title: METADATA.SITE.NAME,
