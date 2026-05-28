@@ -7,8 +7,6 @@ import type { PropsWithChildren } from 'react';
 import type { Person, WebSite, WithContext } from 'schema-dts';
 import { twMerge } from 'tailwind-merge';
 import { GeistMono, Pretendard } from '@/assets/font';
-import appleTouchIcon from '@/assets/images/apple-icon.png';
-import siteIcon from '@/assets/images/logo.svg';
 import JsonLd from '@/components/JsonLd';
 import { Layout } from '@/components/layout/Root';
 import { AppProviders } from '@/components/providers/AppProviders';
@@ -56,15 +54,13 @@ const RootLayout = ({ children }: PropsWithChildren) => {
 
 export default RootLayout;
 
-const siteIconUrl = typeof siteIcon === 'string' ? siteIcon : siteIcon.src;
-
 export const metadata: Metadata = {
   title: METADATA.SITE.NAME,
   description: METADATA.SITE.DESCRIPTION,
   metadataBase: new URL(METADATA.SITE.URL),
   icons: {
-    icon: [{ url: siteIconUrl, type: 'image/svg+xml' }],
-    apple: [{ url: appleTouchIcon.src, type: 'image/png' }],
+    icon: [{ url: '/assets/icons/favicon.svg', type: 'image/svg+xml' }],
+    apple: [{ url: '/assets/icons/apple-icon.png', type: 'image/png' }],
   },
   openGraph: {
     title: METADATA.SITE.NAME,

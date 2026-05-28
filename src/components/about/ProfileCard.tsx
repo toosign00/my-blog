@@ -1,4 +1,3 @@
-import path from 'node:path';
 import Image from 'next/image';
 import { ContactButtons } from '@/components/about/ContactBtn';
 import { DownloadIcon } from '@/components/icons/DownloadIcon';
@@ -6,10 +5,8 @@ import { ResumeDownloadButton } from '@/components/ResumeBtn';
 import { ABOUT } from '@/constants/about.constants';
 import { createBlur } from '@/utils/blur-util';
 
-const PROFILE_IMAGE_PATH = path.join(process.cwd(), 'src/assets/images/profile.webp');
-
 export const ProfileCard = async () => {
-  const blurDataURL = await createBlur(PROFILE_IMAGE_PATH);
+  const blurDataURL = await createBlur(ABOUT.profile.profileImage);
 
   return (
     <div className='flex flex-col gap-6'>
