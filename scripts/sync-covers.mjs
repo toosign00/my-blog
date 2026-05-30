@@ -1,19 +1,27 @@
-import { cpSync, mkdirSync, readdirSync, rmSync, statSync } from 'node:fs';
+import { cpSync, existsSync, mkdirSync, readdirSync, rmSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 
 const articlesDir = join(process.cwd(), 'src', 'app', 'posts', '_articles');
+const projectsDir = join(process.cwd(), 'src', 'app', 'projects', '_projects');
 const coversDir = join(process.cwd(), 'public', 'covers');
 
 rmSync(coversDir, { force: true, recursive: true });
 
-for (const slug of readdirSync(articlesDir)) {
-  const articleDir = join(articlesDir, slug);
-  if (!statSync(articleDir).isDirectory()) continue;
+const syncCovers = (sourceDir, outputDir) => {
+  if (!existsSync(sourceDir)) return;
 
-  for (const file of readdirSync(articleDir)) {
-    if (!file.startsWith('cover.')) continue;
+  for (const slug of readdirSync(sourceDir)) {
+    const itemDir = join(sourceDir, slug);
+    if (!statSync(itemDir).isDirectory()) continue;
 
-    mkdirSync(join(coversDir, slug), { recursive: true });
-    cpSync(join(articleDir, file), join(coversDir, slug, file));
+    for (const file of readdirSync(itemDir)) {
+      if (!file.startsWith('cover.')) continue;
+
+      mkdirSync(join(outputDir, slug), { recursive: true });
+      cpSync(join(itemDir, file), join(outputDir, slug, file));
+    }
   }
-}
+};
+
+syncCovers(articlesDir, coversDir);
+syncCovers(projectsDir, join(coversDir, 'projects'));
