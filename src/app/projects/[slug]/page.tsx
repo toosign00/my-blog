@@ -11,6 +11,7 @@ import {
   getProjectBySlug,
   getProjectPageDataBySlug,
   getRecommendedProjects,
+  ProjectNotFoundError,
 } from '@/utils/project-util';
 import { BackButton } from './_components/back-button';
 import { Footer } from './_components/footer';
@@ -20,6 +21,10 @@ import { Recommend } from './_components/recommend';
 interface ProjectPageProps {
   params: Promise<{ slug: string }>;
 }
+
+const toAbsoluteUrl = (url: string) => {
+  return url.startsWith('http') ? url : `${METADATA.SITE.URL}${url}`;
+};
 
 const ProjectPage = async ({ params }: ProjectPageProps) => {
   const { slug } = await params;
@@ -31,7 +36,11 @@ const ProjectPage = async ({ params }: ProjectPageProps) => {
     const pageData = await getProjectPageDataBySlug(slug);
     MDXContent = pageData.content;
     project = pageData.project;
-  } catch {
+  } catch (error) {
+    if (!(error instanceof ProjectNotFoundError)) {
+      throw error;
+    }
+
     notFound();
   }
 
@@ -44,7 +53,7 @@ const ProjectPage = async ({ params }: ProjectPageProps) => {
     name: project.title,
     description: project.description,
     dateCreated: project.createdAt,
-    image: project.coverImage,
+    image: toAbsoluteUrl(project.coverImage),
     url: `${METADATA.SITE.URL}${pathname}`,
     author: {
       '@type': 'Person',
@@ -86,10 +95,14 @@ export const generateMetadata = async ({ params }: ProjectPageProps): Promise<Me
       title: project.title,
       description: project.description,
       path: `${ROUTES.PROJECTS}/${slug}`,
-      image: project.coverImage,
+      image: toAbsoluteUrl(project.coverImage),
     });
-  } catch {
-    return generatePageMetadata({});
+  } catch (error) {
+    if (!(error instanceof ProjectNotFoundError)) {
+      throw error;
+    }
+
+    notFound();
   }
 };
 

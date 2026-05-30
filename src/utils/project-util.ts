@@ -16,6 +16,13 @@ interface ProjectPageData {
   content: ProjectModule['default'];
 }
 
+export class ProjectNotFoundError extends Error {
+  constructor(slug: string) {
+    super(`Project not found: ${slug}`);
+    this.name = 'ProjectNotFoundError';
+  }
+}
+
 const PROJECT_FILE = 'project.mdx';
 const RECOMMEND_COUNT = 6;
 
@@ -29,19 +36,88 @@ const hasProjectFile = async (slug: string): Promise<boolean> => {
 };
 
 const resolveProjectAsset = (slug: string, asset: string): string => {
-  if (asset.startsWith('https://')) {
+  if (isRemoteImage(asset)) {
     return asset;
   }
 
   return `/covers/projects/${slug}/${asset.replace(/^\.\//, '')}`;
 };
 
+const isNonEmptyString = (value: unknown): value is string => {
+  return typeof value === 'string' && value.trim().length > 0;
+};
+
+const isStringArray = (value: unknown): value is string[] => {
+  return Array.isArray(value) && value.every(isNonEmptyString);
+};
+
+const isValidDateString = (value: string) => {
+  return Number.isFinite(Date.parse(value));
+};
+
+const isValidUrl = (value: string) => {
+  try {
+    new URL(value);
+    return true;
+  } catch {
+    return false;
+  }
+};
+
+const isRemoteImage = (value: string) => {
+  return value.startsWith('https://');
+};
+
+const validateProjectMetadata = (slug: string, metadata: ProjectMetadata) => {
+  const errors: string[] = [];
+
+  if (!isNonEmptyString(metadata.title)) errors.push('title is required');
+  if (!isNonEmptyString(metadata.description)) errors.push('description is required');
+  if (!isNonEmptyString(metadata.createdAt)) errors.push('createdAt is required');
+  if (!isNonEmptyString(metadata.coverImage)) errors.push('coverImage is required');
+  if (isNonEmptyString(metadata.coverImage) && metadata.coverImage.includes('://')) {
+    if (!isValidUrl(metadata.coverImage)) {
+      errors.push('coverImage must be a valid URL or local file name');
+    }
+  }
+  if (!isStringArray(metadata.tags) || metadata.tags.length === 0) {
+    errors.push('tags must contain at least one value');
+  }
+  if (metadata.capabilities !== undefined && !isStringArray(metadata.capabilities)) {
+    errors.push('capabilities must be a string array');
+  }
+  if (metadata.createdAt && !isValidDateString(metadata.createdAt)) {
+    errors.push('createdAt must be a valid date');
+  }
+  if (metadata.projectDue && !isValidDateString(metadata.projectDue)) {
+    errors.push('projectDue must be a valid date');
+  }
+  if (metadata.order !== undefined && !Number.isFinite(metadata.order)) {
+    errors.push('order must be a finite number');
+  }
+
+  for (const key of ['repository', 'docs', 'url'] as const) {
+    const value = metadata[key];
+    if (value !== undefined && (!isNonEmptyString(value) || !isValidUrl(value))) {
+      errors.push(`${key} must be a valid URL`);
+    }
+  }
+
+  if (errors.length > 0) {
+    throw new Error(`Invalid project metadata in ${slug}: ${errors.join(', ')}`);
+  }
+};
+
 const buildProject = async (slug: string, metadata: ProjectMetadata): Promise<Project> => {
+  validateProjectMetadata(slug, metadata);
+
   const coverImage = resolveProjectAsset(slug, metadata.coverImage);
   let coverImageBlur: string | undefined;
 
   try {
-    const systemPath = path.join(PATHS.PROJECTS_DIR, slug, metadata.coverImage);
+    const systemPath = isRemoteImage(metadata.coverImage)
+      ? metadata.coverImage
+      : path.join(PATHS.PROJECTS_DIR, slug, metadata.coverImage);
     coverImageBlur = await createBlur(systemPath);
   } catch {
     // blur 생성 실패 시 무시
@@ -58,13 +134,20 @@ const buildProject = async (slug: string, metadata: ProjectMetadata): Promise<Pr
 
 const compareProjects = (a: Project, b: Project): number => {
   if (a.order !== undefined && b.order !== undefined) {
-    return a.order - b.order;
+    const orderDiff = a.order - b.order;
+    if (orderDiff !== 0) return orderDiff;
   }
 
   if (a.order !== undefined) return -1;
   if (b.order !== undefined) return 1;
 
-  return a.createdAt > b.createdAt ? -1 : 1;
+  const createdAtDiff = Date.parse(b.createdAt) - Date.parse(a.createdAt);
+  if (createdAtDiff !== 0) return createdAtDiff;
+
+  const titleDiff = a.title.localeCompare(b.title);
+  if (titleDiff !== 0) return titleDiff;
+
+  return a.slug.localeCompare(b.slug);
 };
 
 export const getAllProjects = cache(async (): Promise<Project[]> => {
@@ -100,22 +183,22 @@ export const getProjectBySlug = async (slug: string): Promise<Project> => {
 };
 
 export const getProjectPageDataBySlug = async (slug: string): Promise<ProjectPageData> => {
-  try {
-    const projectModule = (await import(
-      `@/app/projects/_projects/${slug}/project.mdx`
-    )) as ProjectModule;
-
-    if (!projectModule.metadata) {
-      throw new Error(`Missing \`metadata\` in ${slug}/project.mdx`);
-    }
-
-    return {
-      project: await buildProject(slug, projectModule.metadata),
-      content: projectModule.default,
-    };
-  } catch {
-    throw new Error(`Project not found: ${slug}`);
+  if (!(await hasProjectFile(slug))) {
+    throw new ProjectNotFoundError(slug);
   }
+
+  const projectModule = (await import(
+    `@/app/projects/_projects/${slug}/project.mdx`
+  )) as ProjectModule;
+
+  if (!projectModule.metadata) {
+    throw new Error(`Missing \`metadata\` in ${slug}/project.mdx`);
+  }
+
+  return {
+    project: await buildProject(slug, projectModule.metadata),
+    content: projectModule.default,
+  };
 };
 
 export const getRecommendedProjects = (projects: Project[], slug: string): Project[] => {

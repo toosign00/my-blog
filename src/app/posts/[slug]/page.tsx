@@ -7,7 +7,13 @@ import { ROUTES } from '@/constants/menu.constants';
 import { METADATA } from '@/constants/metadata.constants';
 import type { Post } from '@/types/post.types';
 import { generatePageMetadata } from '@/utils/metadata-util';
-import { getAllPosts, getPostBySlug, getPostPageDataBySlug, getPostToc } from '@/utils/post-util';
+import {
+  getAllPosts,
+  getPostBySlug,
+  getPostPageDataBySlug,
+  getPostToc,
+  PostNotFoundError,
+} from '@/utils/post-util';
 import { BackButton } from './_components/back-button';
 import { Footer } from './_components/footer';
 import { Giscus } from './_components/giscus';
@@ -22,6 +28,10 @@ interface PostPageProps {
 
 const RECOMMEND_COUNT = 4;
 
+const toAbsoluteUrl = (url: string) => {
+  return url.startsWith('http') ? url : `${METADATA.SITE.URL}${url}`;
+};
+
 const PostPage = async ({ params }: PostPageProps) => {
   const { slug } = await params;
 
@@ -31,7 +41,11 @@ const PostPage = async ({ params }: PostPageProps) => {
     const pageData = await getPostPageDataBySlug(slug);
     MDXContent = pageData.content;
     post = pageData.post;
-  } catch {
+  } catch (error) {
+    if (!(error instanceof PostNotFoundError)) {
+      throw error;
+    }
+
     notFound();
   }
 
@@ -45,7 +59,7 @@ const PostPage = async ({ params }: PostPageProps) => {
     description: post.subtitle,
     datePublished: post.createdAt,
     dateModified: post.modifiedAt ?? post.createdAt,
-    image: post.coverImage,
+    image: toAbsoluteUrl(post.coverImage),
     url: `${METADATA.SITE.URL}${pathname}`,
     author: {
       '@type': 'Person',
@@ -94,7 +108,7 @@ export const generateMetadata = async ({ params }: PostPageProps): Promise<Metad
       title: post.title,
       description: post.subtitle,
       path: `${ROUTES.POSTS}/${slug}`,
-      image: post.coverImage,
+      image: toAbsoluteUrl(post.coverImage),
       type: 'article',
       openGraph: {
         publishedTime: post.createdAt,
@@ -103,8 +117,12 @@ export const generateMetadata = async ({ params }: PostPageProps): Promise<Metad
         tags: post.tags,
       },
     });
-  } catch {
-    return generatePageMetadata({});
+  } catch (error) {
+    if (!(error instanceof PostNotFoundError)) {
+      throw error;
+    }
+
+    notFound();
   }
 };
 

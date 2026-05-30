@@ -17,6 +17,8 @@ type ProjectSectionProps = {
 
 type SortOption = 'recommended' | 'newest' | 'alphabetical';
 
+const SEARCH_SYNC_DELAY_MS = 300;
+
 const SORT_OPTIONS: { label: string; value: SortOption }[] = [
   { label: '추천순', value: 'recommended' },
   { label: '최신순', value: 'newest' },
@@ -40,20 +42,36 @@ const normalizeSortOption = (value: string | undefined): SortOption => {
   return 'recommended';
 };
 
+const compareByNewest = (a: Project, b: Project) => {
+  const createdAtDiff = dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf();
+  if (createdAtDiff !== 0) return createdAtDiff;
+
+  const titleDiff = a.title.localeCompare(b.title);
+  if (titleDiff !== 0) return titleDiff;
+
+  return a.slug.localeCompare(b.slug);
+};
+
 const sortProjects = (projects: Project[], sortOption: SortOption): Project[] => {
   return [...projects].sort((a, b) => {
     if (sortOption === 'recommended') {
-      if (a.order !== undefined && b.order !== undefined) return a.order - b.order;
+      if (a.order !== undefined && b.order !== undefined) {
+        const orderDiff = a.order - b.order;
+        if (orderDiff !== 0) return orderDiff;
+      }
       if (a.order !== undefined) return -1;
       if (b.order !== undefined) return 1;
-      return dayjs(a.createdAt).isAfter(dayjs(b.createdAt)) ? -1 : 1;
+      return compareByNewest(a, b);
     }
 
     if (sortOption === 'newest') {
-      return dayjs(a.createdAt).isAfter(dayjs(b.createdAt)) ? -1 : 1;
+      return compareByNewest(a, b);
     }
 
-    return a.title.localeCompare(b.title);
+    const titleDiff = a.title.localeCompare(b.title);
+    if (titleDiff !== 0) return titleDiff;
+
+    return a.slug.localeCompare(b.slug);
   });
 };
 
@@ -74,6 +92,7 @@ export const ProjectSection = ({
 
   const [selectedTag, setSelectedTag] = useState(() => normalizeTag(initialTag, allTags));
   const [searchQuery, setSearchQuery] = useState(() => initialQuery ?? '');
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState(() => initialQuery ?? '');
   const [sortOption, setSortOption] = useState<SortOption>(() => normalizeSortOption(initialSort));
 
   useEffect(() => {
@@ -84,7 +103,16 @@ export const ProjectSection = ({
     setSelectedTag((current) => (current === urlTag ? current : urlTag));
     setSortOption((current) => (current === urlSort ? current : urlSort));
     setSearchQuery((current) => (current === urlQuery ? current : urlQuery));
+    setDebouncedSearchQuery((current) => (current === urlQuery ? current : urlQuery));
   }, [allTags, searchParams]);
+
+  useEffect(() => {
+    const timeoutId = window.setTimeout(() => {
+      setDebouncedSearchQuery(searchQuery);
+    }, SEARCH_SYNC_DELAY_MS);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [searchQuery]);
 
   useEffect(() => {
     const params = new URLSearchParams(searchParams.toString());
@@ -101,10 +129,10 @@ export const ProjectSection = ({
       params.set('sort', sortOption);
     }
 
-    if (searchQuery.length === 0) {
+    if (debouncedSearchQuery.length === 0) {
       params.delete('q');
     } else {
-      params.set('q', searchQuery);
+      params.set('q', debouncedSearchQuery);
     }
 
     const nextUrl = params.toString() ? `${pathname}?${params.toString()}` : pathname;
@@ -115,7 +143,7 @@ export const ProjectSection = ({
     if (nextUrl !== currentUrl) {
       router.replace(nextUrl, { scroll: false });
     }
-  }, [pathname, router, searchParams, searchQuery, selectedTag, sortOption]);
+  }, [debouncedSearchQuery, pathname, router, searchParams, selectedTag, sortOption]);
 
   const filteredProjects = useMemo(() => {
     const normalizedSearchQuery = searchQuery.trim().toLowerCase();
@@ -143,6 +171,7 @@ export const ProjectSection = ({
 
               return (
                 <button
+                  aria-pressed={isSelected}
                   className={twMerge(
                     'cursor-pointer rounded-full px-4 py-2 font-medium text-sm transition-colors',
                     isSelected
@@ -163,6 +192,7 @@ export const ProjectSection = ({
             <div className='relative shrink-0'>
               <select
                 className='appearance-none rounded-xl border border-border bg-background py-2 pr-10 pl-4 text-gray-bold text-sm outline-none transition-colors focus:border-gray-mid'
+                aria-label='Project sort'
                 onChange={(event) => setSortOption(event.target.value as SortOption)}
                 value={sortOption}
               >
@@ -180,6 +210,7 @@ export const ProjectSection = ({
             </div>
 
             <input
+              aria-label='Project search'
               className='min-w-0 flex-1 rounded-xl border border-border bg-background px-4 py-2 text-gray-bold text-sm outline-none transition-colors placeholder:text-gray-light focus:border-gray-mid'
               onChange={(event) => setSearchQuery(event.target.value)}
               placeholder='Search projects...'

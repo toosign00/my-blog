@@ -1,4 +1,4 @@
-import { readdir, readFile } from 'node:fs/promises';
+import { access, readdir, readFile } from 'node:fs/promises';
 import path from 'node:path';
 import type { ComponentType } from 'react';
 import { cache } from 'react';
@@ -16,7 +16,24 @@ interface PostPageData {
   content: PostModule['default'];
 }
 
+export class PostNotFoundError extends Error {
+  constructor(slug: string) {
+    super(`Post not found: ${slug}`);
+    this.name = 'PostNotFoundError';
+  }
+}
+
 const HEADING_REGEX = /^(#{2,3})\s+(.+)$/gm;
+const POST_FILE = 'post.mdx';
+
+const hasPostFile = async (slug: string): Promise<boolean> => {
+  try {
+    await access(path.join(PATHS.POSTS_ARTICLES_DIR, slug, POST_FILE));
+    return true;
+  } catch {
+    return false;
+  }
+};
 
 export const getPostToc = async (slug: string): Promise<TocItem[]> => {
   const filePath = path.join(PATHS.POSTS_ARTICLES_DIR, slug, 'post.mdx');
@@ -40,10 +57,62 @@ const resolveCoverImage = (slug: string, coverImage: string): string => {
   if (coverImage.startsWith('https://')) {
     return coverImage;
   }
-  return `/covers/${slug}/${coverImage}`;
+  return `/covers/posts/${slug}/${coverImage}`;
+};
+
+const isNonEmptyString = (value: unknown): value is string => {
+  return typeof value === 'string' && value.trim().length > 0;
+};
+
+const isStringArray = (value: unknown): value is string[] => {
+  return Array.isArray(value) && value.every(isNonEmptyString);
+};
+
+const isValidDateString = (value: string) => {
+  return Number.isFinite(Date.parse(value));
+};
+
+const isValidUrl = (value: string) => {
+  try {
+    new URL(value);
+    return true;
+  } catch {
+    return false;
+  }
+};
+
+const validatePostMetadata = (slug: string, metadata: PostMetadata) => {
+  const errors: string[] = [];
+
+  if (!isNonEmptyString(metadata.title)) errors.push('title is required');
+  if (!isNonEmptyString(metadata.subtitle)) errors.push('subtitle is required');
+  if (!isNonEmptyString(metadata.createdAt)) errors.push('createdAt is required');
+  if (!isNonEmptyString(metadata.modifiedAt)) errors.push('modifiedAt is required');
+  if (!isNonEmptyString(metadata.coverImage)) errors.push('coverImage is required');
+  if (!isNonEmptyString(metadata.category)) errors.push('category is required');
+  if (metadata.tags !== undefined && !isStringArray(metadata.tags)) {
+    errors.push('tags must be a string array');
+  }
+  if (metadata.createdAt && !isValidDateString(metadata.createdAt)) {
+    errors.push('createdAt must be a valid date');
+  }
+  if (metadata.modifiedAt && !isValidDateString(metadata.modifiedAt)) {
+    errors.push('modifiedAt must be a valid date');
+  }
+  if (isNonEmptyString(metadata.coverImage) && metadata.coverImage.includes('://')) {
+    if (!isValidUrl(metadata.coverImage)) {
+      errors.push('coverImage must be a valid URL or local file name');
+    }
+  }
+
+  if (errors.length > 0) {
+    throw new Error(`Invalid post metadata in ${slug}: ${errors.join(', ')}`);
+  }
 };
 
 const buildPost = async (slug: string, metadata: PostMetadata): Promise<Post> => {
+  validatePostMetadata(slug, metadata);
+
   const coverImage = resolveCoverImage(slug, metadata.coverImage);
   let coverImageBlur: string | undefined;
 
@@ -93,18 +162,18 @@ export const getPostBySlug = async (slug: string): Promise<Post> => {
 };
 
 export const getPostPageDataBySlug = async (slug: string): Promise<PostPageData> => {
-  try {
-    const postModule = (await import(`@/app/posts/_articles/${slug}/post.mdx`)) as PostModule;
-
-    if (!postModule.metadata) {
-      throw new Error(`Missing \`metadata\` in ${slug}/post.mdx`);
-    }
-
-    return {
-      post: await buildPost(slug, postModule.metadata),
-      content: postModule.default,
-    };
-  } catch {
-    throw new Error(`Post not found: ${slug}`);
+  if (!(await hasPostFile(slug))) {
+    throw new PostNotFoundError(slug);
   }
+
+  const postModule = (await import(`@/app/posts/_articles/${slug}/post.mdx`)) as PostModule;
+
+  if (!postModule.metadata) {
+    throw new Error(`Missing \`metadata\` in ${slug}/post.mdx`);
+  }
+
+  return {
+    post: await buildPost(slug, postModule.metadata),
+    content: postModule.default,
+  };
 };

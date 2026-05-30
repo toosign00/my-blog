@@ -23,5 +23,5 @@ const syncCovers = (sourceDir, outputDir) => {
   }
 };
 
-syncCovers(articlesDir, coversDir);
+syncCovers(articlesDir, join(coversDir, 'posts'));
 syncCovers(projectsDir, join(coversDir, 'projects'));

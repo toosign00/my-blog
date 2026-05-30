@@ -51,7 +51,11 @@ export const Footer = ({ slug, title, subtitle }: Post) => {
       try {
         await navigator.share(shareData);
         shared = true;
-      } catch {
+      } catch (error) {
+        if (error instanceof DOMException && error.name === 'AbortError') {
+          return;
+        }
+
         shared = false;
       }
     }
@@ -62,7 +66,7 @@ export const Footer = ({ slug, title, subtitle }: Post) => {
 
     const copied = await copyText(shareData.url);
     if (!copied) {
-      window.open(shareData.url, '_blank', 'noopener,noreferrer');
+      toast.error('링크를 복사하지 못했어요');
       return;
     }
 
