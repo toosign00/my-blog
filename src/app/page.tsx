@@ -15,13 +15,13 @@ const HomePage = async () => {
   const posts = getLatestPosts(allPosts);
 
   return (
-    <>
+    <div className='column pb-16.25'>
       <h1 className='sr-only'>노현수의 QA 엔지니어링 및 취미 블로그</h1>
       <ProfileGrid />
 
       <ActivityHeatmap />
 
-      <section aria-labelledby='updates-heading' className='column gap-7.5 pt-17.5 pb-16.25'>
+      <section aria-labelledby='updates-heading' className='column gap-7.5 pt-17.5'>
         <div className='row-between'>
           <h3 className='section-heading' id='updates-heading'>
             Update
@@ -37,7 +37,7 @@ const HomePage = async () => {
         </div>
         <PostGrid posts={posts} />
       </section>
-    </>
+    </div>
   );
 };
 

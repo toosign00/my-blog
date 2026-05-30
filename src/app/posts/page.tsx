@@ -11,7 +11,7 @@ const PostsPage = async () => {
   const currentPosts = allPosts.slice(0, POST.PER_PAGE);
 
   return (
-    <>
+    <div className='column pb-16.25'>
       <h1 className='section-heading mb-7.5'>Posts ({allPosts.length})</h1>
 
       <PostList posts={currentPosts} />
@@ -21,7 +21,7 @@ const PostsPage = async () => {
         currentPage={1}
         totalPages={Math.ceil(allPosts.length / POST.PER_PAGE)}
       />
-    </>
+    </div>
   );
 };
 

@@ -12,7 +12,7 @@
 
   [data-animate] > * {
     --stagger: 0;
-    --delay: 100ms;
+    --delay: 120ms;
     --start: 0ms;
   }
 
