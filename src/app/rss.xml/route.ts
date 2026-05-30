@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import { ROUTES } from '@/constants/menu.constants';
 import { METADATA } from '@/constants/metadata.constants';
 import { getAllPosts } from '@/utils/post-util';
+import { getAllProjects } from '@/utils/project-util';
 import { slugify } from '@/utils/text-util';
 import { escapeXml, toCdata } from '@/utils/xml-util';
 
@@ -16,9 +17,9 @@ const generateRssItems = async (): Promise<
     pubDate: string;
   }[]
 > => {
-  const allPosts = await getAllPosts();
+  const [allPosts, allProjects] = await Promise.all([getAllPosts(), getAllProjects()]);
 
-  return allPosts.map(({ title, slug, subtitle, modifiedAt, createdAt }) => {
+  const postItems = allPosts.map(({ title, slug, subtitle, modifiedAt, createdAt }) => {
     const date = modifiedAt ?? createdAt;
     const pubDate = dayjs(date).toDate().toUTCString();
     const description = subtitle;
@@ -30,6 +31,22 @@ const generateRssItems = async (): Promise<
       pubDate,
     };
   });
+
+  const projectItems = allProjects.map(({ title, slug, description, projectDue, createdAt }) => {
+    const date = projectDue ?? createdAt;
+    const pubDate = dayjs(date).toDate().toUTCString();
+
+    return {
+      title,
+      link: `${METADATA.SITE.URL}${ROUTES.PROJECTS}/${slugify(slug)}`,
+      description,
+      pubDate,
+    };
+  });
+
+  return [...postItems, ...projectItems].sort(
+    (a, b) => dayjs(b.pubDate).valueOf() - dayjs(a.pubDate).valueOf()
+  );
 };
 
 interface RssItem {

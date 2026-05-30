@@ -2,6 +2,7 @@ import type { MetadataRoute } from 'next';
 import { ROUTES } from '@/constants/menu.constants';
 import { METADATA, POST } from '@/constants/metadata.constants';
 import { getAllPosts } from '@/utils/post-util';
+import { getAllProjects } from '@/utils/project-util';
 import { slugify } from '@/utils/text-util';
 import { escapeXml } from '@/utils/xml-util';
 
@@ -9,7 +10,7 @@ export const dynamic = 'force-static';
 export const revalidate = false;
 
 const generateSitemapUrls = async (): Promise<MetadataRoute.Sitemap> => {
-  const posts = await getAllPosts();
+  const [posts, projects] = await Promise.all([getAllPosts(), getAllProjects()]);
   const postsPageCount = Math.ceil(posts.length / POST.PER_PAGE);
 
   const categoryCountMap = posts.reduce<Record<string, number>>((map, { category }) => {
@@ -56,6 +57,7 @@ const generateSitemapUrls = async (): Promise<MetadataRoute.Sitemap> => {
     { url: `${METADATA.SITE.URL}${ROUTES.CATEGORIES}` },
     { url: `${METADATA.SITE.URL}${ROUTES.TAGS}` },
     { url: `${METADATA.SITE.URL}${ROUTES.POSTS}` },
+    { url: `${METADATA.SITE.URL}${ROUTES.PROJECTS}` },
     ...categoryUrls,
     ...tagUrls,
     ...Array.from({ length: Math.max(0, postsPageCount - 1) }, (_, pageIndex) => ({
@@ -66,6 +68,12 @@ const generateSitemapUrls = async (): Promise<MetadataRoute.Sitemap> => {
       lastModified: modifiedAt ?? createdAt,
       changeFrequency: 'monthly',
       priority: 0.9,
+    })),
+    ...projects.map(({ slug, projectDue, createdAt }) => ({
+      url: `${METADATA.SITE.URL}${ROUTES.PROJECTS}/${slug}`,
+      lastModified: projectDue ?? createdAt,
+      changeFrequency: 'monthly',
+      priority: 0.8,
     })),
   ];
 };
