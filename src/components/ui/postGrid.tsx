@@ -3,7 +3,7 @@ import Link from 'next/link';
 import type { ComponentProps } from 'react';
 import { twMerge } from 'tailwind-merge';
 import { POST_CARD_INTERACTION_CLASS } from '@/constants/style.constants';
-import type { Post } from '@/types/content.types';
+import type { Post } from '@/types/post.types';
 
 import { PostViews } from './postViews';
 import { RelativeTime } from './relativeTime';

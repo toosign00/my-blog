@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import type { TocItem } from '@/types/content.types';
+import type { TocItem } from '@/types/post.types';
 
 interface TocProps {
   items: TocItem[];

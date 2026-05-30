@@ -5,7 +5,7 @@ import { ShareIcon } from '@/components/icons/ShareIcon';
 import { ROUTES } from '@/constants/menu.constants';
 import { METADATA } from '@/constants/metadata.constants';
 
-import type { Post } from '@/types/content.types';
+import type { Post } from '@/types/post.types';
 import { BackButton } from './back-button';
 
 export const Footer = ({ slug, title, subtitle }: Post) => {

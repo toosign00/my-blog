@@ -5,7 +5,7 @@ import JsonLd from '@/components/JsonLd';
 import { Divider } from '@/components/ui/divider';
 import { ROUTES } from '@/constants/menu.constants';
 import { METADATA } from '@/constants/metadata.constants';
-import type { Post } from '@/types/content.types';
+import type { Post } from '@/types/post.types';
 import { generatePageMetadata } from '@/utils/metadata-util';
 import { getAllPosts, getPostBySlug, getPostPageDataBySlug, getPostToc } from '@/utils/post-util';
 import { BackButton } from './_components/back-button';

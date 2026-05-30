@@ -3,7 +3,7 @@ import path from 'node:path';
 import type { ComponentType } from 'react';
 import { cache } from 'react';
 import { PATHS } from '@/constants/paths.constants';
-import type { Post, PostMetadata, TocItem } from '@/types/content.types';
+import type { Post, PostMetadata, TocItem } from '@/types/post.types';
 import { createBlur } from '@/utils/blur-util';
 
 interface PostModule {

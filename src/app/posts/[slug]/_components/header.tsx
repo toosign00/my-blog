@@ -3,7 +3,7 @@ import Link from 'next/link';
 import type { ReactNode } from 'react';
 import { RelativeTime } from '@/components/ui/relativeTime';
 import { ROUTES } from '@/constants/menu.constants';
-import type { Post } from '@/types/content.types';
+import type { Post } from '@/types/post.types';
 import { slugify } from '@/utils/text-util';
 
 interface HeaderProps extends Post {
