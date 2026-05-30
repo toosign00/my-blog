@@ -7,6 +7,7 @@ import { MENU } from '@/constants/menu.constants';
 
 export const NavigateMenu = () => {
   const pathname = usePathname();
+  const normalizedPathname = pathname || '/';
 
   return (
     <nav aria-label='Main navigation'>
@@ -14,8 +15,8 @@ export const NavigateMenu = () => {
         {MENU.map((menu) => {
           const isActive =
             menu.link === '/'
-              ? pathname === '/'
-              : pathname === menu.link || pathname.startsWith(`${menu.link}/`);
+              ? normalizedPathname === '/'
+              : normalizedPathname === menu.link || normalizedPathname.startsWith(`${menu.link}/`);
           return (
             <li
               className={twMerge(
