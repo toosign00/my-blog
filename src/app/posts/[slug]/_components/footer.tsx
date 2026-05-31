@@ -1,90 +1,21 @@
 'use client';
 
-import { toast } from 'sonner';
-import { ShareIcon } from '@/components/icons/ShareIcon';
+import { ContentFooter } from '@/components/ui/contentFooter';
 import { ROUTES } from '@/constants/menu.constants';
 import { METADATA } from '@/constants/metadata.constants';
 
 import type { Post } from '@/types/post.types';
 import { BackButton } from './back-button';
 
-export const Footer = ({ slug, title, subtitle }: Post) => {
-  const copyText = async (text: string): Promise<boolean> => {
-    try {
-      if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
-        await navigator.clipboard.writeText(text);
-        return true;
-      }
-
-      const textarea = document.createElement('textarea');
-      textarea.value = text;
-      textarea.setAttribute('readonly', '');
-      textarea.style.position = 'fixed';
-      textarea.style.left = '-9999px';
-      textarea.style.top = '-9999px';
-      document.body.appendChild(textarea);
-      textarea.select();
-
-      const ok = document.execCommand('copy');
-      document.body.removeChild(textarea);
-      return ok;
-    } catch {
-      return false;
-    }
-  };
-
-  const handleShare = async () => {
-    const shareData = {
-      title,
-      text: subtitle,
-      url: `${METADATA.SITE.URL}${ROUTES.POSTS}/${slug}`,
-    };
-
-    const canShare =
-      typeof navigator !== 'undefined' &&
-      typeof navigator.share === 'function' &&
-      (typeof navigator.canShare !== 'function' || navigator.canShare(shareData));
-
-    let shared = false;
-
-    if (canShare) {
-      try {
-        await navigator.share(shareData);
-        shared = true;
-      } catch (error) {
-        if (error instanceof DOMException && error.name === 'AbortError') {
-          return;
-        }
-
-        shared = false;
-      }
-    }
-
-    if (shared) {
-      return;
-    }
-
-    const copied = await copyText(shareData.url);
-    if (!copied) {
-      toast.error('링크를 복사하지 못했어요');
-      return;
-    }
-
-    toast.success('링크가 클립보드에 복사되었어요');
-  };
+export const Footer = ({ slug }: Post) => {
+  const url = `${METADATA.SITE.URL}${ROUTES.POSTS}/${slug}`;
 
   return (
-    <footer className='row-between mt-14 flex-wrap gap-2'>
-      <BackButton />
-      <button
-        aria-label='Share this post'
-        className='focus-ring center-y h3 w-fit cursor-pointer select-none gap-2 py-1.25 pr-2.25 text-gray-accent opacity-100 transition-opacity duration-150 ease-in-out hover:opacity-70'
-        onClick={handleShare}
-        type='button'
-      >
-        Share this post
-        <ShareIcon size={18} />
-      </button>
-    </footer>
+    <ContentFooter
+      backButton={<BackButton />}
+      shareButtonAriaLabel='Share this post'
+      shareButtonLabel='Share this post'
+      url={url}
+    />
   );
 };
