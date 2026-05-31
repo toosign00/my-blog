@@ -2,7 +2,7 @@
 
 import dayjs from 'dayjs';
 import { ChevronDown } from 'lucide-react';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 import type { Project } from '@/types/project.types';
@@ -81,7 +81,6 @@ export const ProjectSection = ({
   initialSort,
   initialQuery,
 }: ProjectSectionProps) => {
-  const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
@@ -141,9 +140,9 @@ export const ProjectSection = ({
       : pathname;
 
     if (nextUrl !== currentUrl) {
-      router.replace(nextUrl, { scroll: false });
+      window.history.replaceState(null, '', nextUrl);
     }
-  }, [debouncedSearchQuery, pathname, router, searchParams, selectedTag, sortOption]);
+  }, [debouncedSearchQuery, pathname, searchParams, selectedTag, sortOption]);
 
   const filteredProjects = useMemo(() => {
     const normalizedSearchQuery = searchQuery.trim().toLowerCase();
