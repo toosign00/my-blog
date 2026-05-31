@@ -4,6 +4,7 @@ export interface ProjectMetadata {
   createdAt: string;
   projectDue?: string;
   coverImage: string;
+  heroImage?: string;
   tags: string[];
   capabilities?: string[];
   awards?: string;
@@ -17,4 +18,5 @@ export interface Project extends ProjectMetadata {
   _id: string;
   slug: string;
   coverImageBlur?: string;
+  heroImageBlur?: string;
 }

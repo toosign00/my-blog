@@ -35,6 +35,15 @@ const hasProjectFile = async (slug: string): Promise<boolean> => {
   }
 };
 
+const hasProjectAsset = async (slug: string, asset: string): Promise<boolean> => {
+  try {
+    await access(path.join(PATHS.PROJECTS_DIR, slug, asset));
+    return true;
+  } catch {
+    return false;
+  }
+};
+
 const resolveProjectAsset = (slug: string, asset: string): string => {
   if (isRemoteImage(asset)) {
     return asset;
@@ -112,7 +121,11 @@ const buildProject = async (slug: string, metadata: ProjectMetadata): Promise<Pr
   validateProjectMetadata(slug, metadata);
 
   const coverImage = resolveProjectAsset(slug, metadata.coverImage);
+  const heroImageSource =
+    metadata.heroImage ?? ((await hasProjectAsset(slug, 'hero.webp')) ? 'hero.webp' : undefined);
+  const heroImage = heroImageSource ? resolveProjectAsset(slug, heroImageSource) : coverImage;
   let coverImageBlur: string | undefined;
+  let heroImageBlur: string | undefined;
 
   try {
     const systemPath = isRemoteImage(metadata.coverImage)
@@ -123,12 +136,25 @@ const buildProject = async (slug: string, metadata: ProjectMetadata): Promise<Pr
     // blur 생성 실패 시 무시
   }
 
+  if (heroImageSource) {
+    try {
+      const systemPath = isRemoteImage(heroImageSource)
+        ? heroImageSource
+        : path.join(PATHS.PROJECTS_DIR, slug, heroImageSource);
+      heroImageBlur = await createBlur(systemPath);
+    } catch {
+      // blur 생성 실패 시 무시
+    }
+  }
+
   return {
     _id: slug,
     slug,
     ...metadata,
     coverImage,
     coverImageBlur,
+    heroImage,
+    heroImageBlur,
   };
 };
 

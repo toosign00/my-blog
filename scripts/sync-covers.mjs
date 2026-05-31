@@ -15,7 +15,7 @@ const syncCovers = (sourceDir, outputDir) => {
     if (!statSync(itemDir).isDirectory()) continue;
 
     for (const file of readdirSync(itemDir)) {
-      if (!file.startsWith('cover.')) continue;
+      if (!file.startsWith('cover.') && !file.startsWith('hero.')) continue;
 
       mkdirSync(join(outputDir, slug), { recursive: true });
       cpSync(join(itemDir, file), join(outputDir, slug, file));

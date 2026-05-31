@@ -90,21 +90,36 @@ export const ProjectHeader = ({ project }: ProjectHeaderProps) => {
   const period = `${dayjs(project.createdAt).format('YYYY. MM')} - ${
     project.projectDue ? dayjs(project.projectDue).format('YYYY. MM') : 'Present'
   }`;
+  const desktopImage = project.heroImage ?? project.coverImage;
+  const desktopImageBlur = project.heroImageBlur ?? project.coverImageBlur;
 
   return (
     <header className='mb-8'>
       <div className='relative mb-6 aspect-[1.8/1] w-full overflow-hidden rounded-xl border border-border tablet:aspect-3/1'>
         <Image
           alt={project.title}
-          className='object-cover'
+          className='h-full w-full object-cover object-center tablet:hidden'
           fill
           priority
           quality={100}
-          sizes='(max-width: 59.9375rem) 100vw, (max-width: 79.9375rem) calc(100vw - var(--spacing-sidebar)), 1200px'
+          sizes='(max-width: 59.9375rem) 100vw, 0px'
           src={project.coverImage}
           {...(project.coverImageBlur && {
             placeholder: 'blur',
             blurDataURL: project.coverImageBlur,
+          })}
+        />
+        <Image
+          alt={project.title}
+          className='hidden h-full w-full object-cover object-center tablet:block'
+          fill
+          priority
+          quality={100}
+          sizes='(max-width: 59.9375rem) 0px, (max-width: 79.9375rem) calc(100vw - var(--spacing-sidebar)), 1200px'
+          src={desktopImage}
+          {...(desktopImageBlur && {
+            placeholder: 'blur',
+            blurDataURL: desktopImageBlur,
           })}
         />
       </div>
