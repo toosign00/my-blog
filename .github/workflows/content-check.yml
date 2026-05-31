@@ -1,0 +1,30 @@
+name: Content Check
+
+on:
+  pull_request:
+    branches:
+      - develop
+      - main
+      - wip/*
+      - release/**
+    paths:
+      - 'src/app/posts/_articles/**'
+      - 'src/app/projects/_projects/**'
+      - '.github/scripts/check-content.mjs'
+      - '.github/workflows/content-check.yml'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  content-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - run: node .github/scripts/check-content.mjs
