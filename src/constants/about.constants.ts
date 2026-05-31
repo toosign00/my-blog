@@ -85,7 +85,7 @@ export const ABOUT = {
         {
           grouped: true,
           label: 'AI Code Assistant',
-          icons: ['chatgpt', 'claude', 'gemini'],
+          icons: ['codex', 'claude-code', 'gemini-cli'],
         },
       ],
     },

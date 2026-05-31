@@ -104,6 +104,7 @@
         "noAutofocus": "warn",
         "useValidAnchor": "error",
         "useButtonType": "error",
+        "noSvgWithoutTitle": "off",
         "noStaticElementInteractions": "off",
         "useAriaPropsSupportedByRole": "off",
         "useSemanticElements": "off"

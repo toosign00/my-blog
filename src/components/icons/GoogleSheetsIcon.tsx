@@ -1,77 +1,33 @@
-import { useId } from 'react';
 import type { IconProps } from '@/types/icon.types';
 
-export const GoogleSheetsIcon = ({ size = 24, ...props }: IconProps) => {
-  const rawId = useId();
-  const uid = rawId.replace(/:/g, '');
-  const maskId = `googleSheets-${uid}-a`;
-  const filterId = `googleSheets-${uid}-b`;
-  const gradId = `googleSheets-${uid}-c`;
-
-  return (
-    <svg
-      xmlns='http://www.w3.org/2000/svg'
-      width={size}
-      height={size}
-      viewBox='0 0 192 192'
-      fill='none'
-      {...props}
-    >
-      <title>Google Sheets</title>
-      <path
-        fill='#009954'
-        d='M8 74.6c0-8.943 0-13.415 1.404-16.962a20 20 0 0 1 11.234-11.233C24.185 45 28.656 45 37.6 45h60.8c8.943 0 13.415 0 16.962 1.404a20 20 0 0 1 11.234 11.234C128 61.185 128 65.656 128 74.6v42.8c0 8.943 0 13.415-1.404 16.962a20 20 0 0 1-11.234 11.234C111.815 147 107.343 147 98.4 147H37.6c-8.943 0-13.415 0-16.963-1.404a20 20 0 0 1-11.233-11.234C8 130.815 8 126.343 8 117.4z'
-      />
-      <mask
-        id={maskId}
-        width='160'
-        height='128'
-        x='24'
-        y='32'
-        maskUnits='userSpaceOnUse'
-        style={{ maskType: 'alpha' }}
-      >
-        <rect width='160' height='128' x='24' y='32' fill='#0ebc5f' rx='20' />
-      </mask>
-      <g mask={`url(#${maskId})`}>
-        <path fill='#0ebc5f' d='M24 32h160v128H24z' />
-        <g filter={`url(#${filterId})`}>
-          <rect
-            width='144'
-            height='102'
-            fill={`url(#${gradId})`}
-            rx='25.6'
-            transform='matrix(1 0 0 -1 8 147)'
-          />
-        </g>
-      </g>
-      <path stroke='#fff' strokeLinecap='round' strokeWidth='12' d='M80 121h84m-20 19V76' />
-      <defs>
-        <linearGradient
-          id={gradId}
-          x1='122.24'
-          x2='20.76'
-          y1='43.31'
-          y2='43.31'
-          gradientUnits='userSpaceOnUse'
-        >
-          <stop stopColor='#0ebc5f' />
-          <stop offset='.95' stopColor='#78c9ff' />
-        </linearGradient>
-        <filter
-          id={filterId}
-          width='168'
-          height='126'
-          x='-4'
-          y='33'
-          colorInterpolationFilters='sRGB'
-          filterUnits='userSpaceOnUse'
-        >
-          <feFlood floodOpacity='0' result='BackgroundImageFix' />
-          <feBlend in='SourceGraphic' in2='BackgroundImageFix' result='shape' />
-          <feGaussianBlur result='effect1_foregroundBlur_37435_8174' stdDeviation='6' />
-        </filter>
-      </defs>
-    </svg>
-  );
-};
+export const GoogleSheetsIcon = ({ size = 24, ...props }: IconProps) => (
+  <svg
+    xmlns='http://www.w3.org/2000/svg'
+    viewBox='0 0 100 100'
+    width={size}
+    height={size}
+    aria-hidden='true'
+    focusable='false'
+    {...props}
+  >
+    <defs>
+      <linearGradient id='google-sheet__a' x1={0} x2={1} y1={0} y2={0}>
+        <stop offset='0%' stopColor='#6bc0ff' />
+        <stop offset='100%' stopColor='#1ec970' stopOpacity={0.5} />
+      </linearGradient>
+    </defs>
+    <path
+      fill='#019c5a'
+      d='M11 22.1c-5.1.3-9.1 4.8-9.1 9.8l-.1 35.6c0 5.6 4.3 10.5 8.8 10.6l.4.1 26-41.3z'
+    />
+    <path
+      fill='#1ec970'
+      d='M88.1 14.6H20.5c-5.8 0-10.6 4.8-10.6 10.8V75c.3 5.4 4.7 10.4 10.6 10.4h67.8c5.4 0 10-4.5 10-10.2V25.4c0-5.4-4.4-10.8-10.2-10.8'
+    />
+    <rect width={60} height={57} y={21.5} fill='url(#google-sheet__a)' rx={1} />
+    <path
+      fill='#fff'
+      d='m88 60.5-8.3-.1V38.8c0-1.6-1.3-3.3-3.2-3.3s-3.3 1.6-3.3 3.3v21.6H41c-1.6 0-3.3 1.3-3.4 3.1 0 1.9 1.5 3.4 3.3 3.4h32.3v7.8c0 1.7 1.4 3.2 3.3 3.2 1.8 0 3.2-1.4 3.2-3.1v-7.9h8.4c1.5 0 3-1.4 3-3.3 0-1.5-1.4-3.1-3.1-3.1'
+    />
+  </svg>
+);

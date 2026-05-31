@@ -1,5 +1,5 @@
-import type { SVGAttributes } from 'react';
+import type { SVGProps } from 'react';
 
 export type IconProps = {
-  size?: number;
-} & Omit<SVGAttributes<SVGElement>, 'width' | 'height'>;
+  size?: number | string;
+} & Omit<SVGProps<SVGSVGElement>, 'width' | 'height'>;

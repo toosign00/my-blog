@@ -1,11 +1,11 @@
 import type { ComponentType } from 'react';
 import { SkillBadge } from '@/components/about/SkillBadge';
-import { ChatGPTIcon } from '@/components/icons/ChatGPTIcon';
 import { ChromeIcon } from '@/components/icons/ChromeIcon';
-import { ClaudeIcon } from '@/components/icons/ClaudeIcon';
+import { ClaudeCodeIcon } from '@/components/icons/ClaudeCodeIcon';
+import { CodexIcon } from '@/components/icons/CodexIcon';
 import { ConfluenceIcon } from '@/components/icons/ConfluenceIcon';
 import { FigmaIcon } from '@/components/icons/FigmaIcon';
-import { GeminiIcon } from '@/components/icons/GeminiIcon';
+import { GeminiCliIcon } from '@/components/icons/GeminiCliIcon';
 import { GithubIcon } from '@/components/icons/GithubIcon';
 import { GitIcon } from '@/components/icons/GitIcon';
 import { GoogleSheetsIcon } from '@/components/icons/GoogleSheetsIcon';
@@ -23,9 +23,9 @@ import type { IconProps } from '@/types/icon.types';
 
 const ICON_MAP: Record<string, ComponentType<IconProps>> = {
   chrome: ChromeIcon,
-  chatgpt: ChatGPTIcon,
-  claude: ClaudeIcon,
-  gemini: GeminiIcon,
+  codex: CodexIcon,
+  'claude-code': ClaudeCodeIcon,
+  'gemini-cli': GeminiCliIcon,
   playwright: PlaywrightIcon,
   postman: PostmanIcon,
   jira: JiraIcon,
