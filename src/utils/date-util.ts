@@ -1,9 +1,5 @@
 import dayjs from 'dayjs';
 
-export const formatTime = (date: string | Date, format = 'YYYY-MM-DD HH:mm:ss') => {
-  return dayjs(date).format(format);
-};
-
 export const formatRelativeTime = (date: string | Date): string => {
   const now = dayjs();
   const target = dayjs(date);
