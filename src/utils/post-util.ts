@@ -5,6 +5,13 @@ import { cache } from 'react';
 import { PATHS } from '@/constants/paths.constants';
 import type { Post, PostMetadata, TocItem } from '@/types/post.types';
 import { createBlur } from '@/utils/blur-util';
+import {
+  isNonEmptyString,
+  isStringArray,
+  isValidDateString,
+  isValidUrl,
+  resolveCoverAsset,
+} from '@/utils/content-util';
 
 interface PostModule {
   default: ComponentType;
@@ -53,34 +60,6 @@ export const getPostToc = async (slug: string): Promise<TocItem[]> => {
   return items;
 };
 
-const resolveCoverImage = (slug: string, coverImage: string): string => {
-  if (coverImage.startsWith('https://')) {
-    return coverImage;
-  }
-  return `/covers/posts/${slug}/${coverImage}`;
-};
-
-const isNonEmptyString = (value: unknown): value is string => {
-  return typeof value === 'string' && value.trim().length > 0;
-};
-
-const isStringArray = (value: unknown): value is string[] => {
-  return Array.isArray(value) && value.every(isNonEmptyString);
-};
-
-const isValidDateString = (value: string) => {
-  return Number.isFinite(Date.parse(value));
-};
-
-const isValidUrl = (value: string) => {
-  try {
-    new URL(value);
-    return true;
-  } catch {
-    return false;
-  }
-};
-
 const validatePostMetadata = (slug: string, metadata: PostMetadata) => {
   const errors: string[] = [];
 
@@ -113,7 +92,7 @@ const validatePostMetadata = (slug: string, metadata: PostMetadata) => {
 const buildPost = async (slug: string, metadata: PostMetadata): Promise<Post> => {
   validatePostMetadata(slug, metadata);
 
-  const coverImage = resolveCoverImage(slug, metadata.coverImage);
+  const coverImage = resolveCoverAsset('posts', slug, metadata.coverImage);
   let coverImageBlur: string | undefined;
 
   try {

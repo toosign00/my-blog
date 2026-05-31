@@ -5,6 +5,15 @@ import { cache } from 'react';
 import { PATHS } from '@/constants/paths.constants';
 import type { Project, ProjectMetadata } from '@/types/project.types';
 import { createBlur } from '@/utils/blur-util';
+import {
+  isNonEmptyString,
+  isRemoteImage,
+  isStringArray,
+  isValidDateString,
+  isValidUrl,
+  resolveCoverAsset,
+} from '@/utils/content-util';
+import { compareProjectsByRecommended } from '@/utils/project-sort-util';
 
 interface ProjectModule {
   default: ComponentType;
@@ -44,39 +53,6 @@ const hasProjectAsset = async (slug: string, asset: string): Promise<boolean> =>
   }
 };
 
-const resolveProjectAsset = (slug: string, asset: string): string => {
-  if (isRemoteImage(asset)) {
-    return asset;
-  }
-
-  return `/covers/projects/${slug}/${asset.replace(/^\.\//, '')}`;
-};
-
-const isNonEmptyString = (value: unknown): value is string => {
-  return typeof value === 'string' && value.trim().length > 0;
-};
-
-const isStringArray = (value: unknown): value is string[] => {
-  return Array.isArray(value) && value.every(isNonEmptyString);
-};
-
-const isValidDateString = (value: string) => {
-  return Number.isFinite(Date.parse(value));
-};
-
-const isValidUrl = (value: string) => {
-  try {
-    new URL(value);
-    return true;
-  } catch {
-    return false;
-  }
-};
-
-const isRemoteImage = (value: string) => {
-  return value.startsWith('https://');
-};
-
 const validateProjectMetadata = (slug: string, metadata: ProjectMetadata) => {
   const errors: string[] = [];
 
@@ -101,8 +77,8 @@ const validateProjectMetadata = (slug: string, metadata: ProjectMetadata) => {
   if (metadata.projectDue && !isValidDateString(metadata.projectDue)) {
     errors.push('projectDue must be a valid date');
   }
-  if (metadata.order !== undefined && !Number.isFinite(metadata.order)) {
-    errors.push('order must be a finite number');
+  if (metadata.recommendedOrder !== undefined && !Number.isFinite(metadata.recommendedOrder)) {
+    errors.push('recommendedOrder must be a finite number');
   }
 
   for (const key of ['repository', 'docs', 'url'] as const) {
@@ -120,10 +96,12 @@ const validateProjectMetadata = (slug: string, metadata: ProjectMetadata) => {
 const buildProject = async (slug: string, metadata: ProjectMetadata): Promise<Project> => {
   validateProjectMetadata(slug, metadata);
 
-  const coverImage = resolveProjectAsset(slug, metadata.coverImage);
+  const coverImage = resolveCoverAsset('projects', slug, metadata.coverImage);
   const heroImageSource =
     metadata.heroImage ?? ((await hasProjectAsset(slug, 'hero.webp')) ? 'hero.webp' : undefined);
-  const heroImage = heroImageSource ? resolveProjectAsset(slug, heroImageSource) : coverImage;
+  const heroImage = heroImageSource
+    ? resolveCoverAsset('projects', slug, heroImageSource)
+    : coverImage;
   let coverImageBlur: string | undefined;
   let heroImageBlur: string | undefined;
 
@@ -158,24 +136,6 @@ const buildProject = async (slug: string, metadata: ProjectMetadata): Promise<Pr
   };
 };
 
-const compareProjects = (a: Project, b: Project): number => {
-  if (a.order !== undefined && b.order !== undefined) {
-    const orderDiff = a.order - b.order;
-    if (orderDiff !== 0) return orderDiff;
-  }
-
-  if (a.order !== undefined) return -1;
-  if (b.order !== undefined) return 1;
-
-  const createdAtDiff = Date.parse(b.createdAt) - Date.parse(a.createdAt);
-  if (createdAtDiff !== 0) return createdAtDiff;
-
-  const titleDiff = a.title.localeCompare(b.title);
-  if (titleDiff !== 0) return titleDiff;
-
-  return a.slug.localeCompare(b.slug);
-};
-
 export const getAllProjects = cache(async (): Promise<Project[]> => {
   const entries = await readdir(PATHS.PROJECTS_DIR, {
     withFileTypes: true,
@@ -199,7 +159,7 @@ export const getAllProjects = cache(async (): Promise<Project[]> => {
     items.push(await buildProject(slug, projectModule.metadata));
   }
 
-  items.sort(compareProjects);
+  items.sort(compareProjectsByRecommended);
   return items;
 });
 

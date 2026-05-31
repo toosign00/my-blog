@@ -1,11 +1,15 @@
 'use client';
 
-import dayjs from 'dayjs';
 import { ChevronDown } from 'lucide-react';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 import type { Project } from '@/types/project.types';
+import {
+  compareProjectsByAlphabetical,
+  compareProjectsByNewest,
+  compareProjectsByRecommended,
+} from '@/utils/project-sort-util';
 import { ProjectList } from './ProjectList';
 
 type ProjectSectionProps = {
@@ -42,37 +46,15 @@ const normalizeSortOption = (value: string | undefined): SortOption => {
   return 'recommended';
 };
 
-const compareByNewest = (a: Project, b: Project) => {
-  const createdAtDiff = dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf();
-  if (createdAtDiff !== 0) return createdAtDiff;
-
-  const titleDiff = a.title.localeCompare(b.title);
-  if (titleDiff !== 0) return titleDiff;
-
-  return a.slug.localeCompare(b.slug);
-};
-
 const sortProjects = (projects: Project[], sortOption: SortOption): Project[] => {
-  return [...projects].sort((a, b) => {
-    if (sortOption === 'recommended') {
-      if (a.order !== undefined && b.order !== undefined) {
-        const orderDiff = a.order - b.order;
-        if (orderDiff !== 0) return orderDiff;
-      }
-      if (a.order !== undefined) return -1;
-      if (b.order !== undefined) return 1;
-      return compareByNewest(a, b);
-    }
+  const compareProjects =
+    sortOption === 'recommended'
+      ? compareProjectsByRecommended
+      : sortOption === 'newest'
+        ? compareProjectsByNewest
+        : compareProjectsByAlphabetical;
 
-    if (sortOption === 'newest') {
-      return compareByNewest(a, b);
-    }
-
-    const titleDiff = a.title.localeCompare(b.title);
-    if (titleDiff !== 0) return titleDiff;
-
-    return a.slug.localeCompare(b.slug);
-  });
+  return [...projects].sort(compareProjects);
 };
 
 export const ProjectSection = ({

@@ -8,7 +8,7 @@ export interface ProjectMetadata {
   tags: string[];
   capabilities?: string[];
   awards?: string;
-  order?: number;
+  recommendedOrder?: number;
   repository?: string;
   docs?: string;
   url?: string;
