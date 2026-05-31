@@ -1,23 +1,77 @@
+import { useId } from 'react';
 import type { IconProps } from '@/types/icon.types';
 
-export const GoogleSheetsIcon = ({ size = 24, ...props }: IconProps) => (
-  <svg
-    xmlns='http://www.w3.org/2000/svg'
-    width={size}
-    height={size}
-    viewBox='0 0 314.7 428'
-    fill='none'
-    {...props}
-  >
-    <title>Google Sheets</title>
-    <path d='M206 108.7h108.7L206 0z' fill='#188038' />
-    <path
-      d='M206 108.7V0H24C10.7 0 0 10.7 0 24v380c0 13.3 10.7 24 24 24h266.7c13.3 0 24-10.7 24-24V108.7z'
-      fill='#34a853'
-    />
-    <path
-      d='M60 167.9V315h194.7V167.9zM145.3 291H84v-37.6h61.3zm0-61.5H84v-37.6h61.3zm85.4 61.5h-61.3v-37.6h61.3zm0-61.5h-61.3v-37.6h61.3z'
-      fill='#fff'
-    />
-  </svg>
-);
+export const GoogleSheetsIcon = ({ size = 24, ...props }: IconProps) => {
+  const rawId = useId();
+  const uid = rawId.replace(/:/g, '');
+  const maskId = `googleSheets-${uid}-a`;
+  const filterId = `googleSheets-${uid}-b`;
+  const gradId = `googleSheets-${uid}-c`;
+
+  return (
+    <svg
+      xmlns='http://www.w3.org/2000/svg'
+      width={size}
+      height={size}
+      viewBox='0 0 192 192'
+      fill='none'
+      {...props}
+    >
+      <title>Google Sheets</title>
+      <path
+        fill='#009954'
+        d='M8 74.6c0-8.943 0-13.415 1.404-16.962a20 20 0 0 1 11.234-11.233C24.185 45 28.656 45 37.6 45h60.8c8.943 0 13.415 0 16.962 1.404a20 20 0 0 1 11.234 11.234C128 61.185 128 65.656 128 74.6v42.8c0 8.943 0 13.415-1.404 16.962a20 20 0 0 1-11.234 11.234C111.815 147 107.343 147 98.4 147H37.6c-8.943 0-13.415 0-16.963-1.404a20 20 0 0 1-11.233-11.234C8 130.815 8 126.343 8 117.4z'
+      />
+      <mask
+        id={maskId}
+        width='160'
+        height='128'
+        x='24'
+        y='32'
+        maskUnits='userSpaceOnUse'
+        style={{ maskType: 'alpha' }}
+      >
+        <rect width='160' height='128' x='24' y='32' fill='#0ebc5f' rx='20' />
+      </mask>
+      <g mask={`url(#${maskId})`}>
+        <path fill='#0ebc5f' d='M24 32h160v128H24z' />
+        <g filter={`url(#${filterId})`}>
+          <rect
+            width='144'
+            height='102'
+            fill={`url(#${gradId})`}
+            rx='25.6'
+            transform='matrix(1 0 0 -1 8 147)'
+          />
+        </g>
+      </g>
+      <path stroke='#fff' strokeLinecap='round' strokeWidth='12' d='M80 121h84m-20 19V76' />
+      <defs>
+        <linearGradient
+          id={gradId}
+          x1='122.24'
+          x2='20.76'
+          y1='43.31'
+          y2='43.31'
+          gradientUnits='userSpaceOnUse'
+        >
+          <stop stopColor='#0ebc5f' />
+          <stop offset='.95' stopColor='#78c9ff' />
+        </linearGradient>
+        <filter
+          id={filterId}
+          width='168'
+          height='126'
+          x='-4'
+          y='33'
+          colorInterpolationFilters='sRGB'
+          filterUnits='userSpaceOnUse'
+        >
+          <feFlood floodOpacity='0' result='BackgroundImageFix' />
+          <feBlend in='SourceGraphic' in2='BackgroundImageFix' result='shape' />
+          <feGaussianBlur result='effect1_foregroundBlur_37435_8174' stdDeviation='6' />
+        </filter>
+      </defs>
+    </svg>
+  );
+};

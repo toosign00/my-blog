@@ -1,31 +1,158 @@
+import { useId } from 'react';
 import type { IconProps } from '@/types/icon.types';
 
-export const GeminiIcon = ({ size = 24, ...props }: IconProps) => (
-  <svg
-    xmlns='http://www.w3.org/2000/svg'
-    width={size}
-    height={size}
-    viewBox='0 0 28.01 28'
-    {...props}
-  >
-    <title>Gemini</title>
-    <defs>
-      <radialGradient
-        id='gemini-a'
-        cx='-576.08'
-        cy='491.7'
-        gradientTransform='matrix(28.2302 9.54441 76.4642 -226.16369 -21336.18 116711.38)'
-        gradientUnits='userSpaceOnUse'
-        r='1'
+export const GeminiIcon = ({ size = 24, ...props }: IconProps) => {
+  const rawId = useId();
+  const uid = rawId.replace(/:/g, '');
+  const maskId = `gemini-${uid}-a`;
+  const bId = `gemini-${uid}-b`;
+  const cId = `gemini-${uid}-c`;
+  const dId = `gemini-${uid}-d`;
+  const eId = `gemini-${uid}-e`;
+  const fId = `gemini-${uid}-f`;
+  const gId = `gemini-${uid}-g`;
+  const hId = `gemini-${uid}-h`;
+
+  return (
+    <svg
+      viewBox='0 0 296 298'
+      xmlns='http://www.w3.org/2000/svg'
+      width={size}
+      height={size}
+      fill='none'
+      {...props}
+    >
+      <title>Gemini</title>
+      <mask
+        id={maskId}
+        width='296'
+        height='298'
+        x='0'
+        y='0'
+        maskUnits='userSpaceOnUse'
+        style={{ maskType: 'alpha' }}
       >
-        <stop offset='.07' stopColor='#9168c0' />
-        <stop offset='.34' stopColor='#5684d1' />
-        <stop offset='.67' stopColor='#1ba1e3' />
-      </radialGradient>
-    </defs>
-    <path
-      d='M14 28c0-1.94-.37-3.76-1.12-5.46-.72-1.7-1.72-3.19-2.98-4.45s-2.74-2.25-4.44-2.97C3.76 14.37 1.94 14 0 14c1.94 0 3.76-.36 5.46-1.09 1.7-.75 3.19-1.75 4.44-3.01 1.26-1.26 2.25-2.74 2.98-4.44C13.63 3.76 14 1.94 14 0c0 1.94.36 3.76 1.09 5.46.75 1.7 1.75 3.19 3.01 4.44 1.26 1.26 2.74 2.26 4.45 3.01 1.7.72 3.52 1.09 5.46 1.09-1.94 0-3.76.37-5.46 1.12-1.7.72-3.19 1.71-4.45 2.97s-2.26 2.74-3.01 4.45A13.86 13.86 0 0 0 14 28z'
-      fill='url(#gemini-a)'
-    />
-  </svg>
-);
+        <path
+          fill='#3186FF'
+          d='M141.201 4.886c2.282-6.17 11.042-6.071 13.184.148l5.985 17.37a184.004 184.004 0 0 0 111.257 113.049l19.304 6.997c6.143 2.227 6.156 10.91.02 13.155l-19.35 7.082a184.001 184.001 0 0 0-109.495 109.385l-7.573 20.629c-2.241 6.105-10.869 6.121-13.133.025l-7.908-21.296a184 184 0 0 0-109.02-108.658l-19.698-7.239c-6.102-2.243-6.118-10.867-.025-13.132l20.083-7.467A183.998 183.998 0 0 0 133.291 26.28l7.91-21.394Z'
+        />
+      </mask>
+      <g mask={`url(#${maskId})`}>
+        <g filter={`url(#${bId})`}>
+          <ellipse cx='163' cy='149' fill='#3689FF' rx='196' ry='159' />
+        </g>
+        <g filter={`url(#${cId})`}>
+          <ellipse cx='33.5' cy='142.5' fill='#F6C013' rx='68.5' ry='72.5' />
+        </g>
+        <g filter={`url(#${dId})`}>
+          <ellipse cx='19.5' cy='148.5' fill='#F6C013' rx='68.5' ry='72.5' />
+        </g>
+        <g filter={`url(#${eId})`}>
+          <path fill='#FA4340' d='M194 10.5C172 82.5 65.5 134.333 22.5 135L144-66l50 76.5Z' />
+        </g>
+        <g filter={`url(#${fId})`}>
+          <path fill='#FA4340' d='M190.5-12.5C168.5 59.5 62 111.333 19 112L140.5-89l50 76.5Z' />
+        </g>
+        <g filter={`url(#${gId})`}>
+          <path fill='#14BB69' d='M194.5 279.5C172.5 207.5 66 155.667 23 155l121.5 201 50-76.5Z' />
+        </g>
+        <g filter={`url(#${hId})`}>
+          <path fill='#14BB69' d='M196.5 320.5C174.5 248.5 68 196.667 25 196l121.5 201 50-76.5Z' />
+        </g>
+      </g>
+      <defs>
+        <filter
+          id={bId}
+          width='464'
+          height='390'
+          x='-69'
+          y='-46'
+          colorInterpolationFilters='sRGB'
+          filterUnits='userSpaceOnUse'
+        >
+          <feFlood floodOpacity='0' result='BackgroundImageFix' />
+          <feBlend in='SourceGraphic' in2='BackgroundImageFix' result='shape' />
+          <feGaussianBlur result='effect1_foregroundBlur_69_17998' stdDeviation='18' />
+        </filter>
+        <filter
+          id={cId}
+          width='265'
+          height='273'
+          x='-99'
+          y='6'
+          colorInterpolationFilters='sRGB'
+          filterUnits='userSpaceOnUse'
+        >
+          <feFlood floodOpacity='0' result='BackgroundImageFix' />
+          <feBlend in='SourceGraphic' in2='BackgroundImageFix' result='shape' />
+          <feGaussianBlur result='effect1_foregroundBlur_69_17998' stdDeviation='32' />
+        </filter>
+        <filter
+          id={dId}
+          width='265'
+          height='273'
+          x='-113'
+          y='12'
+          colorInterpolationFilters='sRGB'
+          filterUnits='userSpaceOnUse'
+        >
+          <feFlood floodOpacity='0' result='BackgroundImageFix' />
+          <feBlend in='SourceGraphic' in2='BackgroundImageFix' result='shape' />
+          <feGaussianBlur result='effect1_foregroundBlur_69_17998' stdDeviation='32' />
+        </filter>
+        <filter
+          id={eId}
+          width='299.5'
+          height='329'
+          x='-41.5'
+          y='-130'
+          colorInterpolationFilters='sRGB'
+          filterUnits='userSpaceOnUse'
+        >
+          <feFlood floodOpacity='0' result='BackgroundImageFix' />
+          <feBlend in='SourceGraphic' in2='BackgroundImageFix' result='shape' />
+          <feGaussianBlur result='effect1_foregroundBlur_69_17998' stdDeviation='32' />
+        </filter>
+        <filter
+          id={fId}
+          width='299.5'
+          height='329'
+          x='-45'
+          y='-153'
+          colorInterpolationFilters='sRGB'
+          filterUnits='userSpaceOnUse'
+        >
+          <feFlood floodOpacity='0' result='BackgroundImageFix' />
+          <feBlend in='SourceGraphic' in2='BackgroundImageFix' result='shape' />
+          <feGaussianBlur result='effect1_foregroundBlur_69_17998' stdDeviation='32' />
+        </filter>
+        <filter
+          id={gId}
+          width='299.5'
+          height='329'
+          x='-41'
+          y='91'
+          colorInterpolationFilters='sRGB'
+          filterUnits='userSpaceOnUse'
+        >
+          <feFlood floodOpacity='0' result='BackgroundImageFix' />
+          <feBlend in='SourceGraphic' in2='BackgroundImageFix' result='shape' />
+          <feGaussianBlur result='effect1_foregroundBlur_69_17998' stdDeviation='32' />
+        </filter>
+        <filter
+          id={hId}
+          width='299.5'
+          height='329'
+          x='-39'
+          y='132'
+          colorInterpolationFilters='sRGB'
+          filterUnits='userSpaceOnUse'
+        >
+          <feFlood floodOpacity='0' result='BackgroundImageFix' />
+          <feBlend in='SourceGraphic' in2='BackgroundImageFix' result='shape' />
+          <feGaussianBlur result='effect1_foregroundBlur_69_17998' stdDeviation='32' />
+        </filter>
+      </defs>
+    </svg>
+  );
+};
