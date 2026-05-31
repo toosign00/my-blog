@@ -23,9 +23,9 @@ const HomePage = async () => {
 
       <section aria-labelledby='updates-heading' className='column gap-7.5 pt-17.5'>
         <div className='row-between'>
-          <h3 className='section-heading' id='updates-heading'>
-            Update
-          </h3>
+          <h2 className='section-heading' id='updates-heading'>
+            Latest Updates
+          </h2>
           <Link
             aria-label='Expand to see more posts'
             className='section-action-chip'

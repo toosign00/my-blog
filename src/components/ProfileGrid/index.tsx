@@ -25,9 +25,9 @@ export const ProfileGrid = async () => {
       className='grid w-full grid-cols-1 gap-16.25 tablet:grid-cols-2'
     >
       <div className='column w-full'>
-        <h3 className='section-heading' id='profile-heading'>
+        <h2 className='section-heading' id='profile-heading'>
           Profile
-        </h3>
+        </h2>
         <Card.Root style={{ backgroundColor: PROFILE.cardBackgroundColor }}>
           <Card.Content>
             <fieldset
@@ -83,7 +83,7 @@ export const ProfileGrid = async () => {
       </div>
 
       <div className='column w-full'>
-        <h3 className='section-heading'>Visits</h3>
+        <h2 className='section-heading'>Visits</h2>
         <Card.Root>
           <ViewsWidget />
         </Card.Root>

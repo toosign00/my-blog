@@ -89,7 +89,7 @@ const GitHubHeatmap = React.memo(function GitHubHeatmap({
   return (
     <div className='space-y-3 w-full'>
       <div className='flex items-center justify-between'>
-        <h3 className='section-heading'>GitHub Contributions</h3>
+        <h2 className='section-heading'>GitHub Contributions</h2>
         <span className='text-[11px] font-mono' style={{ color: 'var(--color-gray-light)' }}>
           @toosign00
         </span>
