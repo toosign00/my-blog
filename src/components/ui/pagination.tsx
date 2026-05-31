@@ -1,8 +1,7 @@
 'use client';
 
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
-import { ChevronLeftIcon } from '@/components/icons/ChevronLeftIcon';
-import { ChevronRightIcon } from '@/components/icons/ChevronRightIcon';
 
 const TRAILING_SLASH = /\/$/;
 
@@ -41,7 +40,7 @@ export const Pagination = ({ currentPage, totalPages, basePath }: PaginationProp
           className='center h-8 w-8 cursor-pointer rounded-full border border-border bg-toggle text-gray-accent text-sm transition-colors duration-150 ease-in-out hover:bg-background02'
           href={buildPageHref(currentPage - 1)}
         >
-          <ChevronLeftIcon />
+          <ChevronLeft size={16} />
         </Link>
       )}
 
@@ -72,7 +71,7 @@ export const Pagination = ({ currentPage, totalPages, basePath }: PaginationProp
           className='center h-8 w-8 cursor-pointer rounded-full border border-border bg-toggle text-gray-accent text-sm transition-colors duration-150 ease-in-out hover:bg-background02'
           href={buildPageHref(currentPage + 1)}
         >
-          <ChevronRightIcon />
+          <ChevronRight size={16} />
         </Link>
       )}
     </nav>

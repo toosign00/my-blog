@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import type { BlogPosting, WithContext } from 'schema-dts';
 import JsonLd from '@/components/JsonLd';
+import { BackButton } from '@/components/ui/backButton';
 import { Divider } from '@/components/ui/divider';
 import { ROUTES } from '@/constants/menu.constants';
 import { METADATA } from '@/constants/metadata.constants';
@@ -14,7 +15,6 @@ import {
   getPostToc,
   PostNotFoundError,
 } from '@/utils/post-util';
-import { BackButton } from './_components/back-button';
 import { Footer } from './_components/footer';
 import { Giscus } from './_components/giscus';
 import { Header } from './_components/header';

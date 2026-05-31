@@ -1,6 +1,6 @@
+import { Download } from 'lucide-react';
 import Image from 'next/image';
 import { ContactButtons } from '@/components/about/ContactBtn';
-import { DownloadIcon } from '@/components/icons/DownloadIcon';
 import { ResumeDownloadButton } from '@/components/ResumeBtn';
 import { ABOUT } from '@/constants/about.constants';
 import { createBlur } from '@/utils/blur-util';
@@ -65,7 +65,7 @@ export const ProfileCard = async () => {
               style={{ backgroundColor: 'var(--color-profile-button-overlay)' }}
             />
             <div className='relative z-10 flex items-center gap-2'>
-              <DownloadIcon size={20} />
+              <Download size={20} />
               <span className='font-medium'>이력서 다운로드</span>
             </div>
           </ResumeDownloadButton>
@@ -90,7 +90,7 @@ export const ProfileCard = async () => {
               style={{ backgroundColor: 'var(--color-profile-button-overlay)' }}
             />
             <div className='relative z-10 flex items-center gap-2'>
-              <DownloadIcon size={20} />
+              <Download size={20} />
               <span className='font-medium'>자기소개서 다운로드</span>
             </div>
           </ResumeDownloadButton>

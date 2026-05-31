@@ -1,15 +1,14 @@
 'use client';
 
+import { Mail, Phone } from 'lucide-react';
 import { toast } from 'sonner';
 import { GithubIcon } from '@/components/icons/GithubIcon';
 import { LinkedInIcon } from '@/components/icons/LinkedInIcon';
-import { MailIcon } from '@/components/icons/MailIcon';
-import { PhoneIcon } from '@/components/icons/PhoneIcon';
 import { ABOUT } from '@/constants/about.constants';
 
 const ICON_MAP = {
-  phone: PhoneIcon,
-  mail: MailIcon,
+  phone: Phone,
+  mail: Mail,
   linkedin: LinkedInIcon,
   github: GithubIcon,
 } as const;

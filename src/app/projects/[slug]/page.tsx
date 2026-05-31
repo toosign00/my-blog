@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import type { CreativeWork, WithContext } from 'schema-dts';
 import JsonLd from '@/components/JsonLd';
+import { BackButton } from '@/components/ui/backButton';
 import { Divider } from '@/components/ui/divider';
 import { ROUTES } from '@/constants/menu.constants';
 import { METADATA } from '@/constants/metadata.constants';
@@ -13,7 +14,6 @@ import {
   getRecommendedProjects,
   ProjectNotFoundError,
 } from '@/utils/project-util';
-import { BackButton } from './_components/back-button';
 import { Footer } from './_components/footer';
 import { ProjectHeader } from './_components/header';
 import { Recommend } from './_components/recommend';

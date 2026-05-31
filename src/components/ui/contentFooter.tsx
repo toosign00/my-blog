@@ -1,8 +1,8 @@
 'use client';
 
+import { Share } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { toast } from 'sonner';
-import { ShareIcon } from '@/components/icons/ShareIcon';
 
 type ContentFooterProps = {
   backButton: ReactNode;
@@ -87,7 +87,7 @@ export const ContentFooter = ({
         type='button'
       >
         {shareButtonLabel}
-        <ShareIcon size={18} />
+        <Share size={18} />
       </button>
     </footer>
   );

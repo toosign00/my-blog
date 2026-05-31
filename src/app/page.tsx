@@ -1,7 +1,7 @@
+import { Plus } from 'lucide-react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ActivityHeatmap } from '@/components/ActivityHeatmap';
-import { PlusIcon } from '@/components/icons/PlusIcon';
 import { ProfileGrid } from '@/components/ProfileGrid';
 import { PostGrid } from '@/components/ui/postGrid';
 import { ROUTES } from '@/constants/menu.constants';
@@ -32,7 +32,7 @@ const HomePage = async () => {
             href={ROUTES.POSTS}
           >
             Expand
-            <PlusIcon />
+            <Plus size={16} />
           </Link>
         </div>
         <PostGrid posts={posts} />
