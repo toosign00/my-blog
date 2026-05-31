@@ -55,7 +55,7 @@ const Tooltip = React.forwardRef<TooltipHandle>((_, ref) => {
       >
         <span ref={textRef} />
         <div
-          className='absolute bottom-[-4px] left-1/2 h-2 w-2 -translate-x-1/2 rotate-45'
+          className='absolute -bottom-1 left-1/2 h-2 w-2 -translate-x-1/2 rotate-45'
           style={{ backgroundColor: 'var(--color-ink)' }}
         />
       </div>
@@ -89,7 +89,7 @@ const GitHubHeatmap = React.memo(function GitHubHeatmap({
   return (
     <div className='space-y-3 w-full'>
       <div className='flex items-center justify-between'>
-        <h3 className='section-heading'>GitHub Contributions</h3>
+        <h2 className='section-heading'>GitHub Contributions</h2>
         <span className='text-[11px] font-mono' style={{ color: 'var(--color-gray-light)' }}>
           @toosign00
         </span>
@@ -107,11 +107,11 @@ const GitHubHeatmap = React.memo(function GitHubHeatmap({
           renderBlock={renderBlock}
         />
       </div>
-      <div className='flex items-center justify-end gap-[2px] pt-1'>
+      <div className='flex items-center justify-end gap-0.5 pt-1'>
         {ACTIVITY_COLORS.map((color, i) => (
           <div
             key={color}
-            className='w-[6px] h-[6px] rounded-[1px]'
+            className='w-1.5 h-1.5 rounded-[1px]'
             style={{ backgroundColor: color }}
             aria-label={`활동 강도 ${i}`}
             role='img'
