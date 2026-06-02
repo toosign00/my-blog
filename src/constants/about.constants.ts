@@ -84,7 +84,7 @@ export const ABOUT = {
         { label: 'Figma', icon: 'figma' },
         {
           grouped: true,
-          label: 'AI Code Assistant',
+          label: 'AI Coding Agent',
           icons: ['codex', 'claude-code', 'gemini-cli'],
         },
       ],
