@@ -24,11 +24,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Scan pull request for SARIF
         uses: aquasecurity/trivy-action@v0.36.0
         with:
+          version: v0.71.0
           scan-type: fs
           scan-ref: .
           scanners: vuln,secret
@@ -51,6 +52,7 @@ jobs:
       - name: Enforce pull request scan
         uses: aquasecurity/trivy-action@v0.36.0
         with:
+          version: v0.71.0
           scan-type: fs
           scan-ref: .
           scanners: vuln,secret
@@ -65,11 +67,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Scan scheduled run for SARIF
         uses: aquasecurity/trivy-action@v0.36.0
         with:
+          version: v0.71.0
           scan-type: fs
           scan-ref: .
           scanners: vuln,secret
@@ -90,6 +93,7 @@ jobs:
       - name: Report scheduled scan
         uses: aquasecurity/trivy-action@v0.36.0
         with:
+          version: v0.71.0
           scan-type: fs
           scan-ref: .
           scanners: vuln,secret
