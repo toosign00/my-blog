@@ -85,7 +85,7 @@ export const ABOUT = {
         {
           grouped: true,
           label: 'AI Coding Agent',
-          icons: ['codex', 'claude-code', 'gemini-cli'],
+          icons: ['codex', 'claude-code', 'antigravity-cli'],
         },
       ],
     },
