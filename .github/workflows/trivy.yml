@@ -1,0 +1,100 @@
+name: Trivy Security Scan
+
+on:
+  pull_request:
+    branches:
+      - develop
+      - main
+  schedule:
+    # GitHub Actions cron uses UTC: Monday 00:00 UTC = Monday 09:00 KST.
+    - cron: "0 0 * * 1"
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  pull-request:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Scan pull request for SARIF
+        uses: aquasecurity/trivy-action@0.33.1
+        with:
+          scan-type: fs
+          scan-ref: .
+          scanners: vuln,secret
+          severity: HIGH,CRITICAL
+          ignore-unfixed: true
+          format: sarif
+          limit-severities-for-sarif: true
+          output: trivy-pr-results.sarif
+          exit-code: 0
+          cache: true
+
+      - name: Upload pull request SARIF
+        # SARIF upload is unavailable for fork and Dependabot PRs with read-only tokens.
+        if: github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]'
+        uses: github/codeql-action/upload-sarif@v4
+        with:
+          sarif_file: trivy-pr-results.sarif
+          category: trivy-pr
+
+      - name: Enforce pull request scan
+        uses: aquasecurity/trivy-action@0.33.1
+        with:
+          scan-type: fs
+          scan-ref: .
+          scanners: vuln,secret
+          severity: HIGH,CRITICAL
+          ignore-unfixed: true
+          format: table
+          exit-code: 1
+          cache: true
+
+  scheduled:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Scan scheduled run for SARIF
+        uses: aquasecurity/trivy-action@0.33.1
+        with:
+          scan-type: fs
+          scan-ref: .
+          scanners: vuln,secret
+          severity: HIGH,CRITICAL
+          ignore-unfixed: false
+          format: sarif
+          limit-severities-for-sarif: true
+          output: trivy-scheduled-results.sarif
+          exit-code: 0
+          cache: true
+
+      - name: Upload scheduled SARIF
+        uses: github/codeql-action/upload-sarif@v4
+        with:
+          sarif_file: trivy-scheduled-results.sarif
+          category: trivy-scheduled
+
+      - name: Report scheduled scan
+        uses: aquasecurity/trivy-action@0.33.1
+        with:
+          scan-type: fs
+          scan-ref: .
+          scanners: vuln,secret
+          severity: HIGH,CRITICAL
+          ignore-unfixed: false
+          format: table
+          exit-code: 0
+          cache: true
