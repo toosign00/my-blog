@@ -109,7 +109,7 @@ const jsonWithNoStore = (
   if (visitor?.shouldSetCookie) {
     response.cookies.set(VISITOR_COOKIE, visitor.visitorId, {
       httpOnly: true,
-      maxAge: 60 * 60 * 24 * 365,
+      maxAge: 60 * 60 * 24 * 180,
       path: '/',
       sameSite: 'lax',
       secure: process.env.NODE_ENV === 'production',
