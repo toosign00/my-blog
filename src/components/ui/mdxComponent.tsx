@@ -75,9 +75,7 @@ const A = ({ href, ...props }: AnchorProps) => (
   />
 );
 
-const Strong = (props: ComponentProps<'strong'>) => (
-  <strong className='font-semibold text-md' {...props} />
-);
+const Strong = (props: ComponentProps<'strong'>) => <strong className='font-medium' {...props} />;
 
 const P = (props: ComponentProps<'p'>) => (
   <p className='post-body mt-6 font-normal text-gray-accent text-md' {...props} />
