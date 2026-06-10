@@ -135,7 +135,7 @@ export async function queryD1<T = Record<string, unknown>>(
 
 Next.js Route Handler로 `GET /api/views`(조회)와 `POST /api/views`(기록) 두 가지를 만들었습니다.
 
-새로고침할 때마다 카운트가 올라가면 곤란해서 익명 방문자 쿠키를 하나 뒀습니다. 쿠키가 없으면 `crypto.randomUUID()`로 새 값을 만들고, 서버에서는 `visitor:<uuid>` 형태의 키로 사용합니다.
+새로고침이나 반복 방문으로 조회수가 중복 집계되지 않도록 익명 방문자 쿠키를 사용했습니다. 쿠키가 없으면 `crypto.randomUUID()`로 새 값을 만들고, 서버에서는 `visitor:<uuid>` 형태의 키로 사용합니다.
 
 ```ts
 const INTERVAL_MS = 30 * 60 * 1000;
@@ -145,7 +145,7 @@ const visitorId = request.cookies.get(VISITOR_COOKIE)?.value ?? crypto.randomUUI
 const visitorKey = `visitor:${visitorId}`;
 ```
 
-새로 만든 UUID는 응답 쿠키에 저장합니다. JavaScript에서 읽을 필요가 없으므로 `httpOnly`로 설정했고, 현재 유지 기간은 180일입니다.
+새로 만든 UUID는 응답 쿠키에 저장합니다. JavaScript에서 읽을 필요가 없으므로 `httpOnly`로 설정했고, 이후 방문 시 동일한 사용자를 식별할 수 있도록 유지 기간은 180일로 설정했습니다.
 
 ```ts
 response.cookies.set(VISITOR_COOKIE, visitorId, {
@@ -157,11 +157,11 @@ response.cookies.set(VISITOR_COOKIE, visitorId, {
 });
 ```
 
-물론 쿠키만으로 방문자를 완전히 식별할 수는 없습니다. 쿠키를 지우거나 시크릿 창, 다른 브라우저나 기기를 사용하면 새로운 방문자로 집계됩니다.
+물론 쿠키만으로 방문자를 완전히 식별할 수는 없습니다. 쿠키를 삭제하거나 시크릿 창, 다른 브라우저 또는 기기를 사용하면 새로운 방문자로 집계됩니다. 이번 구현은 통계 용도의 조회수 기능이기 때문에, 이러한 수준의 중복 방지만으로도 충분하다고 판단했습니다.
 
-기록하기 전에는 `pathname`도 검증합니다. 홈(`/`)과 실제로 존재하는 `/posts/{slug}`만 허용해 임의의 경로가 DB에 계속 생기지 않게 했습니다. 빈 문자열, 160자를 넘는 값, 쿼리 문자열이나 해시가 포함된 값도 거부합니다.
+방문 기록을 저장하기 전에 요청 자체도 검증합니다. 홈(/)과 실제로 존재하는 /posts/{slug} 경로만 허용하고, 빈 문자열이나 160자를 초과하는 값, 쿼리 문자열이나 해시가 포함된 경로는 모두 거부합니다. 이렇게 하면 잘못된 요청이나 임의의 경로로 인해 DB에 불필요한 데이터가 쌓이는 것을 막을 수 있습니다.
 
-로컬호스트 요청은 카운트하지 않습니다. 개발 중에 새로고침한 기록이 운영 조회수에 섞이지 않게 하기 위해서입니다.
+또한 로컬호스트에서 발생한 요청은 조회수에 반영하지 않습니다. 개발 중 반복되는 새로고침이나 테스트 기록이 실제 운영 통계에 섞이지 않도록 하기 위함입니다.
 
 ```ts
 const ip = getClientIp(request);
