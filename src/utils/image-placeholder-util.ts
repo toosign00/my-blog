@@ -14,7 +14,7 @@ const WEBP_QUALITY = 40;
 
 const getKvBase = (): string | null => {
   const accountId = process.env.CLOUDFLARE_ACCOUNT_ID;
-  const namespaceId = process.env.CLOUDFLARE_IMAGE_SIZES_KV_NAMESPACE_ID;
+  const namespaceId = process.env.CLOUDFLARE_IMAGE_PLACEHOLDERS_KV_NAMESPACE_ID;
 
   if (!accountId || !namespaceId) {
     return null;
