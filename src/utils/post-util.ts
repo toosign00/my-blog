@@ -111,6 +111,14 @@ const buildPost = async (slug: string, metadata: PostMetadata): Promise<Post> =>
   };
 };
 
+export const getPostSlugs = cache(async (): Promise<string[]> => {
+  const entries = await readdir(PATHS.POSTS_ARTICLES_DIR, {
+    withFileTypes: true,
+  });
+
+  return entries.filter((entry) => entry.isDirectory()).map((entry) => entry.name);
+});
+
 export const getAllPosts = cache(async (): Promise<Post[]> => {
   const entries = await readdir(PATHS.POSTS_ARTICLES_DIR, {
     withFileTypes: true,

@@ -128,12 +128,9 @@ export async function GET(request: NextRequest) {
 
     const batchParam = request.nextUrl.searchParams.get('pathnames');
     if (batchParam !== null) {
-      const { getAllPosts } = await import('@/utils/post-util');
-      const allPosts = await getAllPosts();
-      const pathnames = normalizeBatchViewPathnames(
-        batchParam.split(','),
-        allPosts.map((post) => post.slug)
-      );
+      const { getPostSlugs } = await import('@/utils/post-util');
+      const postSlugs = await getPostSlugs();
+      const pathnames = normalizeBatchViewPathnames(batchParam.split(','), postSlugs);
 
       if (!pathnames) {
         return jsonWithNoStore({ error: 'Invalid pathnames' }, { status: 400 });
@@ -155,15 +152,10 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json().catch(() => ({}));
     const pathname: string = body.pathname ?? '/';
-    const { getAllPosts } = await import('@/utils/post-util');
-    const allPosts = await getAllPosts();
+    const { getPostSlugs } = await import('@/utils/post-util');
+    const postSlugs = await getPostSlugs();
 
-    if (
-      !isAllowedViewPathname(
-        pathname,
-        allPosts.map((post) => post.slug)
-      )
-    ) {
+    if (!isAllowedViewPathname(pathname, postSlugs)) {
       return jsonWithNoStore({ error: 'Invalid pathname' }, { status: 400 });
     }
 
