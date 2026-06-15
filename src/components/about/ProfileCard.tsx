@@ -6,7 +6,7 @@ import { ABOUT } from '@/constants/about.constants';
 import { createBlur } from '@/utils/blur-util';
 
 export const ProfileCard = async () => {
-  const blurDataURL = await createBlur(ABOUT.profile.profileImage);
+  const blurDataURL = await createBlur(ABOUT.profile.profileImage).catch(() => undefined);
 
   return (
     <div className='flex flex-col gap-6'>
@@ -29,8 +29,7 @@ export const ProfileCard = async () => {
                 className='w-full h-full object-cover rounded-none border-0'
                 src={ABOUT.profile.profileImage}
                 alt={`${ABOUT.profile.name} profile image`}
-                placeholder='blur'
-                blurDataURL={blurDataURL}
+                {...(blurDataURL && { placeholder: 'blur' as const, blurDataURL })}
                 sizes='(max-width: 768px) 100vw, 300px'
                 draggable={false}
                 priority

@@ -1,7 +1,6 @@
 import { type NextRequest, NextResponse } from 'next/server';
 import { isAllowedViewPathname } from '@/utils/api-validation-util';
 import { queryD1 } from '@/utils/d1-util';
-import { getAllPosts } from '@/utils/post-util';
 import { getSiteVisits, getTodayVisitDate, getViews } from '@/utils/views-util';
 
 const INTERVAL_MS = 30 * 60 * 1000;
@@ -138,6 +137,7 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json().catch(() => ({}));
     const pathname: string = body.pathname ?? '/';
+    const { getAllPosts } = await import('@/utils/post-util');
     const allPosts = await getAllPosts();
 
     if (

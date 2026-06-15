@@ -2,7 +2,6 @@ import { existsSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { cache } from 'react';
-import sharp from 'sharp';
 
 export interface BlurOptions {
   width?: number;
@@ -58,6 +57,7 @@ export const createBlur = cache(
     const { width = 20, height = 20, blur = BLUR_STRENGTH } = options;
 
     try {
+      const { default: sharp } = await import('sharp');
       const buffer = await loadBuffer(imagePath);
       const { data, info } = await sharp(buffer)
         .resize(width, height, { fit: 'inside' })

@@ -17,7 +17,7 @@ const authorProfileDetails = [
 ] as const;
 
 export const ProfileGrid = async () => {
-  const blurDataURL = await createBlur(METADATA.AUTHOR.PROFILE_IMAGE);
+  const blurDataURL = await createBlur(METADATA.AUTHOR.PROFILE_IMAGE).catch(() => undefined);
 
   return (
     <section
@@ -44,11 +44,10 @@ export const ProfileGrid = async () => {
               >
                 <Image
                   alt={`${METADATA.AUTHOR.NAME} profile image`}
-                  blurDataURL={blurDataURL}
                   className='h-full w-full rounded-none border-0 object-cover'
                   draggable={false}
                   fill
-                  placeholder='blur'
+                  {...(blurDataURL && { placeholder: 'blur' as const, blurDataURL })}
                   priority
                   sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
                   src={PROFILE.profileImage}

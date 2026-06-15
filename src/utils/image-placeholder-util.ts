@@ -1,5 +1,4 @@
 import { cache } from 'react';
-import sharp from 'sharp';
 
 export type RemoteImagePlaceholder = {
   width: number;
@@ -116,6 +115,7 @@ const fetchSource = async (url: URL): Promise<Buffer> => {
 };
 
 const createPlaceholder = async (buffer: Buffer): Promise<RemoteImagePlaceholder> => {
+  const { default: sharp } = await import('sharp');
   const metadata = await sharp(buffer).metadata();
   if (!metadata.width || !metadata.height) {
     throw new Error('Image dimensions are unavailable');
