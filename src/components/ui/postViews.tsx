@@ -1,14 +1,14 @@
 'use client';
 
-import { useViewsQuery } from '@/hooks/useViews';
+import { usePostViews } from './postViewsProvider';
 
 interface PostViewsProps {
   slug: string;
 }
 
 export const PostViews = ({ slug }: PostViewsProps) => {
-  const { data } = useViewsQuery(`/posts/${slug}`);
+  const views = usePostViews(slug);
   return (
-    <span className='ml-4 tabular-nums'>{data ? data.total.toLocaleString() : '-'} views</span>
+    <span className='ml-4 tabular-nums'>{views ? views.total.toLocaleString() : '-'} views</span>
   );
 };

@@ -3,6 +3,7 @@ import type { Views } from '@/utils/views-util';
 
 const SITE_VIEWS_KEY = '__site__';
 const viewsQueryKey = (pathname?: string) => ['views', pathname ?? SITE_VIEWS_KEY];
+const batchViewsQueryKey = (pathnames: readonly string[]) => ['views', 'batch', ...pathnames];
 
 const fetchViews = async (pathname?: string): Promise<Views> => {
   const url = pathname
@@ -13,6 +14,15 @@ const fetchViews = async (pathname?: string): Promise<Views> => {
     throw new Error('Failed to load views');
   }
   return res.json() as Promise<Views>;
+};
+
+const fetchBatchViews = async (pathnames: readonly string[]): Promise<Record<string, Views>> => {
+  const params = new URLSearchParams({ pathnames: pathnames.join(',') });
+  const res = await fetch(`/api/views?${params}`, { cache: 'no-store' });
+  if (!res.ok) {
+    throw new Error('Failed to load views');
+  }
+  return res.json() as Promise<Record<string, Views>>;
 };
 
 const postViews = async (pathname: string): Promise<{ ok: boolean; counted: boolean }> => {
@@ -33,6 +43,17 @@ export function useViewsQuery(pathname?: string, initialData?: Views) {
     queryKey: viewsQueryKey(pathname),
     queryFn: () => fetchViews(pathname),
     ...(initialData && { initialData }),
+    gcTime: 0,
+    refetchOnMount: 'always',
+    staleTime: 0,
+  });
+}
+
+export function useBatchViewsQuery(pathnames: readonly string[]) {
+  return useQuery({
+    queryKey: batchViewsQueryKey(pathnames),
+    queryFn: () => fetchBatchViews(pathnames),
+    enabled: pathnames.length > 0,
     gcTime: 0,
     refetchOnMount: 'always',
     staleTime: 0,

@@ -1,7 +1,8 @@
 import { type NextRequest, NextResponse } from 'next/server';
 import { isAllowedViewPathname } from '@/utils/api-validation-util';
 import { queryD1 } from '@/utils/d1-util';
-import { getSiteVisits, getTodayVisitDate, getViews } from '@/utils/views-util';
+import { normalizeBatchViewPathnames } from '@/utils/views-batch-util';
+import { getBatchViews, getSiteVisits, getTodayVisitDate, getViews } from '@/utils/views-util';
 
 const INTERVAL_MS = 30 * 60 * 1000;
 const NO_STORE_HEADERS = { 'Cache-Control': 'no-store, max-age=0' };
@@ -122,6 +123,23 @@ export async function GET(request: NextRequest) {
   try {
     if (request.nextUrl.searchParams.get('scope') === 'all') {
       const views = await getSiteVisits();
+      return jsonWithNoStore(views);
+    }
+
+    const batchParam = request.nextUrl.searchParams.get('pathnames');
+    if (batchParam !== null) {
+      const { getAllPosts } = await import('@/utils/post-util');
+      const allPosts = await getAllPosts();
+      const pathnames = normalizeBatchViewPathnames(
+        batchParam.split(','),
+        allPosts.map((post) => post.slug)
+      );
+
+      if (!pathnames) {
+        return jsonWithNoStore({ error: 'Invalid pathnames' }, { status: 400 });
+      }
+
+      const views = await getBatchViews(pathnames);
       return jsonWithNoStore(views);
     }
 
