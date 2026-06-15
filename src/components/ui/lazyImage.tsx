@@ -8,6 +8,7 @@ import { twMerge } from 'tailwind-merge';
 export type LazyImageProps = {
   src: string;
   alt: string;
+  blurDataURL?: string;
   width?: number;
   height?: number;
   className?: string;
@@ -20,6 +21,7 @@ export type LazyImageProps = {
 export const LazyImage = ({
   src,
   alt,
+  blurDataURL,
   width = 1200,
   height = 800,
   className,
@@ -29,20 +31,22 @@ export const LazyImage = ({
   onLoad,
 }: LazyImageProps) => {
   const [isLoaded, setIsLoaded] = useState(false);
+  const useShimmer = !blurDataURL;
 
   return (
     <span
       className='relative block overflow-hidden rounded-lg'
       style={{ aspectRatio: `${width} / ${height}` }}
     >
-      {!isLoaded && (
+      {useShimmer && !isLoaded && (
         <span className='absolute inset-0 animate-shimmer bg-[linear-gradient(90deg,var(--color-background02)_25%,var(--color-border)_50%,var(--color-background02)_75%)] bg-[length:200%_100%]' />
       )}
       <Image
         alt={alt}
+        blurDataURL={blurDataURL}
         className={twMerge(
           'h-auto max-w-full transition-opacity duration-300',
-          isLoaded ? 'opacity-100' : 'opacity-0',
+          useShimmer && !isLoaded ? 'opacity-0' : 'opacity-100',
           className
         )}
         draggable={draggable}
@@ -51,6 +55,7 @@ export const LazyImage = ({
           setIsLoaded(true);
           onLoad?.();
         }}
+        placeholder={blurDataURL ? 'blur' : 'empty'}
         sizes='(max-width: 60rem) 100vw, 47.375rem'
         src={src}
         style={style}

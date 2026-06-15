@@ -5,7 +5,7 @@ import type { ComponentProps, ReactNode } from 'react';
 import { codeToHtml, createCssVariablesTheme } from 'shiki';
 import { twMerge } from 'tailwind-merge';
 
-import { getImageSize } from '@/utils/image-size-util';
+import { getRemoteImagePlaceholder } from '@/utils/image-placeholder-util';
 import { LazyImage } from './lazyImage';
 
 const cssVariablesTheme = createCssVariablesTheme({});
@@ -167,17 +167,18 @@ const Img = async ({ src, alt, ...props }: ImgProps) => {
   }
 
   if (src.startsWith('https://')) {
-    const size = await getImageSize(src);
+    const placeholder = await getRemoteImagePlaceholder(src);
     return (
       <LazyImage
         alt={alt ?? ''}
+        blurDataURL={placeholder?.blurDataURL}
         className={twMerge('h-auto max-w-full', props.className)}
         draggable={props.draggable === true || props.draggable === 'true'}
-        height={size?.height}
+        height={placeholder?.height}
         src={src}
         style={props.style}
         title={props.title}
-        width={size?.width}
+        width={placeholder?.width}
       />
     );
   }
