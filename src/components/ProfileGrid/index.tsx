@@ -49,7 +49,7 @@ export const ProfileGrid = async () => {
                   fill
                   {...(blurDataURL && { placeholder: 'blur' as const, blurDataURL })}
                   priority
-                  sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+                  sizes='6.0625rem'
                   src={PROFILE.profileImage}
                 />
               </div>

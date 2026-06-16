@@ -12,9 +12,15 @@ import { RelativeTime } from './relativeTime';
 type PostGridProps = ComponentProps<'div'> & {
   className?: string;
   posts: Post[];
+  priorityFirstImage?: boolean;
 };
 
-export const PostGrid = ({ posts, className, ...props }: PostGridProps) => {
+export const PostGrid = ({
+  posts,
+  className,
+  priorityFirstImage = true,
+  ...props
+}: PostGridProps) => {
   return (
     <PostViewsProvider slugs={posts.map((post) => post.slug)}>
       <div
@@ -38,7 +44,7 @@ export const PostGrid = ({ posts, className, ...props }: PostGridProps) => {
                   className='h-full w-full object-cover object-center'
                   draggable={false}
                   fill
-                  priority={index === 0}
+                  priority={priorityFirstImage && index === 0}
                   quality={75}
                   sizes='(max-width: 60rem) 100vw, (max-width: 80rem) calc(50vw - 9rem), 22rem'
                   src={coverImage}

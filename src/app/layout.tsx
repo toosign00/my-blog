@@ -40,6 +40,7 @@ const RootLayout = ({ children }: PropsWithChildren) => {
   return (
     <html lang={METADATA.SITE.LANGUAGE} suppressHydrationWarning>
       <head>
+        <link crossOrigin='anonymous' href='https://cdn.jsdelivr.net' rel='preconnect' />
         <link
           as='style'
           crossOrigin='anonymous'
