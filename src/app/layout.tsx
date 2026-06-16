@@ -6,11 +6,11 @@ import type { Metadata, Viewport } from 'next';
 import type { PropsWithChildren } from 'react';
 import type { Person, WebSite, WithContext } from 'schema-dts';
 import { twMerge } from 'tailwind-merge';
-import { GeistMono, Pretendard } from '@/assets/font';
 import JsonLd from '@/components/JsonLd';
 import { Layout } from '@/components/layout/Root';
 import { AppProviders } from '@/components/providers/AppProviders';
 import { METADATA } from '@/constants/metadata.constants';
+import { GeistMono } from '@/styles/font';
 
 const websiteSchema: WithContext<WebSite> = {
   '@context': 'https://schema.org',
@@ -39,7 +39,15 @@ const personSchema: WithContext<Person> = {
 const RootLayout = ({ children }: PropsWithChildren) => {
   return (
     <html lang={METADATA.SITE.LANGUAGE} suppressHydrationWarning>
-      <body className={twMerge(Pretendard.variable, Pretendard.className, GeistMono.variable)}>
+      <head>
+        <link
+          as='style'
+          crossOrigin='anonymous'
+          href='https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css'
+          rel='stylesheet'
+        />
+      </head>
+      <body className={twMerge(GeistMono.variable)}>
         <JsonLd data={websiteSchema} />
         <JsonLd data={personSchema} />
         <AppProviders>

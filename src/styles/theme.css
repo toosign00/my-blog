@@ -54,6 +54,7 @@
     inset 0 -0.125rem 0.125rem rgba(255, 255, 255, 0.3),
     inset 0 0.125rem 0.125rem rgba(255, 255, 255, 0.3);
 
+  --font-pretendard: "Pretendard Variable", Pretendard;
   --font-mono: var(--font-geist-mono), "Courier New", Courier, monospace;
   --font-display: var(--font-sans);
   --font-body: var(--font-sans);
