@@ -109,7 +109,7 @@ export const ABOUT = {
     {
       title: '고퀄',
       href: 'https://www.goqual.com',
-      period: '2026.05 - 현재',
+      period: '2026.05 - 재직 중',
       tags: ['정규직', 'QA Engineer'],
       description: [
         'IoT 앱, 디바이스, 클라우드기반 테스트 시나리오 및 테스트 케이스 설계',
@@ -121,7 +121,7 @@ export const ABOUT = {
     },
     {
       title: '근로복지공단 서울강남지사 (미래내일일경험)',
-      period: '2025.01 - 2025.02',
+      period: '2026.12 - 2025.02',
       tags: ['주임', '경영복지부'],
       description: [
         '약 1000건의 대지급금/임금채권 서류 전산 처리, 오류 0건 달성',
