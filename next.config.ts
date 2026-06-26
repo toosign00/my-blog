@@ -13,6 +13,16 @@ const securityHeaders = [
   { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
 ];
 
+const pageCacheHeader = {
+  key: 'Cache-Control',
+  value: 'public, s-maxage=3600, stale-while-revalidate=86400',
+};
+
+const staticAssetCacheHeader = {
+  key: 'Cache-Control',
+  value: 'public, max-age=2592000, s-maxage=2592000, stale-while-revalidate=86400',
+};
+
 const nextConfig: NextConfig = {
   trailingSlash: false,
   async headers() {
@@ -25,13 +35,20 @@ const nextConfig: NextConfig = {
       ...(isProd
         ? [
             {
-              source: '/(.*)',
-              headers: [
-                {
-                  key: 'Cache-Control',
-                  value: 'public, s-maxage=3600, stale-while-revalidate=86400',
-                },
-              ],
+              source: '/favicon.svg',
+              headers: [staticAssetCacheHeader],
+            },
+            {
+              source: '/assets/:path*',
+              headers: [staticAssetCacheHeader],
+            },
+            {
+              source: '/covers/:path*',
+              headers: [staticAssetCacheHeader],
+            },
+            {
+              source: '/((?!api(?:/|$)|_next(?:/|$)|.*\\..*).*)',
+              headers: [pageCacheHeader],
             },
           ]
         : []),

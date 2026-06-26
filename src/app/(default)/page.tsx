@@ -35,7 +35,7 @@ const HomePage = async () => {
             <Plus size={16} />
           </Link>
         </div>
-        <PostGrid posts={posts} priorityFirstImage={false} />
+        <PostGrid posts={posts} />
       </section>
     </div>
   );
