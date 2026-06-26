@@ -12,13 +12,13 @@ import { RelativeTime } from './relativeTime';
 type PostGridProps = ComponentProps<'div'> & {
   className?: string;
   posts: Post[];
-  priorityFirstImage?: boolean;
+  preloadFirstImage?: boolean;
 };
 
 export const PostGrid = ({
   posts,
   className,
-  priorityFirstImage = true,
+  preloadFirstImage = true,
   ...props
 }: PostGridProps) => {
   return (
@@ -44,7 +44,7 @@ export const PostGrid = ({
                   className='h-full w-full object-cover object-center'
                   draggable={false}
                   fill
-                  priority={priorityFirstImage && index === 0}
+                  preload={preloadFirstImage && index === 0}
                   quality={75}
                   sizes='(max-width: 60rem) 100vw, (max-width: 80rem) calc(50vw - 9rem), 22rem'
                   src={coverImage}
