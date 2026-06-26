@@ -5,6 +5,7 @@ import { usePathname, useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 import type { Project } from '@/types/project.types';
+import { searchProjects } from '@/utils/project-search-util';
 import {
   compareProjectsByAlphabetical,
   compareProjectsByNewest,
@@ -96,7 +97,7 @@ export const ProjectSection = ({
   }, [searchQuery]);
 
   useEffect(() => {
-    const params = new URLSearchParams(searchParams.toString());
+    const params = new URLSearchParams();
 
     if (selectedTag === 'All') {
       params.delete('tag');
@@ -127,20 +128,13 @@ export const ProjectSection = ({
   }, [debouncedSearchQuery, pathname, searchParams, selectedTag, sortOption]);
 
   const filteredProjects = useMemo(() => {
-    const normalizedSearchQuery = searchQuery.trim().toLowerCase();
-
     const filtered = projects.filter((project) => {
       const matchesTag = selectedTag === 'All' || project.tags.includes(selectedTag);
-      const matchesSearch =
-        normalizedSearchQuery.length === 0 ||
-        project.title.toLowerCase().includes(normalizedSearchQuery) ||
-        project.description.toLowerCase().includes(normalizedSearchQuery);
-
-      return matchesTag && matchesSearch;
+      return matchesTag;
     });
 
-    return sortProjects(filtered, sortOption);
-  }, [projects, searchQuery, selectedTag, sortOption]);
+    return sortProjects(searchProjects(filtered, debouncedSearchQuery), sortOption);
+  }, [debouncedSearchQuery, projects, selectedTag, sortOption]);
 
   return (
     <section className='flex flex-col gap-8'>
@@ -172,7 +166,7 @@ export const ProjectSection = ({
           <div className='flex w-full gap-2'>
             <div className='relative shrink-0'>
               <select
-                className='appearance-none rounded-xl border border-border bg-background py-2 pr-10 pl-4 text-gray-bold text-sm outline-none transition-colors focus:border-gray-mid'
+                className='cursor-pointer appearance-none rounded-xl border border-border bg-background py-2 pr-10 pl-4 text-gray-bold text-sm outline-none transition-colors focus:border-gray-mid'
                 aria-label='Project sort'
                 onChange={(event) => setSortOption(event.target.value as SortOption)}
                 value={sortOption}
