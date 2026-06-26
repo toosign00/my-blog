@@ -118,14 +118,12 @@ export const ProjectSection = ({
     }
 
     const nextUrl = params.toString() ? `${pathname}?${params.toString()}` : pathname;
-    const currentUrl = searchParams.toString()
-      ? `${pathname}?${searchParams.toString()}`
-      : pathname;
+    const currentUrl = `${window.location.pathname}${window.location.search}`;
 
     if (nextUrl !== currentUrl) {
       window.history.replaceState(null, '', nextUrl);
     }
-  }, [debouncedSearchQuery, pathname, searchParams, selectedTag, sortOption]);
+  }, [debouncedSearchQuery, pathname, selectedTag, sortOption]);
 
   const filteredProjects = useMemo(() => {
     const filtered = projects.filter((project) => {
