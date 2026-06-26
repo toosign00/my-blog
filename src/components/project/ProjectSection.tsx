@@ -140,7 +140,7 @@ export const ProjectSection = ({
     <section className='flex flex-col gap-8'>
       <div className='flex flex-col gap-6'>
         <div className='flex flex-col gap-4'>
-          <div className='flex flex-wrap gap-2'>
+          <div className='hidden flex-wrap gap-2 mobile:flex'>
             {allTags.map((tag) => {
               const isSelected = selectedTag === tag;
 
@@ -163,10 +163,30 @@ export const ProjectSection = ({
             })}
           </div>
 
-          <div className='flex w-full gap-2'>
-            <div className='relative shrink-0'>
+          <div className='grid w-full grid-cols-2 gap-2 mobile:flex'>
+            <div className='relative min-w-0 mobile:hidden'>
               <select
-                className='cursor-pointer appearance-none rounded-xl border border-border bg-background py-2 pr-10 pl-4 text-gray-bold text-sm outline-none transition-colors focus:border-gray-mid'
+                className='w-full cursor-pointer appearance-none rounded-xl border border-border bg-background py-2 pr-10 pl-4 text-gray-bold text-sm outline-none transition-colors focus:border-gray-mid'
+                aria-label='Project tag'
+                onChange={(event) => setSelectedTag(event.target.value)}
+                value={selectedTag}
+              >
+                {allTags.map((tag) => (
+                  <option key={tag} value={tag}>
+                    {tag}
+                  </option>
+                ))}
+              </select>
+              <ChevronDown
+                aria-hidden
+                className='pointer-events-none absolute top-1/2 right-3 -translate-y-1/2 text-gray-mid'
+                size={16}
+              />
+            </div>
+
+            <div className='relative min-w-0 mobile:shrink-0'>
+              <select
+                className='w-full cursor-pointer appearance-none rounded-xl border border-border bg-background py-2 pr-10 pl-4 text-gray-bold text-sm outline-none transition-colors focus:border-gray-mid mobile:w-auto'
                 aria-label='Project sort'
                 onChange={(event) => setSortOption(event.target.value as SortOption)}
                 value={sortOption}
@@ -186,7 +206,7 @@ export const ProjectSection = ({
 
             <input
               aria-label='Project search'
-              className='min-w-0 flex-1 rounded-xl border border-border bg-background px-4 py-2 text-gray-bold text-sm outline-none transition-colors placeholder:text-gray-light focus:border-gray-mid'
+              className='col-span-2 min-w-0 rounded-xl border border-border bg-background px-4 py-2 text-gray-bold text-sm outline-none transition-colors placeholder:text-gray-light focus:border-gray-mid mobile:flex-1'
               onChange={(event) => setSearchQuery(event.target.value)}
               placeholder='Search projects...'
               type='search'
