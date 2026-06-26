@@ -1,4 +1,13 @@
+import { lookup } from 'node:dns/promises';
+
 const MAX_VIEW_PATHNAME_LENGTH = 160;
+
+type ResolvedAddress = {
+  address: string;
+  family: 4 | 6;
+};
+
+type LinkPreviewLookup = (hostname: string) => Promise<ResolvedAddress[]>;
 
 const isIPv4 = (hostname: string): boolean => {
   const parts = hostname.split('.');
@@ -17,7 +26,53 @@ const isPrivateIPv4 = (hostname: string): boolean => {
     first === 0 ||
     (first === 169 && second === 254) ||
     (first === 172 && second >= 16 && second <= 31) ||
-    (first === 192 && second === 168)
+    (first === 192 && second === 168) ||
+    (first === 100 && second >= 64 && second <= 127) ||
+    (first === 192 && second === 0) ||
+    (first === 198 && (second === 18 || second === 19)) ||
+    first >= 224
+  );
+};
+
+const mappedIPv4FromIPv6 = (hostname: string): string | null => {
+  const normalized = hostname.toLowerCase().replace(/^\[|\]$/g, '');
+  if (!normalized.startsWith('::ffff:')) {
+    return null;
+  }
+
+  const suffix = normalized.slice('::ffff:'.length);
+  if (isIPv4(suffix)) {
+    return suffix;
+  }
+
+  const parts = suffix.split(':');
+  if (parts.length !== 2) {
+    return null;
+  }
+
+  const [high, low] = parts.map((part) => Number.parseInt(part, 16));
+  if (!Number.isFinite(high) || !Number.isFinite(low)) {
+    return null;
+  }
+
+  return [(high >> 8) & 255, high & 255, (low >> 8) & 255, low & 255].join('.');
+};
+
+const isPrivateIPv6 = (hostname: string): boolean => {
+  const normalized = hostname.toLowerCase().replace(/^\[|\]$/g, '');
+  const mappedIPv4 = mappedIPv4FromIPv6(normalized);
+  if (mappedIPv4) {
+    return isPrivateIPv4(mappedIPv4);
+  }
+
+  return (
+    normalized === '::' ||
+    normalized === '::1' ||
+    normalized === '0:0:0:0:0:0:0:1' ||
+    normalized.startsWith('fc') ||
+    normalized.startsWith('fd') ||
+    /^fe[89ab]/.test(normalized) ||
+    normalized.startsWith('ff')
   );
 };
 
@@ -28,7 +83,8 @@ const isInternalHostname = (hostname: string): boolean => {
     normalized === 'localhost' ||
     normalized === '::1' ||
     normalized === '0:0:0:0:0:0:0:1' ||
-    isPrivateIPv4(normalized)
+    isPrivateIPv4(normalized) ||
+    isPrivateIPv6(normalized)
   );
 };
 
@@ -38,6 +94,29 @@ export const isSafeLinkPreviewUrl = (url: URL): boolean => {
   }
 
   return !isInternalHostname(url.hostname);
+};
+
+const defaultLinkPreviewLookup: LinkPreviewLookup = async (hostname) => {
+  const addresses = await lookup(hostname, { all: true, verbatim: true });
+  return addresses.filter(
+    (address): address is ResolvedAddress => address.family === 4 || address.family === 6
+  );
+};
+
+export const isSafeLinkPreviewResolvedUrl = async (
+  url: URL,
+  resolveHostname: LinkPreviewLookup = defaultLinkPreviewLookup
+): Promise<boolean> => {
+  if (!isSafeLinkPreviewUrl(url)) {
+    return false;
+  }
+
+  try {
+    const addresses = await resolveHostname(url.hostname);
+    return addresses.length > 0 && addresses.every(({ address }) => !isInternalHostname(address));
+  } catch {
+    return false;
+  }
 };
 
 export const isHtmlContentType = (contentType: string | null): boolean => {

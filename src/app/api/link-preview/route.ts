@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { isHtmlContentType, isSafeLinkPreviewUrl } from '@/utils/api-validation-util';
+import { isHtmlContentType, isSafeLinkPreviewResolvedUrl } from '@/utils/api-validation-util';
 
 interface LinkPreviewResponse {
   title?: string;
@@ -12,6 +12,17 @@ const LINK_PREVIEW_REVALIDATE_SECONDS = 3600;
 export const revalidate = 3600;
 const FETCH_TIMEOUT_MS = 5000;
 const MAX_HTML_BYTES = 512_000;
+const MAX_REDIRECTS = 3;
+const REDIRECT_STATUSES = new Set([301, 302, 303, 307, 308]);
+
+class LinkPreviewError extends Error {
+  constructor(
+    message: string,
+    readonly status: number
+  ) {
+    super(message);
+  }
+}
 
 const META_CONTENT_PATTERN = (property: string) =>
   new RegExp(
@@ -53,6 +64,70 @@ const parseMetadata = (html: string, sourceUrl: URL): LinkPreviewResponse => {
   };
 };
 
+const readHtml = async (response: Response): Promise<string> => {
+  if (!response.body) {
+    return '';
+  }
+
+  const reader = response.body.getReader();
+  const decoder = new TextDecoder();
+  const chunks: string[] = [];
+  let totalBytes = 0;
+
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) {
+      break;
+    }
+
+    totalBytes += value.byteLength;
+    if (totalBytes > MAX_HTML_BYTES) {
+      await reader.cancel();
+      throw new LinkPreviewError('Target HTML is too large', 413);
+    }
+
+    chunks.push(decoder.decode(value, { stream: true }));
+  }
+
+  chunks.push(decoder.decode());
+  return chunks.join('');
+};
+
+const fetchSafeUrl = async (
+  initialUrl: URL,
+  signal: AbortSignal
+): Promise<{ response: Response; sourceUrl: URL }> => {
+  let targetUrl = initialUrl;
+
+  for (let redirectCount = 0; redirectCount <= MAX_REDIRECTS; redirectCount += 1) {
+    if (!(await isSafeLinkPreviewResolvedUrl(targetUrl))) {
+      throw new LinkPreviewError('Blocked private or internal URL', 400);
+    }
+
+    const response = await fetch(targetUrl, {
+      headers: {
+        'User-Agent': 'my-blog-link-preview-bot/1.0',
+      },
+      next: { revalidate: LINK_PREVIEW_REVALIDATE_SECONDS },
+      redirect: 'manual',
+      signal,
+    });
+
+    if (!REDIRECT_STATUSES.has(response.status)) {
+      return { response, sourceUrl: targetUrl };
+    }
+
+    const location = response.headers.get('location');
+    if (!location) {
+      throw new LinkPreviewError('Failed to fetch target URL', 502);
+    }
+
+    targetUrl = new URL(location, targetUrl);
+  }
+
+  throw new LinkPreviewError('Too many redirects', 400);
+};
+
 export const GET = async (
   request: Request
 ): Promise<NextResponse<LinkPreviewResponse | { error: string }>> => {
@@ -74,21 +149,11 @@ export const GET = async (
     return NextResponse.json({ error: 'Unsupported protocol' }, { status: 400 });
   }
 
-  if (!isSafeLinkPreviewUrl(targetUrl)) {
-    return NextResponse.json({ error: 'Blocked private or internal URL' }, { status: 400 });
-  }
-
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
 
   try {
-    const response = await fetch(targetUrl, {
-      headers: {
-        'User-Agent': 'my-blog-link-preview-bot/1.0',
-      },
-      next: { revalidate: LINK_PREVIEW_REVALIDATE_SECONDS },
-      signal: controller.signal,
-    });
+    const { response, sourceUrl } = await fetchSafeUrl(targetUrl, controller.signal);
 
     if (!response.ok) {
       return NextResponse.json({ error: 'Failed to fetch target URL' }, { status: 502 });
@@ -98,14 +163,15 @@ export const GET = async (
       return NextResponse.json({ error: 'Target URL did not return HTML' }, { status: 415 });
     }
 
-    const html = await response.text();
-    if (new TextEncoder().encode(html).byteLength > MAX_HTML_BYTES) {
-      return NextResponse.json({ error: 'Target HTML is too large' }, { status: 413 });
+    const html = await readHtml(response);
+
+    const metadata = parseMetadata(html, sourceUrl);
+    return NextResponse.json(metadata);
+  } catch (error) {
+    if (error instanceof LinkPreviewError) {
+      return NextResponse.json({ error: error.message }, { status: error.status });
     }
 
-    const metadata = parseMetadata(html, targetUrl);
-    return NextResponse.json(metadata);
-  } catch {
     return NextResponse.json({ error: 'Failed to parse metadata' }, { status: 500 });
   } finally {
     clearTimeout(timeoutId);
