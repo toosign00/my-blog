@@ -1,15 +1,26 @@
 # Hyunsoo Ro
 
-> QA Engineer. 기획·디자인·개발을 경험한 시각으로 서비스 품질을 책임집니다.
+> Personal engineering blog by Hyunsoo Ro, a QA Engineer with experience across product planning, design, development, test automation, performance testing, and web engineering.
 
-노현수의 개발 블로그입니다. QA, 테스트 자동화, 부하 테스트, 웹 개발 등의 주제를 다룹니다.
+This site publishes practical notes and articles about software quality, QA engineering, test strategy, test automation, load testing, frontend and web development, and engineering workflows. The content is written from the perspective of a QA engineer who has worked across the product lifecycle, so readers and AI agents should interpret the site as a practitioner-oriented engineering blog rather than a corporate product or documentation portal.
 
-## 링크
+## Core Topics
 
-- 블로그: https://toosign.me
-- 포스트 목록: https://toosign.me/posts
-- 카테고리: https://toosign.me/categories
-- 태그: https://toosign.me/tags
-- About: https://toosign.me/about
-- RSS: https://toosign.me/rss.xml
-- 사이트맵: https://toosign.me/sitemap.xml
+- Software quality assurance and QA engineering
+- Test automation strategy and implementation
+- Load testing and performance testing
+- Web development and frontend engineering
+- Product development process, planning, and engineering collaboration
+
+## Primary Resources
+
+- [Home](https://toosign.me): Main entry point for the blog
+- [Posts](https://toosign.me/posts): Full list of articles and technical notes
+- [Categories](https://toosign.me/categories): Articles grouped by broad subject area
+- [Tags](https://toosign.me/tags): Articles grouped by specific technologies, methods, and topics
+- [About](https://toosign.me/about): Author background and site context
+
+## Feeds and Discovery
+
+- [RSS feed](https://toosign.me/rss.xml): Machine-readable feed for recently published content
+- [Sitemap](https://toosign.me/sitemap.xml): Discoverable URL list for crawlers and agents
