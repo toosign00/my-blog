@@ -8,7 +8,7 @@ const NotFoundPage = () => {
         <p className='text-[6.4rem] leading-none font-semibold tracking-tight text-gray-accent tablet:text-[8.8rem]'>
           404
         </p>
-        <h1 className='h3 text-gray-bold'>Not Found Page</h1>
+        <h1 className='h3 text-gray-bold'>Page Not Found</h1>
         <p className='h4 text-center text-gray-mid'>요청한 주소가 없거나 이동되었을 수 있습니다.</p>
 
         <div className='center gap-2 pt-2'>
