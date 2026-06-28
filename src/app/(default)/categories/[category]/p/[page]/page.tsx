@@ -12,6 +12,8 @@ interface CategoriesPageProps {
   params: Promise<{ category: string; page: string }>;
 }
 
+export const dynamicParams = false;
+
 const CategoriesPage = async ({ params }: CategoriesPageProps) => {
   const { category, page } = await params;
   const currentPage = Number.parseInt(page, 10);

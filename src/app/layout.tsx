@@ -4,8 +4,8 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 import type { Metadata, Viewport } from 'next';
 import type { PropsWithChildren } from 'react';
 import type { Person, WebSite, WithContext } from 'schema-dts';
-import { twMerge } from 'tailwind-merge';
 import JsonLd from '@/components/JsonLd';
+import { Layout } from '@/components/layout/Root';
 import { AppProviders } from '@/components/providers/AppProviders';
 import { METADATA } from '@/constants/metadata.constants';
 import { GeistMono } from '@/styles/font';
@@ -46,10 +46,12 @@ const RootLayout = ({ children }: PropsWithChildren) => {
           rel='stylesheet'
         />
       </head>
-      <body className={twMerge(GeistMono.variable)}>
+      <body className={GeistMono.variable}>
         <JsonLd data={websiteSchema} />
         <JsonLd data={personSchema} />
-        <AppProviders>{children}</AppProviders>
+        <AppProviders>
+          <Layout>{children}</Layout>
+        </AppProviders>
         <Analytics />
         <SpeedInsights />
       </body>

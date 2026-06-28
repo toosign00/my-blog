@@ -12,6 +12,8 @@ interface TagsPageProps {
   params: Promise<{ tag: string }>;
 }
 
+export const dynamicParams = false;
+
 const TagsPage = async ({ params }: TagsPageProps) => {
   const { tag: rawTag } = await params;
   const tagKey = slugify(decodeSlugSegment(rawTag));

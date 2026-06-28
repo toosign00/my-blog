@@ -11,6 +11,8 @@ interface PostsPageProps {
   params: Promise<{ page: string }>;
 }
 
+export const dynamicParams = false;
+
 const PostsPage = async ({ params }: PostsPageProps) => {
   const { page } = await params;
   const currentPage = Number.parseInt(page, 10);

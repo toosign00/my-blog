@@ -12,6 +12,8 @@ interface CategoriesPageProps {
   params: Promise<{ category: string }>;
 }
 
+export const dynamicParams = false;
+
 const CategoriesPage = async ({ params }: CategoriesPageProps) => {
   const { category } = await params;
 

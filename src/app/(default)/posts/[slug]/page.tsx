@@ -26,6 +26,8 @@ interface PostPageProps {
   params: Promise<{ slug: string }>;
 }
 
+export const dynamicParams = false;
+
 const RECOMMEND_COUNT = 4;
 
 const toAbsoluteUrl = (url: string) => {

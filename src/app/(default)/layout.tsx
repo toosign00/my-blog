@@ -1,8 +1,11 @@
 import type { PropsWithChildren } from 'react';
-import { Layout } from '@/components/layout/Root';
 
 const DefaultLayout = ({ children }: PropsWithChildren) => {
-  return <Layout variant='default'>{children}</Layout>;
+  return (
+    <div className='mx-auto w-full max-w-app tablet:max-w-[calc(var(--spacing-app)+var(--spacing-sidebar))] tablet:pl-sidebar desktop:max-w-app desktop:pl-0'>
+      {children}
+    </div>
+  );
 };
 
 export default DefaultLayout;

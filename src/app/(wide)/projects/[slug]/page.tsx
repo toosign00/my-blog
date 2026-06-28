@@ -22,6 +22,8 @@ interface ProjectPageProps {
   params: Promise<{ slug: string }>;
 }
 
+export const dynamicParams = false;
+
 const toAbsoluteUrl = (url: string) => {
   return url.startsWith('http') ? url : `${METADATA.SITE.URL}${url}`;
 };

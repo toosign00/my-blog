@@ -1,8 +1,7 @@
 import type { PropsWithChildren } from 'react';
-import { Layout } from '@/components/layout/Root';
 
 const WideLayout = ({ children }: PropsWithChildren) => {
-  return <Layout variant='wide'>{children}</Layout>;
+  return <div className='w-full tablet:pl-sidebar'>{children}</div>;
 };
 
 export default WideLayout;
