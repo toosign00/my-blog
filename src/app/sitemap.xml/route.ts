@@ -58,6 +58,8 @@ const generateSitemapUrls = async (): Promise<MetadataRoute.Sitemap> => {
     { url: `${METADATA.SITE.URL}${ROUTES.TAGS}` },
     { url: `${METADATA.SITE.URL}${ROUTES.POSTS}` },
     { url: `${METADATA.SITE.URL}${ROUTES.PROJECTS}` },
+    { url: `${METADATA.SITE.URL}${ROUTES.SECURITY_POLICY}` },
+    { url: `${METADATA.SITE.URL}${ROUTES.ACKNOWLEDGMENTS}` },
     ...categoryUrls,
     ...tagUrls,
     ...Array.from({ length: Math.max(0, postsPageCount - 1) }, (_, pageIndex) => ({
