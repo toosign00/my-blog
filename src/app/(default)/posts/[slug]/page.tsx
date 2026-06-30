@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import type { BlogPosting, WithContext } from 'schema-dts';
+import { ContentScrollTracker } from '@/components/analytics/ContentScrollTracker';
 import JsonLd from '@/components/JsonLd';
 import { BackButton } from '@/components/ui/backButton';
 import { Divider } from '@/components/ui/divider';
@@ -80,6 +81,7 @@ const PostPage = async ({ params }: PostPageProps) => {
   return (
     <>
       <JsonLd data={blogPostingSchema} />
+      <ContentScrollTracker contentType='post' slug={slug} />
       <Toc items={tocItems} />
       <BackButton />
 
@@ -93,7 +95,7 @@ const PostPage = async ({ params }: PostPageProps) => {
       </article>
 
       <Divider className='my-14' />
-      <Recommend posts={getRecommendedPosts(allPosts, slug)} />
+      <Recommend posts={getRecommendedPosts(allPosts, slug)} sourceSlug={slug} />
     </>
   );
 };

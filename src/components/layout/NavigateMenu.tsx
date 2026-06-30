@@ -5,7 +5,11 @@ import { usePathname } from 'next/navigation';
 import { twMerge } from 'tailwind-merge';
 import { MENU } from '@/constants/menu.constants';
 
-export const NavigateMenu = () => {
+type NavigateMenuProps = {
+  location: 'mobile_menu' | 'sidebar';
+};
+
+export const NavigateMenu = ({ location }: NavigateMenuProps) => {
   const pathname = usePathname();
   const normalizedPathname = pathname || '/';
 
@@ -28,6 +32,9 @@ export const NavigateMenu = () => {
               <Link
                 aria-current={isActive ? 'page' : undefined}
                 className='center-y a h-full w-full px-2.5'
+                data-analytics-destination={menu.link}
+                data-analytics-event='navigation_click'
+                data-analytics-location={location}
                 href={menu.link}
               >
                 {menu.title}

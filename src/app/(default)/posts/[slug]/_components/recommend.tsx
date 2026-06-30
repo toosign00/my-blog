@@ -3,15 +3,16 @@ import type { Post } from '@/types/post.types';
 
 interface RecommendProps {
   posts: Post[];
+  sourceSlug: string;
 }
 
-export const Recommend = ({ posts }: RecommendProps) => {
+export const Recommend = ({ posts, sourceSlug }: RecommendProps) => {
   return (
     <section aria-labelledby='recommendation-heading' className='column gap-6'>
       <h3 className='section-heading text-gray-accent' id='recommendation-heading'>
         Check them out
       </h3>
-      <PostGrid className='mb-14' posts={posts} />
+      <PostGrid className='mb-14' posts={posts} recommendationSourceSlug={sourceSlug} />
     </section>
   );
 };

@@ -52,6 +52,7 @@ export const ProfileCard = async () => {
           style={{ borderColor: 'var(--color-profile-divider)' }}
         >
           <ResumeDownloadButton
+            documentType='resume'
             fileUrl={ABOUT.profile.resumeUrl}
             className='focus-ring relative flex flex-1 cursor-pointer items-center justify-center gap-2 overflow-hidden px-4 py-3 transition-all hover:brightness-95 active:brightness-95'
             style={{
@@ -77,6 +78,7 @@ export const ProfileCard = async () => {
             style={{ backgroundColor: 'var(--color-background08)' }}
           />
           <ResumeDownloadButton
+            documentType='cover_letter'
             fileUrl={ABOUT.profile.coverLetterUrl}
             className='focus-ring relative flex flex-1 cursor-pointer items-center justify-center gap-2 overflow-hidden px-4 py-3 transition-all hover:brightness-95 active:brightness-95'
             style={{

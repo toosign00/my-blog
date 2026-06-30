@@ -11,6 +11,8 @@ export const ThemeToggle = () => {
       <button
         aria-label='Toggle dark or light mode'
         className='ui-button h4 w-full text-gray-accent hover:bg-background02'
+        data-analytics-event='theme_change'
+        data-analytics-theme={theme === 'light' ? 'dark' : 'light'}
         onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
         type='button'
       >

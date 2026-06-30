@@ -40,6 +40,9 @@ export const ContactButtons = () => {
         if (contact.type === 'copy') {
           return (
             <button
+              data-analytics-channel={contact.copyType}
+              data-analytics-event='contact_click'
+              data-analytics-location='about'
               key={contact.label}
               type='button'
               onClick={() => void handleCopy(contact.value, contact.copyType)}
@@ -47,13 +50,16 @@ export const ContactButtons = () => {
               aria-label={contact.copyType === 'phone' ? 'Copy phone number' : 'Copy email address'}
             >
               <Icon size={20} />
-              <span className={labelClass}>{contact.label}</span>
+              <span className={`${labelClass} ph-mask`}>{contact.label}</span>
             </button>
           );
         }
 
         return (
           <a
+            data-analytics-channel={contact.icon}
+            data-analytics-event='contact_click'
+            data-analytics-location='about'
             key={contact.label}
             href={contact.href}
             target='_blank'
@@ -62,7 +68,7 @@ export const ContactButtons = () => {
             aria-label={contact.label}
           >
             <Icon size={20} />
-            <span className={labelClass}>{contact.label}</span>
+            <span className={`${labelClass} ph-mask`}>{contact.label}</span>
           </a>
         );
       })}

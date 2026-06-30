@@ -6,12 +6,14 @@ import { ProjectCard } from './ProjectCard';
 type ProjectListProps = ComponentProps<'ul'> & {
   projects: Project[];
   hideAward?: boolean;
+  recommendationSourceSlug?: string;
 };
 
 export const ProjectList = ({
   projects,
   className,
   hideAward = false,
+  recommendationSourceSlug,
   ...props
 }: ProjectListProps) => {
   return (
@@ -28,6 +30,7 @@ export const ProjectList = ({
           key={project._id}
           priority={index === 0}
           project={project}
+          recommendationSourceSlug={recommendationSourceSlug}
         />
       ))}
     </ul>

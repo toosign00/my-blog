@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import type { CreativeWork, WithContext } from 'schema-dts';
+import { ContentScrollTracker } from '@/components/analytics/ContentScrollTracker';
 import JsonLd from '@/components/JsonLd';
 import { BackButton } from '@/components/ui/backButton';
 import { Divider } from '@/components/ui/divider';
@@ -69,6 +70,7 @@ const ProjectPage = async ({ params }: ProjectPageProps) => {
   return (
     <>
       <JsonLd data={creativeWorkSchema} />
+      <ContentScrollTracker contentType='project' slug={slug} />
       <BackButton />
 
       <article className='mt-4'>
@@ -80,7 +82,7 @@ const ProjectPage = async ({ params }: ProjectPageProps) => {
       </article>
 
       <Divider className='my-14' />
-      <Recommend projects={getRecommendedProjects(allProjects, slug)} />
+      <Recommend projects={getRecommendedProjects(allProjects, slug)} sourceSlug={slug} />
     </>
   );
 };

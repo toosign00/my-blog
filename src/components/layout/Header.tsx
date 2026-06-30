@@ -73,7 +73,7 @@ export const Header = () => {
               >
                 <div className='column mx-auto w-full max-w-app pt-6.25 pb-4.75'>
                   <div className='column w-full max-w-30.5 gap-7.5'>
-                    <NavigateMenu />
+                    <NavigateMenu location='mobile_menu' />
                     <ThemeToggle />
                   </div>
                   <p className='h7 mt-10.75 w-full text-center text-license'>

@@ -6,16 +6,19 @@ import { ThemeProvider } from 'next-themes';
 import type { PropsWithChildren } from 'react';
 import { useState } from 'react';
 import { Toaster } from '@/components/ui/toaster';
+import { PostHogProvider } from './PostHogProvider';
 
 export const AppProviders = ({ children }: PropsWithChildren) => {
   const [queryClient] = useState(() => new QueryClient());
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider attribute='class' defaultTheme='system' enableSystem>
-        {children}
-        <Toaster />
-      </ThemeProvider>
+      <PostHogProvider>
+        <ThemeProvider attribute='class' defaultTheme='system' enableSystem>
+          {children}
+          <Toaster />
+        </ThemeProvider>
+      </PostHogProvider>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );

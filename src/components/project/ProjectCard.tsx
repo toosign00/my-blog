@@ -11,6 +11,7 @@ type ProjectCardProps = ComponentProps<'li'> & {
   project: Project;
   hideAward?: boolean;
   priority?: boolean;
+  recommendationSourceSlug?: string;
 };
 
 export const ProjectCard = ({
@@ -18,6 +19,7 @@ export const ProjectCard = ({
   className,
   hideAward = false,
   priority = false,
+  recommendationSourceSlug,
   ...props
 }: ProjectCardProps) => {
   const { title, description, coverImage, coverImageBlur, tags, slug } = project;
@@ -34,6 +36,12 @@ export const ProjectCard = ({
           'hover:[&_.hoverable-surface]:bg-gray-hover',
           'active:[&_.hoverable-surface]:bg-border'
         )}
+        {...(recommendationSourceSlug && {
+          'data-analytics-content-type': 'project',
+          'data-analytics-event': 'recommendation_click',
+          'data-analytics-source-slug': recommendationSourceSlug,
+          'data-analytics-target-slug': slug,
+        })}
         href={`${ROUTES.PROJECTS}/${slug}`}
       >
         <div className='relative aspect-[1.8/1] w-full overflow-hidden rounded-lg border border-border'>

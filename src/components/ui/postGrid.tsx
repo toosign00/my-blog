@@ -13,12 +13,14 @@ type PostGridProps = ComponentProps<'div'> & {
   className?: string;
   posts: Post[];
   preloadFirstImage?: boolean;
+  recommendationSourceSlug?: string;
 };
 
 export const PostGrid = ({
   posts,
   className,
   preloadFirstImage = true,
+  recommendationSourceSlug,
   ...props
 }: PostGridProps) => {
   return (
@@ -35,6 +37,12 @@ export const PostGrid = ({
                 'flex w-full cursor-pointer flex-col',
                 POST_CARD_INTERACTION_CLASS
               )}
+              {...(recommendationSourceSlug && {
+                'data-analytics-content-type': 'post',
+                'data-analytics-event': 'recommendation_click',
+                'data-analytics-source-slug': recommendationSourceSlug,
+                'data-analytics-target-slug': slug,
+              })}
               href={`/posts/${slug}`}
               key={_id}
             >

@@ -24,7 +24,7 @@ export const Sidebar = () => {
           />
         </Link>
         <Divider />
-        <NavigateMenu />
+        <NavigateMenu location='sidebar' />
       </div>
 
       <div className='column w-full gap-5'>

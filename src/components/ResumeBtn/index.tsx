@@ -7,11 +7,13 @@ import { twMerge } from 'tailwind-merge';
 
 type ResumeDownloadButtonProps = {
   fileUrl: string;
+  documentType: 'cover_letter' | 'resume';
   children: React.ReactNode;
 } & Omit<ComponentProps<'button'>, 'onClick' | 'type'>;
 
 export const ResumeDownloadButton = ({
   fileUrl,
+  documentType,
   children,
   className,
   style,
@@ -38,6 +40,9 @@ export const ResumeDownloadButton = ({
 
   return (
     <button
+      data-analytics-document-type={documentType}
+      data-analytics-event='resume_click'
+      data-analytics-location='profile'
       type='button'
       onClick={() => {
         void handleClick();
