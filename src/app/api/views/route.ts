@@ -5,6 +5,7 @@ import { normalizeBatchViewPathnames } from '@/utils/views-batch-util';
 import { getBatchViews, getSiteVisits, getTodayVisitDate, getViews } from '@/utils/views-util';
 
 const INTERVAL_MS = 30 * 60 * 1000;
+const NO_CACHE_HEADERS = { 'Cache-Control': 'no-cache' };
 const NO_STORE_HEADERS = { 'Cache-Control': 'no-store, max-age=0' };
 const VISITOR_COOKIE = 'views_visitor_id';
 
@@ -119,11 +120,17 @@ const jsonWithNoStore = (
   return response;
 };
 
+const jsonWithNoCache = (body: object, init?: ResponseInit) =>
+  NextResponse.json(body, {
+    ...init,
+    headers: NO_CACHE_HEADERS,
+  });
+
 export async function GET(request: NextRequest) {
   try {
     if (request.nextUrl.searchParams.get('scope') === 'all') {
       const views = await getSiteVisits();
-      return jsonWithNoStore(views);
+      return jsonWithNoCache(views);
     }
 
     const batchParam = request.nextUrl.searchParams.get('pathnames');
@@ -137,12 +144,12 @@ export async function GET(request: NextRequest) {
       }
 
       const views = await getBatchViews(pathnames);
-      return jsonWithNoStore(views);
+      return jsonWithNoCache(views);
     }
 
     const pathname = request.nextUrl.searchParams.get('pathname') ?? '/';
     const views = await getViews(pathname);
-    return jsonWithNoStore(views);
+    return jsonWithNoCache(views);
   } catch {
     return jsonWithNoStore({ error: 'Failed to load views' }, { status: 500 });
   }
