@@ -15,12 +15,23 @@ const securityHeaders = [
 
 const pageCacheHeader = {
   key: 'Cache-Control',
-  value: 'public, s-maxage=3600, stale-while-revalidate=86400',
+  value: 'public, max-age=0, s-maxage=31536000',
 };
 
-const staticAssetCacheHeader = {
-  key: 'Cache-Control',
-  value: 'public, max-age=2592000, s-maxage=2592000, stale-while-revalidate=86400',
+const staticAssetCacheHeaders = [
+  {
+    key: 'Cache-Control',
+    value: 'public, max-age=604800, must-revalidate',
+  },
+  {
+    key: 'Vercel-CDN-Cache-Control',
+    value: 'public, max-age=2592000',
+  },
+];
+
+const imageCdnCacheHeader = {
+  key: 'Vercel-CDN-Cache-Control',
+  value: 'public, max-age=2592000',
 };
 
 const nextConfig: NextConfig = {
@@ -36,15 +47,19 @@ const nextConfig: NextConfig = {
         ? [
             {
               source: '/favicon.svg',
-              headers: [staticAssetCacheHeader],
+              headers: staticAssetCacheHeaders,
             },
             {
               source: '/assets/:path*',
-              headers: [staticAssetCacheHeader],
+              headers: staticAssetCacheHeaders,
             },
             {
               source: '/covers/:path*',
-              headers: [staticAssetCacheHeader],
+              headers: staticAssetCacheHeaders,
+            },
+            {
+              source: '/_next/image',
+              headers: [imageCdnCacheHeader],
             },
             {
               source: '/((?!api(?:/|$)|_next(?:/|$)|.*\\..*).*)',
@@ -61,7 +76,7 @@ const nextConfig: NextConfig = {
     },
   },
   images: {
-    minimumCacheTTL: 2592000,
+    minimumCacheTTL: 604800,
     qualities: [75, 100],
     remotePatterns: [
       {
