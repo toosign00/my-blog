@@ -21,6 +21,16 @@ export const Header = () => {
     setAccordionOpen(false);
   }, [pathname]);
 
+  useEffect(() => {
+    const tabletMediaQuery = window.matchMedia('(min-width: 60rem)');
+    const closeMenu = (event: MediaQueryListEvent) => {
+      if (event.matches) setAccordionOpen(false);
+    };
+
+    tabletMediaQuery.addEventListener('change', closeMenu);
+    return () => tabletMediaQuery.removeEventListener('change', closeMenu);
+  }, []);
+
   const overlayClassName =
     'fixed inset-0 z-[var(--z-overlay)] backdrop-blur-[11px] transition-opacity duration-300';
 

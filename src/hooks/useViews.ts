@@ -9,7 +9,7 @@ const fetchViews = async (pathname?: string): Promise<Views> => {
   const url = pathname
     ? `/api/views?pathname=${encodeURIComponent(pathname)}`
     : '/api/views?scope=all';
-  const res = await fetch(url, { cache: 'no-store' });
+  const res = await fetch(url, { cache: 'no-cache' });
   if (!res.ok) {
     throw new Error('Failed to load views');
   }
@@ -18,7 +18,7 @@ const fetchViews = async (pathname?: string): Promise<Views> => {
 
 const fetchBatchViews = async (pathnames: readonly string[]): Promise<Record<string, Views>> => {
   const params = new URLSearchParams({ pathnames: pathnames.join(',') });
-  const res = await fetch(`/api/views?${params}`, { cache: 'no-store' });
+  const res = await fetch(`/api/views?${params}`, { cache: 'no-cache' });
   if (!res.ok) {
     throw new Error('Failed to load views');
   }
@@ -43,7 +43,6 @@ export function useViewsQuery(pathname?: string, initialData?: Views) {
     queryKey: viewsQueryKey(pathname),
     queryFn: () => fetchViews(pathname),
     ...(initialData && { initialData }),
-    gcTime: 0,
     refetchOnMount: 'always',
     staleTime: 0,
   });
@@ -54,7 +53,6 @@ export function useBatchViewsQuery(pathnames: readonly string[]) {
     queryKey: batchViewsQueryKey(pathnames),
     queryFn: () => fetchBatchViews(pathnames),
     enabled: pathnames.length > 0,
-    gcTime: 0,
     refetchOnMount: 'always',
     staleTime: 0,
   });
