@@ -2,7 +2,7 @@ import { lookup } from 'node:dns/promises';
 
 const MAX_VIEW_PATHNAME_LENGTH = 160;
 
-type ResolvedAddress = {
+export type ResolvedAddress = {
   address: string;
   family: 4 | 6;
 };
@@ -103,21 +103,30 @@ const defaultLinkPreviewLookup: LinkPreviewLookup = async (hostname) => {
   );
 };
 
-export const isSafeLinkPreviewResolvedUrl = async (
+export const resolveSafeLinkPreviewAddress = async (
   url: URL,
   resolveHostname: LinkPreviewLookup = defaultLinkPreviewLookup
-): Promise<boolean> => {
+): Promise<ResolvedAddress | null> => {
   if (!isSafeLinkPreviewUrl(url)) {
-    return false;
+    return null;
   }
 
   try {
     const addresses = await resolveHostname(url.hostname);
-    return addresses.length > 0 && addresses.every(({ address }) => !isInternalHostname(address));
+    if (addresses.length === 0 || addresses.some(({ address }) => isInternalHostname(address))) {
+      return null;
+    }
+
+    return addresses[0];
   } catch {
-    return false;
+    return null;
   }
 };
+
+export const isSafeLinkPreviewResolvedUrl = async (
+  url: URL,
+  resolveHostname: LinkPreviewLookup = defaultLinkPreviewLookup
+): Promise<boolean> => (await resolveSafeLinkPreviewAddress(url, resolveHostname)) !== null;
 
 export const isHtmlContentType = (contentType: string | null): boolean => {
   if (!contentType) {

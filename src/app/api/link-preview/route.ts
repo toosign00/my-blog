@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
-import { isHtmlContentType, isSafeLinkPreviewResolvedUrl } from '@/utils/api-validation-util';
+import { isHtmlContentType, resolveSafeLinkPreviewAddress } from '@/utils/api-validation-util';
+import { requestPinnedUrl } from '@/utils/link-preview-request-util';
 
 interface LinkPreviewResponse {
   title?: string;
@@ -8,7 +9,6 @@ interface LinkPreviewResponse {
   favicon?: string;
 }
 
-const LINK_PREVIEW_REVALIDATE_SECONDS = 3600;
 export const revalidate = 3600;
 const FETCH_TIMEOUT_MS = 5000;
 const MAX_HTML_BYTES = 512_000;
@@ -100,18 +100,12 @@ const fetchSafeUrl = async (
   let targetUrl = initialUrl;
 
   for (let redirectCount = 0; redirectCount <= MAX_REDIRECTS; redirectCount += 1) {
-    if (!(await isSafeLinkPreviewResolvedUrl(targetUrl))) {
+    const resolvedAddress = await resolveSafeLinkPreviewAddress(targetUrl);
+    if (!resolvedAddress) {
       throw new LinkPreviewError('Blocked private or internal URL', 400);
     }
 
-    const response = await fetch(targetUrl, {
-      headers: {
-        'User-Agent': 'my-blog-link-preview-bot/1.0',
-      },
-      next: { revalidate: LINK_PREVIEW_REVALIDATE_SECONDS },
-      redirect: 'manual',
-      signal,
-    });
+    const response = await requestPinnedUrl(targetUrl, resolvedAddress, signal);
 
     if (!REDIRECT_STATUSES.has(response.status)) {
       return { response, sourceUrl: targetUrl };
