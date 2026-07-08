@@ -54,7 +54,7 @@ export const Toc = ({ items }: TocProps) => {
         {items.map(({ id, text, level }) => (
           <li key={id}>
             <a
-              className={`block truncate text-xs leading-relaxed transition-colors duration-150 ease-in-out hover:text-gray-accent ${
+              className={`theme-color-transition block truncate text-xs leading-relaxed hover:text-gray-accent ${
                 level === 3 ? 'pl-3' : ''
               } ${activeId === id ? 'font-medium text-gray-accent' : 'text-gray-light'}`}
               href={`#${id}`}

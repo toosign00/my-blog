@@ -39,7 +39,7 @@ export const LazyImage = ({
       style={{ aspectRatio: `${width} / ${height}` }}
     >
       {useShimmer && !isLoaded && (
-        <span className='absolute inset-0 animate-shimmer bg-[linear-gradient(90deg,var(--color-background02)_25%,var(--color-border)_50%,var(--color-background02)_75%)] bg-[length:200%_100%]' />
+        <span className='theme-color-transition absolute inset-0 animate-pulse bg-background05' />
       )}
       <Image
         alt={alt}

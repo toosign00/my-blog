@@ -12,36 +12,68 @@
     cursor: pointer;
   }
 
+  .theme-color-transition {
+    transition: var(--theme-color-transition);
+  }
+
+  .theme-color-transform-transition {
+    transition:
+      var(--theme-color-transition),
+      transform 200ms ease-in-out;
+  }
+
+  .theme-color-opacity-transition {
+    transition:
+      var(--theme-color-transition),
+      opacity 150ms ease-in-out;
+  }
+
+  .theme-color-overlay-transition {
+    transition:
+      var(--theme-color-transition),
+      opacity 300ms ease-in-out;
+  }
+
+  .theme-color-filter-transition {
+    transition:
+      var(--theme-color-transition),
+      filter 150ms ease-in-out;
+  }
+
   .ui-surface {
+    transition: var(--theme-color-transition);
     border: 1px solid var(--color-hairline);
     border-radius: var(--radius-md);
     background-color: var(--color-surface-strong);
   }
 
   .ui-surface-lg {
+    transition: var(--theme-color-transition);
     border: 1px solid var(--color-hairline);
     border-radius: var(--radius-lg);
     background-color: var(--color-surface-strong);
   }
 
   .ui-card {
+    transition: var(--theme-color-transition);
     border: 1px solid var(--color-hairline);
     border-radius: var(--radius-lg);
     background-color: var(--color-surface-strong);
   }
 
   .ui-button {
-    @apply h-10 cursor-pointer transition-colors duration-150 ease-in-out;
+    @apply h-10 cursor-pointer;
     display: flex;
     justify-content: center;
     align-items: center;
+    transition: var(--theme-color-transition);
     border: 1px solid var(--color-hairline);
     border-radius: var(--radius-md);
     background-color: var(--color-surface-strong);
   }
 
   .ui-chip {
-    @apply transition-colors duration-150 ease-in-out;
+    transition: var(--theme-color-transition);
     border: 1px solid var(--color-hairline);
     border-radius: var(--radius-sm);
     background-color: var(--color-surface-muted);
@@ -148,7 +180,7 @@
     font-family: var(--font-body);
     font-weight: 500;
     font-size: 13px;
-    transition: background-color 150ms ease-in-out;
+    transition: var(--theme-color-transition);
     border-color: var(--color-hairline);
     background-color: var(--color-surface-strong);
     color: var(--color-gray-light);
@@ -171,7 +203,7 @@
     font-weight: 500;
     font-size: 13px;
     color: var(--color-gray-accent);
-    transition: background-color 150ms ease-in-out;
+    transition: var(--theme-color-transition);
   }
 
   .section-action-chip-strong:hover {

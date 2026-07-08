@@ -87,7 +87,7 @@ export const LinkEmbed = ({
         href={url}
         target='_blank'
         rel='noopener noreferrer'
-        className='focus-ring block w-full text-gray-bold transition-opacity hover:opacity-70'
+        className='theme-color-opacity-transition focus-ring block w-full text-gray-bold hover:opacity-70'
         {...props}
       >
         🔗 {manualTitle || url}
@@ -128,7 +128,7 @@ export const LinkEmbed = ({
         href={url}
         target='_blank'
         rel='noopener noreferrer'
-        className='ui-chip focus-ring group inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 transition-colors duration-200 hover:bg-background03'
+        className='ui-chip focus-ring group inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 hover:bg-background03'
         {...props}
       >
         {!faviconError && (
@@ -160,7 +160,7 @@ export const LinkEmbed = ({
             />
           </svg>
         )}
-        <span className='max-w-48 truncate text-gray-bold text-sm transition-colors group-hover:text-gray-accent'>
+        <span className='max-w-48 truncate text-gray-bold text-sm group-hover:text-gray-accent'>
           {title}
         </span>
       </a>
@@ -175,7 +175,7 @@ export const LinkEmbed = ({
       className='focus-ring block w-full border-0 no-underline'
       {...props}
     >
-      <div className='ui-card group flex flex-col gap-4 overflow-hidden rounded-xl p-4 transition-all duration-200 hover:-translate-y-0.5 hover:bg-gray-hover mobile:flex-row'>
+      <div className='theme-color-transform-transition ui-card group flex flex-col gap-4 overflow-hidden rounded-xl p-4 hover:-translate-y-0.5 hover:bg-gray-hover mobile:flex-row'>
         {thumbnail && !thumbnailError && (
           <div className='relative shrink-0 w-full mobile:w-32 aspect-video mobile:aspect-square overflow-hidden rounded-lg bg-background05'>
             <Image
@@ -192,7 +192,7 @@ export const LinkEmbed = ({
 
         <div className='flex-1 min-w-0 flex flex-col justify-between'>
           <div>
-            <h3 className='font-semibold text-gray-accent text-base mb-2 line-clamp-2 group-hover:text-gray-bold transition-colors duration-200'>
+            <h3 className='font-semibold text-gray-accent text-base mb-2 line-clamp-2 group-hover:text-gray-bold'>
               {title}
             </h3>
             {description && (
@@ -241,7 +241,7 @@ export const LinkEmbed = ({
                 viewBox='0 0 15 15'
                 fill='none'
                 xmlns='http://www.w3.org/2000/svg'
-                className='text-gray-mid group-hover:text-gray-accent transition-colors duration-200'
+                className='text-gray-mid group-hover:text-gray-accent'
               >
                 <title>External Link</title>
                 <path

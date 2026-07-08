@@ -45,7 +45,7 @@ export const TimelineSection = ({ heading, items }: TimelineSectionProps) => {
                   href={item.href}
                   target='_blank'
                   rel='noreferrer'
-                  className='inline-flex items-center gap-1 text-lg font-bold text-gray-bold border-b border-background06 hover:opacity-70 transition-opacity duration-150'
+                  className='theme-color-opacity-transition inline-flex items-center gap-1 text-lg font-bold text-gray-bold border-b border-background06 hover:opacity-70'
                 >
                   {item.title}
                   <ExternalLinkIcon />

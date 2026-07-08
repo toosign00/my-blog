@@ -48,13 +48,13 @@ export const PostList = ({ posts, className, ...props }: PostListProps) => {
                 </div>
 
                 <div className='column flex-1'>
-                  <h2 className='title post-subtitle -mx-2.5 -mb-0.5 rounded-sm px-2.5 py-0.5 text-gray-accent transition-colors duration-250 ease-in-out'>
+                  <h2 className='theme-color-transition title post-subtitle -mx-2.5 -mb-0.5 rounded-sm px-2.5 py-0.5 text-gray-accent'>
                     {title}
                   </h2>
-                  <p className='subtitle post-description -mx-2.5 mt-3 -mb-0.5 rounded-sm px-2.5 py-0.5 text-gray-mid transition-colors duration-250 ease-in-out tablet:mt-5'>
+                  <p className='theme-color-transition subtitle post-description -mx-2.5 mt-3 -mb-0.5 rounded-sm px-2.5 py-0.5 text-gray-mid tablet:mt-5'>
                     {subtitle}
                   </p>
-                  <p className='description center-y h5 -mx-2.5 mt-2 -mb-0.5 w-fit rounded-sm px-2.5 py-0.5 text-gray-light transition-colors duration-250 ease-in-out tablet:mt-4.5'>
+                  <p className='theme-color-transition description center-y h5 -mx-2.5 mt-2 -mb-0.5 w-fit rounded-sm px-2.5 py-0.5 text-gray-light tablet:mt-4.5'>
                     <RelativeTime time={createdAt} />
                     {category && (
                       <>

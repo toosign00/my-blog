@@ -11,7 +11,7 @@ export const Sidebar = () => {
   return (
     <aside
       aria-label='Sidebar navigation'
-      className='fixed top-0 left-0 hidden h-dvh w-sidebar flex-col justify-between border-r border-border bg-background px-10 py-11 tablet:flex'
+      className='theme-color-transition fixed top-0 left-0 hidden h-dvh w-sidebar flex-col justify-between border-r border-border bg-background px-10 py-11 tablet:flex'
     >
       <div className='column w-full gap-6'>
         <Link aria-label={METADATA.SITE.NAME} className='px-2.5 py-3' href={ROUTES.HOME}>
@@ -37,7 +37,7 @@ export const Sidebar = () => {
           <div className='row-between'>
             <a
               aria-label='RSS feed'
-              className='flex h6 items-center gap-1 text-license no-underline opacity-100 transition-opacity duration-150 ease-in-out hover:opacity-70'
+              className='theme-color-opacity-transition flex h6 items-center gap-1 text-license no-underline opacity-100 hover:opacity-70'
               href={ROUTES.RSS}
               rel='noopener noreferrer'
               target='_blank'
@@ -47,7 +47,7 @@ export const Sidebar = () => {
             </a>
             <a
               aria-label='XML sitemap'
-              className='flex h6 items-center gap-1 text-license no-underline opacity-100 transition-opacity duration-150 ease-in-out hover:opacity-70'
+              className='theme-color-opacity-transition flex h6 items-center gap-1 text-license no-underline opacity-100 hover:opacity-70'
               href={ROUTES.SITEMAP}
               rel='noopener noreferrer'
               target='_blank'
