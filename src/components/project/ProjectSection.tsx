@@ -146,7 +146,7 @@ export const ProjectSection = ({
                 <button
                   aria-pressed={isSelected}
                   className={twMerge(
-                    'cursor-pointer rounded-full px-4 py-2 font-medium text-sm transition-colors',
+                    'theme-color-transition cursor-pointer rounded-full px-4 py-2 font-medium text-sm',
                     isSelected
                       ? 'bg-gray-bold text-background'
                       : 'bg-background05 text-gray-mid hover:bg-gray-hover'
@@ -164,7 +164,7 @@ export const ProjectSection = ({
           <div className='grid w-full grid-cols-2 gap-2 mobile:flex'>
             <div className='relative min-w-0 mobile:hidden'>
               <select
-                className='w-full cursor-pointer appearance-none rounded-xl border border-border bg-background py-2 pr-10 pl-4 text-gray-bold text-sm outline-none transition-colors focus:border-gray-mid'
+                className='theme-color-transition w-full cursor-pointer appearance-none rounded-xl border border-border bg-background py-2 pr-10 pl-4 text-gray-bold text-sm outline-none focus:border-gray-mid'
                 aria-label='Project tag'
                 onChange={(event) => setSelectedTag(event.target.value)}
                 value={selectedTag}
@@ -184,7 +184,7 @@ export const ProjectSection = ({
 
             <div className='relative min-w-0 mobile:shrink-0'>
               <select
-                className='w-full cursor-pointer appearance-none rounded-xl border border-border bg-background py-2 pr-10 pl-4 text-gray-bold text-sm outline-none transition-colors focus:border-gray-mid mobile:w-auto'
+                className='theme-color-transition w-full cursor-pointer appearance-none rounded-xl border border-border bg-background py-2 pr-10 pl-4 text-gray-bold text-sm outline-none focus:border-gray-mid mobile:w-auto'
                 aria-label='Project sort'
                 onChange={(event) => setSortOption(event.target.value as SortOption)}
                 value={sortOption}
@@ -204,7 +204,7 @@ export const ProjectSection = ({
 
             <input
               aria-label='Project search'
-              className='col-span-2 min-w-0 rounded-xl border border-border bg-background px-4 py-2 text-gray-bold text-sm outline-none transition-colors placeholder:text-gray-light focus:border-gray-mid mobile:flex-1'
+              className='theme-color-transition col-span-2 min-w-0 rounded-xl border border-border bg-background px-4 py-2 text-gray-bold text-sm outline-none placeholder:text-gray-light focus:border-gray-mid mobile:flex-1'
               onChange={(event) => setSearchQuery(event.target.value)}
               placeholder='Search projects...'
               type='search'

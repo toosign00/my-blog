@@ -8,9 +8,13 @@ type DividerProps = {
 export const Divider = forwardRef<HTMLHRElement, DividerProps>(({ className, ...props }, ref) => {
   return (
     <hr
-      className={twMerge('h-[0.03125rem] w-full border-none', className)}
+      className={twMerge('theme-color-transition h-[0.03125rem] w-full border-none', className)}
       ref={ref}
-      style={{ background: 'var(--color-gradient-sidebar-divider)' }}
+      style={{
+        backgroundColor: 'var(--color-sidebar-divider)',
+        maskImage: 'radial-gradient(circle, #000 0%, transparent 100%)',
+        WebkitMaskImage: 'radial-gradient(circle, #000 0%, transparent 100%)',
+      }}
       {...props}
     />
   );

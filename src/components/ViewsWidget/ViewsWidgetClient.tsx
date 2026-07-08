@@ -47,13 +47,13 @@ export const ViewsWidgetClient = ({ postCount }: ViewsWidgetClientProps) => {
       <div className='flex items-baseline justify-between border-b border-border py-3'>
         <div className='flex items-center gap-2'>
           <div
-            className='h-1.5 w-1.5 rounded-full'
+            className='theme-color-transition h-1.5 w-1.5 rounded-full'
             style={{ backgroundColor: 'var(--color-primary)' }}
           />
           <span className='text-xs text-gray-light'>Today</span>
         </div>
         <span
-          className='font-semibold tabular-nums'
+          className='theme-color-transition font-semibold tabular-nums'
           style={{ ...metricNumberStyle, color: 'var(--color-primary-focus)' }}
         >
           {views ? todayCount.toLocaleString() : '-'}

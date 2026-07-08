@@ -35,14 +35,17 @@ export const ProfileGrid = async () => {
           className='focus-ring block w-full transition-transform duration-150 ease-out active:scale-[0.98]'
           href={ROUTES.ABOUT}
         >
-          <Card.Root style={{ backgroundColor: PROFILE.cardBackgroundColor }}>
+          <Card.Root
+            className='theme-color-transition'
+            style={{ backgroundColor: PROFILE.cardBackgroundColor }}
+          >
             <Card.Content>
               <fieldset
                 aria-labelledby='profile-heading'
                 className='column m-0 items-start gap-3 self-start border-0 p-0'
               >
                 <div
-                  className='relative h-24.25 w-24.25 select-none overflow-hidden rounded-md border'
+                  className='theme-color-transition relative h-24.25 w-24.25 select-none overflow-hidden rounded-md border'
                   style={{
                     borderColor: PROFILE.profileImageBorderColor,
                     boxShadow: `0px 10px 39px ${PROFILE.profileImageShadowColor}`,
@@ -62,7 +65,7 @@ export const ProfileGrid = async () => {
                 </div>
 
                 <p
-                  className='profile-name w-full text-center'
+                  className='theme-color-transition profile-name w-full text-center'
                   style={{ color: PROFILE.authorTextColor }}
                 >
                   {METADATA.AUTHOR.NAME}
@@ -72,11 +75,14 @@ export const ProfileGrid = async () => {
               <dl className='row-between h-3/4 flex-col items-start'>
                 {authorProfileDetails.map((item) => (
                   <div className='w-full' key={item.title}>
-                    <dt className='profile-sub w-full' style={{ color: PROFILE.titleTextColor }}>
+                    <dt
+                      className='theme-color-transition profile-sub w-full'
+                      style={{ color: PROFILE.titleTextColor }}
+                    >
                       {item.title}
                     </dt>
                     <dd
-                      className='profile-title whitespace-pre-wrap'
+                      className='theme-color-transition profile-title whitespace-pre-wrap'
                       style={{ color: PROFILE.contentTextColor }}
                     >
                       {item.content}
