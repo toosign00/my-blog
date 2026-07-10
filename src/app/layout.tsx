@@ -103,6 +103,9 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: METADATA.SITE.URL,
+    types: {
+      'application/rss+xml': '/rss.xml',
+    },
   },
   generator: 'Next.js',
   applicationName: METADATA.SITE.NAME,
