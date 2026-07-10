@@ -9,9 +9,22 @@ import { escapeXml } from '@/utils/xml-util';
 export const dynamic = 'force-static';
 export const revalidate = false;
 
+const getLatestContentDate = (
+  posts: Awaited<ReturnType<typeof getAllPosts>>,
+  projects: Awaited<ReturnType<typeof getAllProjects>>
+): string | undefined => {
+  const dates = [
+    ...posts.map(({ modifiedAt, createdAt }) => modifiedAt ?? createdAt),
+    ...projects.map(({ projectDue, createdAt }) => projectDue ?? createdAt),
+  ];
+
+  return dates.sort((a, b) => new Date(b).valueOf() - new Date(a).valueOf())[0];
+};
+
 const generateSitemapUrls = async (): Promise<MetadataRoute.Sitemap> => {
   const [posts, projects] = await Promise.all([getAllPosts(), getAllProjects()]);
   const postsPageCount = Math.ceil(posts.length / POST.PER_PAGE);
+  const latestContentDate = getLatestContentDate(posts, projects);
 
   const categoryCountMap = posts.reduce<Record<string, number>>((map, { category }) => {
     map[category] = (map[category] || 0) + 1;
@@ -22,9 +35,13 @@ const generateSitemapUrls = async (): Promise<MetadataRoute.Sitemap> => {
     const categorySlug = slugify(category);
     const categoryPages = Math.ceil(count / POST.PER_PAGE);
     return [
-      { url: `${METADATA.SITE.URL}${ROUTES.CATEGORIES}/${categorySlug}` },
+      {
+        url: `${METADATA.SITE.URL}${ROUTES.CATEGORIES}/${categorySlug}`,
+        lastModified: latestContentDate,
+      },
       ...Array.from({ length: Math.max(0, categoryPages - 1) }, (_, pageIndex) => ({
         url: `${METADATA.SITE.URL}${ROUTES.CATEGORIES}/${categorySlug}/p/${pageIndex + 2}`,
+        lastModified: latestContentDate,
       })),
     ];
   });
@@ -40,9 +57,13 @@ const generateSitemapUrls = async (): Promise<MetadataRoute.Sitemap> => {
     const tagSlug = slugify(tag);
     const tagPages = Math.ceil(count / POST.PER_PAGE);
     return [
-      { url: `${METADATA.SITE.URL}${ROUTES.TAGS}/${tagSlug}` },
+      {
+        url: `${METADATA.SITE.URL}${ROUTES.TAGS}/${tagSlug}`,
+        lastModified: latestContentDate,
+      },
       ...Array.from({ length: Math.max(0, tagPages - 1) }, (_, pageIndex) => ({
         url: `${METADATA.SITE.URL}${ROUTES.TAGS}/${tagSlug}/p/${pageIndex + 2}`,
+        lastModified: latestContentDate,
       })),
     ];
   });
@@ -50,32 +71,28 @@ const generateSitemapUrls = async (): Promise<MetadataRoute.Sitemap> => {
   return [
     {
       url: METADATA.SITE.URL,
-      changeFrequency: 'daily',
-      priority: 1,
+      lastModified: latestContentDate,
     },
-    { url: `${METADATA.SITE.URL}${ROUTES.ABOUT}` },
-    { url: `${METADATA.SITE.URL}${ROUTES.CATEGORIES}` },
-    { url: `${METADATA.SITE.URL}${ROUTES.TAGS}` },
-    { url: `${METADATA.SITE.URL}${ROUTES.POSTS}` },
-    { url: `${METADATA.SITE.URL}${ROUTES.PROJECTS}` },
-    { url: `${METADATA.SITE.URL}${ROUTES.SECURITY_POLICY}` },
-    { url: `${METADATA.SITE.URL}${ROUTES.ACKNOWLEDGMENTS}` },
+    { url: `${METADATA.SITE.URL}${ROUTES.ABOUT}`, lastModified: latestContentDate },
+    { url: `${METADATA.SITE.URL}${ROUTES.CATEGORIES}`, lastModified: latestContentDate },
+    { url: `${METADATA.SITE.URL}${ROUTES.TAGS}`, lastModified: latestContentDate },
+    { url: `${METADATA.SITE.URL}${ROUTES.POSTS}`, lastModified: latestContentDate },
+    { url: `${METADATA.SITE.URL}${ROUTES.PROJECTS}`, lastModified: latestContentDate },
+    { url: `${METADATA.SITE.URL}${ROUTES.SECURITY_POLICY}`, lastModified: latestContentDate },
+    { url: `${METADATA.SITE.URL}${ROUTES.ACKNOWLEDGMENTS}`, lastModified: latestContentDate },
     ...categoryUrls,
     ...tagUrls,
     ...Array.from({ length: Math.max(0, postsPageCount - 1) }, (_, pageIndex) => ({
       url: `${METADATA.SITE.URL}${ROUTES.POSTS}/p/${pageIndex + 2}`,
+      lastModified: latestContentDate,
     })),
     ...posts.map(({ slug, modifiedAt, createdAt }) => ({
       url: `${METADATA.SITE.URL}${ROUTES.POSTS}/${slug}`,
       lastModified: modifiedAt ?? createdAt,
-      changeFrequency: 'monthly',
-      priority: 0.9,
     })),
     ...projects.map(({ slug, projectDue, createdAt }) => ({
       url: `${METADATA.SITE.URL}${ROUTES.PROJECTS}/${slug}`,
       lastModified: projectDue ?? createdAt,
-      changeFrequency: 'monthly',
-      priority: 0.8,
     })),
   ];
 };
@@ -98,8 +115,6 @@ ${urls
           }</lastmod>`
         : ''
     }
-    ${item.changeFrequency ? `<changefreq>${escapeXml(item.changeFrequency)}</changefreq>` : ''}
-    ${item.priority ? `<priority>${escapeXml(item.priority.toString())}</priority>` : ''}
   </url>`
   )
   .join('')}
