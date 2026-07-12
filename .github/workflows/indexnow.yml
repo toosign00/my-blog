@@ -1,0 +1,25 @@
+name: IndexNow
+
+on:
+  workflow_dispatch:
+  schedule:
+    # GitHub Actions cron uses UTC: daily 13:00 UTC = daily 22:00 KST.
+    - cron: '0 13 * * *'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  submit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: bojieyang/indexnow-action@v3
+        with:
+          sitemap-location: 'https://toosign.me/sitemap.xml'
+          key: ${{ secrets.INDEXNOW_KEY }}
+          key-location: 'https://toosign.me/indexnow-key.txt'
+          since: 7
+          since-unit: day
+          endpoint: 'www.bing.com'
+          failure-strategy: ignore
