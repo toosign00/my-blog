@@ -3,7 +3,6 @@ name: Content Check
 on:
   pull_request:
     branches:
-      - develop
       - main
     paths:
       - 'src/app/posts/_articles/**'

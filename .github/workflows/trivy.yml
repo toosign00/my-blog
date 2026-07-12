@@ -3,7 +3,6 @@ name: Trivy Security Scan
 on:
   pull_request:
     branches:
-      - develop
       - main
   schedule:
     # GitHub Actions cron uses UTC: Monday 00:00 UTC = Monday 09:00 KST.

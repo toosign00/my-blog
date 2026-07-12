@@ -3,7 +3,6 @@ name: Labeler
 on:
   pull_request_target:
     branches:
-      - develop
       - main
     types: [opened, synchronize, reopened]
 
