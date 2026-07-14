@@ -50,12 +50,12 @@ const Tooltip = React.forwardRef<TooltipHandle>((_, ref) => {
       style={{ opacity: 0, marginTop: '-10px' }}
     >
       <div
-        className='theme-color-transition relative rounded-md px-2.5 py-1 text-[11px] font-bold shadow-lg'
+        className='relative rounded-md px-2.5 py-1 text-[11px] font-bold shadow-lg'
         style={{ backgroundColor: 'var(--color-ink)', color: 'var(--color-canvas)' }}
       >
         <span ref={textRef} />
         <div
-          className='theme-color-transition absolute -bottom-1 left-1/2 h-2 w-2 -translate-x-1/2 rotate-45'
+          className='absolute -bottom-1 left-1/2 h-2 w-2 -translate-x-1/2 rotate-45'
           style={{ backgroundColor: 'var(--color-ink)' }}
         />
       </div>
@@ -90,10 +90,7 @@ const GitHubHeatmap = React.memo(function GitHubHeatmap({
     <div className='space-y-3 w-full'>
       <div className='flex items-center justify-between'>
         <h2 className='section-heading'>GitHub Contributions</h2>
-        <span
-          className='theme-color-transition text-[11px] font-mono'
-          style={{ color: 'var(--color-gray-light)' }}
-        >
+        <span className='text-[11px] font-mono' style={{ color: 'var(--color-gray-light)' }}>
           @toosign00
         </span>
       </div>

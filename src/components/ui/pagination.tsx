@@ -37,7 +37,7 @@ export const Pagination = ({ currentPage, totalPages, basePath }: PaginationProp
       {currentPage > 1 && (
         <Link
           aria-label='Go to previous page'
-          className='theme-color-transition center h-8 w-8 cursor-pointer rounded-full border border-border bg-toggle text-gray-accent text-sm hover:bg-background02'
+          className='center h-8 w-8 cursor-pointer rounded-full border border-border bg-toggle text-gray-accent text-sm transition-colors duration-150 ease-in-out hover:bg-background02'
           href={buildPageHref(currentPage - 1)}
         >
           <ChevronLeft size={16} />
@@ -48,7 +48,7 @@ export const Pagination = ({ currentPage, totalPages, basePath }: PaginationProp
         pageNumber === currentPage ? (
           <span
             aria-current='page'
-            className='theme-color-transition center h-8 w-8 rounded-full border border-background04 bg-gray-bold text-background text-sm hover:bg-gray-accent'
+            className='center h-8 w-8 rounded-full border border-background04 bg-gray-bold text-background text-sm transition-colors duration-150 ease-in-out hover:bg-gray-accent'
             key={pageNumber}
           >
             {pageNumber}
@@ -56,7 +56,7 @@ export const Pagination = ({ currentPage, totalPages, basePath }: PaginationProp
         ) : (
           <Link
             aria-label={`Go to page ${pageNumber}`}
-            className='theme-color-transition center h-8 w-8 cursor-pointer rounded-full border border-border bg-toggle text-gray-accent text-sm hover:bg-background02'
+            className='center h-8 w-8 cursor-pointer rounded-full border border-border bg-toggle text-gray-accent text-sm transition-colors duration-150 ease-in-out hover:bg-background02'
             href={buildPageHref(pageNumber)}
             key={pageNumber}
           >
@@ -68,7 +68,7 @@ export const Pagination = ({ currentPage, totalPages, basePath }: PaginationProp
       {currentPage < totalPages && (
         <Link
           aria-label='Go to next page'
-          className='theme-color-transition center h-8 w-8 cursor-pointer rounded-full border border-border bg-toggle text-gray-accent text-sm hover:bg-background02'
+          className='center h-8 w-8 cursor-pointer rounded-full border border-border bg-toggle text-gray-accent text-sm transition-colors duration-150 ease-in-out hover:bg-background02'
           href={buildPageHref(currentPage + 1)}
         >
           <ChevronRight size={16} />

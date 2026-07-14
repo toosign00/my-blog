@@ -28,7 +28,10 @@ const CategoryListPage = async () => {
         <nav aria-label='Category list'>
           <ul className='m-0 grid list-none grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-4 p-0'>
             {categories.map((category) => (
-              <li className='ui-card rounded-sm hover:bg-background02' key={category}>
+              <li
+                className='ui-card rounded-sm transition-colors duration-150 hover:bg-background02'
+                key={category}
+              >
                 <Link
                   aria-label={`${category} category (${categoryCounts[category]} posts)`}
                   className='row-between gap-4 px-5 py-2.5 no-underline'

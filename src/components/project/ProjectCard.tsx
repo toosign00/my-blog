@@ -59,7 +59,7 @@ export const ProjectCard = ({
         <div className='mt-4 flex flex-wrap gap-2'>
           {tags.map((tag) => (
             <span
-              className='theme-color-transition hoverable-surface rounded-full border border-border px-2 py-1 font-medium text-gray-mid text-xs'
+              className='hoverable-surface rounded-full border border-border px-2 py-1 font-medium text-gray-mid text-xs transition-colors duration-250 ease-in-out'
               key={tag}
             >
               {tag}
@@ -67,15 +67,15 @@ export const ProjectCard = ({
           ))}
         </div>
 
-        <h2 className='theme-color-transition hoverable-surface post-subtitle mt-4 -mb-0.5 line-clamp-2 flex overflow-hidden text-ellipsis rounded-sm px-2.5 py-0.5'>
+        <h2 className='hoverable-surface post-subtitle mt-4 -mb-0.5 line-clamp-2 flex overflow-hidden text-ellipsis rounded-sm px-2.5 py-0.5 transition-colors duration-250 ease-in-out'>
           {title}
         </h2>
 
-        <p className='theme-color-transition hoverable-surface post-description mt-3 -mb-0.5 line-clamp-2 rounded-sm px-2.5 py-0.5 text-gray-mid'>
+        <p className='hoverable-surface post-description mt-3 -mb-0.5 line-clamp-2 rounded-sm px-2.5 py-0.5 text-gray-mid transition-colors duration-250 ease-in-out'>
           {description}
         </p>
 
-        <p className='theme-color-transition description hoverable-surface h4 mt-4 -mb-0.5 w-fit rounded-sm px-2.5 py-0.5 text-gray-light'>
+        <p className='description hoverable-surface h4 mt-4 -mb-0.5 w-fit rounded-sm px-2.5 py-0.5 text-gray-light transition-colors duration-250 ease-in-out'>
           {period}
         </p>
       </Link>

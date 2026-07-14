@@ -15,7 +15,6 @@
     overflow-y: scroll;
     word-break: keep-all;
     background-color: var(--color-background);
-    transition: var(--theme-color-transition);
   }
 
   ::selection {
@@ -28,19 +27,6 @@
 
   .dark {
     color-scheme: dark;
-  }
-
-  :where(
-    [class*="border-border"],
-    [class*="border-background"],
-    [class*="bg-border"],
-    [class*="bg-background"]
-  ) {
-    transition: var(--theme-color-transition);
-  }
-
-  :where([class*="before:border-border"], [class*="before:bg-background"])::before {
-    transition: var(--theme-color-transition);
   }
 
   [data-mdx-article] :is(h4, h5, h6) {
@@ -93,9 +79,7 @@
     line-height: 180%;
     border-bottom: 1px solid var(--color-background06);
     opacity: 1;
-    transition:
-      opacity var(--theme-transition-duration) var(--theme-transition-easing),
-      border-color var(--theme-transition-duration) var(--theme-transition-easing);
+    transition: opacity 150ms ease-in-out, border-color 150ms ease-in-out;
   }
 
   [data-mdx-article] a:hover {
@@ -109,14 +93,15 @@
     height: 12px;
     margin: 0;
     content: "";
-    background-color: var(--color-gray-bold);
-    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>');
-    mask-repeat: no-repeat;
-    mask-size: cover;
-    transition: var(--theme-color-transition);
-    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>');
-    -webkit-mask-repeat: no-repeat;
-    -webkit-mask-size: cover;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23393960" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>');
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  .dark [data-mdx-article] a[target="_blank"]::after {
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23DDDDDD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>');
+    background-repeat: no-repeat;
+    background-size: cover;
   }
 
   [data-mdx-article] strong {
@@ -168,7 +153,6 @@
     border: 1px solid var(--color-border);
     border-radius: var(--radius-xs);
     background-color: var(--color-background02);
-    transition: var(--theme-color-transition);
     line-height: 1.25;
     contain: paint;
     overflow-x: auto;
@@ -184,7 +168,6 @@
     border: 1px solid var(--color-border);
     border-radius: var(--radius-xs);
     background-color: var(--color-background02);
-    transition: var(--theme-color-transition);
   }
 
   .image-wrapper {
@@ -198,12 +181,10 @@
 
   img {
     @apply h-auto w-auto flex-1 min-w-0 max-w-full border border-border rounded-lg;
-    transition: var(--theme-color-transition);
   }
 
   .video-wrapper {
     @apply mt-6 mx-auto w-full border border-border rounded-lg;
-    transition: var(--theme-color-transition);
   }
 
   .github-heatmap-wrapper > article {
@@ -229,22 +210,12 @@
 
 @supports (view-transition-name: none) {
   @media not (prefers-reduced-motion: reduce) {
-    ::view-transition-group(cross) {
-      isolation: isolate;
-    }
-
-    ::view-transition-image-pair(cross),
-    ::view-transition-old(cross) {
-      mix-blend-mode: normal;
-    }
-
     ::view-transition-old(cross) {
       animation: hide 0.4s cubic-bezier(0.6, 0, 0.8, 1) forwards;
     }
 
     ::view-transition-new(cross) {
       opacity: 0;
-      mix-blend-mode: normal;
       animation: appear 0.6s ease 0.2s forwards;
     }
   }

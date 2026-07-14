@@ -32,7 +32,7 @@ export const Header = () => {
   }, []);
 
   const overlayClassName =
-    'theme-color-overlay-transition fixed inset-0 z-[var(--z-overlay)] backdrop-blur-[11px]';
+    'fixed inset-0 z-[var(--z-overlay)] backdrop-blur-[11px] transition-opacity duration-300';
 
   return (
     <>
@@ -49,7 +49,7 @@ export const Header = () => {
           type='button'
         />
 
-        <header className='theme-color-transition fixed top-0 left-0 z-(--z-header) flex w-full border-b border-border bg-background tablet:hidden px-(--spacing-inline)'>
+        <header className='fixed top-0 left-0 z-(--z-header) flex w-full border-b border-border bg-background tablet:hidden px-(--spacing-inline)'>
           <div className='row-between mx-auto w-full max-w-(--app-width) py-3.25'>
             <Link aria-label={METADATA.SITE.NAME} href={ROUTES.HOME}>
               <Image
@@ -78,7 +78,7 @@ export const Header = () => {
               </button>
               <Accordion.Content
                 aria-labelledby='menu-accordion-item'
-                className='theme-color-transition fixed top-16.75 left-0 w-full overflow-hidden border-b border-border bg-background px-inline'
+                className='fixed top-16.75 left-0 w-full overflow-hidden border-b border-border bg-background px-inline'
                 id='menu-accordion-content'
               >
                 <div className='column mx-auto w-full max-w-app pt-6.25 pb-4.75'>
@@ -93,7 +93,7 @@ export const Header = () => {
                   <div className='row-between mx-auto max-w-30.5 mt-4 gap-2'>
                     <a
                       aria-label='RSS feed'
-                      className='theme-color-opacity-transition flex h7 items-center gap-1 text-license no-underline opacity-100 hover:opacity-70'
+                      className='flex h7 items-center gap-1 text-license no-underline opacity-100 transition-opacity duration-150 ease-in-out hover:opacity-70'
                       href={ROUTES.RSS}
                       rel='noopener noreferrer'
                       target='_blank'
@@ -103,7 +103,7 @@ export const Header = () => {
                     </a>
                     <a
                       aria-label='XML sitemap'
-                      className='theme-color-opacity-transition flex h7 items-center gap-1 text-license no-underline opacity-100 hover:opacity-70'
+                      className='flex h7 items-center gap-1 text-license no-underline opacity-100 transition-opacity duration-150 ease-in-out hover:opacity-70'
                       href={ROUTES.SITEMAP}
                       rel='noopener noreferrer'
                       target='_blank'

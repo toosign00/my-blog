@@ -59,7 +59,7 @@ type AnchorProps = Omit<ComponentProps<'a'>, 'href'> & { href?: string };
 const A = ({ href, ...props }: AnchorProps) => (
   <Link
     className={twMerge(
-      'theme-color-transition break-keep underline decoration-from-font underline-offset-3',
+      'break-keep underline decoration-from-font underline-offset-3 transition-colors duration-150',
       'text-gray-bold outline-offset-2 hover:text-gray-accent hover:opacity-80',
       href?.startsWith('https://') && 'external-link'
     )}

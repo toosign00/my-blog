@@ -49,7 +49,7 @@ const ProjectActionLinks = ({ repository, docs, url }: ProjectActionLinksProps) 
     <div className='mt-8 flex flex-wrap gap-2'>
       {repository && (
         <a
-          className='theme-color-opacity-transition w-full tablet:w-auto min-w-35 focus-ring center h4 gap-2 rounded-md border border-border px-4 py-2 font-medium text-gray-accent no-underline opacity-100 hover:bg-gray-hover'
+          className='w-full tablet:w-auto min-w-35 focus-ring center h4 gap-2 rounded-md border border-border px-4 py-2 font-medium text-gray-accent no-underline opacity-100 transition-opacity duration-150 ease-in-out hover:bg-gray-hover'
           href={repository}
           rel='noopener noreferrer'
           target='_blank'
@@ -61,7 +61,7 @@ const ProjectActionLinks = ({ repository, docs, url }: ProjectActionLinksProps) 
 
       {docs && (
         <a
-          className='theme-color-opacity-transition w-full tablet:w-auto min-w-35 focus-ring center h4 gap-2 rounded-md border border-border px-4 py-2 font-medium text-gray-accent no-underline opacity-100 hover:bg-gray-hover'
+          className='w-full tablet:w-auto min-w-35 focus-ring center h4 gap-2 rounded-md border border-border px-4 py-2 font-medium text-gray-accent no-underline opacity-100 transition-opacity duration-150 ease-in-out hover:bg-gray-hover'
           href={docs}
           rel='noopener noreferrer'
           target='_blank'
@@ -73,7 +73,7 @@ const ProjectActionLinks = ({ repository, docs, url }: ProjectActionLinksProps) 
 
       {url && (
         <a
-          className='theme-color-opacity-transition w-full tablet:w-auto min-w-35 focus-ring center h4 gap-2 rounded-md border border-border px-4 py-2 font-medium text-gray-accent no-underline opacity-100 hover:bg-gray-hover'
+          className='w-full tablet:w-auto min-w-35 focus-ring center h4 gap-2 rounded-md border border-border px-4 py-2 font-medium text-gray-accent no-underline opacity-100 transition-opacity duration-150 ease-in-out hover:bg-gray-hover'
           href={url}
           rel='noopener noreferrer'
           target='_blank'

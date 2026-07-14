@@ -52,11 +52,11 @@ export const PostGrid = ({
                 />
               </div>
 
-              <h2 className='theme-color-transition title post-subtitle -mx-2.5 mt-4 -mb-0.5 line-clamp-2 flex overflow-hidden text-ellipsis rounded-sm px-2.5 py-0.5'>
+              <h2 className='title post-subtitle -mx-2.5 mt-4 -mb-0.5 line-clamp-2 flex overflow-hidden text-ellipsis rounded-sm px-2.5 py-0.5 transition-colors duration-250 ease-in-out'>
                 {title}
               </h2>
 
-              <p className='theme-color-transition description h4 center-y -mx-2.5 mt-4 -mb-0.5 w-fit rounded-sm px-2.5 py-0.5 text-gray-light'>
+              <p className='description h4 center-y -mx-2.5 mt-4 -mb-0.5 w-fit rounded-sm px-2.5 py-0.5 text-gray-light transition-colors duration-250 ease-in-out'>
                 <RelativeTime time={createdAt} />
                 <PostViews slug={slug} />
               </p>

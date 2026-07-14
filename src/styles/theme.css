@@ -23,7 +23,7 @@
   --color-toggle: var(--color-toggle);
   --color-license: var(--color-license);
 
-  --color-sidebar-divider: var(--color-sidebar-divider);
+  --color-gradient-sidebar-divider: var(--color-gradient-sidebar-divider);
   --color-primary: var(--color-primary);
   --color-primary-focus: var(--color-primary-focus);
   --color-primary-on-dark: var(--color-primary-on-dark);
@@ -81,16 +81,6 @@
 }
 
 :root {
-  --theme-transition-duration: 150ms;
-  --theme-transition-easing: ease-in-out;
-  --theme-color-transition:
-    color var(--theme-transition-duration) var(--theme-transition-easing),
-    background-color var(--theme-transition-duration) var(--theme-transition-easing),
-    border-color var(--theme-transition-duration) var(--theme-transition-easing),
-    text-decoration-color var(--theme-transition-duration) var(--theme-transition-easing),
-    fill var(--theme-transition-duration) var(--theme-transition-easing),
-    stroke var(--theme-transition-duration) var(--theme-transition-easing);
-
   --color-white: #ffffff;
   --color-black: #000000;
 
@@ -123,7 +113,11 @@
   --shiki-token-link: #032f62;
   --shiki-token-parameter: #e36209;
 
-  --color-sidebar-divider: #d9dbe7;
+  --color-gradient-sidebar-divider: radial-gradient(
+    circle,
+    #d9dbe7 0%,
+    rgba(217, 219, 231, 0) 100%
+  );
   --color-primary: #3182f6;
   --color-primary-focus: #2997ff;
   --color-primary-on-dark: #63a9ff;
@@ -196,7 +190,11 @@
   --shiki-token-link: #58a6ff;
   --shiki-token-parameter: #ffa657;
 
-  --color-sidebar-divider: #36363a;
+  --color-gradient-sidebar-divider: radial-gradient(
+    circle,
+    #36363a 0%,
+    rgba(61, 61, 67, 0) 100%
+  );
   --color-primary: #63a9ff;
   --color-primary-focus: #8ec2ff;
   --color-primary-on-dark: #8ec2ff;

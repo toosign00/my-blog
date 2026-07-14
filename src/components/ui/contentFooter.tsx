@@ -82,7 +82,7 @@ export const ContentFooter = ({
       {backButton}
       <button
         aria-label={shareButtonAriaLabel}
-        className='theme-color-opacity-transition focus-ring center-y h3 w-fit cursor-pointer select-none gap-2 py-1.25 pr-2.25 text-gray-accent opacity-100 hover:opacity-70'
+        className='focus-ring center-y h3 w-fit cursor-pointer select-none gap-2 py-1.25 pr-2.25 text-gray-accent opacity-100 transition-opacity duration-150 ease-in-out hover:opacity-70'
         onClick={handleShare}
         type='button'
       >

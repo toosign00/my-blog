@@ -20,7 +20,7 @@ export const NavigateMenu = () => {
           return (
             <li
               className={twMerge(
-                'theme-color-transition h-10 w-full rounded-md text-gray-mid hover:bg-background02 hover:text-gray-accent',
+                'h-10 w-full rounded-md text-gray-mid transition-colors duration-150 ease-in-out hover:bg-background02 hover:text-gray-accent',
                 isActive && 'bg-background02 text-gray-accent'
               )}
               key={menu.link}
