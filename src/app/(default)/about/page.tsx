@@ -47,11 +47,9 @@ const AboutPage = () => {
         <div className='column gap-15'>
           <ProfileCard />
           <HowIWork />
-          <EducationSection />
-
-          <SkillsSection />
-
           <TimelineSection heading='Work Experience' items={ABOUT.workExperience} />
+          <SkillsSection />
+          <EducationSection />
           <TimelineSection heading='Achievements & Activities' items={ABOUT.achievements} />
           <CertificateSection items={ABOUT.certificates} />
         </div>
