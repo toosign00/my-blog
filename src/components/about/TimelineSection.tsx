@@ -18,6 +18,7 @@ interface TimelineSectionProps {
 const ExternalLinkIcon = () => (
   <svg
     aria-hidden='true'
+    className='inline-block shrink-0 align-baseline'
     width='14'
     height='14'
     viewBox='0 0 24 24'
@@ -45,10 +46,9 @@ export const TimelineSection = ({ heading, items }: TimelineSectionProps) => {
                   href={item.href}
                   target='_blank'
                   rel='noreferrer'
-                  className='inline-flex items-center gap-1 text-lg font-bold text-gray-bold border-b border-background06 hover:opacity-70 transition-opacity duration-150'
+                  className='inline text-lg font-bold text-gray-bold border-b border-background06 hover:opacity-70 transition-opacity duration-150'
                 >
-                  {item.title}
-                  <ExternalLinkIcon />
+                  {item.title} <ExternalLinkIcon />
                 </a>
               ) : (
                 <span className='text-lg font-bold text-gray-bold'>{item.title}</span>
