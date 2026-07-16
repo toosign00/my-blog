@@ -58,6 +58,7 @@ export const ABOUT = {
       category: 'QA / Test',
       items: [
         { label: 'Playwright', icon: 'playwright' },
+        { label: 'Appium', icon: 'appium' },
         { label: 'Postman', icon: 'postman' },
         { label: 'Chrome DevTools', icon: 'chrome' },
       ],

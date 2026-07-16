@@ -1,6 +1,7 @@
 import type { ComponentType } from 'react';
 import { SkillBadge } from '@/components/about/SkillBadge';
 import { AntigravityCliIcon } from '@/components/icons/AntigravityCliIcon';
+import { AppiumIcon } from '@/components/icons/AppiumIcon';
 import { ChromeIcon } from '@/components/icons/ChromeIcon';
 import { ClaudeCodeIcon } from '@/components/icons/ClaudeCodeIcon';
 import { CodexIcon } from '@/components/icons/CodexIcon';
@@ -27,6 +28,7 @@ const ICON_MAP: Record<string, ComponentType<IconProps>> = {
   'claude-code': ClaudeCodeIcon,
   'antigravity-cli': AntigravityCliIcon,
   playwright: PlaywrightIcon,
+  appium: AppiumIcon,
   postman: PostmanIcon,
   jira: JiraIcon,
   confluence: ConfluenceIcon,
