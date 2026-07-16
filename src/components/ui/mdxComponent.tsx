@@ -1,3 +1,4 @@
+import { CircleAlert, Info, Lightbulb, type LucideIcon, TriangleAlert } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { ComponentProps, ReactNode } from 'react';
@@ -7,6 +8,7 @@ import { twMerge } from 'tailwind-merge';
 
 import { getRemoteImagePlaceholder } from '@/utils/image-placeholder-util';
 import { LazyImage } from './lazyImage';
+import { Accordion, AccordionItem, Tab, Tabs } from './mdxInteractive';
 
 const cssVariablesTheme = createCssVariablesTheme({});
 
@@ -297,41 +299,109 @@ const Highlight = ({ children, color = 'yellow' }: HighlightProps) => (
   </mark>
 );
 
-type CalloutType = 'note' | 'tip' | 'warning' | 'important';
+type AlertType = 'note' | 'tip' | 'warning' | 'destructive';
 
-interface CalloutProps {
-  type?: CalloutType;
+interface AlertProps {
+  type?: AlertType;
   title?: string;
   children: ReactNode;
 }
 
-const CALLOUT_LABEL: Record<CalloutType, string> = {
+const ALERT_LABEL: Record<AlertType, string> = {
   note: 'Note',
   tip: 'Tip',
   warning: 'Warning',
-  important: 'Important',
+  destructive: 'Destructive',
 };
 
-const Callout = ({ type = 'note', title, children }: CalloutProps) => {
-  const label = CALLOUT_LABEL[type];
+const ALERT_ICON = {
+  note: Info,
+  tip: Lightbulb,
+  warning: TriangleAlert,
+  destructive: CircleAlert,
+} satisfies Record<AlertType, LucideIcon>;
+
+const ALERT_TYPE_CLASS: Record<AlertType, string> = {
+  note: '',
+  tip: '',
+  warning:
+    'border-alert-warning-border bg-alert-warning-bg text-alert-warning [&_[data-alert-description]]:text-alert-warning-description [&_[data-alert-title]]:text-alert-warning [&_svg]:text-current',
+  destructive:
+    'border-alert-destructive-border bg-alert-destructive-bg text-alert-destructive [&_[data-alert-description]]:text-alert-destructive-description [&_[data-alert-title]]:text-alert-destructive [&_svg]:text-current',
+};
+
+const Alert = ({ type = 'note', title, children }: AlertProps) => {
+  const label = ALERT_LABEL[type];
+  const Icon = ALERT_ICON[type];
 
   return (
     <aside
       className={twMerge(
-        'column mt-6 gap-2 rounded-lg border p-3',
-        'border-callout-border bg-callout-bg text-gray-accent',
+        'mt-8 grid grid-cols-[auto_1fr] gap-x-3 rounded-xl border px-4 py-3.5',
+        'border-alert-border bg-alert-bg text-gray-accent',
         '[&_p:first-child]:mt-0 [&_p]:mt-2',
-        '[&_ol]:mt-2 [&_ul]:mt-2'
+        '[&_ol]:mt-2 [&_ul]:mt-2',
+        ALERT_TYPE_CLASS[type]
       )}
-      data-callout={type}
+      data-alert={type}
     >
-      <div className='h6 font-medium' data-callout-title>
+      <Icon className='mt-0.5 size-4 text-alert-icon' aria-hidden='true' />
+      <div className='font-semibold text-gray-accent text-sm leading-snug' data-alert-title>
         {title ?? label}
       </div>
-      <div className='mt-1'>{children}</div>
+      <div
+        className='col-start-2 mt-1 text-gray-mid text-sm leading-relaxed'
+        data-alert-description
+      >
+        {children}
+      </div>
     </aside>
   );
 };
+
+interface BadgeProps {
+  children: ReactNode;
+  tone?: 'default' | 'muted' | 'outline';
+}
+
+const BADGE_TONE_CLASS: Record<NonNullable<BadgeProps['tone']>, string> = {
+  default: 'border-transparent bg-gray-bold text-background',
+  muted: 'border-border bg-background02 text-gray-mid',
+  outline: 'border-border bg-transparent text-gray-bold',
+};
+
+const Badge = ({ children, tone = 'muted' }: BadgeProps) => (
+  <span
+    className={twMerge(
+      'inline-flex items-center rounded-full border px-2 py-0.5 font-medium text-xs leading-5',
+      BADGE_TONE_CLASS[tone]
+    )}
+  >
+    {children}
+  </span>
+);
+
+interface CardProps {
+  children?: ReactNode;
+  description?: ReactNode;
+  title?: ReactNode;
+}
+
+const Card = ({ title, description, children }: CardProps) => (
+  <section className='rounded-xl border border-border bg-background02 p-4'>
+    {title && <div className='font-semibold text-gray-accent text-sm leading-snug'>{title}</div>}
+    {description && <p className='mt-1 text-gray-mid text-sm leading-relaxed'>{description}</p>}
+    {children && <div className='mt-3 text-gray-bold text-sm leading-relaxed'>{children}</div>}
+  </section>
+);
+
+interface CardGridProps {
+  children: ReactNode;
+}
+
+const CardGrid = ({ children }: CardGridProps) => (
+  <div className='mt-6 grid gap-3 mobile:grid-cols-2'>{children}</div>
+);
 
 export const components = {
   h1: H1,
@@ -349,10 +419,17 @@ export const components = {
   code: Code,
   img: Img,
   hr: HR,
-  Callout,
+  Alert,
   Steps,
   Step,
   Table,
   Highlight,
+  Badge,
+  Card,
+  CardGrid,
+  Tabs,
+  Tab,
+  Accordion,
+  AccordionItem,
   Image,
 };

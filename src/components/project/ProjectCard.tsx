@@ -49,7 +49,7 @@ export const ProjectCard = ({
             draggable={false}
             fill
             priority={priority}
-            quality={75}
+            quality={100}
             sizes='(max-width: 59.9375rem) 100vw, (max-width: 79.9375rem) calc(50vw - 8rem), 33vw'
             src={coverImage}
             {...(coverImageBlur && { placeholder: 'blur', blurDataURL: coverImageBlur })}

@@ -9,13 +9,13 @@
 
   @media (min-width: 1280px) {
     html {
-      font-size: 17px;
+      font-size: 16.5px;
     }
   }
 
   @media (min-width: 1600px) {
     html {
-      font-size: 18px;
+      font-size: 17px;
     }
   }
 
@@ -124,43 +124,23 @@
     font-weight: 600;
   }
 
-  [data-callout="note"] {
-    --callout-bg: var(--callout-note-bg);
-    --callout-border: var(--callout-note-border);
+  [data-alert="note"] {
+    --alert-icon: var(--alert-note-icon);
   }
 
-  [data-callout="tip"] {
-    --callout-bg: var(--callout-tip-bg);
-    --callout-border: var(--callout-tip-border);
+  [data-alert="tip"] {
+    --alert-icon: var(--alert-tip-icon);
   }
 
-  [data-callout="warning"] {
-    --callout-bg: var(--callout-warning-bg);
-    --callout-border: var(--callout-warning-border);
+  [data-alert="warning"] {
+    --alert-icon: var(--alert-warning-icon);
   }
 
-  [data-callout="important"] {
-    --callout-bg: var(--callout-important-bg);
-    --callout-border: var(--callout-important-border);
+  [data-alert="destructive"] {
+    --alert-icon: var(--alert-destructive-icon);
   }
 
-  [data-callout="note"] [data-callout-title] {
-    color: var(--callout-note-title);
-  }
-
-  [data-callout="tip"] [data-callout-title] {
-    color: var(--callout-tip-title);
-  }
-
-  [data-callout="warning"] [data-callout-title] {
-    color: var(--callout-warning-title);
-  }
-
-  [data-callout="important"] [data-callout-title] {
-    color: var(--callout-important-title);
-  }
-
-  [data-callout] > :not([data-callout-title]) > * + * {
+  [data-alert] > :not([data-alert-title]) > * + * {
     margin-top: 8px;
   }
 

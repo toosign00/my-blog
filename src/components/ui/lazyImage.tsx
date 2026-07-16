@@ -15,6 +15,7 @@ export type LazyImageProps = {
   draggable?: boolean;
   title?: string;
   style?: CSSProperties;
+  quality?: number;
   onLoad?: () => void;
 };
 
@@ -28,6 +29,7 @@ export const LazyImage = ({
   draggable = false,
   title,
   style,
+  quality = 100,
   onLoad,
 }: LazyImageProps) => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -56,6 +58,7 @@ export const LazyImage = ({
           onLoad?.();
         }}
         placeholder={blurDataURL ? 'blur' : 'empty'}
+        quality={quality}
         sizes='(max-width: 60rem) 100vw, 47.375rem'
         src={src}
         style={style}

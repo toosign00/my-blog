@@ -45,7 +45,7 @@ export const PostGrid = ({
                   draggable={false}
                   fill
                   preload={preloadFirstImage && index === 0}
-                  quality={75}
+                  quality={100}
                   sizes='(max-width: 60rem) 100vw, (max-width: 80rem) calc(50vw - 9rem), 22rem'
                   src={coverImage}
                   {...(coverImageBlur && { placeholder: 'blur', blurDataURL: coverImageBlur })}
