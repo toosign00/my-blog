@@ -35,7 +35,7 @@ export const LazyImage = ({
 
   return (
     <span
-      className='relative block overflow-hidden rounded-lg'
+      className='relative block w-full overflow-hidden rounded-lg'
       style={{ aspectRatio: `${width} / ${height}` }}
     >
       {useShimmer && !isLoaded && (
@@ -45,7 +45,7 @@ export const LazyImage = ({
         alt={alt}
         blurDataURL={blurDataURL}
         className={twMerge(
-          'h-auto max-w-full transition-opacity duration-300',
+          'h-auto w-full max-w-full transition-opacity duration-300',
           useShimmer && !isLoaded ? 'opacity-0' : 'opacity-100',
           className
         )}
