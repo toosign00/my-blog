@@ -38,4 +38,5 @@
 # rename: rename or move files or folders
 # remove: delete files only
 # docs: add or update documentation
+# content: add or update MDX posts
 ################
