@@ -20,7 +20,6 @@
   }
 
   body {
-    padding-inline: var(--spacing-inline);
     padding-bottom: env(safe-area-inset-bottom);
     font-family: var(--font-body);
     text-rendering: optimizeLegibility;
