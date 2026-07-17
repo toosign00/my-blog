@@ -8,9 +8,7 @@ export const Layout = ({ children }: PropsWithChildren) => {
       <Sidebar />
       <Header />
       <ViewTransition name='cross'>
-        <main className='column w-full px-(--spacing-inline) pt-[2.65625rem] tablet:pt-25 pb-16.25'>
-          {children}
-        </main>
+        <main className='column w-full pt-[2.65625rem] tablet:pt-25 pb-16.25'>{children}</main>
       </ViewTransition>
     </div>
   );
