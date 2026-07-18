@@ -10,7 +10,6 @@
     "build": "next build",
     "start": "next start",
     "sync-covers": "node scripts/sync-covers.mjs",
-    "test:sitemap": "node --test --experimental-strip-types tests/sitemap-util.test.mjs",
     "prepare": "husky",
     "lint": "biome check --write",
     "type-check": "tsc --noEmit",
