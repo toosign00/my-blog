@@ -59,6 +59,7 @@ const validateProjectMetadata = (slug: string, metadata: ProjectMetadata) => {
   if (!isNonEmptyString(metadata.title)) errors.push('title is required');
   if (!isNonEmptyString(metadata.description)) errors.push('description is required');
   if (!isNonEmptyString(metadata.createdAt)) errors.push('createdAt is required');
+  if (!isNonEmptyString(metadata.modifiedAt)) errors.push('modifiedAt is required');
   if (!isNonEmptyString(metadata.coverImage)) errors.push('coverImage is required');
   if (isNonEmptyString(metadata.coverImage) && metadata.coverImage.includes('://')) {
     if (!isValidUrl(metadata.coverImage)) {
@@ -73,6 +74,9 @@ const validateProjectMetadata = (slug: string, metadata: ProjectMetadata) => {
   }
   if (metadata.createdAt && !isValidDateString(metadata.createdAt)) {
     errors.push('createdAt must be a valid date');
+  }
+  if (metadata.modifiedAt && !isValidDateString(metadata.modifiedAt)) {
+    errors.push('modifiedAt must be a valid date');
   }
   if (metadata.projectDue && !isValidDateString(metadata.projectDue)) {
     errors.push('projectDue must be a valid date');

@@ -2,6 +2,7 @@ export interface ProjectMetadata {
   title: string;
   description: string;
   createdAt: string;
+  modifiedAt: string;
   projectDue?: string;
   coverImage: string;
   heroImage?: string;
