@@ -54,10 +54,10 @@ export const Header = () => {
             <Link aria-label={METADATA.SITE.NAME} href={ROUTES.HOME}>
               <Image
                 alt={METADATA.SITE.NAME}
-                className='h-3 w-10 shrink-0 border-0 rounded-none'
-                height={12}
+                className='h-auto w-10 shrink-0 border-0 rounded-none'
+                height={32}
                 src='/favicon.svg'
-                width={40}
+                width={112}
               />
             </Link>
 
