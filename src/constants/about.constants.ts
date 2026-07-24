@@ -110,7 +110,8 @@ export const ABOUT = {
     {
       title: '고퀄',
       href: 'https://www.goqual.com',
-      period: '2026.05 - 재직 중',
+      startMonth: '2026.07',
+      endMonth: null,
       tags: ['정규직', 'QA Engineer'],
       description: [
         'IoT 앱, 디바이스, 클라우드기반 테스트 시나리오 및 테스트 케이스 설계',
@@ -122,7 +123,8 @@ export const ABOUT = {
     },
     {
       title: '근로복지공단 서울강남지사',
-      period: '2025.12 - 2026.02',
+      startMonth: '2025.12',
+      endMonth: '2026.02',
       tags: ['인턴', '경영복지부'],
       description: [
         '약 1000건의 대지급금/임금채권 서류 전산 처리, 오류 0건 달성',
@@ -132,7 +134,8 @@ export const ABOUT = {
     },
     {
       title: '세븐일레븐 안산고잔센터점',
-      period: '2022.12 - 2025.06',
+      startMonth: '2022.12',
+      endMonth: '2025.06',
       tags: ['아르바이트'],
       description: [
         '오픈 시간대 전담 근무로 매장 운영 전반(발주, 재고 관리, 진열) 수행',

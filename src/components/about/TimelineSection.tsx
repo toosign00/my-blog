@@ -1,14 +1,26 @@
 import { Fragment } from 'react';
 import { LinkEmbed } from '@/components/ui/linkEmbed';
+import { getEmploymentPeriodLabels } from '@/utils/employment-period-util';
+import { EmploymentPeriod } from './EmploymentPeriod';
 
-interface TimelineItem {
+interface TimelineItemBase {
   title: string;
   href?: string;
-  period: string;
   tags: readonly string[];
   description: readonly string[];
   embed?: string;
 }
+
+interface PeriodTimelineItem extends TimelineItemBase {
+  period: string;
+}
+
+interface EmploymentTimelineItem extends TimelineItemBase {
+  startMonth: string;
+  endMonth: string | null;
+}
+
+type TimelineItem = PeriodTimelineItem | EmploymentTimelineItem;
 
 interface TimelineSectionProps {
   heading: string;
@@ -53,7 +65,15 @@ export const TimelineSection = ({ heading, items }: TimelineSectionProps) => {
               ) : (
                 <span className='text-lg font-bold text-gray-bold'>{item.title}</span>
               )}
-              <span className='text-gray-mid font-mono text-sm'>{item.period}</span>
+              {'startMonth' in item ? (
+                <EmploymentPeriod
+                  startMonth={item.startMonth}
+                  endMonth={item.endMonth}
+                  initialLabels={getEmploymentPeriodLabels(item.startMonth, item.endMonth)}
+                />
+              ) : (
+                <span className='text-gray-mid font-mono text-sm'>{item.period}</span>
+              )}
             </div>
 
             <div className='flex items-center gap-2 text-gray-accent font-medium flex-wrap'>
