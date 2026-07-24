@@ -5,6 +5,12 @@ Behavioral guidelines to reduce common LLM coding mistakes. Merge with project-s
 
 **Tradeoff:** These guidelines bias toward caution over speed. For trivial tasks, use judgment.
 
+## Testing Guidelines
+
+Before Jest or unit test work, read `docs/testing/README.md` and
+`docs/testing/unit-testing.md`. These files define the required scope, conventions, mocking,
+coverage, and verification rules.
+
 ## 1. Think Before Coding
 
 **Don't assume. Don't hide confusion. Surface tradeoffs.**
