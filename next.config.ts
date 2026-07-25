@@ -36,6 +36,7 @@ const imageCdnCacheHeader = {
 
 const nextConfig: NextConfig = {
   trailingSlash: false,
+  transpilePackages: ['react-activity-calendar'],
   async headers() {
     const isProd = process.env.NODE_ENV === 'production';
     return [

@@ -33,20 +33,26 @@ const Tooltip = React.forwardRef<TooltipHandle>((_, ref) => {
         elRef.current.style.left = `${x}px`;
         elRef.current.style.top = `${y}px`;
         elRef.current.style.opacity = '1';
+        elRef.current.setAttribute('aria-hidden', 'false');
       }
       if (textRef.current) {
         textRef.current.textContent = content;
       }
     },
     hide() {
-      if (elRef.current) elRef.current.style.opacity = '0';
+      if (elRef.current) {
+        elRef.current.style.opacity = '0';
+        elRef.current.setAttribute('aria-hidden', 'true');
+      }
     },
   }));
 
   return (
     <div
       ref={elRef}
+      aria-hidden='true'
       className='fixed z-9999 pointer-events-none -translate-x-1/2 -translate-y-full'
+      role='tooltip'
       style={{ opacity: 0, marginTop: '-10px' }}
     >
       <div
@@ -76,20 +82,25 @@ const GitHubHeatmap = React.memo(function GitHubHeatmap({
   onLeave: () => void;
 }) {
   const renderBlock = React.useCallback(
-    (block: BlockElement, activity: Activity) =>
-      React.cloneElement(block, {
-        onMouseEnter: (e: React.MouseEvent) =>
-          onHover(e, `${activity.date}: ${activity.count}개 기여`),
+    (block: BlockElement, activity: Activity) => {
+      const content = `${activity.date}: ${activity.count}개 기여`;
+      return React.cloneElement(block, {
+        'aria-label': content,
+        onMouseEnter: (e: React.MouseEvent) => onHover(e, content),
         onMouseLeave: onLeave,
         className: 'cursor-crosshair',
-      }),
+        role: 'img',
+      });
+    },
     [onHover, onLeave]
   );
 
   return (
     <div className='space-y-3 w-full'>
       <div className='flex items-center justify-between'>
-        <h2 className='section-heading'>GitHub Contributions</h2>
+        <h2 className='section-heading' id='github-contributions-heading'>
+          GitHub Contributions
+        </h2>
         <span className='text-[11px] font-mono' style={{ color: 'var(--color-gray-light)' }}>
           @toosign00
         </span>
@@ -149,7 +160,10 @@ export const ActivityHeatmapClient = ({
   if (!mounted) return null;
 
   return (
-    <section className='column gap-8 pt-16.25 pb-0 w-full overflow-hidden'>
+    <section
+      aria-labelledby='github-contributions-heading'
+      className='column gap-8 pt-16.25 pb-0 w-full overflow-hidden'
+    >
       <Tooltip ref={tooltipRef} />
       {hasGitHub && (
         <GitHubHeatmap

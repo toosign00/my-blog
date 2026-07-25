@@ -7,7 +7,27 @@ const createJestConfig = nextJest({
 
 const config: Config = {
   clearMocks: true,
+  collectCoverageFrom: [
+    'src/components/ActivityHeatmap/ActivityHeatmapClient.tsx',
+    'src/components/AfterMount/index.tsx',
+    'src/components/ViewsWidget/ViewsWidgetClient.tsx',
+    'src/components/ui/postViews.tsx',
+    'src/components/ui/postViewsProvider.tsx',
+    'src/components/ui/relativeTime.tsx',
+    'src/hooks/useHasMounted.ts',
+    'src/hooks/useViews.ts',
+    'src/utils/date-util.ts',
+    'src/utils/github-contributions-util.ts',
+  ],
   coverageProvider: 'v8',
+  coverageThreshold: {
+    global: {
+      branches: 96.51,
+      functions: 96.66,
+      lines: 100,
+      statements: 100,
+    },
+  },
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
   },
