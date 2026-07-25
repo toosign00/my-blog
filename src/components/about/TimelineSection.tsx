@@ -7,7 +7,10 @@ interface TimelineItemBase {
   title: string;
   href?: string;
   tags: readonly string[];
-  description: readonly string[];
+  description: readonly {
+    title?: string;
+    items: readonly string[];
+  }[];
   embed?: string;
 }
 
@@ -26,6 +29,17 @@ interface TimelineSectionProps {
   heading: string;
   items: readonly TimelineItem[];
 }
+
+const TimelinePeriod = ({ item }: { item: TimelineItem }) =>
+  'startMonth' in item ? (
+    <EmploymentPeriod
+      startMonth={item.startMonth}
+      endMonth={item.endMonth}
+      initialLabels={getEmploymentPeriodLabels(item.startMonth, item.endMonth)}
+    />
+  ) : (
+    <span className='text-gray-mid font-mono text-sm'>{item.period}</span>
+  );
 
 const ExternalLinkIcon = () => (
   <svg
@@ -51,7 +65,10 @@ export const TimelineSection = ({ heading, items }: TimelineSectionProps) => {
       <h3 className='section-heading'>{heading}</h3>
       <ul className='column gap-8'>
         {items.map((item) => (
-          <li key={item.title} className='flex flex-col gap-2'>
+          <li
+            key={`${item.title}-${'startMonth' in item ? item.startMonth : item.period}`}
+            className='flex flex-col gap-2'
+          >
             <div className='flex flex-col tablet:flex-row tablet:justify-between gap-1 tablet:gap-4 items-start tablet:items-center'>
               {item.href ? (
                 <a
@@ -65,29 +82,38 @@ export const TimelineSection = ({ heading, items }: TimelineSectionProps) => {
               ) : (
                 <span className='text-lg font-bold text-gray-bold'>{item.title}</span>
               )}
-              {'startMonth' in item ? (
-                <EmploymentPeriod
-                  startMonth={item.startMonth}
-                  endMonth={item.endMonth}
-                  initialLabels={getEmploymentPeriodLabels(item.startMonth, item.endMonth)}
-                />
-              ) : (
-                <span className='text-gray-mid font-mono text-sm'>{item.period}</span>
-              )}
+              <div className='hidden tablet:block'>
+                <TimelinePeriod item={item} />
+              </div>
             </div>
 
-            <div className='flex items-center gap-2 text-gray-accent font-medium flex-wrap'>
+            <div className='flex items-center gap-2 text-sm text-gray-mid font-medium flex-wrap'>
               {item.tags.map((tag, i) => (
                 <Fragment key={tag}>
                   {i > 0 && <span className='w-px h-3 bg-border' />}
                   <span>{tag}</span>
                 </Fragment>
               ))}
+              <span aria-hidden='true' className='w-px h-3 bg-border tablet:hidden' />
+              <div className='font-normal tablet:hidden'>
+                <TimelinePeriod item={item} />
+              </div>
             </div>
 
-            <div className='column gap-1 text-gray-mid leading-relaxed'>
-              {item.description.map((line) => (
-                <p key={line}>{line}</p>
+            <div className='column gap-4 leading-relaxed'>
+              {item.description.map((group) => (
+                <div className='column gap-1' key={group.title ?? group.items[0]}>
+                  {group.title && (
+                    <h4 className='font-semibold text-[17px] text-gray-bold leading-[1.24] tracking-[-0.022em]'>
+                      {group.title}
+                    </h4>
+                  )}
+                  {group.items.map((line) => (
+                    <p className='text-gray-mid' key={line}>
+                      {line}
+                    </p>
+                  ))}
+                </div>
               ))}
             </div>
 
