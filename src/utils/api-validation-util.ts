@@ -61,8 +61,8 @@ const mappedIPv4FromIPv6 = (hostname: string): string | null => {
 const isPrivateIPv6 = (hostname: string): boolean => {
   const normalized = hostname.toLowerCase().replace(/^\[|\]$/g, '');
   const mappedIPv4 = mappedIPv4FromIPv6(normalized);
-  if (mappedIPv4) {
-    return isPrivateIPv4(mappedIPv4);
+  if (normalized.startsWith('::ffff:')) {
+    return mappedIPv4 === null || isPrivateIPv4(mappedIPv4);
   }
 
   return (
