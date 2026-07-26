@@ -7,11 +7,11 @@ import { Divider } from '@/components/ui/divider';
 import { ROUTES } from '@/constants/menu.constants';
 import { METADATA } from '@/constants/metadata.constants';
 import { generatePageMetadata } from '@/utils/metadata-util';
+import { getRecommendedProjects } from '@/utils/project-recommendation-util';
 import {
   getAllProjects,
   getProjectBySlug,
   getProjectPageDataBySlug,
-  getRecommendedProjects,
   ProjectNotFoundError,
 } from '@/utils/project-util';
 import { Footer } from './_components/footer';
