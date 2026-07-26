@@ -8,12 +8,17 @@ const createJestConfig = nextJest({
 const config: Config = {
   clearMocks: true,
   collectCoverageFrom: [
+    'src/app/(default)/posts/[slug]/_components/footer.tsx',
+    'src/app/(wide)/projects/[slug]/_components/footer.tsx',
     'src/components/ActivityHeatmap/ActivityHeatmapClient.tsx',
     'src/components/AfterMount/index.tsx',
     'src/components/ViewsWidget/ViewsWidgetClient.tsx',
     'src/components/project/ProjectCard.tsx',
     'src/components/project/ProjectList.tsx',
     'src/components/project/ProjectSection.tsx',
+    'src/components/ui/backButton.tsx',
+    'src/components/ui/contentFooter.tsx',
+    'src/components/ui/pagination.tsx',
     'src/components/ui/postViews.tsx',
     'src/components/ui/postViewsProvider.tsx',
     'src/components/ui/relativeTime.tsx',
@@ -28,8 +33,8 @@ const config: Config = {
   coverageProvider: 'v8',
   coverageThreshold: {
     global: {
-      branches: 98.44,
-      functions: 97.91,
+      branches: 99.56,
+      functions: 100,
       lines: 100,
       statements: 100,
     },

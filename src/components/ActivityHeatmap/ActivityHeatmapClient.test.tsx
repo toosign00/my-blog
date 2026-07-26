@@ -3,13 +3,15 @@ import userEvent from '@testing-library/user-event';
 import type { Activity } from 'react-activity-calendar';
 import { ActivityHeatmapClient } from './ActivityHeatmapClient';
 
+let mockResolvedTheme: 'light' | 'dark' = 'light';
+
 jest.mock('next-themes', () => ({
   useTheme: () => ({
     forcedTheme: undefined,
-    resolvedTheme: 'light',
+    resolvedTheme: mockResolvedTheme,
     setTheme: jest.fn(),
     systemTheme: 'light',
-    theme: 'light',
+    theme: mockResolvedTheme,
     themes: ['light', 'dark'],
   }),
 }));
@@ -21,6 +23,10 @@ const githubActivity: Activity[] = [
     level: 2,
   },
 ];
+
+beforeEach(() => {
+  mockResolvedTheme = 'light';
+});
 
 it('exposes the GitHub contributions panel as a named region', async () => {
   render(<ActivityHeatmapClient githubActivity={githubActivity} />);
@@ -67,4 +73,18 @@ it('hides contribution details when the pointer leaves a day', async () => {
   await user.unhover(day);
 
   expect(tooltip).toHaveAttribute('aria-hidden', 'true');
+});
+
+it('uses the dark color scheme for contribution cells in dark mode', async () => {
+  mockResolvedTheme = 'dark';
+
+  render(<ActivityHeatmapClient githubActivity={githubActivity} />);
+
+  expect(
+    await screen.findByRole('img', {
+      name: '2026-07-25: 3개 기여',
+    })
+  ).toHaveStyle({
+    stroke: 'rgba(255, 255, 255, 0.04)',
+  });
 });
