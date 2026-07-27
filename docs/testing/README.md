@@ -11,6 +11,9 @@
 - Custom Hook
 - 프레임워크에서 독립적으로 분리된 서버 비즈니스 로직
 
+현재 커버리지 상태와 다음 테스트 대상은
+[`coverage-roadmap.md`](./coverage-roadmap.md)에서 확인합니다.
+
 ## 유닛 테스트 제외 대상
 
 다음 대상은 Jest로 억지로 테스트하지 않습니다.
