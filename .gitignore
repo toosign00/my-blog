@@ -401,6 +401,7 @@ public/covers/**
 .omc
 .claude
 .cursor
+.agent
 
 # Local git worktrees
 .worktrees/
