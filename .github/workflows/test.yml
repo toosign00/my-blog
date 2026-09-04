@@ -22,12 +22,12 @@ jobs:
       - uses: actions/checkout@v5
 
       # Reads pnpm from packageManager in package.json, installs Node.js and
-      # runs pnpm install --frozen-lockfile in the same step.
+      # runs pnpm install in the same step. pnpm freezes the lockfile on CI by
+      # default, so no extra flag is needed here.
       - uses: pnpm/setup@v2
         with:
           runtime: node@22
           cache: true
-          require-lockfile: true
 
       # Without --write so a violation fails the job instead of being fixed.
       - run: pnpm exec biome check .
