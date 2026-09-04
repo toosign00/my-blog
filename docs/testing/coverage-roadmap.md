@@ -6,18 +6,26 @@
 
 ## 현재 기준선
 
-2026년 7월 26일, 커밋 `c25c47f` 이후 기준입니다.
+2026년 9월 4일 기준입니다.
 
-- 테스트 스위트: 21개
-- 테스트: 141개
+- 테스트 스위트: 36개
+- 테스트: 307개
 - Statements: 100%
-- Branches: 99.69%
+- Branches: 99.81%
 - Functions: 100%
 - Lines: 100%
 
-`ViewsWidgetClient.tsx`의 중복 방문 기록 방지 가드 한 분기가 수치상 남아 있습니다. 이미
-Strict Mode에서 방문 기록이 한 번만 발생하는 공개 동작을 검증하고 있으므로, 내부 Hook이나
-ref를 조작해 해당 분기만 실행하는 테스트는 추가하지 않습니다.
+위 수치는 `jest.config.ts`의 `collectCoverageFrom` 대상 파일에 대한 값입니다. 참고로
+`src/**` 전체를 수집 대상으로 삼아 측정하면 Statements 33.46%, Branches 85.33%,
+Functions 55.39%입니다.
+
+다음 두 분기는 수치상 남아 있으며, 의도적으로 덮지 않습니다.
+
+- `ViewsWidgetClient.tsx`의 중복 방문 기록 방지 가드. Strict Mode에서 방문 기록이 한 번만
+  발생하는 공개 동작을 이미 검증하고 있으므로 내부 Hook이나 ref를 조작하지 않습니다.
+- `view-counter.tsx`의 같은 가드. Strict Mode 이중 실행은 테스트 파일의 첫 `render()`
+  호출에서만 발생하므로, 이 분기를 덮으려면 테스트 선언 순서에 의존해야 합니다. 따라서
+  테스트는 유지하되 파일을 `collectCoverageFrom`에 추가하지 않았습니다.
 
 ## 완료한 범위
 
@@ -42,53 +50,39 @@ ref를 조작해 해당 분기만 실행하는 테스트는 추가하지 않습�
 - Web Share, Clipboard, legacy 복사 fallback
 - 페이지네이션 범위와 이전·다음 링크
 - 게시글·프로젝트 상세 footer의 공유 URL
+- 링크 미리보기 카드와 mention의 로딩·성공·실패 상태와 이미지 fallback
+- MDX Tabs와 Accordion의 선택 상태와 ARIA 속성
+- 목차의 활성 heading 갱신과 부드러운 스크롤
+
+### About
+
+- 재직 기간 계산과 클라이언트 재계산
+- 연락처 복사 성공·실패 toast와 외부 링크 속성
+
+### 순수 콘텐츠 유틸리티
+
+- 빈 문자열, 문자열 배열, 날짜, URL 판별과 cover 경로 생성
+- slug 생성과 잘못 인코딩된 URL segment fallback
+- 최신 게시글·프로젝트 날짜 선택과 ISO 변환, 파싱할 수 없는 날짜 무시
+- XML escape와 CDATA 분할
+- 기본 metadata와 article metadata 생성
 
 ### API 경계에서 분리된 유틸리티
 
 - 링크 미리보기 URL과 DNS 주소 검증
 - 사설 IPv4·IPv6 및 잘못된 IPv4-mapped IPv6 차단
+- 링크 미리보기 HTML 파싱, 본문 크기 상한, 리다이렉트 홉별 주소 재검증
 - HTML Content-Type과 조회수 pathname 검증
 - 조회수 배치 중복 제거, 최대 개수 제한, 결과 매핑
+- D1 쿼리의 환경변수 누락, HTTP 실패, API 오류, statement 오류 처리
+- 조회수 조회의 기본값과 Asia/Seoul 기준 날짜
 
 ## 다음 우선순위
 
 한 번에 한 묶음만 진행합니다. 각 묶음이 끝날 때 관련 파일을 `collectCoverageFrom`에 추가하고
 커버리지 기준선을 갱신합니다.
 
-### 1. 재직 기간
-
-대상:
-
-- `src/utils/employment-period-util.ts`
-- `src/components/about/EmploymentPeriod.tsx`
-
-검증할 공개 동작:
-
-- 1년 미만, 정확히 1년, 1년과 남은 개월 수 표시
-- 종료일이 없는 재직 기간을 고정된 기준 날짜로 계산
-- 잘못된 시작일 또는 종료일이면 기간만 표시
-- 종료일이 시작일보다 빠르면 음수가 아닌 `0개월` 표시
-- Client Component가 초기 label을 표시하고 입력 변경 후 다시 계산
-
-### 2. 링크 미리보기 UI
-
-대상:
-
-- `src/components/ui/linkEmbed.tsx`
-
-검증할 공개 동작:
-
-- 필요한 수동 metadata가 있으면 API를 호출하지 않고 card 또는 mention 표시
-- metadata를 불러오는 동안 variant에 맞는 loading 상태 표시
-- API 성공 시 제목, 설명, 이미지, hostname 표시
-- API 실패 시 안전한 일반 링크로 fallback
-- thumbnail 또는 favicon 로드 실패 시 깨진 이미지를 숨기고 fallback 표시
-- 모든 외부 링크에 새 창과 `noopener noreferrer` 적용
-
-`fetch`와 `next/image`만 외부 경계로 최소 mock하고, mock 호출 여부만으로 테스트를 끝내지
-않습니다.
-
-### 3. 탐색과 사용자 동작 UI
+### 1. 탐색과 사용자 동작 UI
 
 대상:
 
@@ -106,35 +100,37 @@ ref를 조작해 해당 분기만 실행하는 테스트는 추가하지 않습�
 
 스타일 클래스 자체보다 role, label, 링크, 표시 문구와 사용자 동작을 우선 검증합니다.
 
-### 4. 순수 콘텐츠 유틸리티
+### 2. 오류 경계
 
 대상:
 
-- `src/utils/content-util.ts`
-- `src/utils/text-util.ts`
-- `src/utils/employment-period-util.ts`
-- `src/utils/sitemap-util.ts`
-- `src/utils/xml-util.ts`
-- `src/utils/metadata-util.ts`
+- `src/app/error.tsx`
+- `src/app/global-error.tsx`
 
 검증할 공개 동작:
 
-- 빈 문자열, 문자열 배열, 날짜, URL 판별
-- 원격 이미지와 로컬 cover 경로 생성
-- slug 생성과 잘못 인코딩된 URL segment fallback
-- 최신 게시글·프로젝트 날짜 선택과 ISO 변환
-- XML escape와 CDATA 분할
-- 기본 metadata와 article metadata 생성
+- 오류 문구 표시와 `reset` 호출
 
-1번에서 `employment-period-util.ts`를 완료했다면 이 묶음에서는 중복 작업하지 않습니다.
+### 3. 콘텐츠 메타데이터 검증
 
-### 5. 외부 경계가 있는 서버 유틸리티
+대상:
+
+- `src/utils/post-util.ts`의 `validatePostMetadata`
+- `src/utils/project-util.ts`의 `validateProjectMetadata`
+
+두 함수는 현재 export되지 않아 그대로는 테스트할 수 없습니다. 진행하려면 export를 추가하거나
+별도 검증 유틸리티로 분리해야 하므로, 착수 전에 변경 이유와 범위를 먼저 밝히고 승인받습니다.
+
+검증할 공개 동작:
+
+- 필수 필드 누락, 잘못된 날짜, 잘못된 URL, 태그 형식 오류에 대한 오류 메시지
+- 여러 오류가 한 번에 보고되는지
+
+### 4. 외부 경계가 있는 나머지 서버 유틸리티
 
 후순위 대상:
 
-- `src/utils/views-util.ts`
 - `src/utils/link-preview-request-util.ts`
-- `src/utils/d1-util.ts`
 - `src/utils/blur-util.ts`
 - `src/utils/image-placeholder-util.ts`
 - `src/utils/post-util.ts`
@@ -147,6 +143,8 @@ ref를 조작해 해당 분기만 실행하는 테스트는 추가하지 않습�
 - SQL 문자열이나 mock 호출만 확인하지 않고, 최종 반환값과 오류·기본값을 검증합니다.
 - 파일 로딩 유틸리티는 작은 fixture로 공개 결과를 검증할 수 있을 때만 진행합니다.
 - 테스트를 위해 Next.js 런타임 전체를 mock해야 한다면 Jest 대상에서 제외합니다.
+- `image-placeholder-util.ts`는 `parseRemoteImageUrl`과 `isRemoteImagePlaceholder`처럼 sharp
+  없이 검증 가능한 순수 로직부터 다룹니다.
 
 ## Jest에서 제외할 범위
 
