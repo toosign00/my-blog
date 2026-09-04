@@ -13,11 +13,6 @@ const securityHeaders = [
   { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
 ];
 
-const pageCacheHeader = {
-  key: 'Cache-Control',
-  value: 'public, max-age=0, s-maxage=31536000',
-};
-
 const staticAssetCacheHeaders = [
   {
     key: 'Cache-Control',
@@ -61,10 +56,6 @@ const nextConfig: NextConfig = {
             {
               source: '/_next/image',
               headers: [imageCdnCacheHeader],
-            },
-            {
-              source: '/((?!api(?:/|$)|_next(?:/|$)|.*\\..*).*)',
-              headers: [pageCacheHeader],
             },
           ]
         : []),

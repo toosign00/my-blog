@@ -38,14 +38,16 @@ it('exposes the GitHub contributions panel as a named region', async () => {
   ).toBeInTheDocument();
 });
 
-it('does not expose the GitHub contributions panel without activity data', () => {
-  render(<ActivityHeatmapClient githubActivity={null} />);
+it('renders nothing when activity data is null', () => {
+  const { container } = render(<ActivityHeatmapClient githubActivity={null} />);
 
-  expect(
-    screen.queryByRole('region', {
-      name: 'GitHub Contributions',
-    })
-  ).not.toBeInTheDocument();
+  expect(container).toBeEmptyDOMElement();
+});
+
+it('renders nothing when activity data is empty', () => {
+  const { container } = render(<ActivityHeatmapClient githubActivity={[]} />);
+
+  expect(container).toBeEmptyDOMElement();
 });
 
 it('shows contribution details while a day is hovered', async () => {
