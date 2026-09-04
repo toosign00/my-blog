@@ -1,0 +1,35 @@
+name: Test
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      # Reads pnpm from packageManager in package.json, installs Node.js and
+      # runs pnpm install --frozen-lockfile in the same step.
+      - uses: pnpm/setup@v2
+        with:
+          runtime: node@22
+          cache: true
+          require-lockfile: true
+
+      # Without --write so a violation fails the job instead of being fixed.
+      - run: pnpm exec biome check .
+
+      - run: pnpm test:coverage
