@@ -205,6 +205,10 @@
 }
 
 @supports (view-transition-name: none) {
+  ::view-transition-group(cross) {
+    animation: none;
+  }
+
   @media not (prefers-reduced-motion: reduce) {
     ::view-transition-old(cross) {
       animation: hide 0.4s cubic-bezier(0.6, 0, 0.8, 1) forwards;
