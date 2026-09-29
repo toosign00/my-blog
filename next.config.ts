@@ -35,6 +35,7 @@ const imageCdnCacheHeader = {
 };
 
 const nextConfig: NextConfig = {
+  ...(process.env.E2E_TEST === '1' && { distDir: '.next-e2e' }),
   trailingSlash: false,
   transpilePackages: ['react-activity-calendar'],
   async headers() {
@@ -72,6 +73,7 @@ const nextConfig: NextConfig = {
   },
   pageExtensions: ['js', 'jsx', 'mdx', 'ts', 'tsx'],
   experimental: {
+    ...(process.env.E2E_TEST === '1' && { testProxy: true }),
     mdxRs: {
       mdxType: 'gfm',
     },
