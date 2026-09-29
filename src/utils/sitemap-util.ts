@@ -6,7 +6,9 @@ export const getLatestDate = <T>(
 
   for (const item of items) {
     const date = getDate(item);
-    if (date && (!latest || Date.parse(date) > Date.parse(latest))) {
+    const time = date ? Date.parse(date) : Number.NaN;
+
+    if (Number.isFinite(time) && (!latest || time > Date.parse(latest))) {
       latest = date;
     }
   }

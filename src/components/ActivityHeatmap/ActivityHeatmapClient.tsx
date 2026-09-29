@@ -155,9 +155,7 @@ export const ActivityHeatmapClient = ({
   }, []);
 
   const colorScheme = resolvedTheme === 'dark' ? 'dark' : 'light';
-  const hasGitHub = Array.isArray(githubActivity) && githubActivity.length > 0;
-
-  if (!mounted) return null;
+  if (!mounted || !githubActivity?.length) return null;
 
   return (
     <section
@@ -165,14 +163,12 @@ export const ActivityHeatmapClient = ({
       className='column gap-8 pt-16.25 pb-0 w-full overflow-hidden'
     >
       <Tooltip ref={tooltipRef} />
-      {hasGitHub && (
-        <GitHubHeatmap
-          githubActivity={githubActivity as Activity[]}
-          colorScheme={colorScheme}
-          onHover={handleHover}
-          onLeave={hideTooltip}
-        />
-      )}
+      <GitHubHeatmap
+        githubActivity={githubActivity}
+        colorScheme={colorScheme}
+        onHover={handleHover}
+        onLeave={hideTooltip}
+      />
     </section>
   );
 };

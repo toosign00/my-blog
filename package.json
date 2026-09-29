@@ -36,7 +36,7 @@
     "react": "^19.3.0",
     "react-activity-calendar": "^3.2.1",
     "react-dom": "^19.3.0",
-    "sharp": "0.35.3",
+    "sharp": "0.35.4",
     "sonner": "^2.0.8",
     "tailwind-merge": "^3.7.0"
   },
@@ -70,5 +70,5 @@
     "ts-node": "^10.9.2",
     "typescript": "^6.0.3"
   },
-  "packageManager": "pnpm@11.22.0"
+  "packageManager": "pnpm@11.25.0"
 }

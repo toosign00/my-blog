@@ -26,6 +26,17 @@ const posts = [
   { category: 'React', createdAt: '2026-02-01' },
 ];
 
+it.each([
+  ['2026-13-01', '2026-05-01'],
+  ['2026-05-01', '2026-13-01'],
+])('skips unparseable dates in %s and %s', (first, second) => {
+  expect(getLatestDate([first, second], (value) => value)).toBe('2026-05-01');
+});
+
+it('returns no date when every date is unparseable', () => {
+  expect(getLatestDate(['2026-13-01', '26-06-2026'], (value) => value)).toBeUndefined();
+});
+
 it('uses modified dates when present and creation dates otherwise', () => {
   expect(getLatestPostDate(posts)).toBe('2026-09-01');
   expect(getLatestPostDate([posts[1]])).toBe('2026-08-01');

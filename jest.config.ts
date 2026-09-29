@@ -40,6 +40,7 @@ const config: Config = {
     'src/utils/d1-util.ts',
     'src/utils/views-util.ts',
     'src/utils/link-preview-request-util.ts',
+    'src/utils/link-preview-util.ts',
     'src/utils/blur-util.ts',
     'src/utils/image-placeholder-util.ts',
     'src/utils/post-util.ts',
@@ -59,7 +60,7 @@ const config: Config = {
   coverageProvider: 'v8',
   coverageThreshold: {
     global: {
-      branches: 99.86,
+      branches: 99.87,
       functions: 100,
       lines: 100,
       statements: 100,
