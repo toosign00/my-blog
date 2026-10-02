@@ -12,6 +12,7 @@ import { GitIcon } from '@/components/icons/GitIcon';
 import { GoogleSheetsIcon } from '@/components/icons/GoogleSheetsIcon';
 import { JavaScriptIcon } from '@/components/icons/JavaScriptIcon';
 import { JiraIcon } from '@/components/icons/JiraIcon';
+import { MaestroIcon } from '@/components/icons/MaestroIcon';
 import { MySQLIcon } from '@/components/icons/MySQLIcon';
 import { NotionIcon } from '@/components/icons/NotionIcon';
 import { PlaywrightIcon } from '@/components/icons/PlaywrightIcon';
@@ -29,6 +30,7 @@ const ICON_MAP: Record<string, ComponentType<IconProps>> = {
   'gemini-cli': GeminiCliIcon,
   playwright: PlaywrightIcon,
   appium: AppiumIcon,
+  maestro: MaestroIcon,
   postman: PostmanIcon,
   jira: JiraIcon,
   confluence: ConfluenceIcon,

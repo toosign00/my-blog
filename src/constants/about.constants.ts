@@ -59,6 +59,7 @@ export const ABOUT = {
       items: [
         { label: 'Playwright', icon: 'playwright' },
         { label: 'Appium', icon: 'appium' },
+        { label: 'Maestro', icon: 'maestro' },
         { label: 'Postman', icon: 'postman' },
         { label: 'Chrome DevTools', icon: 'chrome' },
       ],
