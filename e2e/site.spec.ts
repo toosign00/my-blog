@@ -125,3 +125,90 @@ test('loads Giscus with the selected theme and cleans up after navigation', asyn
   await expect(page).toHaveURL(/\/posts$/);
   await expect(page.getByTitle('Comments')).toHaveCount(0);
 });
+
+for (const [kind, response] of [
+  ['an empty activity list', () => Response.json({ contributions: [] })],
+  ['an upstream error', () => new Response(null, { status: 500 })],
+] as const) {
+  test(`omits the GitHub contributions section without errors for ${kind}`, async ({
+    page,
+    next,
+  }) => {
+    next.onFetch((request) =>
+      new URL(request.url).hostname === 'github-contributions-api.jogruber.de'
+        ? response()
+        : 'abort'
+    );
+    const errors: string[] = [];
+    page.on('pageerror', (error) => errors.push(error.message));
+    page.on('console', (message) => {
+      // Blocked external images are expected; the calendar throws on empty data.
+      if (message.type() === 'error' && !message.text().startsWith('Failed to load resource')) {
+        errors.push(message.text());
+      }
+    });
+    await page.goto('/');
+    // The heatmap renders after mount; the theme toggle marks hydration as complete.
+    await expect(page.getByRole('button', { name: 'Toggle dark or light mode' })).toBeVisible();
+    await expect(page.locator('#github-contributions-heading')).toHaveCount(0);
+    expect(errors).toEqual([]);
+  });
+}
+
+test('renders the GitHub contributions section from returned activity', async ({ page, next }) => {
+  next.onFetch((request) => {
+    if (new URL(request.url).hostname === 'github-contributions-api.jogruber.de') {
+      return Response.json({ contributions: [{ date: '2026-09-01', count: 3, level: 2 }] });
+    }
+    return 'abort';
+  });
+  await page.goto('/');
+  const section = page.getByRole('region', { name: 'GitHub Contributions' });
+  await expect(section).toBeVisible();
+  await expect(section.getByRole('heading', { name: 'GitHub Contributions' })).toBeVisible();
+});
+
+test('renders every sitemap page with a heading and without client errors', async ({
+  page,
+  next,
+}) => {
+  void next;
+  test.slow();
+  const sitemap = await (await page.request.get('/sitemap.xml')).text();
+  const paths = [...sitemap.matchAll(/<loc>https:\/\/toosign\.me([^<]*)<\/loc>/g)].map(
+    ([, path]) => path || '/'
+  );
+  expect(paths.length).toBeGreaterThan(0);
+  const errors: string[] = [];
+  page.on('pageerror', (error) => errors.push(`${page.url()}: ${error.message}`));
+  page.on('console', (message) => {
+    // Blocked external images and scripts are expected in the isolated test server.
+    if (message.type() === 'error' && !message.text().startsWith('Failed to load resource')) {
+      errors.push(`${page.url()}: ${message.text()}`);
+    }
+  });
+  for (const path of paths) {
+    const response = await page.goto(path);
+    expect(response?.status(), path).toBe(200);
+    await expect(page.getByRole('heading', { level: 1 }).first(), path).toBeAttached();
+  }
+  expect(errors).toEqual([]);
+});
+
+test('allows crawling and points robots.txt at the sitemap', async ({ request }) => {
+  const response = await request.get('/robots.txt');
+  expect(response.status()).toBe(200);
+  const body = await response.text();
+  expect(body).toMatch(/^User-Agent: \*$/m);
+  expect(body).toMatch(/^Allow: \/$/m);
+  expect(body).toMatch(/^Sitemap: https:\/\/toosign\.me\/sitemap\.xml$/m);
+});
+
+test('sends security headers on pages, feeds and API responses', async ({ request }) => {
+  for (const path of ['/', '/posts/filmlog-01', '/rss.xml', '/api/link-preview']) {
+    const headers = (await request.get(path)).headers();
+    expect(headers['x-frame-options'], path).toBe('SAMEORIGIN');
+    expect(headers['x-content-type-options'], path).toBe('nosniff');
+    expect(headers['referrer-policy'], path).toBe('strict-origin-when-cross-origin');
+  }
+});
