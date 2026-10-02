@@ -1,7 +1,7 @@
 import { expect, test } from './fixtures';
 
-// A public literal address avoids DNS. All outbound HTTP is intercepted by next.onFetch.
-const previewOrigin = 'https://93.184.216.34';
+// A public HTTP literal avoids DNS and TLS SNI; next.onFetch intercepts all requests.
+const previewOrigin = 'http://93.184.216.34';
 
 test('extracts preview metadata after a safe relative redirect', async ({ page, next }) => {
   next.onFetch((request) => {
@@ -46,6 +46,10 @@ test('rejects unsafe redirects, non-HTML responses, oversized HTML and upstream 
         return Response.json({ title: 'Not HTML' });
       case '/large':
         return new Response('x'.repeat(512_001), { headers: { 'Content-Type': 'text/html' } });
+      case '/large-tag':
+        return new Response(`<meta content="${'x'.repeat(8192)}">`, {
+          headers: { 'Content-Type': 'text/html' },
+        });
       default:
         return new Response(null, { status: 503 });
     }
@@ -55,6 +59,7 @@ test('rejects unsafe redirects, non-HTML responses, oversized HTML and upstream 
     ['/loop', 400, 'Too many redirects'],
     ['/json', 415, 'Target URL did not return HTML'],
     ['/large', 413, 'Target HTML is too large'],
+    ['/large-tag', 413, 'Target HTML metadata tag is too large'],
     ['/unavailable', 502, 'Failed to fetch target URL'],
   ] as const) {
     const response = await page.goto(
@@ -62,6 +67,29 @@ test('rejects unsafe redirects, non-HTML responses, oversized HTML and upstream 
     );
     expect(response?.status()).toBe(status);
     expect(await response?.json()).toEqual({ error });
+  }
+});
+
+test('handles repeated unmatched metadata openers within the body limit', async ({
+  page,
+  next,
+}) => {
+  next.onFetch((request) => {
+    if (!request.url.startsWith(previewOrigin)) return undefined;
+    const tag = new URL(request.url).pathname.slice(1);
+    return new Response(`${`<${tag} `.repeat(68000)}<title>Valid</title>`, {
+      headers: { 'Content-Type': 'text/html' },
+    });
+  });
+  for (const tag of ['meta', 'link', 'title']) {
+    const response = await page.goto(
+      `/api/link-preview?url=${encodeURIComponent(`${previewOrigin}/${tag}`)}`
+    );
+    expect(response?.status()).toBe(200);
+    expect(await response?.json()).toEqual({
+      title: 'Valid',
+      favicon: `${previewOrigin}/favicon.ico`,
+    });
   }
 });
 

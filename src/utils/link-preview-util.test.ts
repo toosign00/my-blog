@@ -6,6 +6,7 @@ import {
   fetchSafeUrl,
   LinkPreviewError,
   MAX_HTML_BYTES,
+  MAX_METADATA_TAG_LENGTH,
   MAX_REDIRECTS,
   parseMetadata,
   readHtml,
@@ -28,6 +29,70 @@ const createHtmlResponse = (chunks: string[]): Response => {
 };
 
 describe('parseMetadata', () => {
+  it('reads reordered, case-insensitive and unquoted attributes without changing values', () => {
+    const html = `<META CONTENT="A < B > C's" PROPERTY='OG:TITLE' disabled>
+      <meta content='Description' NAME=description><link href=/icon.png REL=icon>`;
+    expect(parseMetadata(html, SOURCE_URL)).toEqual({
+      title: "A < B > C's",
+      description: 'Description',
+      image: undefined,
+      favicon: 'https://example.com/icon.png',
+    });
+  });
+
+  it('keeps the first metadata, title and icon values', () => {
+    const html = `<title>First</title><title>Second</title>
+      <meta name=description content=first content=duplicate>
+      <meta name=description content=second>
+      <link rel=icon href=/first.png><link rel=icon href=/second.png>`;
+    expect(parseMetadata(html, SOURCE_URL)).toMatchObject({
+      title: 'First',
+      description: 'first',
+      favicon: 'https://example.com/first.png',
+    });
+  });
+
+  it.each(['meta', 'link', 'title'])('recovers from unmatched %s openers', (tag) => {
+    const html = `${`<${tag} `.repeat(1000)}<title>Valid</title>`;
+    expect(parseMetadata(html, SOURCE_URL).title).toBe('Valid');
+  });
+
+  it.each([
+    '<meta content="',
+    '<link rel="icon" ',
+    '<title data-extra="',
+    `<meta ${'property="og:title" '.repeat(500)}`,
+    `<link ${'rel="icon" '.repeat(900)}`,
+  ])('rejects an oversized metadata tag: %s', (prefix) => {
+    expect(() => parseMetadata(prefix + 'a'.repeat(MAX_METADATA_TAG_LENGTH), SOURCE_URL)).toThrow(
+      new LinkPreviewError('Target HTML metadata tag is too large', 413)
+    );
+  });
+
+  it('accepts a metadata tag at the length limit', () => {
+    const prefix = '<meta name=description content="';
+    const content = 'a'.repeat(MAX_METADATA_TAG_LENGTH - prefix.length - 2);
+    expect(parseMetadata(`${prefix}${content}">`, SOURCE_URL).description).toBe(content);
+  });
+
+  it.each([
+    '<meta ',
+    '<meta content="unfinished',
+    '<title>unfinished',
+    '<title></title>',
+    '<title>nested<b>text</b></title>',
+    '<metadata name=description content=wrong>',
+    '<meta content=unused><meta name=description content="">',
+    '<link href=/no-rel.png><link rel=icon><link rel=icon href="">',
+  ])('ignores incomplete or irrelevant metadata: %s', (html) => {
+    expect(parseMetadata(html, SOURCE_URL)).toEqual({
+      title: undefined,
+      description: undefined,
+      image: undefined,
+      favicon: 'https://example.com/favicon.ico',
+    });
+  });
+
   it('prefers the og:title over the title tag', () => {
     const html = `<title>Title tag</title><meta property="og:title" content="OG title">`;
 
@@ -123,6 +188,42 @@ describe('fetchSafeUrl', () => {
 
   const redirectTo = (location: string) =>
     new Response(null, { status: 302, headers: { location } });
+
+  it.each(['success', 'missing', 'invalid', 'blocked', 'limit'])(
+    'closes discarded redirect streams on %s',
+    async (scenario) => {
+      const cancels: jest.Mock[] = [];
+      const locations: Record<string, string> = {
+        success: '/final',
+        invalid: 'http://[',
+        blocked: 'http://127.0.0.1',
+        limit: '/loop',
+      };
+      const finalCancel = jest.fn();
+      const finalResponse = new Response(new ReadableStream({ cancel: finalCancel }));
+      const request = jest.fn().mockImplementation(async () => {
+        expect(cancels.every((cancel) => cancel.mock.calls.length === 1)).toBe(true);
+        if (scenario === 'success' && cancels.length) return finalResponse;
+        const cancel = jest.fn();
+        cancels.push(cancel);
+        return new Response(new ReadableStream({ cancel }), {
+          status: 302,
+          headers: locations[scenario] ? { location: locations[scenario] } : {},
+        });
+      });
+      const resolveAddress = jest
+        .fn()
+        .mockImplementation(async (url: URL) => (url.hostname === '127.0.0.1' ? null : address));
+      const result = fetchSafeUrl(SOURCE_URL, signal, { resolveAddress, request });
+      if (scenario === 'success')
+        await expect(result).resolves.toHaveProperty('response', finalResponse);
+      else await expect(result).rejects.toThrow();
+      expect(cancels.length).toBe(scenario === 'limit' ? MAX_REDIRECTS + 1 : 1);
+      for (const cancel of cancels) expect(cancel).toHaveBeenCalledTimes(1);
+      expect(finalCancel).not.toHaveBeenCalled();
+      await finalResponse.body?.cancel();
+    }
+  );
 
   it('returns the response and the URL it came from', async () => {
     const response = new Response('<html></html>', { status: 200 });

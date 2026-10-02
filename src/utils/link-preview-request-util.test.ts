@@ -66,7 +66,8 @@ it.each(['http:', 'https:'])(
 );
 
 it.each([204, 205, 304])('returns no response body for status %s', async (status) => {
-  serve(mockHttps, incoming(status));
+  const stream = incoming(status);
+  serve(mockHttps, stream);
   const result = await requestPinnedUrl(
     new URL('https://example.com'),
     { address: '203.0.113.10', family: 4 },
@@ -74,6 +75,19 @@ it.each([204, 205, 304])('returns no response body for status %s', async (status
   );
   expect(result.status).toBe(status);
   expect(result.body).toBeNull();
+  expect(stream.destroyed).toBe(true);
+});
+
+it('destroys the native stream when its response body is canceled', async () => {
+  const stream = incoming(302);
+  serve(mockHttps, stream);
+  const response = await requestPinnedUrl(
+    new URL('https://example.com'),
+    { address: '203.0.113.10', family: 4 },
+    new AbortController().signal
+  );
+  await response.body?.cancel();
+  expect(stream.destroyed).toBe(true);
 });
 
 it('defaults a missing status to 500', async () => {

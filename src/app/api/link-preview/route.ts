@@ -57,6 +57,7 @@ export const GET = async (
 
     return NextResponse.json({ error: 'Failed to parse metadata' }, { status: 500 });
   } finally {
+    controller.abort();
     clearTimeout(timeoutId);
   }
 };

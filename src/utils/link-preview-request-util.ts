@@ -51,6 +51,7 @@ export const requestPinnedUrl = (
           }
         }
 
+        if (NO_BODY_STATUSES.has(status)) incoming.destroy();
         const body = NO_BODY_STATUSES.has(status)
           ? null
           : (Readable.toWeb(incoming) as ReadableStream<Uint8Array>);
