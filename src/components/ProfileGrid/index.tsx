@@ -53,6 +53,7 @@ export const ProfileGrid = async () => {
                     alt={`${METADATA.AUTHOR.NAME} profile image`}
                     className='h-full w-full rounded-none border-0 object-cover'
                     draggable={false}
+                    fetchPriority='high'
                     fill
                     {...(blurDataURL && { placeholder: 'blur' as const, blurDataURL })}
                     priority

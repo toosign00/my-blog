@@ -39,12 +39,6 @@ const RootLayout = ({ children }: PropsWithChildren) => {
     <html lang={METADATA.SITE.LANGUAGE} suppressHydrationWarning>
       <head>
         <link crossOrigin='anonymous' href='https://cdn.jsdelivr.net' rel='preconnect' />
-        <link
-          as='style'
-          crossOrigin='anonymous'
-          href='https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css'
-          rel='stylesheet'
-        />
       </head>
       <body className={GeistMono.variable}>
         <JsonLd data={websiteSchema} />
