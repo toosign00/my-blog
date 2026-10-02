@@ -85,3 +85,27 @@ it('records the home visit only once in Strict Mode', async () => {
     expect(postRequests).toHaveLength(1);
   });
 });
+
+it('loads visit counts only after the visit is recorded', async () => {
+  let resolvePost: (response: Response) => void = () => undefined;
+  fetchMock.mockImplementation((_input, init) => {
+    if (init?.method === 'POST') {
+      return new Promise((resolve) => {
+        resolvePost = resolve;
+      });
+    }
+    return Promise.resolve(jsonResponse({ today: 2, total: 5 }));
+  });
+
+  render(<ViewsWidgetClient postCount={3} />, {
+    wrapper: createWrapper(),
+  });
+
+  await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1));
+  expect(fetchMock.mock.calls[0][1]?.method).toBe('POST');
+
+  resolvePost(jsonResponse({ counted: true, ok: true }));
+
+  expect(await screen.findByText('5')).toBeInTheDocument();
+  expect(fetchMock.mock.calls.filter(([, init]) => init?.method !== 'POST')).toHaveLength(1);
+});

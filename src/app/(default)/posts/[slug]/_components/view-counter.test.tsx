@@ -89,4 +89,25 @@ describe('ViewCounter', () => {
     await screen.findByText('1 views');
     expect(fetchMock.mock.calls.filter(([, init]) => init?.method === 'POST')).toHaveLength(1);
   });
+  it('loads the count only after the visit is recorded', async () => {
+    let resolvePost: (response: Response) => void = () => undefined;
+    fetchMock.mockImplementation((_input, init) => {
+      if (init?.method === 'POST') {
+        return new Promise((resolve) => {
+          resolvePost = resolve;
+        });
+      }
+      return Promise.resolve(jsonResponse({ today: 1, total: 7 }));
+    });
+
+    render(<ViewCounter pathname='/posts/hello' />, { wrapper: createWrapper() });
+
+    await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1));
+    expect(fetchMock.mock.calls[0][1]?.method).toBe('POST');
+
+    resolvePost(jsonResponse({ counted: true, ok: true }));
+
+    expect(await screen.findByText('7 views')).toBeInTheDocument();
+    expect(fetchMock.mock.calls.filter(([, init]) => init?.method !== 'POST')).toHaveLength(1);
+  });
 });

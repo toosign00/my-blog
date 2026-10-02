@@ -38,10 +38,11 @@ const postViews = async (pathname: string): Promise<{ ok: boolean; counted: bool
   return res.json() as Promise<{ ok: boolean; counted: boolean }>;
 };
 
-export function useViewsQuery(pathname?: string, initialData?: Views) {
+export function useViewsQuery(pathname?: string, initialData?: Views, enabled = true) {
   return useQuery({
     queryKey: viewsQueryKey(pathname),
     queryFn: () => fetchViews(pathname),
+    enabled,
     ...(initialData && { initialData }),
     refetchOnMount: 'always',
     staleTime: 0,

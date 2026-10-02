@@ -9,8 +9,9 @@ interface ViewCounterProps {
 
 export const ViewCounter = ({ pathname }: ViewCounterProps) => {
   const hasCounted = useRef(false);
-  const { data } = useViewsQuery(pathname);
-  const { mutate } = useViewsMutation(pathname);
+  const { mutate, isSuccess, isError } = useViewsMutation(pathname);
+  // 방문 기록이 끝난 뒤 조회해야 N → N+1로 숫자가 바뀌지 않는다.
+  const { data } = useViewsQuery(pathname, undefined, isSuccess || isError);
 
   useEffect(() => {
     if (hasCounted.current) return;
