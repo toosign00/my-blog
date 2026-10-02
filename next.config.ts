@@ -31,6 +31,7 @@ const imageCdnCacheHeader = {
 
 const nextConfig: NextConfig = {
   ...(process.env.E2E_TEST === '1' && { distDir: '.next-e2e' }),
+  agentRules: false,
   trailingSlash: false,
   transpilePackages: ['react-activity-calendar'],
   async headers() {
