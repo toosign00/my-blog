@@ -204,9 +204,13 @@ test('allows crawling and points robots.txt at the sitemap', async ({ request })
   expect(body).toMatch(/^Sitemap: https:\/\/toosign\.me\/sitemap\.xml$/m);
 });
 
-test('sends security headers on pages, feeds and API responses', async ({ request }) => {
+// Pages render with external fetches, so they must load through page and the next fixture
+// mocks; a bare request lets them reach the network and crashed the dev server on Node 22.
+test('sends security headers on pages, feeds and API responses', async ({ page, next: _next }) => {
   for (const path of ['/', '/posts/filmlog-01', '/rss.xml', '/api/link-preview']) {
-    const headers = (await request.get(path)).headers();
+    const response = await page.goto(path);
+    expect(response, path).not.toBeNull();
+    const headers = response?.headers() ?? {};
     expect(headers['x-frame-options'], path).toBe('SAMEORIGIN');
     expect(headers['x-content-type-options'], path).toBe('nosniff');
     expect(headers['referrer-policy'], path).toBe('strict-origin-when-cross-origin');
