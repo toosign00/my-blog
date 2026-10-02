@@ -30,9 +30,10 @@ export const Sidebar = () => {
       <div className='column w-full gap-5'>
         <ThemeToggle />
         <div className='column w-full gap-1.5'>
-          <p className='h6 w-full text-license'>
-            Copyright © <span suppressHydrationWarning>{new Date().getFullYear()}</span>{' '}
-            {METADATA.AUTHOR.NAME}, All rights reserved.
+          <p className='h6 w-full text-center text-license'>
+            © 2025 - <span suppressHydrationWarning>{new Date().getFullYear()}</span>
+            {'. '}
+            {METADATA.SITE.NAME} All rights reserved.
           </p>
           <div className='row-between'>
             <a

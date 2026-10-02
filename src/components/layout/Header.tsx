@@ -87,8 +87,9 @@ export const Header = () => {
                     <ThemeToggle />
                   </div>
                   <p className='h7 mt-10.75 w-full text-center text-license'>
-                    Copyright © <span suppressHydrationWarning>{new Date().getFullYear()}</span>{' '}
-                    {METADATA.AUTHOR.NAME}, All rights reserved.
+                    © 2025 - <span suppressHydrationWarning>{new Date().getFullYear()}</span>
+                    {'. '}
+                    {METADATA.SITE.NAME} All rights reserved.
                   </p>
                   <div className='row-between mx-auto max-w-30.5 mt-4 gap-2'>
                     <a
