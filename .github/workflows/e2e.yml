@@ -1,0 +1,43 @@
+name: E2E
+
+on:
+  schedule:
+    # GitHub Actions cron uses UTC: Monday 00:00 UTC = Monday 09:00 KST.
+    - cron: '0 0 * * 1'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  e2e:
+    name: Playwright
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: pnpm/setup@v2
+        with:
+          runtime: node@22
+          cache: true
+
+      - name: Install Chromium
+        run: pnpm exec playwright install --with-deps chromium
+
+      # playwright.config.ts starts the dev server with fake credentials and
+      # blocks unregistered external requests.
+      - name: E2E tests
+        run: pnpm test:e2e
+
+      - name: Upload traces and screenshots
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-test-results
+          path: test-results/
+          retention-days: 7

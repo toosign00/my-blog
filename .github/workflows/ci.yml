@@ -1,4 +1,4 @@
-name: Test
+name: CI
 
 on:
   pull_request:
@@ -16,7 +16,8 @@ permissions:
   contents: read
 
 jobs:
-  test:
+  check:
+    name: Lint, type check and unit tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -30,6 +31,11 @@ jobs:
           cache: true
 
       # Without --write so a violation fails the job instead of being fixed.
-      - run: pnpm exec biome check .
+      - name: Biome
+        run: pnpm exec biome check .
 
-      - run: pnpm test:coverage
+      - name: Type check
+        run: pnpm type-check
+
+      - name: Unit tests
+        run: pnpm test:coverage

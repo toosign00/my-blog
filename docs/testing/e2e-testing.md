@@ -12,6 +12,7 @@ pnpm test:e2e
 
 빌드는 실행하지 않습니다. 전용 포트 3100과 `.next-e2e` 출력 경로를 사용하며 기존 서버는 재사용하지 않습니다.
 Playwright가 서버를 시작·종료하고, 실패 시 `test-results`에 trace와 screenshot을 남깁니다.
+CI에서는 `.github/workflows/e2e.yml`이 매주 월요일 09:00(KST)과 수동 실행 시 돌며, 실패하면 `test-results`를 아티팩트로 7일간 보관합니다.
 
 ## 격리와 범위
 
