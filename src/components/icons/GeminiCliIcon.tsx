@@ -1,0 +1,57 @@
+import type { IconProps } from '@/types/icon.types';
+
+// SVG created with Arrow, by QuiverAI (https://quiver.ai)
+export const GeminiCliIcon = ({ size = 24, ...props }: IconProps) => (
+  <svg
+    xmlns='http://www.w3.org/2000/svg'
+    fill='none'
+    viewBox='0 0 256 256'
+    width={size}
+    height={size}
+    aria-hidden='true'
+    focusable='false'
+    {...props}
+  >
+    <path
+      d='m45.8 0.09h164.1c25.35 0 45.83 20.72 45.83 46.3v163.1c0 25.58-21 46.33-46.48 46.33h-163.2c-25.48 0-45.99-21.16-45.99-46.3v-162.9c0-25.77 20.75-46.52 45.76-46.52z'
+      fill='url(#gemini-cli__paint0)'
+    />
+    <path
+      d='m46.82 14.06h161.9c18.49 0 32.5 15.43 32.5 33.06v161.8c0 18.33-14.53 32.49-32.56 32.49h-161.7c-18.03 0-32.86-13.85-32.86-32.27v-162.4c0-17.66 14.43-32.61 32.76-32.61z'
+      fill='#1F1D2E'
+    />
+    <path
+      d='m76.93 62.08 102.2 49.64v38.76l-102.4 49.43v-28.46l82.28-40.62-82.06-39.3v-29.45z'
+      fill='url(#gemini-cli__paint1)'
+    />
+    <defs>
+      <linearGradient
+        id='gemini-cli__paint0'
+        x1='10.83'
+        x2='245.5'
+        y1='24.31'
+        y2='238.7'
+        gradientUnits='userSpaceOnUse'
+      >
+        <stop stopColor='#0083FF' offset='0' />
+        <stop stopColor='#2384FF' offset='.23' />
+        <stop stopColor='#0186FF' offset='.41' />
+        <stop stopColor='#A774DB' offset='.59' />
+        <stop stopColor='#E0597A' offset='.83' />
+        <stop stopColor='#E0597A' offset='1' />
+      </linearGradient>
+      <linearGradient
+        id='gemini-cli__paint1'
+        x1='71.54'
+        x2='162.7'
+        y1='100.5'
+        y2='151.2'
+        gradientUnits='userSpaceOnUse'
+      >
+        <stop stopColor='#0186FF' offset='0' />
+        <stop stopColor='#0186FF' offset='.5' />
+        <stop stopColor='#B878D6' offset='.96' />
+      </linearGradient>
+    </defs>
+  </svg>
+);
