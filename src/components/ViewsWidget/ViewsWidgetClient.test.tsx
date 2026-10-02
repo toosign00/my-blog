@@ -27,9 +27,16 @@ const createWrapper = () => {
 const mockViewsApi = () => {
   fetchMock.mockImplementation((_input, init) => {
     if (init?.method === 'POST') {
-      return Promise.resolve(jsonResponse({ counted: true, ok: true }));
+      return Promise.resolve(
+        jsonResponse({
+          counted: true,
+          ok: true,
+          page: { today: 0, total: 9 },
+          site: { today: 2, total: 5 },
+        })
+      );
     }
-    return Promise.resolve(jsonResponse({ today: 2, total: 5 }));
+    return Promise.reject(new Error('Unexpected GET'));
   });
 };
 
@@ -86,26 +93,29 @@ it('records the home visit only once in Strict Mode', async () => {
   });
 });
 
-it('loads visit counts only after the visit is recorded', async () => {
-  let resolvePost: (response: Response) => void = () => undefined;
-  fetchMock.mockImplementation((_input, init) => {
-    if (init?.method === 'POST') {
-      return new Promise((resolve) => {
-        resolvePost = resolve;
-      });
-    }
-    return Promise.resolve(jsonResponse({ today: 2, total: 5 }));
-  });
+it('shows the counts from the visit response without a follow-up request', async () => {
+  mockViewsApi();
 
   render(<ViewsWidgetClient postCount={3} />, {
     wrapper: createWrapper(),
   });
 
-  await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1));
+  expect(await screen.findByText('5')).toBeInTheDocument();
+  expect(fetchMock).toHaveBeenCalledTimes(1);
   expect(fetchMock.mock.calls[0][1]?.method).toBe('POST');
+});
 
-  resolvePost(jsonResponse({ counted: true, ok: true }));
+it('loads visit counts separately when recording the visit fails', async () => {
+  fetchMock.mockImplementation((_input, init) =>
+    Promise.resolve(
+      init?.method === 'POST' ? ({ ok: false } as Response) : jsonResponse({ today: 2, total: 5 })
+    )
+  );
+
+  render(<ViewsWidgetClient postCount={3} />, {
+    wrapper: createWrapper(),
+  });
 
   expect(await screen.findByText('5')).toBeInTheDocument();
-  expect(fetchMock.mock.calls.filter(([, init]) => init?.method !== 'POST')).toHaveLength(1);
+  expect(fetchMock.mock.calls.map(([, init]) => init?.method ?? 'GET')).toEqual(['POST', 'GET']);
 });

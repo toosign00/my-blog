@@ -1,5 +1,5 @@
 /** @jest-environment node */
-import { queryD1 } from './d1-util';
+import { queryD1, queryD1Batch } from './d1-util';
 
 beforeEach(() => {
   jest.replaceProperty(process, 'env', {
@@ -76,4 +76,41 @@ it('reports unsuccessful HTTP responses', async () => {
 it('propagates transport failures', async () => {
   jest.spyOn(global, 'fetch').mockRejectedValue(new Error('offline'));
   await expect(queryD1('SELECT 1')).rejects.toThrow('offline');
+});
+
+it('sends statements as one batch and returns the rows of each in order', async () => {
+  const fetch = jest.spyOn(global, 'fetch').mockResolvedValue(
+    Response.json({
+      success: true,
+      result: [
+        { success: true, results: [] },
+        { success: true, results: [{ total: 3 }] },
+      ],
+    })
+  );
+  await expect(
+    queryD1Batch([{ sql: 'DELETE FROM t' }, { sql: 'SELECT total WHERE id = ?', params: [1] }])
+  ).resolves.toEqual([[], [{ total: 3 }]]);
+  expect(fetch).toHaveBeenCalledTimes(1);
+  expect(JSON.parse(fetch.mock.calls[0][1]?.body as string)).toEqual({
+    batch: [
+      { sql: 'DELETE FROM t', params: [] },
+      { sql: 'SELECT total WHERE id = ?', params: [1] },
+    ],
+  });
+});
+
+it('reports a failed statement in a batch', async () => {
+  jest.spyOn(global, 'fetch').mockResolvedValue(
+    Response.json({
+      success: true,
+      result: [
+        { success: true, results: [] },
+        { success: false, errors: [{ message: 'bad' }] },
+      ],
+    })
+  );
+  await expect(queryD1Batch([{ sql: 'SELECT 1' }, { sql: 'SELECT x' }])).rejects.toThrow(
+    'D1 query error: bad'
+  );
 });

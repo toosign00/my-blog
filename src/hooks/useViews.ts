@@ -25,7 +25,14 @@ const fetchBatchViews = async (pathnames: readonly string[]): Promise<Record<str
   return res.json() as Promise<Record<string, Views>>;
 };
 
-const postViews = async (pathname: string): Promise<{ ok: boolean; counted: boolean }> => {
+interface RecordViewsResponse {
+  ok: boolean;
+  counted: boolean;
+  site: Views;
+  page: Views;
+}
+
+const postViews = async (pathname: string): Promise<RecordViewsResponse> => {
   const res = await fetch('/api/views', {
     method: 'POST',
     cache: 'no-store',
@@ -35,7 +42,7 @@ const postViews = async (pathname: string): Promise<{ ok: boolean; counted: bool
   if (!res.ok) {
     throw new Error('Failed to record view');
   }
-  return res.json() as Promise<{ ok: boolean; counted: boolean }>;
+  return res.json() as Promise<RecordViewsResponse>;
 };
 
 export function useViewsQuery(pathname?: string, initialData?: Views, enabled = true) {
@@ -64,9 +71,10 @@ export function useViewsMutation(pathname: string) {
 
   return useMutation({
     mutationFn: () => postViews(pathname),
-    onSettled: () => {
-      void queryClient.invalidateQueries({ queryKey: viewsQueryKey(pathname) });
-      void queryClient.invalidateQueries({ queryKey: viewsQueryKey() });
+    // The response already has the updated counts, so no follow-up GET is needed.
+    onSuccess: ({ site, page }) => {
+      queryClient.setQueryData(viewsQueryKey(pathname), page);
+      queryClient.setQueryData(viewsQueryKey(), site);
     },
   });
 }

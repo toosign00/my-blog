@@ -198,31 +198,62 @@ test('returns view totals through the real route and isolates upstream failures'
 });
 
 test('rejects invalid view paths and sets a visitor cookie for a local visit', async ({
-  request,
+  page,
+  next: _next,
 }) => {
-  const invalid = await request.post('/api/views', { data: { pathname: '/invalid' } });
-  expect(invalid.status()).toBe(400);
-  const local = await request.post('/api/views', { data: { pathname: '/' } });
-  expect(local.status()).toBe(200);
-  expect(await local.json()).toEqual({ ok: true, counted: false });
-  expect(local.headers()['set-cookie']).toContain('views_visitor_id=');
-  expect(local.headers()['set-cookie']).toContain('HttpOnly');
-  expect(local.headers()['cache-control']).toContain('no-store');
+  await page.goto('/indexnow-key.txt');
+  // Requesting next registers the fixture D1 mock; a local visit still reads counts from D1.
+  const post = (pathname: string) =>
+    page.evaluate(async (pathname) => {
+      const response = await fetch('/api/views', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ pathname }),
+      });
+      return {
+        status: response.status,
+        cache: response.headers.get('cache-control'),
+        body: await response.json(),
+      };
+    }, pathname);
+  expect((await post('/invalid')).status).toBe(400);
+  expect(await post('/')).toEqual({
+    status: 200,
+    cache: 'no-store, max-age=0',
+    body: {
+      ok: true,
+      counted: false,
+      site: { today: 0, total: 0 },
+      page: { today: 0, total: 0 },
+    },
+  });
+  const cookies = await page.context().cookies();
+  expect(cookies.find(({ name }) => name === 'views_visitor_id')).toMatchObject({
+    httpOnly: true,
+  });
 });
 
 test('records a new visitor and suppresses a repeated visit', async ({ page, next }) => {
   let seen = false;
-  let writes = 0;
+  let d1Requests = 0;
   next.onFetch(async (request) => {
     if (!request.url.includes('/d1/')) return undefined;
-    const { sql } = (await request.json()) as { sql: string };
-    if (sql.includes('INSERT INTO page_view_counts')) {
-      writes++;
-      seen = true;
-    }
+    d1Requests++;
+    const { batch } = (await request.json()) as { batch: { sql: string }[] };
+    // The page view insert returns a row only when it actually counted the visit.
+    const rowsFor = (sql: string) => {
+      if (sql.includes('INSERT INTO page_view_counts')) {
+        const rows = seen ? [] : [{ counted: 1 }];
+        seen = true;
+        return rows;
+      }
+      if (sql.includes('FROM daily_site_visit_counts')) return [{ today: 1, total: 10 }];
+      if (sql.includes('FROM page_view_counts')) return [{ today: 0, total: 3 }];
+      return [];
+    };
     return Response.json({
       success: true,
-      result: [{ success: true, results: sql.includes('COUNT(*)') ? [{ cnt: seen ? 1 : 0 }] : [] }],
+      result: batch.map(({ sql }) => ({ success: true, results: rowsFor(sql) })),
     });
   });
   await page.goto('/indexnow-key.txt');
@@ -235,7 +266,8 @@ test('records a new visitor and suppresses a repeated visit', async ({ page, nex
       });
       return { status: response.status, data: await response.json() };
     });
-  expect(await record()).toEqual({ status: 200, data: { ok: true, counted: true } });
-  expect(await record()).toEqual({ status: 200, data: { ok: true, counted: false } });
-  expect(writes).toBe(1);
+  const counts = { site: { today: 1, total: 10 }, page: { today: 0, total: 3 } };
+  expect(await record()).toEqual({ status: 200, data: { ok: true, counted: true, ...counts } });
+  expect(await record()).toEqual({ status: 200, data: { ok: true, counted: false, ...counts } });
+  expect(d1Requests).toBe(2);
 });

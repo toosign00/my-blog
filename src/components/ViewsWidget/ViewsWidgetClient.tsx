@@ -29,9 +29,9 @@ function useCountUp(target: number, duration = 1200) {
 
 export const ViewsWidgetClient = ({ postCount }: ViewsWidgetClientProps) => {
   const hasCounted = useRef(false);
-  const { mutate, isSuccess, isError } = useViewsMutation('/');
-  // 방문 기록이 끝난 뒤 조회해야 카운트업이 이번 방문을 포함한 값으로 한 번만 실행된다.
-  const { data: views } = useViewsQuery(undefined, undefined, isSuccess || isError);
+  const { mutate, isError } = useViewsMutation('/');
+  // 방문 기록 응답이 이번 방문을 포함한 값을 채운다. 기록이 실패했을 때만 따로 조회한다.
+  const { data: views } = useViewsQuery(undefined, undefined, isError);
 
   useEffect(() => {
     if (hasCounted.current) return;

@@ -10,10 +10,12 @@ interface D1ApiResponse<T> {
   result?: D1BatchResult<T>[];
 }
 
-export async function queryD1<T = Record<string, unknown>>(
-  sql: string,
-  params: (string | number)[] = []
-): Promise<T[]> {
+export interface D1Statement {
+  sql: string;
+  params?: (string | number)[];
+}
+
+async function requestD1<T>(body: object): Promise<D1BatchResult<T>[]> {
   const accountId = process.env.CLOUDFLARE_ACCOUNT_ID;
   const databaseId = process.env.CLOUDFLARE_D1_DATABASE_ID;
   const apiToken = process.env.CLOUDFLARE_API_TOKEN;
@@ -31,7 +33,7 @@ export async function queryD1<T = Record<string, unknown>>(
         Authorization: `Bearer ${apiToken}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ sql, params }),
+      body: JSON.stringify(body),
     }
   );
 
@@ -46,15 +48,36 @@ export async function queryD1<T = Record<string, unknown>>(
     throw new Error(`D1 query error: ${msg}`);
   }
 
-  const first = data.result?.[0];
-  if (!first) {
+  return data.result ?? [];
+}
+
+function getRows<T>(result?: D1BatchResult<T>): T[] {
+  if (!result) {
     return [];
   }
 
-  if (!first.success) {
-    const msg = first.errors?.map((e) => e.message).join(', ') ?? 'unknown error';
+  if (!result.success) {
+    const msg = result.errors?.map((e) => e.message).join(', ') ?? 'unknown error';
     throw new Error(`D1 query error: ${msg}`);
   }
 
-  return first.results ?? [];
+  return result.results ?? [];
+}
+
+export async function queryD1<T = Record<string, unknown>>(
+  sql: string,
+  params: (string | number)[] = []
+): Promise<T[]> {
+  const [first] = await requestD1<T>({ sql, params });
+  return getRows(first);
+}
+
+// Sends every statement in one request and returns the rows of each in order.
+export async function queryD1Batch(
+  statements: readonly D1Statement[]
+): Promise<Record<string, unknown>[][]> {
+  const results = await requestD1<Record<string, unknown>>({
+    batch: statements.map(({ sql, params = [] }) => ({ sql, params })),
+  });
+  return statements.map((_, index) => getRows(results[index]));
 }

@@ -27,9 +27,16 @@ const createWrapper = () => {
 const mockViewsApi = (total: number) => {
   fetchMock.mockImplementation((_input, init) => {
     if (init?.method === 'POST') {
-      return Promise.resolve(jsonResponse({ counted: true, ok: true }));
+      return Promise.resolve(
+        jsonResponse({
+          counted: true,
+          ok: true,
+          page: { today: 0, total },
+          site: { today: 1, total: 1 },
+        })
+      );
     }
-    return Promise.resolve(jsonResponse({ today: 1, total }));
+    return Promise.reject(new Error('Unexpected GET'));
   });
 };
 
@@ -89,25 +96,25 @@ describe('ViewCounter', () => {
     await screen.findByText('1 views');
     expect(fetchMock.mock.calls.filter(([, init]) => init?.method === 'POST')).toHaveLength(1);
   });
-  it('loads the count only after the visit is recorded', async () => {
-    let resolvePost: (response: Response) => void = () => undefined;
-    fetchMock.mockImplementation((_input, init) => {
-      if (init?.method === 'POST') {
-        return new Promise((resolve) => {
-          resolvePost = resolve;
-        });
-      }
-      return Promise.resolve(jsonResponse({ today: 1, total: 7 }));
-    });
+  it('shows the count from the visit response without a follow-up request', async () => {
+    mockViewsApi(7);
 
     render(<ViewCounter pathname='/posts/hello' />, { wrapper: createWrapper() });
 
-    await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1));
-    expect(fetchMock.mock.calls[0][1]?.method).toBe('POST');
+    expect(await screen.findByText('7 views')).toBeInTheDocument();
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
 
-    resolvePost(jsonResponse({ counted: true, ok: true }));
+  it('loads the count separately when recording the visit fails', async () => {
+    fetchMock.mockImplementation((_input, init) =>
+      Promise.resolve(
+        init?.method === 'POST' ? ({ ok: false } as Response) : jsonResponse({ today: 0, total: 7 })
+      )
+    );
+
+    render(<ViewCounter pathname='/posts/hello' />, { wrapper: createWrapper() });
 
     expect(await screen.findByText('7 views')).toBeInTheDocument();
-    expect(fetchMock.mock.calls.filter(([, init]) => init?.method !== 'POST')).toHaveLength(1);
+    expect(fetchMock.mock.calls.map(([, init]) => init?.method ?? 'GET')).toEqual(['POST', 'GET']);
   });
 });

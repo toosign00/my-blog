@@ -7,11 +7,17 @@ test('shows D1 view counts in the post list and records a visit on the post page
 }) => {
   next.onFetch(async (request) => {
     if (!request.url.includes('/d1/')) return undefined;
-    const { sql } = (await request.json()) as { sql: string };
-    const results = sql.includes(' IN ')
-      ? [{ pathname: '/posts/filmlog-01', total: 1234 }]
-      : [{ today: 5, total: 4321 }];
-    return Response.json({ success: true, result: [{ success: true, results }] });
+    const body = (await request.json()) as { sql?: string; batch?: { sql: string }[] };
+    const rowsFor = (sql: string) => {
+      if (sql.includes(' IN ')) return [{ pathname: '/posts/filmlog-01', total: 1234 }];
+      if (sql.startsWith('SELECT')) return [{ today: 5, total: 4321 }];
+      return [];
+    };
+    const statements = body.batch ?? [{ sql: body.sql ?? '' }];
+    return Response.json({
+      success: true,
+      result: statements.map(({ sql }) => ({ success: true, results: rowsFor(sql.trim()) })),
+    });
   });
 
   await page.goto('/posts');
