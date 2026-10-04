@@ -8,6 +8,7 @@ jest.mock('sharp', () => ({
 }));
 const pipeline = {
   metadata: jest.fn(),
+  rotate: jest.fn(),
   resize: jest.fn(),
   blur: jest.fn(),
   webp: jest.fn(),
@@ -15,7 +16,7 @@ const pipeline = {
 };
 const src = 'https://files.toosign.me/cover.png';
 const placeholder = { width: 1200, height: 800, blurDataURL: 'data:image/webp;base64,c21hbGw=' };
-const cacheUrl = `https://api.cloudflare.com/client/v4/accounts/test/storage/kv/namespaces/test/values/${encodeURIComponent(`image-placeholder:v1:${src}`)}`;
+const cacheUrl = `https://api.cloudflare.com/client/v4/accounts/test/storage/kv/namespaces/test/values/${encodeURIComponent(`image-placeholder:v2:${src}`)}`;
 let fetchMock: jest.SpiedFunction<typeof fetch>;
 
 beforeEach(() => {
@@ -27,7 +28,7 @@ beforeEach(() => {
   });
   mockSharp.mockReset().mockReturnValue(pipeline);
   pipeline.metadata.mockReset().mockResolvedValue({ width: 1200, height: 800 });
-  for (const method of [pipeline.resize, pipeline.blur, pipeline.webp])
+  for (const method of [pipeline.rotate, pipeline.resize, pipeline.blur, pipeline.webp])
     method.mockReset().mockReturnValue(pipeline);
   pipeline.toBuffer.mockReset().mockResolvedValue(Buffer.from('small'));
   fetchMock = jest.spyOn(global, 'fetch').mockImplementation(async (_input, init) => {
@@ -65,6 +66,29 @@ it('generates and stores a placeholder on a cache miss', async () => {
   expect(JSON.parse(form.get('value') as string)).toEqual(placeholder);
   expect(form.get('metadata')).toBe('{}');
 });
+
+it.each([5, 6, 7, 8])(
+  'uses display dimensions and an upright blur for EXIF orientation %i',
+  async (orientation) => {
+    const sharp = jest.requireActual<typeof import('sharp').default>('sharp');
+    const source = await sharp({
+      create: { width: 20, height: 10, channels: 3, background: '#ffffff' },
+    })
+      .withMetadata({ orientation })
+      .jpeg()
+      .toBuffer();
+    mockSharp.mockImplementation(sharp);
+    fetchMock
+      .mockResolvedValueOnce(new Response(null, { status: 404 }))
+      .mockResolvedValueOnce(new Response(new Uint8Array(source)));
+
+    const result = await getRemoteImagePlaceholder(src);
+
+    expect(result).toMatchObject({ width: 10, height: 20 });
+    const blur = Buffer.from(result?.blurDataURL.split(',')[1] ?? '', 'base64');
+    await expect(sharp(blur).metadata()).resolves.toMatchObject({ width: 5, height: 10 });
+  }
+);
 
 it.each([
   null,

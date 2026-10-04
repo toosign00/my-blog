@@ -6,7 +6,7 @@ export type RemoteImagePlaceholder = {
   blurDataURL: string;
 };
 
-const CACHE_VERSION = 'v1';
+const CACHE_VERSION = 'v2';
 const REMOTE_IMAGE_HOST = 'files.toosign.me';
 const PLACEHOLDER_SIZE = 10;
 const WEBP_QUALITY = 40;
@@ -121,15 +121,17 @@ const createPlaceholder = async (buffer: Buffer): Promise<RemoteImagePlaceholder
     throw new Error('Image dimensions are unavailable');
   }
 
+  const swapsDimensions = metadata.orientation !== undefined && metadata.orientation >= 5;
   const data = await sharp(buffer)
+    .rotate()
     .resize(PLACEHOLDER_SIZE, PLACEHOLDER_SIZE, { fit: 'inside' })
     .blur(2)
     .webp({ quality: WEBP_QUALITY })
     .toBuffer();
 
   return {
-    width: metadata.width,
-    height: metadata.height,
+    width: swapsDimensions ? metadata.height : metadata.width,
+    height: swapsDimensions ? metadata.width : metadata.height,
     blurDataURL: `data:image/webp;base64,${data.toString('base64')}`,
   };
 };
