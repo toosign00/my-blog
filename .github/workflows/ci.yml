@@ -20,12 +20,12 @@ jobs:
     name: Lint, type check and unit tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
 
       # Reads pnpm from packageManager in package.json, installs Node.js and
       # runs pnpm install in the same step. pnpm freezes the lockfile on CI by
       # default, so no extra flag is needed here.
-      - uses: pnpm/setup@v2
+      - uses: pnpm/setup@v3
         with:
           runtime: node@22
           cache: true
