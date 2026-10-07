@@ -55,8 +55,11 @@ Jest 도입 작업은 다음 개발 의존성을 사용합니다.
 ```bash
 pnpm add -D jest jest-environment-jsdom @testing-library/react \
   @testing-library/dom @testing-library/jest-dom @testing-library/user-event \
-  @types/jest ts-node
+  @types/jest
 ```
+
+`jest.config.ts`는 Node 내장 TypeScript 지원으로 로드되므로 `ts-node`는 설치하지 않습니다.
+TypeScript 7은 `ts-node`가 사용하는 컴파일러 API를 제공하지 않습니다.
 
 ### 설정 파일
 
