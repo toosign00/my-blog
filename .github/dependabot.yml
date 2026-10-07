@@ -1,0 +1,49 @@
+version: 2
+
+updates:
+  - package-ecosystem: npm # pnpm also uses the npm ecosystem
+    directory: /
+    schedule:
+      interval: monthly
+      time: "09:00"
+      timezone: Asia/Seoul
+    # Skip releases younger than this to avoid freshly published malicious versions.
+    # Security updates ignore cooldown.
+    cooldown:
+      default-days: 7
+      semver-major-days: 14
+    groups:
+      minor-and-patch:
+        applies-to: version-updates
+        update-types:
+          - minor
+          - patch
+      security:
+        applies-to: security-updates
+        patterns:
+          - "*"
+    labels:
+      - dependencies
+      - "area: deps"
+    commit-message:
+      prefix: chore
+      include: scope
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+      time: "09:00"
+      timezone: Asia/Seoul
+    cooldown:
+      default-days: 7
+    groups:
+      actions:
+        patterns:
+          - "*"
+    labels:
+      - dependencies
+      - "area: ci"
+    commit-message:
+      prefix: chore
+      include: scope
