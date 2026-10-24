@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import type { CreativeWork, WithContext } from 'schema-dts';
+import { BackButton } from '@/components/features/content/backButton';
 import JsonLd from '@/components/JsonLd';
-import { BackButton } from '@/components/ui/backButton';
 import { Divider } from '@/components/ui/divider';
 import { ROUTES } from '@/constants/menu.constants';
 import { METADATA } from '@/constants/metadata.constants';

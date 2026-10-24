@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { MENU } from '@/constants/menu.constants';
-import { twMerge } from '@/design-system/tw-merge';
+import { twMerge } from '@/utils/tw-merge-util';
 
 export const NavigateMenu = () => {
   const pathname = usePathname();

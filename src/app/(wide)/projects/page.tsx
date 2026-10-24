@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { ProjectSection } from '@/components/project/ProjectSection';
+import { ProjectSection } from '@/components/features/project/ProjectSection';
 import { ROUTES } from '@/constants/menu.constants';
 import { METADATA } from '@/constants/metadata.constants';
 import { generatePageMetadata } from '@/utils/metadata-util';

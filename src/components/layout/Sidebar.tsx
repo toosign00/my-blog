@@ -2,10 +2,10 @@ import { Network, Rss } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Divider } from '@/components/ui/divider';
+import { ThemeToggle } from '@/components/ui/ThemeToggle';
 import { ROUTES } from '@/constants/menu.constants';
 import { METADATA } from '@/constants/metadata.constants';
-import { ICON_SIZE } from '@/design-system/tokens/icon';
-import { ThemeToggle } from '../ThemeToggle';
+import { ICON_SIZE } from '@/styles/tokens/icon';
 import { NavigateMenu } from './NavigateMenu';
 
 export const Sidebar = () => {

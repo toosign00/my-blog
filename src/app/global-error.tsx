@@ -1,8 +1,8 @@
 'use client';
 
-import '@/styles/globals.css';
-import { Button, buttonClass } from '@/design-system/components/Button';
-import { GeistMono } from '@/styles/font';
+import '@/styles/index.css';
+import { Button, buttonClass } from '@/components/ui/Button';
+import { GeistMono } from '@/styles/tokens/fonts';
 
 interface GlobalErrorPageProps {
   error: Error & { digest?: string };

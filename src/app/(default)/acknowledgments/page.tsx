@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
+import { Card } from '@/components/ui/Card';
 import { ROUTES } from '@/constants/menu.constants';
 import { METADATA } from '@/constants/metadata.constants';
-import { Card } from '@/design-system/components/Card';
 import { generatePageMetadata } from '@/utils/metadata-util';
 
 const AcknowledgmentsPage = () => {

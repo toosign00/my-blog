@@ -1,4 +1,4 @@
-import { ProjectList } from '@/components/project/ProjectList';
+import { ProjectList } from '@/components/features/project/ProjectList';
 import type { Project } from '@/types/project.types';
 
 type RecommendProps = {

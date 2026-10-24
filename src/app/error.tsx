@@ -1,8 +1,8 @@
 'use client';
 
 import Link from 'next/link';
+import { Button, buttonClass } from '@/components/ui/Button';
 import { ROUTES } from '@/constants/menu.constants';
-import { Button, buttonClass } from '@/design-system/components/Button';
 
 interface ErrorPageProps {
   error: Error & { digest?: string };

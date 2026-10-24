@@ -76,7 +76,7 @@
           "level": "error",
           "options": {
             "paths": {
-              "tailwind-merge": "Import twMerge from '@/design-system/tw-merge' so the design system's type scale is recognized."
+              "tailwind-merge": "Import twMerge from '@/utils/tw-merge-util' so the design system's type scale is recognized."
             }
           }
         }
@@ -125,7 +125,7 @@
   },
   "overrides": [
     {
-      "includes": ["src/design-system/tw-merge.ts"],
+      "includes": ["src/utils/tw-merge-util.ts"],
       "linter": {
         "rules": {
           "style": {

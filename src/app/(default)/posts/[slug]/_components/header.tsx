@@ -1,9 +1,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import type { ReactNode } from 'react';
-import { RelativeTime } from '@/components/ui/relativeTime';
+import { RelativeTime } from '@/components/features/post/relativeTime';
+import { chipClass } from '@/components/ui/Chip';
 import { ROUTES } from '@/constants/menu.constants';
-import { chipClass } from '@/design-system/components/Chip';
 import type { Post } from '@/types/post.types';
 import { slugify } from '@/utils/text-util';
 

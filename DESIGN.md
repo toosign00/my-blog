@@ -196,37 +196,44 @@ components:
 # 디자인 시스템
 
 이 문서는 블로그 디자인 시스템의 단일 기준이다. 위 frontmatter의 이름과 값은
-`src/design-system/tokens/`의 토큰과 1:1로 대응한다. 둘이 다르면 코드가 기준이고, 이 문서를 고친다.
+`src/styles/tokens/`의 토큰과 1:1로 대응한다. 둘이 다르면 코드가 기준이고, 이 문서를 고친다.
 
 ```
-src/design-system/
-├── tokens/                 디자인 값의 유일한 출처
-│   ├── index.css           import 순서 (reset.css가 가장 먼저)
-│   ├── reset.css           Tailwind 기본 스케일 제거
-│   ├── colors.css          팔레트 → 라이트/다크 역할 이름 → Tailwind 색 유틸리티
-│   ├── typography.css      폰트, 타입 스케일, 굵기, 행간, 자간
-│   ├── spacing.css         4px 단계, 레이아웃 길이, 브레이크포인트
-│   ├── effects.css         radius, 그림자, 블러, 비율, z-index
-│   ├── motion.css          duration, easing, keyframes
-│   └── icon.ts             ICON_SIZE (JS가 숫자를 요구하는 곳)
-├── patterns/               토큰만으로 만든 재사용 CSS 패턴 (@utility)
-│   ├── interaction.css     focus-ring, hover-fade, press, subtle-scrollbar
-│   ├── layout.css          center, column, grid-cols-auto-fill, toc-panel …
-│   └── surfaces.css        section-heading, divider-gradient, skeleton-shimmer, steps …
-├── components/             도메인을 모르는 React 컴포넌트
-│   ├── Button/             Button, buttonClass
-│   ├── Chip/               Chip, chipClass
-│   └── Card/               Card, cardClass
-└── tw-merge.ts             타입 스케일을 아는 twMerge (tailwind-merge 직접 import 금지)
+src/styles/                     디자인 시스템의 스타일 (유일한 CSS 진입점: index.css)
+├── index.css                   tailwindcss → tokens → utilities → base 순서로 import
+├── tokens/                     디자인 값의 유일한 출처
+│   ├── index.css               import 순서 (reset.css가 가장 먼저)
+│   ├── reset.css               Tailwind 기본 스케일 제거
+│   ├── colors.css              팔레트 → 라이트/다크 역할 이름 → Tailwind 색 유틸리티
+│   ├── typography.css          폰트, 타입 스케일, 굵기, 행간, 자간
+│   ├── spacing.css             4px 단계, 레이아웃 길이, 브레이크포인트
+│   ├── effects.css             radius, 그림자, 블러, 비율, z-index
+│   ├── motion.css              duration, easing, keyframes
+│   ├── fonts.ts                next/font 로더 (--font-geist-mono)
+│   └── icon.ts                 ICON_SIZE (JS가 숫자를 요구하는 곳)
+├── utilities.css               토큰만으로 만든 공용 @utility (hover-fade, focus-ring, toc-panel …)
+└── base.css                    요소 기본값과 앱 전역 스타일 (body, pre/code/img, 페이지 전환)
+
+src/components/
+├── ui/                         도메인을 모르는 컴포넌트: Button, Chip, Card, Pagination, Divider,
+│                               LazyImage, ThemeToggle, Toaster, AfterMount
+├── features/                   여러 페이지에서 쓰는 도메인 컴포넌트: post, project, about, home,
+│                               content, mdx
+├── layout/                     Header, Sidebar, NavigateMenu, Root
+├── icons/                      브랜드 로고
+└── providers/
+
+src/app/**/_components/         한 페이지에서만 쓰는 컴포넌트
+src/utils/tw-merge-util.ts      타입 스케일을 아는 twMerge (tailwind-merge 직접 import 금지)
 ```
 
-- `src/styles/globals.css`는 위 두 폴더를 import하고 base 스타일만 둔다.
 - 컴포넌트 목록: [`docs/design-system/components.md`](docs/design-system/components.md)
 
 ## 컴포넌트
 
-`src/design-system/components/`에는 데이터나 도메인을 모르고 토큰만 쓰는 컴포넌트만 둔다.
-글 목록, 링크 임베드, MDX, 레이아웃처럼 도메인을 아는 것은 `src/components/`에 둔다.
+`src/components/ui/`에는 데이터나 도메인을 모르고 토큰만 쓰는 컴포넌트만 둔다.
+글 목록, 링크 임베드, MDX처럼 도메인을 아는 것은 `src/components/features/`(여러 페이지에서 사용)나
+`src/app/**/_components/`(한 페이지에서만 사용)에 둔다.
 각 컴포넌트는 같은 스타일을 다른 요소에 입힐 수 있도록 클래스 함수도 함께 내보낸다.
 링크를 버튼처럼 보이게 할 때는 `<Link className={buttonClass(...)}>`를 쓴다.
 
@@ -236,7 +243,7 @@ src/design-system/
 | `Chip` / `chipClass` | `tone`: `soft`(기본) · `outline` · `solid`, `size`: `sm`(기본) · `md` · `lg` | 글 태그, 프로젝트 태그, 스킬 배지, 링크 멘션, MDX `<Badge>` |
 | `Card` / `cardClass` | `padding`: `none`(기본) · `md` · `lg`, `interactive`, `as`: `div` · `section` · `article` | 정책 페이지 섹션, 태그/카테고리 목록, 프로필 카드, 링크 임베드, MDX 표·카드·탭·아코디언 |
 
-- 모든 클래스 합성은 `@/design-system/tw-merge`의 `twMerge`로 한다. `tailwind-merge`를 직접 쓰면
+- 모든 클래스 합성은 `@/utils/tw-merge-util`의 `twMerge`로 한다. `tailwind-merge`를 직접 쓰면
   `text-label` 같은 타입 스케일 클래스가 색으로 오인돼 사라진다. Biome가 직접 import를 막는다.
 - 새 컴포넌트는 같은 클래스 묶음이 세 곳 이상 반복될 때 만든다.
 
@@ -258,14 +265,14 @@ Semantic     역할 이름     --fg-primary, --bg-surface, --border-default … 
     ↓
 Tailwind     클래스 노출   text-primary, bg-surface, border-default, text-body, rounded-lg …
     ↓
-patterns/    공용 패턴     hover-fade, focus-ring, toc-panel …
+utilities    공용 패턴     hover-fade, focus-ring, toc-panel … (utilities.css)
     ↓
-components/  컴포넌트      Button, Chip, Card
+ui/          컴포넌트      Button, Chip, Card (src/components/ui)
 ```
 
-- 앱 코드는 **Tailwind 노출 단계와 patterns/가 만든 클래스, components/의 컴포넌트만** 쓴다. primitive 변수를 직접 참조하지 않는다.
+- 앱 코드는 **Tailwind 노출 단계와 utilities.css가 만든 클래스, `components/ui`의 컴포넌트만** 쓴다. primitive 변수를 직접 참조하지 않는다.
 - CSS에서 값이 필요하면 semantic 변수(`var(--fg-primary)`)나 `--spacing(n)`을 쓴다.
-- 리터럴 값(hex, px, ms 등)은 `src/design-system/tokens/` 안에서만 허용된다.
+- 리터럴 값(hex, px, ms 등)은 `src/styles/tokens/` 안에서만 허용된다.
 - `reset.css`가 Tailwind 기본 스케일을 모두 지운다. 그래서 `bg-blue-500`, `rounded-xl`, `text-3xl`, `shadow-lg` 같은 클래스는 CSS를 만들지 않는다.
 - 값은 CSS 토큰이 기본이다. TS 토큰(`icon.ts`)은 JS API가 숫자를 요구할 때만 두고, 같은 값을 CSS와 TS에 중복하지 않는다.
 
@@ -325,7 +332,7 @@ components/  컴포넌트      Button, Chip, Card
 - 모션: `duration-fast` 150ms, `duration-base` 200ms, `duration-slow` 300ms, `ease-in-out`, `ease-out`.
   자주 쓰는 패턴은 `hover-fade`(hover 시 불투명도 0.7)와 `press`(눌림 시 0.98배)다.
 - 레이어: `z-raised` < `z-overlay` < `z-header` < `z-tooltip`.
-- 아이콘 크기: `ICON_SIZE.xs|sm|md|lg` = 14/16/18/20px (`src/design-system/tokens/icon.ts`).
+- 아이콘 크기: `ICON_SIZE.xs|sm|md|lg` = 14/16/18/20px (`src/styles/tokens/icon.ts`).
 
 ## 규칙과 검사
 
@@ -356,5 +363,5 @@ components/  컴포넌트      Button, Chip, Card
 1. 기존 토큰으로 표현할 수 있는지 먼저 확인한다.
 2. 없으면 해당 카테고리 파일(`colors.css`, `spacing.css` …)의 Primitives 블록에 원시 값을 추가한다.
 3. 테마마다 다르면 같은 파일의 Semantic 블록에서 `:root`와 `.dark` 양쪽에 역할 이름을 추가한다.
-4. 같은 파일의 Tailwind 블록(`@theme`)에 이름을 등록한다. 반복되는 조합이면 `patterns/`에 `@utility`를 만든다.
+4. 같은 파일의 Tailwind 블록(`@theme`)에 이름을 등록한다. 반복되는 조합이면 `utilities.css`에 `@utility`를 만든다.
 5. 이 문서의 frontmatter와 표를 갱신한다.

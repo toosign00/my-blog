@@ -1,0 +1,5 @@
+/* Single CSS entry point, imported by the root layouts. */
+@import "tailwindcss";
+@import "./tokens/index.css";
+@import "./utilities.css";
+@import "./base.css";

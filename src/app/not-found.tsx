@@ -1,6 +1,6 @@
 import Link from 'next/link';
+import { buttonClass } from '@/components/ui/Button';
 import { ROUTES } from '@/constants/menu.constants';
-import { buttonClass } from '@/design-system/components/Button';
 
 const NotFoundPage = () => {
   return (

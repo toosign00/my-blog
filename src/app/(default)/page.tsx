@@ -1,12 +1,12 @@
 import { Plus } from 'lucide-react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { ActivityHeatmap } from '@/components/ActivityHeatmap';
-import { ProfileGrid } from '@/components/ProfileGrid';
-import { PostGrid } from '@/components/ui/postGrid';
+import { ActivityHeatmap } from '@/components/features/home/ActivityHeatmap';
+import { ProfileGrid } from '@/components/features/home/ProfileGrid';
+import { PostGrid } from '@/components/features/post/postGrid';
+import { buttonClass } from '@/components/ui/Button';
 import { ROUTES } from '@/constants/menu.constants';
-import { buttonClass } from '@/design-system/components/Button';
-import { ICON_SIZE } from '@/design-system/tokens/icon';
+import { ICON_SIZE } from '@/styles/tokens/icon';
 import { generatePageMetadata } from '@/utils/metadata-util';
 import { getAllPosts } from '@/utils/post-util';
 
