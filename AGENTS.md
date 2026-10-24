@@ -11,6 +11,11 @@ Before Jest or unit test work, read `docs/testing/README.md` and
 `docs/testing/unit-testing.md`. These files define the required scope, conventions, mocking,
 coverage, and verification rules.
 
+## Design System Guidelines
+
+Before any styling work, read `DESIGN.md`. Use only the design tokens and utilities it lists, and keep
+`pnpm check-tokens` passing.
+
 ## 1. Think Before Coding
 
 **Don't assume. Don't hide confusion. Surface tradeoffs.**
