@@ -71,7 +71,15 @@
         "noUselessElse": "error",
         "useSelfClosingElements": "error",
         "useTemplate": "error",
-        "useFilenamingConvention": "off"
+        "useFilenamingConvention": "off",
+        "noRestrictedImports": {
+          "level": "error",
+          "options": {
+            "paths": {
+              "tailwind-merge": "Import twMerge from '@/design-system/tw-merge' so the design system's type scale is recognized."
+            }
+          }
+        }
       },
       "correctness": {
         "noUnusedImports": "error",
@@ -116,6 +124,16 @@
     }
   },
   "overrides": [
+    {
+      "includes": ["src/design-system/tw-merge.ts"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": "off"
+          }
+        }
+      }
+    },
     {
       "includes": ["*.config.js", "*.config.ts", "next.config.*"],
       "linter": {

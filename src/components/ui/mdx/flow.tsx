@@ -1,6 +1,6 @@
 import { CircleAlert, Info, Lightbulb, type LucideIcon, TriangleAlert } from 'lucide-react';
 import type { ReactNode } from 'react';
-import { twMerge } from 'tailwind-merge';
+import { twMerge } from '@/design-system/tw-merge';
 
 interface StepsProps {
   children: ReactNode;

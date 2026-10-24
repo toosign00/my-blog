@@ -2,8 +2,8 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { twMerge } from 'tailwind-merge';
 import { MENU } from '@/constants/menu.constants';
+import { twMerge } from '@/design-system/tw-merge';
 
 export const NavigateMenu = () => {
   const pathname = usePathname();

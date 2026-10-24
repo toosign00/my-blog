@@ -3,9 +3,9 @@ import { Award } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { ComponentProps } from 'react';
-import { twMerge } from 'tailwind-merge';
 import { ROUTES } from '@/constants/menu.constants';
 import { ICON_SIZE } from '@/design-system/tokens/icon';
+import { twMerge } from '@/design-system/tw-merge';
 import type { Project } from '@/types/project.types';
 
 type ProjectCardProps = ComponentProps<'li'> & {

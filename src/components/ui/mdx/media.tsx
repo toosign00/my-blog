@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import type { ComponentProps } from 'react';
-import { twMerge } from 'tailwind-merge';
+import { twMerge } from '@/design-system/tw-merge';
 
 import { getRemoteImagePlaceholder } from '@/utils/image-placeholder-util';
 import { LazyImage } from '../lazyImage';

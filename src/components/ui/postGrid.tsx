@@ -1,8 +1,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import type { ComponentProps } from 'react';
-import { twMerge } from 'tailwind-merge';
 import { POST_CARD_INTERACTION_CLASS } from '@/constants/style.constants';
+import { twMerge } from '@/design-system/tw-merge';
 import type { Post } from '@/types/post.types';
 
 import { PostViews } from './postViews';

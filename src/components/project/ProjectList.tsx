@@ -1,5 +1,5 @@
 import type { ComponentProps } from 'react';
-import { twMerge } from 'tailwind-merge';
+import { twMerge } from '@/design-system/tw-merge';
 import type { Project } from '@/types/project.types';
 import { ProjectCard } from './ProjectCard';
 

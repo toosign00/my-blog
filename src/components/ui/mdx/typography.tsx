@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import type { ComponentProps, ReactNode } from 'react';
-import { twMerge } from 'tailwind-merge';
+import { twMerge } from '@/design-system/tw-merge';
 
 const toHeadingId = (children: ReactNode): string => {
   const text = typeof children === 'string' ? children : '';

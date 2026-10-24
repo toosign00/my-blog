@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import type { CSSProperties } from 'react';
 import { useState } from 'react';
-import { twMerge } from 'tailwind-merge';
+import { twMerge } from '@/design-system/tw-merge';
 
 export type LazyImageProps = {
   src: string;

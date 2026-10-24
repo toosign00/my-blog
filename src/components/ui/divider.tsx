@@ -1,5 +1,5 @@
 import { type ComponentPropsWithoutRef, forwardRef } from 'react';
-import { twMerge } from 'tailwind-merge';
+import { twMerge } from '@/design-system/tw-merge';
 
 type DividerProps = {
   className?: string;

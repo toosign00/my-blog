@@ -1,5 +1,5 @@
 import { type ComponentPropsWithoutRef, type ElementType, forwardRef, type ReactNode } from 'react';
-import { twMerge } from 'tailwind-merge';
+import { twMerge } from '@/design-system/tw-merge';
 
 type CardProps = {
   as?: ElementType;

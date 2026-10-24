@@ -8,6 +8,7 @@ const createJestConfig = nextJest({
 const config: Config = {
   clearMocks: true,
   collectCoverageFrom: [
+    'src/design-system/tw-merge.ts',
     'src/components/ui/mdx/interactive.tsx',
     'src/components/about/ContactBtn.tsx',
     'src/app/(default)/posts/[slug]/_components/toc.tsx',

@@ -2,7 +2,7 @@
 
 import type { ComponentProps } from 'react';
 import { toast } from 'sonner';
-import { twMerge } from 'tailwind-merge';
+import { twMerge } from '@/design-system/tw-merge';
 
 type ResumeDownloadButtonProps = {
   fileUrl: string;
