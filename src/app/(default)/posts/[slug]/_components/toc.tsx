@@ -42,21 +42,18 @@ export const Toc = ({ items }: TocProps) => {
   return (
     <nav
       aria-label='Table of contents'
-      className='subtle-scrollbar fixed top-36.5 hidden max-h-[calc(100vh-12rem)] w-44 overflow-y-auto desktop:block'
-      style={{
-        left: 'calc(50% + var(--spacing-app) / 2 + 2rem)',
-      }}
+      className='subtle-scrollbar toc-panel hidden overflow-y-auto desktop:block'
     >
-      <p className='mb-3 text-xs font-semibold tracking-wide text-gray-light uppercase'>
+      <p className='mb-3 text-caption-sm font-semibold tracking-wide text-muted uppercase'>
         On this page
       </p>
       <ul className='flex flex-col gap-1'>
         {items.map(({ id, text, level }) => (
           <li key={id}>
             <a
-              className={`block truncate text-xs leading-relaxed transition-colors duration-150 ease-in-out hover:text-gray-accent ${
+              className={`block truncate text-caption-sm leading-relaxed transition-colors duration-fast ease-in-out hover:text-primary ${
                 level === 3 ? 'pl-3' : ''
-              } ${activeId === id ? 'font-medium text-gray-accent' : 'text-gray-light'}`}
+              } ${activeId === id ? 'font-medium text-primary' : 'text-muted'}`}
               href={`#${id}`}
               onClick={(e) => {
                 e.preventDefault();

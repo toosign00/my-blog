@@ -2,6 +2,7 @@
 
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
+import { ICON_SIZE } from '@/styles/tokens/icon';
 
 const TRAILING_SLASH = /\/$/;
 
@@ -33,14 +34,14 @@ export const Pagination = ({ currentPage, totalPages, basePath }: PaginationProp
   const pageList = generatePageRange();
 
   return (
-    <nav aria-label='Pagination navigation' className='center gap-3.25 py-11.25'>
+    <nav aria-label='Pagination navigation' className='center gap-3 py-11'>
       {currentPage > 1 && (
         <Link
           aria-label='Go to previous page'
-          className='center h-8 w-8 cursor-pointer rounded-full border border-border bg-toggle text-gray-accent text-sm transition-colors duration-150 ease-in-out hover:bg-background02'
+          className='center h-8 w-8 cursor-pointer rounded-full border border-default bg-surface text-label text-primary transition-colors duration-fast ease-in-out hover:bg-fill-weak'
           href={buildPageHref(currentPage - 1)}
         >
-          <ChevronLeft size={16} />
+          <ChevronLeft size={ICON_SIZE.sm} />
         </Link>
       )}
 
@@ -48,7 +49,7 @@ export const Pagination = ({ currentPage, totalPages, basePath }: PaginationProp
         pageNumber === currentPage ? (
           <span
             aria-current='page'
-            className='center h-8 w-8 rounded-full border border-background04 bg-gray-bold text-background text-sm transition-colors duration-150 ease-in-out hover:bg-gray-accent'
+            className='center h-8 w-8 rounded-full border border-fill bg-inverse text-inverse text-label'
             key={pageNumber}
           >
             {pageNumber}
@@ -56,7 +57,7 @@ export const Pagination = ({ currentPage, totalPages, basePath }: PaginationProp
         ) : (
           <Link
             aria-label={`Go to page ${pageNumber}`}
-            className='center h-8 w-8 cursor-pointer rounded-full border border-border bg-toggle text-gray-accent text-sm transition-colors duration-150 ease-in-out hover:bg-background02'
+            className='center h-8 w-8 cursor-pointer rounded-full border border-default bg-surface text-label text-primary transition-colors duration-fast ease-in-out hover:bg-fill-weak'
             href={buildPageHref(pageNumber)}
             key={pageNumber}
           >
@@ -68,10 +69,10 @@ export const Pagination = ({ currentPage, totalPages, basePath }: PaginationProp
       {currentPage < totalPages && (
         <Link
           aria-label='Go to next page'
-          className='center h-8 w-8 cursor-pointer rounded-full border border-border bg-toggle text-gray-accent text-sm transition-colors duration-150 ease-in-out hover:bg-background02'
+          className='center h-8 w-8 cursor-pointer rounded-full border border-default bg-surface text-label text-primary transition-colors duration-fast ease-in-out hover:bg-fill-weak'
           href={buildPageHref(currentPage + 1)}
         >
-          <ChevronRight size={16} />
+          <ChevronRight size={ICON_SIZE.sm} />
         </Link>
       )}
     </nav>

@@ -3,6 +3,9 @@ import { ExternalLink, FileText } from 'lucide-react';
 import Image from 'next/image';
 import type { ReactNode } from 'react';
 import { GithubIcon } from '@/components/icons/GithubIcon';
+import { buttonClass } from '@/components/ui/Button';
+import { Chip } from '@/components/ui/Chip';
+import { ICON_SIZE } from '@/styles/tokens/icon';
 import type { Project } from '@/types/project.types';
 
 type ProjectHeaderProps = {
@@ -22,7 +25,7 @@ type ProjectActionLinksProps = Pick<Project, 'repository' | 'docs' | 'url'>;
 
 const ProjectMetaRow = ({ label, children }: ProjectMetaRowProps) => (
   <div className='mt-4 flex items-start gap-4'>
-    <span className='shrink-0 py-1 font-bold text-gray-accent text-sm'>{label}</span>
+    <span className='shrink-0 py-1 font-bold text-primary text-label'>{label}</span>
     {children}
   </div>
 );
@@ -30,15 +33,14 @@ const ProjectMetaRow = ({ label, children }: ProjectMetaRowProps) => (
 const ProjectTagList = ({ items }: ProjectTagListProps) => (
   <div className='flex flex-wrap gap-2'>
     {items.map((item) => (
-      <span
-        className='rounded-full border border-border px-3 py-1 font-medium text-gray-mid text-sm'
-        key={item}
-      >
+      <Chip key={item} size='md' tone='outline'>
         {item}
-      </span>
+      </Chip>
     ))}
   </div>
 );
+
+const PROJECT_LINK_CLASS = buttonClass({ className: 'w-full min-w-36 px-4 tablet:w-auto' });
 
 const ProjectActionLinks = ({ repository, docs, url }: ProjectActionLinksProps) => {
   if (!repository && !docs && !url) {
@@ -49,36 +51,26 @@ const ProjectActionLinks = ({ repository, docs, url }: ProjectActionLinksProps) 
     <div className='mt-8 flex flex-wrap gap-2'>
       {repository && (
         <a
-          className='w-full tablet:w-auto min-w-35 focus-ring center h4 gap-2 rounded-md border border-border px-4 py-2 font-medium text-gray-accent no-underline opacity-100 transition-opacity duration-150 ease-in-out hover:bg-gray-hover'
+          className={PROJECT_LINK_CLASS}
           href={repository}
           rel='noopener noreferrer'
           target='_blank'
         >
-          <GithubIcon size={16} />
+          <GithubIcon size={ICON_SIZE.sm} />
           Repository
         </a>
       )}
 
       {docs && (
-        <a
-          className='w-full tablet:w-auto min-w-35 focus-ring center h4 gap-2 rounded-md border border-border px-4 py-2 font-medium text-gray-accent no-underline opacity-100 transition-opacity duration-150 ease-in-out hover:bg-gray-hover'
-          href={docs}
-          rel='noopener noreferrer'
-          target='_blank'
-        >
-          <FileText size={16} />
+        <a className={PROJECT_LINK_CLASS} href={docs} rel='noopener noreferrer' target='_blank'>
+          <FileText size={ICON_SIZE.sm} />
           문서 보기
         </a>
       )}
 
       {url && (
-        <a
-          className='w-full tablet:w-auto min-w-35 focus-ring center h4 gap-2 rounded-md border border-border px-4 py-2 font-medium text-gray-accent no-underline opacity-100 transition-opacity duration-150 ease-in-out hover:bg-gray-hover'
-          href={url}
-          rel='noopener noreferrer'
-          target='_blank'
-        >
-          <ExternalLink size={16} />
+        <a className={PROJECT_LINK_CLASS} href={url} rel='noopener noreferrer' target='_blank'>
+          <ExternalLink size={ICON_SIZE.sm} />
           배포 사이트
         </a>
       )}
@@ -95,7 +87,7 @@ export const ProjectHeader = ({ project }: ProjectHeaderProps) => {
 
   return (
     <header className='mb-8'>
-      <div className='relative mb-6 aspect-[1.8/1] w-full overflow-hidden rounded-xl border border-border tablet:aspect-3/1'>
+      <div className='relative mb-6 aspect-cover w-full overflow-hidden rounded-lg border border-default tablet:aspect-hero'>
         <Image
           alt={project.title}
           className='h-full w-full object-cover object-center tablet:hidden'
@@ -124,10 +116,10 @@ export const ProjectHeader = ({ project }: ProjectHeaderProps) => {
         />
       </div>
 
-      <h1 className='mb-2 font-bold text-3xl text-gray-accent'>{project.title}</h1>
+      <h1 className='mb-2 font-bold text-title-lg text-primary'>{project.title}</h1>
 
       <ProjectMetaRow label='수행기간'>
-        <div className='py-1 font-medium text-gray-mid text-sm'>{period}</div>
+        <div className='py-1 font-medium text-tertiary text-label'>{period}</div>
       </ProjectMetaRow>
 
       <ProjectMetaRow label='프로젝트 분류'>
@@ -142,9 +134,9 @@ export const ProjectHeader = ({ project }: ProjectHeaderProps) => {
 
       {project.awards && (
         <ProjectMetaRow label='수상내역'>
-          <div className='rounded-full border border-border px-3 py-1 font-medium text-gray-mid text-sm'>
+          <Chip size='md' tone='outline'>
             {project.awards}
-          </div>
+          </Chip>
         </ProjectMetaRow>
       )}
 

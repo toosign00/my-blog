@@ -1,0 +1,71 @@
+/* Effects: radius, shadows, blur, aspect ratios, stacking layers and opacity. */
+
+/* Primitives */
+:root {
+  --alpha-media-shadow-light: 8%;
+  --alpha-media-shadow-dark: 35%;
+
+  --layer-raised: 10;
+  --layer-overlay: 100;
+  --layer-header: 150;
+  --layer-tooltip: 300;
+
+  --opacity-hover-value: 0.7;
+}
+
+/* Semantic */
+:root {
+  --shadow-media-color: color-mix(
+    in srgb,
+    var(--neutral-1000) var(--alpha-media-shadow-light),
+    transparent
+  );
+}
+
+.dark {
+  --shadow-media-color: color-mix(
+    in srgb,
+    var(--neutral-1000) var(--alpha-media-shadow-dark),
+    transparent
+  );
+}
+
+/* Tailwind */
+@theme {
+  --radius-xs: 0.25rem;
+  --radius-sm: 0.5rem;
+  --radius-md: 0.625rem;
+  --radius-lg: 0.875rem;
+  --radius-full: calc(infinity * 1px);
+
+  --blur-sm: 8px;
+  --blur-md: 12px;
+
+  --aspect-video: 16 / 9;
+  --aspect-cover: 1.8 / 1;
+  --aspect-hero: 3 / 1;
+}
+
+@theme inline {
+  --shadow-media: 0 0.625rem 2.5rem var(--shadow-media-color);
+  --shadow-popover:
+    0 0.625rem 0.9375rem -0.1875rem var(--shadow-media-color),
+    0 0.25rem 0.375rem -0.25rem var(--shadow-media-color);
+}
+
+/* Stacking layers (Tailwind has no z-index theme namespace) */
+@utility z-raised {
+  z-index: var(--layer-raised);
+}
+
+@utility z-overlay {
+  z-index: var(--layer-overlay);
+}
+
+@utility z-header {
+  z-index: var(--layer-header);
+}
+
+@utility z-tooltip {
+  z-index: var(--layer-tooltip);
+}

@@ -2,16 +2,17 @@ import { Network, Rss } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Divider } from '@/components/ui/divider';
+import { ThemeToggle } from '@/components/ui/ThemeToggle';
 import { ROUTES } from '@/constants/menu.constants';
 import { METADATA } from '@/constants/metadata.constants';
-import { ThemeToggle } from '../ThemeToggle';
+import { ICON_SIZE } from '@/styles/tokens/icon';
 import { NavigateMenu } from './NavigateMenu';
 
 export const Sidebar = () => {
   return (
     <aside
       aria-label='Sidebar navigation'
-      className='fixed top-0 left-0 hidden h-dvh w-sidebar flex-col justify-between border-r border-border bg-background px-10 py-11 tablet:flex'
+      className='fixed top-0 left-0 hidden h-dvh w-sidebar flex-col justify-between border-r border-default bg-canvas px-10 py-11 tablet:flex'
     >
       <div className='column w-full gap-6'>
         <Link aria-label={METADATA.SITE.NAME} className='px-2.5 py-3' href={ROUTES.HOME}>
@@ -30,7 +31,7 @@ export const Sidebar = () => {
       <div className='column w-full gap-5'>
         <ThemeToggle />
         <div className='column w-full gap-1.5'>
-          <p className='h6 w-full text-center text-license'>
+          <p className='w-full text-center font-medium text-micro text-muted'>
             © 2025 - <span suppressHydrationWarning>{new Date().getFullYear()}</span>
             {'. '}
             {METADATA.SITE.NAME} All rights reserved.
@@ -38,22 +39,22 @@ export const Sidebar = () => {
           <div className='row-between'>
             <a
               aria-label='RSS feed'
-              className='flex h6 items-center gap-1 text-license no-underline opacity-100 transition-opacity duration-150 ease-in-out hover:opacity-70'
+              className='hover-fade flex items-center gap-1 font-medium text-micro text-muted no-underline'
               href={ROUTES.RSS}
               rel='noopener noreferrer'
               target='_blank'
             >
-              <Rss size={16} />
+              <Rss size={ICON_SIZE.sm} />
               RSS
             </a>
             <a
               aria-label='XML sitemap'
-              className='flex h6 items-center gap-1 text-license no-underline opacity-100 transition-opacity duration-150 ease-in-out hover:opacity-70'
+              className='hover-fade flex items-center gap-1 font-medium text-micro text-muted no-underline'
               href={ROUTES.SITEMAP}
               rel='noopener noreferrer'
               target='_blank'
             >
-              <Network size={16} />
+              <Network size={ICON_SIZE.sm} />
               Sitemap
             </a>
           </div>

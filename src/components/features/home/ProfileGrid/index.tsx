@@ -1,0 +1,88 @@
+import Image from 'next/image';
+import Link from 'next/link';
+import { ROUTES } from '@/constants/menu.constants';
+import { METADATA } from '@/constants/metadata.constants';
+import { PROFILE } from '@/constants/profile.constants';
+import { createBlur } from '@/utils/blur-util';
+import { ViewsWidget } from '../ViewsWidget';
+import Card from './Card';
+
+const authorProfileDetails = [
+  {
+    title: 'Studying',
+    content: METADATA.AUTHOR.STUDYING.replace(/,\s+/g, '\n'),
+  },
+  {
+    title: 'Location',
+    content: METADATA.AUTHOR.LOCATION,
+  },
+] as const;
+
+export const ProfileGrid = async () => {
+  const blurDataURL = await createBlur(METADATA.AUTHOR.PROFILE_IMAGE).catch(() => undefined);
+
+  return (
+    <section
+      aria-label={`${METADATA.AUTHOR.NAME}'s profile and views`}
+      className='grid w-full grid-cols-1 gap-16 tablet:grid-cols-2'
+    >
+      <div className='column w-full'>
+        <h2 className='section-heading' id='profile-heading'>
+          Profile
+        </h2>
+        <Link
+          aria-label='View about profile'
+          className='focus-ring press block w-full'
+          href={ROUTES.ABOUT}
+        >
+          <Card.Root className='bg-elevated'>
+            <Card.Content>
+              <fieldset
+                aria-labelledby='profile-heading'
+                className='column m-0 items-start gap-3 self-start border-0 p-0'
+              >
+                <div className='relative h-24 w-24 select-none overflow-hidden rounded-md border border-media shadow-media'>
+                  <Image
+                    alt={`${METADATA.AUTHOR.NAME} profile image`}
+                    className='h-full w-full rounded-none border-0 object-cover'
+                    draggable={false}
+                    fetchPriority='high'
+                    fill
+                    {...(blurDataURL && { placeholder: 'blur' as const, blurDataURL })}
+                    priority
+                    sizes='6rem'
+                    src={PROFILE.profileImage}
+                  />
+                </div>
+
+                <p className='w-full text-center font-medium text-caption text-primary leading-none'>
+                  {METADATA.AUTHOR.NAME}
+                </p>
+              </fieldset>
+
+              <dl className='row-between h-3/4 flex-col items-start'>
+                {authorProfileDetails.map((item) => (
+                  <div className='w-full' key={item.title}>
+                    <dt className='w-full font-medium text-micro text-accent-strong'>
+                      {item.title}
+                    </dt>
+                    <dd className='whitespace-pre-wrap font-medium text-caption text-primary'>
+                      {item.content}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+            </Card.Content>
+          </Card.Root>
+        </Link>
+      </div>
+
+      <div className='column w-full'>
+        <h2 className='section-heading'>Visits</h2>
+        <Card.Root>
+          <ViewsWidget />
+        </Card.Root>
+      </div>
+    </section>
+  );
+};

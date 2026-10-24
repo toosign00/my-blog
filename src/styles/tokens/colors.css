@@ -1,0 +1,324 @@
+/* Colors: primitive palette → semantic roles per theme → Tailwind color utilities. */
+
+/* Primitives */
+:root {
+  /* Slate: cool neutrals used by the light theme */
+  --slate-0: #ffffff;
+  --slate-25: #fcfcfd;
+  --slate-50: #f9f9fc;
+  --slate-100: #f4f4f8;
+  --slate-200: #ebedf0;
+  --slate-300: #d9dbe7;
+  --slate-400: #b5b5c3;
+  --slate-600: #6b6b87;
+  --slate-800: #393960;
+  --slate-900: #1d1d30;
+
+  /* Neutral: true grays used by the dark theme */
+  --neutral-0: #ffffff;
+  --neutral-100: #dddddd;
+  --neutral-300: #b2b2b2;
+  --neutral-400: #888888;
+  --neutral-600: #36363a;
+  --neutral-700: #2d2d2d;
+  --neutral-800: #1b1b1b;
+  --neutral-850: #141414;
+  --neutral-900: #0f0f0f;
+  --neutral-1000: #000000;
+
+  /* Brand blue */
+  --blue-200: #8ec2ff;
+  --blue-300: #63a9ff;
+  --blue-400: #2997ff;
+  --blue-500: #3182f6;
+
+  /* Status and highlight hues */
+  --amber-400: #fbbf24;
+  --amber-600: #d97706;
+  --amber-700: #b45309;
+  --red-100: #fee2e2;
+  --red-300: #fca5a5;
+  --red-400: #f87171;
+  --red-600: #dc2626;
+  --red-900: #7f1d1d;
+  --yellow-100: #fef9c3;
+  --yellow-300: #fde047;
+  --yellow-400: #facc15;
+  --yellow-900: #713f12;
+  --sky-100: #dbeafe;
+  --sky-300: #93c5fd;
+  --sky-400: #60a5fa;
+  --sky-900: #1e3a8a;
+  --green-100: #dcfce7;
+  --green-300: #86efac;
+  --green-400: #4ade80;
+  --green-900: #14532d;
+  --purple-100: #f3e8ff;
+  --purple-300: #d8b4fe;
+  --purple-400: #c084fc;
+  --purple-900: #581c87;
+
+  /* Syntax palettes (GitHub light / dark) */
+  --code-light-gray: #6a737d;
+  --code-light-red: #d73a49;
+  --code-light-purple: #6f42c1;
+  --code-light-navy: #032f62;
+  --code-light-blue: #005cc5;
+  --code-light-orange: #e36209;
+  --code-dark-gray: #8b949e;
+  --code-dark-silver: #c9d1d9;
+  --code-dark-red: #ff7b72;
+  --code-dark-purple: #d2a8ff;
+  --code-dark-sky: #a5d6ff;
+  --code-dark-blue: #79c0ff;
+  --code-dark-link: #58a6ff;
+  --code-dark-orange: #ffa657;
+
+  /* Alpha steps, applied to black (light theme) or white (dark theme) */
+  --alpha-weak: 2%;
+  --alpha-base: 4%;
+  --alpha-strong: 8%;
+  --alpha-elevated: 16%;
+  --alpha-scrim-light: 35%;
+  --alpha-scrim-dark: 50%;
+  --alpha-media-border-light: 20%;
+  --alpha-media-border-dark: 10%;
+  --alpha-highlight-light: 80%;
+  --alpha-highlight-dark: 15%;
+  --alpha-status-bg: 6%;
+  --alpha-status-border: 45%;
+  --alpha-status-muted: 90%;
+  --alpha-focus: 75%;
+  --alpha-heatmap-1: 25%;
+  --alpha-heatmap-2: 50%;
+  --alpha-heatmap-3: 75%;
+}
+
+/* Semantic roles (light) */
+:root {
+  /* Foreground */
+  --fg-primary: var(--slate-900);
+  --fg-secondary: var(--slate-800);
+  --fg-tertiary: var(--slate-600);
+  --fg-muted: var(--slate-400);
+  --fg-inverse: var(--slate-25);
+  --fg-accent: var(--blue-500);
+  --fg-accent-strong: var(--blue-400);
+
+  /* Backgrounds */
+  --bg-canvas: var(--slate-25);
+  --bg-surface: var(--slate-0);
+  --bg-elevated: var(--slate-0);
+  --bg-muted: var(--slate-50);
+  --bg-pressed: var(--slate-100);
+  --bg-inverse: var(--slate-800);
+  --bg-accent: var(--blue-500);
+  --bg-fill-weak: color-mix(in srgb, var(--neutral-1000) var(--alpha-weak), transparent);
+  --bg-fill: color-mix(in srgb, var(--neutral-1000) var(--alpha-base), transparent);
+  --bg-fill-strong: color-mix(in srgb, var(--neutral-1000) var(--alpha-strong), transparent);
+  --bg-scrim: color-mix(in srgb, var(--neutral-900) var(--alpha-scrim-light), transparent);
+
+  /* Borders */
+  --border-default: var(--slate-100);
+  --border-strong: var(--slate-600);
+  --border-fill: var(--bg-fill);
+  --border-elevated: var(--slate-100);
+  --border-media: color-mix(in srgb, var(--neutral-0) var(--alpha-media-border-light), transparent);
+
+  /* Focus and decorative gradients */
+  --focus-ring: color-mix(in srgb, var(--blue-400) var(--alpha-focus), transparent);
+  --divider-gradient: radial-gradient(
+    circle,
+    var(--slate-300) 0%,
+    color-mix(in srgb, var(--slate-300) 0%, transparent) 100%
+  );
+
+  /* Status */
+  --warning-fg: var(--amber-700);
+  --warning-fg-muted: color-mix(in srgb, var(--amber-700) var(--alpha-status-muted), transparent);
+  --warning-bg: color-mix(in srgb, var(--amber-600) var(--alpha-status-bg), transparent);
+  --warning-border: color-mix(in srgb, var(--amber-600) var(--alpha-status-border), transparent);
+  --danger-fg: var(--red-600);
+  --danger-fg-muted: color-mix(in srgb, var(--red-600) var(--alpha-status-muted), transparent);
+  --danger-bg: color-mix(in srgb, var(--red-600) var(--alpha-status-bg), transparent);
+  --danger-border: color-mix(in srgb, var(--red-600) var(--alpha-status-border), transparent);
+
+  /* Inline highlight (MDX <Highlight>) */
+  --highlight-yellow-bg: color-mix(
+    in srgb,
+    var(--yellow-100) var(--alpha-highlight-light),
+    transparent
+  );
+  --highlight-yellow-fg: var(--yellow-900);
+  --highlight-blue-bg: color-mix(in srgb, var(--sky-100) var(--alpha-highlight-light), transparent);
+  --highlight-blue-fg: var(--sky-900);
+  --highlight-green-bg: color-mix(
+    in srgb,
+    var(--green-100) var(--alpha-highlight-light),
+    transparent
+  );
+  --highlight-green-fg: var(--green-900);
+  --highlight-purple-bg: color-mix(
+    in srgb,
+    var(--purple-100) var(--alpha-highlight-light),
+    transparent
+  );
+  --highlight-purple-fg: var(--purple-900);
+  --highlight-red-bg: color-mix(in srgb, var(--red-100) var(--alpha-highlight-light), transparent);
+  --highlight-red-fg: var(--red-900);
+
+  /* Activity heatmap */
+  --heatmap-0: var(--slate-200);
+  --heatmap-1: color-mix(in srgb, var(--blue-500) var(--alpha-heatmap-1), transparent);
+  --heatmap-2: color-mix(in srgb, var(--blue-500) var(--alpha-heatmap-2), transparent);
+  --heatmap-3: color-mix(in srgb, var(--blue-500) var(--alpha-heatmap-3), transparent);
+  --heatmap-4: var(--blue-500);
+
+  /* Syntax highlighting (consumed by shiki's css-variables theme) */
+  --shiki-token-comment: var(--code-light-gray);
+  --shiki-token-punctuation: var(--code-light-gray);
+  --shiki-token-keyword: var(--code-light-red);
+  --shiki-token-function: var(--code-light-purple);
+  --shiki-token-string: var(--code-light-navy);
+  --shiki-token-string-expression: var(--code-light-navy);
+  --shiki-token-constant: var(--code-light-blue);
+  --shiki-token-link: var(--code-light-navy);
+  --shiki-token-parameter: var(--code-light-orange);
+}
+
+/* Semantic roles (dark) */
+.dark {
+  --fg-primary: var(--neutral-0);
+  --fg-secondary: var(--neutral-100);
+  --fg-tertiary: var(--neutral-300);
+  --fg-muted: var(--neutral-400);
+  --fg-inverse: var(--neutral-900);
+  --fg-accent: var(--blue-300);
+  --fg-accent-strong: var(--blue-200);
+
+  --bg-canvas: var(--neutral-900);
+  --bg-surface: var(--neutral-900);
+  --bg-elevated: var(--neutral-800);
+  --bg-muted: var(--neutral-850);
+  --bg-pressed: var(--neutral-800);
+  --bg-inverse: var(--neutral-100);
+  --bg-accent: var(--blue-300);
+  --bg-fill-weak: color-mix(in srgb, var(--neutral-0) var(--alpha-weak), transparent);
+  --bg-fill: color-mix(in srgb, var(--neutral-0) var(--alpha-base), transparent);
+  --bg-fill-strong: color-mix(in srgb, var(--neutral-0) var(--alpha-strong), transparent);
+  --bg-scrim: color-mix(in srgb, var(--neutral-1000) var(--alpha-scrim-dark), transparent);
+
+  --border-default: var(--neutral-800);
+  --border-strong: var(--neutral-300);
+  --border-elevated: color-mix(in srgb, var(--neutral-0) var(--alpha-elevated), transparent);
+  --border-media: color-mix(in srgb, var(--neutral-0) var(--alpha-media-border-dark), transparent);
+
+  --focus-ring: color-mix(in srgb, var(--blue-200) var(--alpha-focus), transparent);
+  --divider-gradient: radial-gradient(
+    circle,
+    var(--neutral-600) 0%,
+    color-mix(in srgb, var(--neutral-600) 0%, transparent) 100%
+  );
+
+  --warning-fg: var(--amber-400);
+  --warning-fg-muted: color-mix(in srgb, var(--amber-400) var(--alpha-status-muted), transparent);
+  --warning-bg: color-mix(in srgb, var(--amber-400) var(--alpha-status-bg), transparent);
+  --warning-border: color-mix(in srgb, var(--amber-400) var(--alpha-status-border), transparent);
+  --danger-fg: var(--red-400);
+  --danger-fg-muted: color-mix(in srgb, var(--red-400) var(--alpha-status-muted), transparent);
+  --danger-bg: color-mix(in srgb, var(--red-400) var(--alpha-status-bg), transparent);
+  --danger-border: color-mix(in srgb, var(--red-400) var(--alpha-status-border), transparent);
+
+  --highlight-yellow-bg: color-mix(
+    in srgb,
+    var(--yellow-400) var(--alpha-highlight-dark),
+    transparent
+  );
+  --highlight-yellow-fg: var(--yellow-300);
+  --highlight-blue-bg: color-mix(in srgb, var(--sky-400) var(--alpha-highlight-dark), transparent);
+  --highlight-blue-fg: var(--sky-300);
+  --highlight-green-bg: color-mix(
+    in srgb,
+    var(--green-400) var(--alpha-highlight-dark),
+    transparent
+  );
+  --highlight-green-fg: var(--green-300);
+  --highlight-purple-bg: color-mix(
+    in srgb,
+    var(--purple-400) var(--alpha-highlight-dark),
+    transparent
+  );
+  --highlight-purple-fg: var(--purple-300);
+  --highlight-red-bg: color-mix(in srgb, var(--red-400) var(--alpha-highlight-dark), transparent);
+  --highlight-red-fg: var(--red-300);
+
+  --heatmap-0: var(--neutral-700);
+
+  --shiki-token-comment: var(--code-dark-gray);
+  --shiki-token-punctuation: var(--code-dark-silver);
+  --shiki-token-keyword: var(--code-dark-red);
+  --shiki-token-function: var(--code-dark-purple);
+  --shiki-token-string: var(--code-dark-sky);
+  --shiki-token-string-expression: var(--code-dark-sky);
+  --shiki-token-constant: var(--code-dark-blue);
+  --shiki-token-link: var(--code-dark-link);
+  --shiki-token-parameter: var(--code-dark-orange);
+}
+
+/* Tailwind: generic colors valid for every color utility */
+@theme {
+  --color-transparent: transparent;
+  --color-current: currentColor;
+}
+
+/* Tailwind: role-scoped colors (`inline` so utilities read the live semantic variable) */
+@theme inline {
+  --text-color-primary: var(--fg-primary);
+  --text-color-secondary: var(--fg-secondary);
+  --text-color-tertiary: var(--fg-tertiary);
+  --text-color-muted: var(--fg-muted);
+  --text-color-inverse: var(--fg-inverse);
+  --text-color-accent: var(--fg-accent);
+  --text-color-accent-strong: var(--fg-accent-strong);
+  --text-color-warning: var(--warning-fg);
+  --text-color-warning-muted: var(--warning-fg-muted);
+  --text-color-danger: var(--danger-fg);
+  --text-color-danger-muted: var(--danger-fg-muted);
+  --text-color-highlight-yellow: var(--highlight-yellow-fg);
+  --text-color-highlight-blue: var(--highlight-blue-fg);
+  --text-color-highlight-green: var(--highlight-green-fg);
+  --text-color-highlight-purple: var(--highlight-purple-fg);
+  --text-color-highlight-red: var(--highlight-red-fg);
+
+  --background-color-canvas: var(--bg-canvas);
+  --background-color-surface: var(--bg-surface);
+  --background-color-elevated: var(--bg-elevated);
+  --background-color-muted: var(--bg-muted);
+  --background-color-pressed: var(--bg-pressed);
+  --background-color-inverse: var(--bg-inverse);
+  --background-color-accent: var(--bg-accent);
+  --background-color-fill-weak: var(--bg-fill-weak);
+  --background-color-fill: var(--bg-fill);
+  --background-color-fill-strong: var(--bg-fill-strong);
+  --background-color-scrim: var(--bg-scrim);
+  --background-color-warning: var(--warning-bg);
+  --background-color-danger: var(--danger-bg);
+  --background-color-highlight-yellow: var(--highlight-yellow-bg);
+  --background-color-highlight-blue: var(--highlight-blue-bg);
+  --background-color-highlight-green: var(--highlight-green-bg);
+  --background-color-highlight-purple: var(--highlight-purple-bg);
+  --background-color-highlight-red: var(--highlight-red-bg);
+  --background-color-heatmap-0: var(--heatmap-0);
+  --background-color-heatmap-1: var(--heatmap-1);
+  --background-color-heatmap-2: var(--heatmap-2);
+  --background-color-heatmap-3: var(--heatmap-3);
+  --background-color-heatmap-4: var(--heatmap-4);
+
+  --border-color-default: var(--border-default);
+  --border-color-strong: var(--border-strong);
+  --border-color-fill: var(--border-fill);
+  --border-color-elevated: var(--border-elevated);
+  --border-color-media: var(--border-media);
+  --border-color-warning: var(--warning-border);
+  --border-color-danger: var(--danger-border);
+}

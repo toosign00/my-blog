@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
 import type { Person, WithContext } from 'schema-dts';
-import { CertificateSection } from '@/components/about/CertificateSection';
-import { EducationSection } from '@/components/about/EducationSection';
-import { HowIWork } from '@/components/about/HowIWork';
-import { ProfileCard } from '@/components/about/ProfileCard';
-import { SkillsSection } from '@/components/about/SkillsSection';
-import { TimelineSection } from '@/components/about/TimelineSection';
+import { CertificateSection } from '@/components/features/about/CertificateSection';
+import { EducationSection } from '@/components/features/about/EducationSection';
+import { HowIWork } from '@/components/features/about/HowIWork';
+import { ProfileCard } from '@/components/features/about/ProfileCard';
+import { SkillsSection } from '@/components/features/about/SkillsSection';
+import { TimelineSection } from '@/components/features/about/TimelineSection';
 import JsonLd from '@/components/JsonLd';
 import { ABOUT } from '@/constants/about.constants';
 import { ROUTES } from '@/constants/menu.constants';
@@ -43,8 +43,8 @@ const AboutPage = () => {
   return (
     <>
       <JsonLd data={personSchema} />
-      <div className='column pb-16.25'>
-        <div className='column gap-15'>
+      <div className='column pb-16'>
+        <div className='column gap-16'>
           <ProfileCard />
           <HowIWork />
           <TimelineSection heading='Work Experience' items={ABOUT.workExperience} />

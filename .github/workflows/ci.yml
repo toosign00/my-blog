@@ -37,5 +37,10 @@ jobs:
       - name: Type check
         run: pnpm type-check
 
+      - name: Design tokens
+        run: |
+          pnpm test:scripts
+          pnpm check-tokens
+
       - name: Unit tests
         run: pnpm test:coverage

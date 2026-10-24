@@ -1,0 +1,34 @@
+/* Spacing and layout: the 4px step, named layout lengths and breakpoints. */
+
+/* Primitives */
+:root {
+  --length-hairline: 1px;
+  --length-scrollbar: 3px;
+  --length-divider: 0.03125rem;
+  --length-quote-rule: 3px;
+  --length-app: 47.375rem;
+  --length-sidebar: 13.125rem;
+  --length-inline: 1.5rem;
+  --length-header: 4rem;
+  --length-post-thumb: 21.625rem;
+  --length-grid-min: 12.5rem;
+}
+
+/* Tailwind */
+@theme {
+  --breakpoint-mobile: 40rem;
+  --breakpoint-tablet: 60rem;
+  --breakpoint-desktop: 80rem;
+  --breakpoint-wide: 100rem;
+
+  /* 4px base step; allowed multiples are enforced by scripts/check-tokens.mjs */
+  --spacing: 0.25rem;
+  --spacing-app: var(--length-app);
+  --spacing-sidebar: var(--length-sidebar);
+  --spacing-app-with-sidebar: calc(var(--length-app) + var(--length-sidebar));
+  --spacing-inline: var(--length-inline);
+  --spacing-header: var(--length-header);
+  --spacing-post-thumb: var(--length-post-thumb);
+  --spacing-grid-min: var(--length-grid-min);
+  --spacing-divider: var(--length-divider);
+}

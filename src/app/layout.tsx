@@ -1,4 +1,4 @@
-import '@/styles/globals.css';
+import '@/styles/index.css';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import type { Metadata, Viewport } from 'next';
@@ -8,7 +8,7 @@ import JsonLd from '@/components/JsonLd';
 import { Layout } from '@/components/layout/Root';
 import { AppProviders } from '@/components/providers/AppProviders';
 import { METADATA } from '@/constants/metadata.constants';
-import { GeistMono } from '@/styles/font';
+import { GeistMono } from '@/styles/tokens/fonts';
 
 const websiteSchema: WithContext<WebSite> = {
   '@context': 'https://schema.org',

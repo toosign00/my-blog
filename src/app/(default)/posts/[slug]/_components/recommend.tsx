@@ -1,4 +1,4 @@
-import { PostGrid } from '@/components/ui/postGrid';
+import { PostGrid } from '@/components/features/post/postGrid';
 import type { Post } from '@/types/post.types';
 
 interface RecommendProps {
@@ -8,7 +8,7 @@ interface RecommendProps {
 export const Recommend = ({ posts }: RecommendProps) => {
   return (
     <section aria-labelledby='recommendation-heading' className='column gap-6'>
-      <h3 className='section-heading text-gray-accent' id='recommendation-heading'>
+      <h3 className='section-heading text-primary' id='recommendation-heading'>
         Check them out
       </h3>
       <PostGrid className='mb-14' posts={posts} />

@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
+import { PostList } from '@/components/features/post/postList';
 import { Pagination } from '@/components/ui/pagination';
-import { PostList } from '@/components/ui/postList';
 import { ROUTES } from '@/constants/menu.constants';
 import { METADATA, POST } from '@/constants/metadata.constants';
 import { generatePageMetadata } from '@/utils/metadata-util';
@@ -11,8 +11,8 @@ const PostsPage = async () => {
   const currentPosts = allPosts.slice(0, POST.PER_PAGE);
 
   return (
-    <div className='column pb-16.25'>
-      <h1 className='section-heading mb-7.5'>Posts ({allPosts.length})</h1>
+    <div className='column pb-16'>
+      <h1 className='section-heading mb-8'>Posts ({allPosts.length})</h1>
 
       <PostList posts={currentPosts} />
 

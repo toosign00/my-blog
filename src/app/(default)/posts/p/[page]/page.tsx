@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { PostList } from '@/components/features/post/postList';
 import { Pagination } from '@/components/ui/pagination';
-import { PostList } from '@/components/ui/postList';
 import { ROUTES } from '@/constants/menu.constants';
 import { METADATA, POST } from '@/constants/metadata.constants';
 import { generatePageMetadata } from '@/utils/metadata-util';
@@ -27,7 +27,7 @@ const PostsPage = async ({ params }: PostsPageProps) => {
 
   return (
     <>
-      <h1 className='section-heading mb-7.5'>Posts ({allPosts.length})</h1>
+      <h1 className='section-heading mb-8'>Posts ({allPosts.length})</h1>
       <PostList posts={currentPosts} />
       <Pagination basePath={ROUTES.POSTS} currentPage={currentPage} totalPages={totalPages} />
     </>

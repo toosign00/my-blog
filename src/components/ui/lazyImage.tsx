@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import type { CSSProperties } from 'react';
 import { useState } from 'react';
-import { twMerge } from 'tailwind-merge';
+import { twMerge } from '@/utils/tw-merge-util';
 
 export type LazyImageProps = {
   src: string;
@@ -40,14 +40,12 @@ export const LazyImage = ({
       className='relative block w-full overflow-hidden rounded-lg'
       style={{ aspectRatio: `${width} / ${height}` }}
     >
-      {useShimmer && !isLoaded && (
-        <span className='absolute inset-0 animate-shimmer bg-[linear-gradient(90deg,var(--color-background02)_25%,var(--color-border)_50%,var(--color-background02)_75%)] bg-size-[200%_100%]' />
-      )}
+      {useShimmer && !isLoaded && <span className='skeleton-shimmer absolute inset-0' />}
       <Image
         alt={alt}
         blurDataURL={blurDataURL}
         className={twMerge(
-          'h-auto w-full max-w-full transition-opacity duration-300',
+          'h-auto w-full max-w-full transition-opacity duration-slow',
           useShimmer && !isLoaded ? 'opacity-0' : 'opacity-100',
           className
         )}

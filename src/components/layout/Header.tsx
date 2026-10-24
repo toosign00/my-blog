@@ -6,10 +6,12 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { Button } from '@/components/ui/Button';
 import { Divider } from '@/components/ui/divider';
+import { ThemeToggle } from '@/components/ui/ThemeToggle';
 import { ROUTES } from '@/constants/menu.constants';
 import { METADATA } from '@/constants/metadata.constants';
-import { ThemeToggle } from '../ThemeToggle';
+import { ICON_SIZE } from '@/styles/tokens/icon';
 import { NavigateMenu } from './NavigateMenu';
 
 export const Header = () => {
@@ -32,7 +34,7 @@ export const Header = () => {
   }, []);
 
   const overlayClassName =
-    'fixed inset-0 z-[var(--z-overlay)] backdrop-blur-[11px] transition-opacity duration-300';
+    'fixed inset-0 z-overlay bg-scrim backdrop-blur-md transition-opacity duration-slow';
 
   return (
     <>
@@ -45,12 +47,11 @@ export const Header = () => {
               : `${overlayClassName} pointer-events-none opacity-0`
           }
           onClick={() => setAccordionOpen(false)}
-          style={{ backgroundColor: 'var(--color-overlay)' }}
           type='button'
         />
 
-        <header className='fixed top-0 left-0 z-(--z-header) flex w-full border-b border-border bg-background tablet:hidden px-(--spacing-inline)'>
-          <div className='row-between mx-auto w-full max-w-(--app-width) py-3.25'>
+        <header className='fixed top-0 left-0 z-header flex h-header w-full items-center border-b border-default bg-canvas px-inline tablet:hidden'>
+          <div className='row-between mx-auto w-full max-w-app'>
             <Link aria-label={METADATA.SITE.NAME} href={ROUTES.HOME}>
               <Image
                 alt={METADATA.SITE.NAME}
@@ -67,49 +68,48 @@ export const Header = () => {
               id='menu-accordion-item'
               value='menu'
             >
-              <button
+              <Button
                 aria-controls='menu-accordion-content'
                 aria-expanded={accordionOpen}
-                className='ui-button h4 px-4 text-gray-mid hover:bg-background02'
+                className='px-4 text-tertiary'
                 onClick={() => setAccordionOpen((open) => !open)}
-                type='button'
               >
                 {accordionOpen ? '-' : 'menu'}
-              </button>
+              </Button>
               <Accordion.Content
                 aria-labelledby='menu-accordion-item'
-                className='fixed top-16.75 left-0 w-full overflow-hidden border-b border-border bg-background px-inline'
+                className='fixed top-header left-0 w-full overflow-hidden border-b border-default bg-canvas px-inline'
                 id='menu-accordion-content'
               >
-                <div className='column mx-auto w-full max-w-app pt-6.25 pb-4.75'>
-                  <div className='column w-full max-w-30.5 gap-7.5'>
+                <div className='column mx-auto w-full max-w-app pt-6 pb-5'>
+                  <div className='column w-full max-w-32 gap-8'>
                     <NavigateMenu />
                     <ThemeToggle />
                   </div>
-                  <p className='h7 mt-10.75 w-full text-center text-license'>
+                  <p className='mt-11 w-full text-center font-medium text-micro text-muted'>
                     © 2025 - <span suppressHydrationWarning>{new Date().getFullYear()}</span>
                     {'. '}
                     {METADATA.SITE.NAME} All rights reserved.
                   </p>
-                  <div className='row-between mx-auto max-w-30.5 mt-4 gap-2'>
+                  <div className='row-between mx-auto mt-4 max-w-32 gap-2'>
                     <a
                       aria-label='RSS feed'
-                      className='flex h7 items-center gap-1 text-license no-underline opacity-100 transition-opacity duration-150 ease-in-out hover:opacity-70'
+                      className='hover-fade flex items-center gap-1 font-medium text-micro text-muted no-underline'
                       href={ROUTES.RSS}
                       rel='noopener noreferrer'
                       target='_blank'
                     >
-                      <Rss size={14} />
+                      <Rss size={ICON_SIZE.xs} />
                       RSS
                     </a>
                     <a
                       aria-label='XML sitemap'
-                      className='flex h7 items-center gap-1 text-license no-underline opacity-100 transition-opacity duration-150 ease-in-out hover:opacity-70'
+                      className='hover-fade flex items-center gap-1 font-medium text-micro text-muted no-underline'
                       href={ROUTES.SITEMAP}
                       rel='noopener noreferrer'
                       target='_blank'
                     >
-                      <Network size={14} />
+                      <Network size={ICON_SIZE.xs} />
                       Sitemap
                     </a>
                   </div>
@@ -120,7 +120,7 @@ export const Header = () => {
         </header>
       </Accordion.Root>
 
-      <div className='block tablet:hidden pt-16.75'>
+      <div className='block pt-header tablet:hidden'>
         <Divider />
       </div>
     </>

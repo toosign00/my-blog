@@ -1,295 +1,193 @@
-@keyframes shimmer {
-  from { background-position: 200% 0; }
-  to { background-position: -200% 0; }
+/*
+ * Shared utilities built only from design tokens. Cards, buttons and chips are components in
+ * src/components/ui.
+ */
+
+/* Interaction: focus, hover, press and scroll affordances */
+
+@utility focus-ring {
+  outline: none;
+
+  &:focus-visible {
+    box-shadow: 0 0 0 --spacing(0.5) var(--focus-ring);
+  }
 }
 
-@layer utilities {
-  .animate-shimmer {
-    animation: shimmer 1.8s ease-in-out infinite;
+@utility hover-fade {
+  transition: opacity var(--time-fast) var(--ease-in-out);
+
+  &:hover {
+    opacity: var(--opacity-hover-value);
+  }
+}
+
+@utility press {
+  transition: transform var(--time-fast) var(--ease-out);
+
+  &:active {
+    scale: var(--scale-press);
+  }
+}
+
+@utility transition-collapse {
+  transition-property: grid-template-rows, border-color;
+  transition-duration: var(--time-base);
+  transition-timing-function: var(--ease-out);
+}
+
+@utility subtle-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+  scrollbar-gutter: stable;
+  transition: scrollbar-color var(--time-base) var(--ease-in-out);
+
+  &:hover {
+    scrollbar-color: var(--fg-muted) transparent;
   }
 
-  input[type='search']::-webkit-search-cancel-button {
-    cursor: pointer;
+  &::-webkit-scrollbar {
+    width: var(--length-scrollbar);
   }
 
-  .ui-surface {
-    border: 1px solid var(--color-hairline);
-    border-radius: var(--radius-md);
-    background-color: var(--color-surface-strong);
-  }
-
-  .ui-surface-lg {
-    border: 1px solid var(--color-hairline);
-    border-radius: var(--radius-lg);
-    background-color: var(--color-surface-strong);
-  }
-
-  .ui-card {
-    border: 1px solid var(--color-hairline);
-    border-radius: var(--radius-lg);
-    background-color: var(--color-surface-strong);
-  }
-
-  .ui-button {
-    @apply h-10 cursor-pointer transition-colors duration-150 ease-in-out;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 1px solid var(--color-hairline);
-    border-radius: var(--radius-md);
-    background-color: var(--color-surface-strong);
-  }
-
-  .ui-chip {
-    @apply transition-colors duration-150 ease-in-out;
-    border: 1px solid var(--color-hairline);
-    border-radius: var(--radius-sm);
-    background-color: var(--color-surface-muted);
-  }
-
-  .center {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .center-x {
-    display: flex;
-    justify-content: center;
-  }
-
-  .center-y {
-    display: flex;
-    align-items: center;
-  }
-
-  .row-between {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .column {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .column-center {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .column-center-x {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .column-center-y {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-
-  .h7 {
-    font-family: var(--font-body);
-    font-weight: 500;
-    font-size: 10px;
-    line-height: 18px;
-  }
-
-  .h6 {
-    font-family: var(--font-body);
-    font-weight: 500;
-    font-size: 11px;
-    line-height: 18px;
-  }
-
-  .h5 {
-    font-family: var(--font-body);
-    font-weight: 500;
-    font-size: 12px;
-  }
-
-  .h4 {
-    font-family: var(--font-body);
-    font-weight: 500;
-    font-size: 13px;
-  }
-
-  .h3 {
-    font-family: var(--font-display);
-    font-weight: 600;
-    font-size: 15px;
-    line-height: 15px;
-    letter-spacing: -0.01em;
-  }
-
-  .section-heading {
-    font-family: var(--font-display);
-    font-weight: 600;
-    font-size: 15px;
-    line-height: 15px;
-    letter-spacing: -0.01em;
-    color: var(--color-gray-light);
-  }
-
-  .section-action-chip {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.375rem;
-    height: 2rem;
-    padding-inline: 0.75rem;
-    border: 1px solid var(--color-hairline);
-    border-radius: var(--radius-md);
-    font-family: var(--font-body);
-    font-weight: 500;
-    font-size: 13px;
-    transition: background-color 150ms ease-in-out;
-    border-color: var(--color-hairline);
-    background-color: var(--color-surface-strong);
-    color: var(--color-gray-light);
-  }
-
-  .section-action-chip:hover {
-    background-color: var(--color-background02);
-  }
-
-  .section-action-chip-strong {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    height: 2rem;
-    padding-inline: 0.75rem;
-    border: 1px solid var(--color-hairline);
-    border-radius: var(--radius-md);
-    font-family: var(--font-body);
-    font-weight: 500;
-    font-size: 13px;
-    color: var(--color-gray-accent);
-    transition: background-color 150ms ease-in-out;
-  }
-
-  .section-action-chip-strong:hover {
-    background-color: var(--color-background02);
-  }
-
-  .focus-ring {
-    outline: none;
-  }
-
-  .focus-ring:focus-visible {
-    box-shadow: 0 0 0 2px var(--color-focus-ring);
-  }
-
-  .post-subtitle {
-    font-family: var(--font-body);
-    font-weight: 500;
-    font-size: var(--text-base);
-  }
-
-  .post-title {
-    font-family: var(--font-display);
-    font-weight: 600;
-    font-size: var(--text-xxl);
-  }
-
-  .post-description {
-    font-family: var(--font-body);
-    font-weight: 500;
-    font-size: var(--text-code);
-  }
-
-  .post-image-description {
-    font-family: var(--font-body);
-    font-weight: 400;
-    font-size: var(--text-base);
-  }
-
-  .post-body {
-    font-family: var(--font-body);
-    font-weight: 400;
-    font-size: var(--text-base);
-    line-height: 180%;
-  }
-
-  .profile-sub {
-    font-family: var(--font-body);
-    font-weight: 500;
-    font-size: 11px;
-  }
-
-  .profile-name {
-    font-family: var(--font-body);
-    font-weight: 500;
-    font-size: 13px;
-    line-height: 13px;
-  }
-
-  .profile-title {
-    font-family: var(--font-body);
-    font-weight: 500;
-    font-size: 13px;
-    line-height: 20px;
-  }
-
-  .a {
-    font-family: var(--font-body);
-    font-weight: 500;
-    font-size: 14px;
-  }
-
-  .subtle-scrollbar {
-    scrollbar-width: thin;
-    scrollbar-color: transparent transparent;
-    scrollbar-gutter: stable;
-    transition: scrollbar-color 0.2s ease;
-  }
-
-  .subtle-scrollbar:hover {
-    scrollbar-color: var(--color-gray-light) transparent;
-  }
-
-  .subtle-scrollbar::-webkit-scrollbar {
-    width: 3px;
-  }
-
-  .subtle-scrollbar::-webkit-scrollbar-track {
+  &::-webkit-scrollbar-track {
     background: transparent;
   }
 
-  .subtle-scrollbar::-webkit-scrollbar-thumb {
+  &::-webkit-scrollbar-thumb {
     background: transparent;
-    border-radius: 999px;
-    transition: background 0.2s ease;
+    border-radius: var(--radius-full);
+    transition: background var(--time-base) var(--ease-in-out);
   }
 
-  .subtle-scrollbar:hover::-webkit-scrollbar-thumb {
-    background: var(--color-gray-light);
+  &:hover::-webkit-scrollbar-thumb {
+    background: var(--fg-muted);
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .subtle-scrollbar,
-    .subtle-scrollbar::-webkit-scrollbar-thumb {
+    &,
+    &::-webkit-scrollbar-thumb {
       transition: none;
     }
   }
 
   @media (hover: none) and (any-pointer: coarse) {
-    .subtle-scrollbar,
-    .subtle-scrollbar:hover {
-      scrollbar-color: var(--color-gray-light) transparent;
+    &,
+    &:hover {
+      scrollbar-color: var(--fg-muted) transparent;
       transition: none;
     }
 
-    .subtle-scrollbar::-webkit-scrollbar-thumb,
-    .subtle-scrollbar:hover::-webkit-scrollbar-thumb {
-      background: var(--color-gray-light);
+    &::-webkit-scrollbar-thumb,
+    &:hover::-webkit-scrollbar-thumb {
+      background: var(--fg-muted);
       transition: none;
     }
+  }
+}
+
+input[type="search"]::-webkit-search-cancel-button {
+  cursor: pointer;
+}
+
+/* Layout: flex/grid helpers and page-level placement */
+
+@utility center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@utility center-y {
+  display: flex;
+  align-items: center;
+}
+
+@utility row-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@utility column {
+  display: flex;
+  flex-direction: column;
+}
+
+@utility column-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+@utility grid-cols-auto-fill {
+  grid-template-columns: repeat(auto-fill, minmax(var(--spacing-grid-min), 1fr));
+}
+
+@utility grid-cols-leading-icon {
+  grid-template-columns: auto 1fr;
+}
+
+@utility grid-rows-collapsed {
+  grid-template-rows: 0fr;
+}
+
+@utility grid-rows-expanded {
+  grid-template-rows: 1fr;
+}
+
+@utility min-h-status-page {
+  min-height: calc(100dvh - --spacing(56));
+}
+
+@utility toc-panel {
+  position: fixed;
+  top: --spacing(36);
+  left: calc(50% + var(--spacing-app) / 2 + --spacing(8));
+  width: --spacing(44);
+  max-height: calc(100vh - --spacing(48));
+}
+
+/* Surfaces: section headings and decorative surfaces */
+
+@utility section-heading {
+  font-size: var(--text-body);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--leading-none);
+  letter-spacing: var(--tracking-tight);
+  color: var(--fg-muted);
+}
+
+@utility divider-gradient {
+  background: var(--divider-gradient);
+}
+
+@utility skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--bg-fill-weak) 25%,
+    var(--border-default) 50%,
+    var(--bg-fill-weak) 75%
+  );
+  background-size: 200% 100%;
+  animation: var(--animate-shimmer);
+}
+
+@utility quote-rule {
+  border-left-width: var(--length-quote-rule);
+}
+
+@utility steps-counter {
+  counter-reset: steps;
+}
+
+/* MDX <Steps>: numbered markers drawn from a CSS counter */
+@utility step-marker {
+  counter-increment: steps;
+
+  /* Tailwind's before: utilities render `content: var(--tw-content)` */
+  &::before {
+    --tw-content: counter(steps);
+    content: var(--tw-content);
   }
 }

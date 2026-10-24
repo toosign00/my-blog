@@ -68,7 +68,7 @@ ref를 조작해 해당 분기만 실행하는 테스트는 추가하지 않습�
 대상:
 
 - `src/utils/employment-period-util.ts`
-- `src/components/about/EmploymentPeriod.tsx`
+- `src/components/features/about/EmploymentPeriod.tsx`
 
 검증할 공개 동작:
 
@@ -87,7 +87,7 @@ ref를 조작해 해당 분기만 실행하는 테스트는 추가하지 않습�
 
 대상:
 
-- `src/components/ui/linkEmbed.tsx`
+- `src/components/features/content/linkEmbed.tsx`
 
 검증할 공개 동작:
 
@@ -115,9 +115,9 @@ ResumeDownloadButton은 사용자 승인 후 동기 window.open 전후에 설정
 
 대상:
 
-- `src/components/ThemeToggle/index.tsx`
+- `src/components/ui/ThemeToggle/index.tsx`
 - `src/components/layout/NavigateMenu.tsx`
-- `src/components/ResumeBtn/index.tsx`
+- `src/components/features/about/ResumeBtn/index.tsx`
 - `src/components/ui/lazyImage.tsx`
 
 검증할 공개 동작:

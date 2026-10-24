@@ -1,4 +1,4 @@
-import { ProjectList } from '@/components/project/ProjectList';
+import { ProjectList } from '@/components/features/project/ProjectList';
 import type { Project } from '@/types/project.types';
 
 type RecommendProps = {
@@ -12,7 +12,7 @@ export const Recommend = ({ projects }: RecommendProps) => {
 
   return (
     <section>
-      <h2 className='section-heading mb-7.5'>More Projects</h2>
+      <h2 className='section-heading mb-8'>More Projects</h2>
       <ProjectList hideAward projects={projects} />
     </section>
   );

@@ -2,8 +2,8 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { twMerge } from 'tailwind-merge';
 import { MENU } from '@/constants/menu.constants';
+import { twMerge } from '@/utils/tw-merge-util';
 
 export const NavigateMenu = () => {
   const pathname = usePathname();
@@ -20,14 +20,14 @@ export const NavigateMenu = () => {
           return (
             <li
               className={twMerge(
-                'h-10 w-full rounded-md text-gray-mid transition-colors duration-150 ease-in-out hover:bg-background02 hover:text-gray-accent',
-                isActive && 'bg-background02 text-gray-accent'
+                'h-10 w-full rounded-md text-tertiary transition-colors duration-fast ease-in-out hover:bg-fill-weak hover:text-primary',
+                isActive && 'bg-fill-weak text-primary'
               )}
               key={menu.link}
             >
               <Link
                 aria-current={isActive ? 'page' : undefined}
-                className='center-y a h-full w-full px-2.5'
+                className='center-y h-full w-full px-2.5 font-medium text-label'
                 href={menu.link}
               >
                 {menu.title}
