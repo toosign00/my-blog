@@ -7,16 +7,16 @@ const SecurityPolicyPage = () => {
   return (
     <>
       <header className='mx-auto mb-9 text-center'>
-        <h1 className='post-title mb-3 text-gray-accent'>Security Policy</h1>
-        <p className='font-medium text-gray-mid text-sm'>
+        <h1 className='text-title font-semibold mb-3 text-primary'>Security Policy</h1>
+        <p className='font-medium text-tertiary text-label'>
           Responsible disclosure guidelines for {METADATA.SITE.NAME}.
         </p>
       </header>
 
-      <div className='column gap-7.5 pb-16.25'>
+      <div className='column gap-8 pb-16'>
         <section className='ui-card column gap-4 rounded-sm p-5'>
           <h2 className='section-heading'>Contact</h2>
-          <p className='leading-relaxed text-gray-mid'>
+          <p className='leading-relaxed text-tertiary'>
             Please report suspected vulnerabilities by email at{' '}
             <a className='text-primary no-underline hover:underline' href='mailto:hello@toosign.me'>
               hello@toosign.me
@@ -28,7 +28,7 @@ const SecurityPolicyPage = () => {
 
         <section className='ui-card column gap-4 rounded-sm p-5'>
           <h2 className='section-heading'>Scope</h2>
-          <ul className='m-0 column list-disc gap-2 pl-5 text-gray-mid'>
+          <ul className='m-0 column list-disc gap-2 pl-5 text-tertiary'>
             <li>https://toosign.me and pages served from this blog.</li>
             <li>Public routes, APIs, and static files maintained in this repository.</li>
             <li>Issues that could affect confidentiality, integrity, or availability.</li>
@@ -37,7 +37,7 @@ const SecurityPolicyPage = () => {
 
         <section className='ui-card column gap-4 rounded-sm p-5'>
           <h2 className='section-heading'>Out of Scope</h2>
-          <ul className='m-0 column list-disc gap-2 pl-5 text-gray-mid'>
+          <ul className='m-0 column list-disc gap-2 pl-5 text-tertiary'>
             <li>Third-party services and platforms not operated by this site.</li>
             <li>files.toosign.me and externally hosted files.</li>
             <li>Social accounts, email provider infrastructure, and physical security issues.</li>
@@ -46,7 +46,7 @@ const SecurityPolicyPage = () => {
 
         <section className='ui-card column gap-4 rounded-sm p-5'>
           <h2 className='section-heading'>Report Details</h2>
-          <ul className='m-0 column list-disc gap-2 pl-5 text-gray-mid'>
+          <ul className='m-0 column list-disc gap-2 pl-5 text-tertiary'>
             <li>Affected URL or endpoint.</li>
             <li>Vulnerability type and expected impact.</li>
             <li>Steps to reproduce the issue.</li>
@@ -56,7 +56,7 @@ const SecurityPolicyPage = () => {
 
         <section className='ui-card column gap-4 rounded-sm p-5'>
           <h2 className='section-heading'>Testing Guidelines</h2>
-          <ul className='m-0 column list-disc gap-2 pl-5 text-gray-mid'>
+          <ul className='m-0 column list-disc gap-2 pl-5 text-tertiary'>
             <li>Do not access, modify, or delete data that is not yours.</li>
             <li>Do not perform denial-of-service, spam, or social engineering tests.</li>
             <li>Do not run automated high-volume scans.</li>
@@ -68,11 +68,11 @@ const SecurityPolicyPage = () => {
 
         <section className='ui-card column gap-4 rounded-sm p-5'>
           <h2 className='section-heading'>Review Process</h2>
-          <p className='leading-relaxed text-gray-mid'>
+          <p className='leading-relaxed text-tertiary'>
             Valid reports are reviewed as time allows. I try to acknowledge actionable reports
             within 7 days, and resolution time may vary depending on severity and scope.
           </p>
-          <p className='leading-relaxed text-gray-mid'>
+          <p className='leading-relaxed text-tertiary'>
             Reports made in good faith and within this policy will not be treated as malicious
             activity.
           </p>

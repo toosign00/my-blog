@@ -1,0 +1,138 @@
+/*
+ * Primitive tokens: raw values only.
+ * Components never reference these directly. They are consumed by semantic.css and theme.css.
+ * This is the only stylesheet allowed to contain literal colors, lengths and durations.
+ */
+:root {
+  /* Slate: cool neutrals used by the light theme */
+  --slate-0: #ffffff;
+  --slate-25: #fcfcfd;
+  --slate-50: #f9f9fc;
+  --slate-100: #f4f4f8;
+  --slate-200: #ebedf0;
+  --slate-300: #d9dbe7;
+  --slate-400: #b5b5c3;
+  --slate-600: #6b6b87;
+  --slate-800: #393960;
+  --slate-900: #1d1d30;
+
+  /* Neutral: true grays used by the dark theme */
+  --neutral-0: #ffffff;
+  --neutral-100: #dddddd;
+  --neutral-300: #b2b2b2;
+  --neutral-400: #888888;
+  --neutral-600: #36363a;
+  --neutral-700: #2d2d2d;
+  --neutral-800: #1b1b1b;
+  --neutral-850: #141414;
+  --neutral-900: #0f0f0f;
+  --neutral-1000: #000000;
+
+  /* Brand blue */
+  --blue-200: #8ec2ff;
+  --blue-300: #63a9ff;
+  --blue-400: #2997ff;
+  --blue-500: #3182f6;
+
+  /* Status and highlight hues */
+  --amber-400: #fbbf24;
+  --amber-600: #d97706;
+  --amber-700: #b45309;
+  --red-100: #fee2e2;
+  --red-300: #fca5a5;
+  --red-400: #f87171;
+  --red-600: #dc2626;
+  --red-900: #7f1d1d;
+  --yellow-100: #fef9c3;
+  --yellow-300: #fde047;
+  --yellow-400: #facc15;
+  --yellow-900: #713f12;
+  --sky-100: #dbeafe;
+  --sky-300: #93c5fd;
+  --sky-400: #60a5fa;
+  --sky-900: #1e3a8a;
+  --green-100: #dcfce7;
+  --green-300: #86efac;
+  --green-400: #4ade80;
+  --green-900: #14532d;
+  --purple-100: #f3e8ff;
+  --purple-300: #d8b4fe;
+  --purple-400: #c084fc;
+  --purple-900: #581c87;
+
+  /* Syntax palettes (GitHub light / dark) */
+  --code-light-gray: #6a737d;
+  --code-light-red: #d73a49;
+  --code-light-purple: #6f42c1;
+  --code-light-navy: #032f62;
+  --code-light-blue: #005cc5;
+  --code-light-orange: #e36209;
+  --code-dark-gray: #8b949e;
+  --code-dark-silver: #c9d1d9;
+  --code-dark-red: #ff7b72;
+  --code-dark-purple: #d2a8ff;
+  --code-dark-sky: #a5d6ff;
+  --code-dark-blue: #79c0ff;
+  --code-dark-link: #58a6ff;
+  --code-dark-orange: #ffa657;
+
+  /* Alpha steps, applied to black (light theme) or white (dark theme) */
+  --alpha-weak: 2%;
+  --alpha-base: 4%;
+  --alpha-strong: 8%;
+  --alpha-elevated: 16%;
+  --alpha-scrim-light: 35%;
+  --alpha-scrim-dark: 50%;
+  --alpha-media-border-light: 20%;
+  --alpha-media-border-dark: 10%;
+  --alpha-media-shadow-light: 8%;
+  --alpha-media-shadow-dark: 35%;
+  --alpha-highlight-light: 80%;
+  --alpha-highlight-dark: 15%;
+  --alpha-status-bg: 6%;
+  --alpha-status-border: 45%;
+  --alpha-status-muted: 90%;
+  --alpha-focus: 75%;
+  --alpha-heatmap-1: 25%;
+  --alpha-heatmap-2: 50%;
+  --alpha-heatmap-3: 75%;
+
+  /* Root font size per viewport */
+  --root-size: 16px;
+  --root-size-desktop: 16.5px;
+  --root-size-wide: 17px;
+
+  /* Fixed lengths */
+  --length-hairline: 1px;
+  --length-scrollbar: 3px;
+  --length-divider: 0.03125rem;
+  --length-quote-rule: 3px;
+  --length-app: 47.375rem;
+  --length-sidebar: 13.125rem;
+  --length-inline: 1.5rem;
+  --length-header: 4rem;
+  --length-post-thumb: 21.625rem;
+  --length-grid-min: 12.5rem;
+  --length-expand: 10rem;
+
+  /* Durations */
+  --time-fast: 150ms;
+  --time-base: 200ms;
+  --time-slow: 300ms;
+  --time-page-out: 400ms;
+  --time-page-in: 600ms;
+  --time-page-delay: 200ms;
+  --time-shimmer: 1800ms;
+
+  /* Stacking layers */
+  --layer-raised: 10;
+  --layer-overlay: 100;
+  --layer-header: 150;
+  --layer-modal: 200;
+  --layer-tooltip: 300;
+
+  /* Misc */
+  --opacity-hover-value: 0.7;
+  --scale-press: 0.98;
+  --word-spacing-mono: -0.15em;
+}

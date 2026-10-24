@@ -21,6 +21,7 @@ import { PythonIcon } from '@/components/icons/PythonIcon';
 import { SlackIcon } from '@/components/icons/SlackIcon';
 import { TypeScriptIcon } from '@/components/icons/TypeScriptIcon';
 import { ABOUT } from '@/constants/about.constants';
+import { ICON_SIZE } from '@/constants/style.constants';
 import type { IconProps } from '@/types/icon.types';
 
 const ICON_MAP: Record<string, ComponentType<IconProps>> = {
@@ -53,7 +54,7 @@ export const SkillsSection = () => {
       <div className='column gap-6'>
         {ABOUT.skills.map((group) => (
           <div key={group.category} className='column gap-3'>
-            <span className='text-sm font-medium text-gray-mid'>{group.category}</span>
+            <span className='text-label font-medium text-tertiary'>{group.category}</span>
             <div className='flex flex-wrap gap-2'>
               {group.items.map((item) => {
                 if ('grouped' in item) {
@@ -62,7 +63,7 @@ export const SkillsSection = () => {
                       key={item.label}
                       icon={item.icons.map((iconKey) => {
                         const Icon = ICON_MAP[iconKey];
-                        return Icon ? <Icon key={iconKey} size={20} /> : null;
+                        return Icon ? <Icon key={iconKey} size={ICON_SIZE.lg} /> : null;
                       })}
                       label={item.label}
                     />
@@ -70,7 +71,13 @@ export const SkillsSection = () => {
                 }
                 const Icon = ICON_MAP[item.icon];
                 if (!Icon) return null;
-                return <SkillBadge key={item.label} icon={<Icon size={20} />} label={item.label} />;
+                return (
+                  <SkillBadge
+                    key={item.label}
+                    icon={<Icon size={ICON_SIZE.lg} />}
+                    label={item.label}
+                  />
+                );
               })}
             </div>
           </div>

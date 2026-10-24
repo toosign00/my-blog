@@ -2,16 +2,17 @@
 
 import { ChevronLeft } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
+import { ICON_SIZE } from '@/constants/style.constants';
 
 const BACK_BUTTON_CLASS =
-  'focus-ring center-y h3 w-fit cursor-pointer select-none gap-2 py-1.25 pr-2.25 text-gray-accent opacity-100 transition-opacity duration-150 ease-in-out hover:opacity-70';
+  'focus-ring hover-fade center-y w-fit cursor-pointer select-none gap-2 py-1 pr-2 font-semibold text-body text-primary leading-none tracking-tight';
 
 type BackButtonProps = {
   iconSize?: number;
   label?: string;
 };
 
-export const BackButton = ({ iconSize = 18, label = 'Back' }: BackButtonProps) => {
+export const BackButton = ({ iconSize = ICON_SIZE.md, label = 'Back' }: BackButtonProps) => {
   const router = useRouter();
   const pathname = usePathname();
 

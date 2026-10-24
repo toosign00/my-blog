@@ -87,7 +87,7 @@ export const LinkEmbed = ({
         href={url}
         target='_blank'
         rel='noopener noreferrer'
-        className='focus-ring block w-full text-gray-bold transition-opacity hover:opacity-70'
+        className='focus-ring hover-fade block w-full text-secondary'
         {...props}
       >
         🔗 {manualTitle || url}
@@ -100,22 +100,22 @@ export const LinkEmbed = ({
     if (variant === 'mention') {
       return (
         <div className='inline-flex items-center gap-1.5 h-6 animate-pulse'>
-          <div className='w-4 h-4 rounded bg-background05' />
-          <div className='h-4 w-24 rounded bg-background05' />
+          <div className='h-4 w-4 rounded-xs bg-fill' />
+          <div className='h-4 w-24 rounded-xs bg-fill' />
         </div>
       );
     }
     return (
       <div className='block w-full'>
-        <div className='flex flex-col mobile:flex-row gap-4 p-4 border border-border rounded-xl bg-background overflow-hidden animate-pulse'>
-          <div className='shrink-0 w-full mobile:w-32 aspect-video mobile:aspect-square rounded-lg bg-background05' />
+        <div className='flex flex-col mobile:flex-row gap-4 p-4 border border-default rounded-lg bg-canvas overflow-hidden animate-pulse'>
+          <div className='shrink-0 w-full mobile:w-32 aspect-video mobile:aspect-square rounded-lg bg-fill' />
           <div className='flex-1 min-w-0 flex flex-col justify-between'>
             <div>
-              <div className='h-5 bg-background05 rounded mb-2 w-3/4' />
-              <div className='h-4 bg-background05 rounded mb-1 w-full' />
-              <div className='h-4 bg-background05 rounded mb-3 w-5/6' />
+              <div className='mb-2 h-5 w-3/4 rounded-xs bg-fill' />
+              <div className='mb-1 h-4 w-full rounded-xs bg-fill' />
+              <div className='mb-3 h-4 w-5/6 rounded-xs bg-fill' />
             </div>
-            <div className='h-3 bg-background05 rounded w-32' />
+            <div className='h-3 w-32 rounded-xs bg-fill' />
           </div>
         </div>
       </div>
@@ -128,7 +128,7 @@ export const LinkEmbed = ({
         href={url}
         target='_blank'
         rel='noopener noreferrer'
-        className='ui-chip focus-ring group inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 transition-colors duration-200 hover:bg-background03'
+        className='ui-chip focus-ring group inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 transition-colors duration-base hover:bg-fill'
         {...props}
       >
         {!faviconError && (
@@ -149,7 +149,7 @@ export const LinkEmbed = ({
             viewBox='0 0 15 15'
             fill='none'
             xmlns='http://www.w3.org/2000/svg'
-            className='shrink-0 text-gray-light'
+            className='shrink-0 text-muted'
           >
             <title>Favicon Error</title>
             <path
@@ -160,7 +160,7 @@ export const LinkEmbed = ({
             />
           </svg>
         )}
-        <span className='max-w-48 truncate text-gray-bold text-sm transition-colors group-hover:text-gray-accent'>
+        <span className='max-w-48 truncate text-label text-secondary transition-colors group-hover:text-primary'>
           {title}
         </span>
       </a>
@@ -175,9 +175,9 @@ export const LinkEmbed = ({
       className='focus-ring block w-full border-0 no-underline'
       {...props}
     >
-      <div className='ui-card group flex flex-col gap-4 overflow-hidden rounded-xl p-4 transition-all duration-200 hover:-translate-y-0.5 hover:bg-gray-hover mobile:flex-row'>
+      <div className='ui-card group flex flex-col gap-4 overflow-hidden p-4 transition-all duration-base hover:-translate-y-0.5 hover:bg-muted mobile:flex-row'>
         {thumbnail && !thumbnailError && (
-          <div className='relative shrink-0 w-full mobile:w-32 aspect-video mobile:aspect-square overflow-hidden rounded-lg bg-background05'>
+          <div className='relative shrink-0 w-full mobile:w-32 aspect-video mobile:aspect-square overflow-hidden rounded-lg bg-fill'>
             <Image
               alt={title}
               className='object-cover'
@@ -192,20 +192,20 @@ export const LinkEmbed = ({
 
         <div className='flex-1 min-w-0 flex flex-col justify-between'>
           <div>
-            <h3 className='font-semibold text-gray-accent text-base mb-2 line-clamp-2 group-hover:text-gray-bold transition-colors duration-200'>
+            <h3 className='mb-2 line-clamp-2 font-semibold text-body text-primary transition-colors duration-base group-hover:text-secondary'>
               {title}
             </h3>
             {description && (
-              <p className='text-sm text-gray-mid line-clamp-2 mb-3'>{description}</p>
+              <p className='mb-3 line-clamp-2 text-label text-tertiary'>{description}</p>
             )}
           </div>
 
           <div className='flex items-center justify-between gap-3'>
-            <div className='flex items-center gap-2 text-xs text-gray-light min-w-0'>
+            <div className='flex min-w-0 items-center gap-2 text-caption-sm text-muted'>
               {!faviconError && (
                 <Image
                   alt=''
-                  className='h-4 w-4 shrink-0 rounded'
+                  className='h-4 w-4 shrink-0 rounded-xs'
                   height={16}
                   src={favicon}
                   unoptimized
@@ -220,7 +220,7 @@ export const LinkEmbed = ({
                   viewBox='0 0 15 15'
                   fill='none'
                   xmlns='http://www.w3.org/2000/svg'
-                  className='shrink-0 text-gray-light'
+                  className='shrink-0 text-muted'
                 >
                   <title>Favicon Error</title>
                   <path
@@ -241,7 +241,7 @@ export const LinkEmbed = ({
                 viewBox='0 0 15 15'
                 fill='none'
                 xmlns='http://www.w3.org/2000/svg'
-                className='text-gray-mid group-hover:text-gray-accent transition-colors duration-200'
+                className='text-tertiary transition-colors duration-base group-hover:text-primary'
               >
                 <title>External Link</title>
                 <path

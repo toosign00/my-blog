@@ -5,6 +5,7 @@ import { toast } from 'sonner';
 import { GithubIcon } from '@/components/icons/GithubIcon';
 import { LinkedInIcon } from '@/components/icons/LinkedInIcon';
 import { ABOUT } from '@/constants/about.constants';
+import { ICON_SIZE } from '@/constants/style.constants';
 
 const ICON_MAP = {
   phone: Phone,
@@ -14,9 +15,9 @@ const ICON_MAP = {
 } as const;
 
 const cardClass =
-  'ui-card focus-ring flex items-center justify-center gap-2 rounded-xl px-3 py-3 transition-colors hover:bg-background02';
+  'ui-card focus-ring flex items-center justify-center gap-2 rounded-lg px-3 py-3 transition-colors hover:bg-fill-weak';
 
-const labelClass = 'text-sm font-medium text-gray-bold';
+const labelClass = 'text-label font-medium text-secondary';
 
 export const ContactButtons = () => {
   const handleCopy = async (text: string, copyType: 'phone' | 'email') => {
@@ -46,7 +47,7 @@ export const ContactButtons = () => {
               className={`${cardClass} cursor-pointer`}
               aria-label={contact.copyType === 'phone' ? 'Copy phone number' : 'Copy email address'}
             >
-              <Icon size={20} />
+              <Icon size={ICON_SIZE.lg} />
               <span className={labelClass}>{contact.label}</span>
             </button>
           );
@@ -61,7 +62,7 @@ export const ContactButtons = () => {
             className={cardClass}
             aria-label={contact.label}
           >
-            <Icon size={20} />
+            <Icon size={ICON_SIZE.lg} />
             <span className={labelClass}>{contact.label}</span>
           </a>
         );

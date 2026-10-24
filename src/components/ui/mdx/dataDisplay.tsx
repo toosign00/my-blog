@@ -8,7 +8,7 @@ interface TableProps {
 
 function TableCell({ cell, bordered }: { cell: string; bordered: boolean }) {
   return (
-    <td className={`px-4 py-2.5 text-gray-bold${bordered ? ' border-b border-border' : ''}`}>
+    <td className={`px-4 py-2.5 text-secondary${bordered ? ' border-b border-default' : ''}`}>
       {cell}
     </td>
   );
@@ -31,13 +31,13 @@ function TableRow({ row, bordered }: { row: string[]; bordered: boolean }) {
 
 export const Table = ({ headers, rows }: TableProps) => (
   <div className='ui-card mt-6 w-full overflow-x-auto rounded-lg'>
-    <table className='w-full border-collapse text-sm'>
+    <table className='w-full border-collapse text-label'>
       <thead>
         <tr>
           {headers.map((h) => (
             <th
               key={h}
-              className='border-b border-border bg-background02 px-4 py-2.5 text-left font-medium text-gray-mid'
+              className='border-b border-default bg-fill-weak px-4 py-2.5 text-left font-medium text-tertiary'
             >
               {h}
             </th>
@@ -59,15 +59,15 @@ interface HighlightProps {
 }
 
 const HIGHLIGHT_COLOR: Record<NonNullable<HighlightProps['color']>, string> = {
-  yellow: 'bg-yellow-100/80 dark:bg-yellow-400/15 text-yellow-900 dark:text-yellow-300',
-  blue: 'bg-blue-100/80 dark:bg-blue-400/15 text-blue-900 dark:text-blue-300',
-  green: 'bg-green-100/80 dark:bg-green-400/15 text-green-900 dark:text-green-300',
-  purple: 'bg-purple-100/80 dark:bg-purple-400/15 text-purple-900 dark:text-purple-300',
-  red: 'bg-red-100/80 dark:bg-red-400/15 text-red-900 dark:text-red-300',
+  yellow: 'bg-highlight-yellow text-highlight-yellow',
+  blue: 'bg-highlight-blue text-highlight-blue',
+  green: 'bg-highlight-green text-highlight-green',
+  purple: 'bg-highlight-purple text-highlight-purple',
+  red: 'bg-highlight-red text-highlight-red',
 };
 
 export const Highlight = ({ children, color = 'yellow' }: HighlightProps) => (
-  <mark className={`rounded px-1 py-0.5 font-medium not-italic ${HIGHLIGHT_COLOR[color]}`}>
+  <mark className={`rounded-xs px-1 py-0.5 font-medium not-italic ${HIGHLIGHT_COLOR[color]}`}>
     {children}
   </mark>
 );
@@ -78,15 +78,15 @@ interface BadgeProps {
 }
 
 const BADGE_TONE_CLASS: Record<NonNullable<BadgeProps['tone']>, string> = {
-  default: 'border-transparent bg-gray-bold text-background',
-  muted: 'border-border bg-background02 text-gray-mid',
-  outline: 'border-border bg-transparent text-gray-bold',
+  default: 'border-transparent bg-inverse text-inverse',
+  muted: 'border-default bg-fill-weak text-tertiary',
+  outline: 'border-default bg-transparent text-secondary',
 };
 
 export const Badge = ({ children, tone = 'muted' }: BadgeProps) => (
   <span
     className={twMerge(
-      'inline-flex items-center rounded-full border px-2 py-0.5 font-medium text-xs leading-5',
+      'inline-flex items-center rounded-full border px-2 py-0.5 font-medium text-caption-sm leading-normal',
       BADGE_TONE_CLASS[tone]
     )}
   >
@@ -101,10 +101,10 @@ interface CardProps {
 }
 
 export const Card = ({ title, description, children }: CardProps) => (
-  <section className='rounded-xl border border-border bg-background02 p-4'>
-    {title && <div className='font-semibold text-gray-accent text-sm leading-snug'>{title}</div>}
-    {description && <p className='mt-1 text-gray-mid text-sm leading-relaxed'>{description}</p>}
-    {children && <div className='mt-3 text-gray-bold text-sm leading-relaxed'>{children}</div>}
+  <section className='rounded-lg border border-default bg-fill-weak p-4'>
+    {title && <div className='font-semibold text-primary text-label leading-snug'>{title}</div>}
+    {description && <p className='mt-1 text-tertiary text-label leading-relaxed'>{description}</p>}
+    {children && <div className='mt-3 text-secondary text-label leading-relaxed'>{children}</div>}
   </section>
 );
 

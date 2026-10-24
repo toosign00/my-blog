@@ -39,10 +39,10 @@ export const Tabs = ({ children, defaultValue }: TabsProps) => {
   const activeTab = tabs.find((tab) => tab.props.value === activeValue) ?? tabs[0];
 
   return (
-    <div className='mt-6 overflow-hidden rounded-xl border border-border bg-background02'>
+    <div className='mt-6 overflow-hidden rounded-lg border border-default bg-fill-weak'>
       <div
         aria-label='Content tabs'
-        className='flex gap-1 border-border border-b bg-background px-1.5 py-1.5'
+        className='flex gap-1 border-default border-b bg-canvas px-1.5 py-1.5'
         role='tablist'
       >
         {tabs.map((tab) => {
@@ -55,9 +55,9 @@ export const Tabs = ({ children, defaultValue }: TabsProps) => {
               aria-controls={panelId}
               aria-selected={selected}
               className={twMerge(
-                'cursor-pointer rounded-lg px-3 py-1.5 text-sm transition-colors duration-150',
-                'text-gray-mid hover:bg-background02 hover:text-gray-accent',
-                selected && 'bg-surface-strong text-gray-accent'
+                'cursor-pointer rounded-lg px-3 py-1.5 text-label transition-colors duration-fast',
+                'text-tertiary hover:bg-fill-weak hover:text-primary',
+                selected && 'bg-surface text-primary'
               )}
               id={tabId}
               key={tab.props.value}
@@ -72,7 +72,7 @@ export const Tabs = ({ children, defaultValue }: TabsProps) => {
       </div>
       <div
         aria-labelledby={`${id}-${activeTab.props.value}-tab`}
-        className='p-4 text-gray-bold text-sm leading-relaxed'
+        className='p-4 text-secondary text-label leading-relaxed'
         id={`${id}-${activeTab.props.value}-panel`}
         role='tabpanel'
       >
@@ -108,18 +108,18 @@ export const Accordion = ({ children, defaultValue }: AccordionProps) => {
   }
 
   return (
-    <div className='mt-6 overflow-hidden rounded-xl border border-border bg-background02'>
+    <div className='mt-6 overflow-hidden rounded-lg border border-default bg-fill-weak'>
       {items.map((item, index) => {
         const value = item.props.value ?? String(index);
         const open = value === openValue;
 
         return (
-          <section className='border-border border-b last:border-b-0' key={value}>
+          <section className='border-default border-b last:border-b-0' key={value}>
             <button
               aria-expanded={open}
               className={twMerge(
-                'flex w-full cursor-pointer items-center justify-between gap-4 px-4 py-3.5 text-left font-medium text-gray-accent text-sm underline-offset-4 transition-colors hover:bg-background03 hover:underline',
-                open && 'bg-background03'
+                'flex w-full cursor-pointer items-center justify-between gap-4 px-4 py-3.5 text-left font-medium text-primary text-label underline-offset-4 transition-colors hover:bg-fill hover:underline',
+                open && 'bg-fill'
               )}
               onClick={() => setOpenValue(open ? undefined : value)}
               type='button'
@@ -128,18 +128,18 @@ export const Accordion = ({ children, defaultValue }: AccordionProps) => {
               <ChevronDown
                 aria-hidden='true'
                 className={twMerge(
-                  'size-4 shrink-0 text-gray-light transition-transform duration-200',
-                  open && 'rotate-180 text-gray-mid'
+                  'size-4 shrink-0 text-muted transition-transform duration-base',
+                  open && 'rotate-180 text-tertiary'
                 )}
               />
             </button>
             <div
               className={twMerge(
-                'grid border-border transition-[grid-template-rows,border-color] duration-200 ease-out',
-                open ? 'grid-rows-[1fr] border-t' : 'grid-rows-[0fr] border-t-transparent'
+                'grid border-default transition-collapse',
+                open ? 'grid-rows-expanded border-t' : 'grid-rows-collapsed border-t-transparent'
               )}
             >
-              <div className='overflow-hidden px-4 text-gray-bold text-sm leading-relaxed'>
+              <div className='overflow-hidden px-4 text-secondary text-label leading-relaxed'>
                 <div className='pt-3 pb-4'>{item.props.children}</div>
               </div>
             </div>

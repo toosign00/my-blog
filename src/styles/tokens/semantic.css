@@ -1,0 +1,150 @@
+/*
+ * Semantic tokens: role-based names mapped to primitives per theme.
+ * Components use these (through Tailwind utilities in theme.css), never primitives.
+ */
+:root {
+  /* Foreground */
+  --fg-primary: var(--slate-900);
+  --fg-secondary: var(--slate-800);
+  --fg-tertiary: var(--slate-600);
+  --fg-muted: var(--slate-400);
+  --fg-inverse: var(--slate-25);
+  --fg-accent: var(--blue-500);
+  --fg-accent-strong: var(--blue-400);
+
+  /* Backgrounds */
+  --bg-canvas: var(--slate-25);
+  --bg-surface: var(--slate-0);
+  --bg-elevated: var(--slate-0);
+  --bg-muted: var(--slate-50);
+  --bg-pressed: var(--slate-100);
+  --bg-inverse: var(--slate-800);
+  --bg-accent: var(--blue-500);
+  --bg-fill-weak: color-mix(in srgb, var(--neutral-1000) var(--alpha-weak), transparent);
+  --bg-fill: color-mix(in srgb, var(--neutral-1000) var(--alpha-base), transparent);
+  --bg-fill-strong: color-mix(in srgb, var(--neutral-1000) var(--alpha-strong), transparent);
+  --bg-scrim: color-mix(in srgb, var(--neutral-900) var(--alpha-scrim-light), transparent);
+
+  /* Borders */
+  --border-default: var(--slate-100);
+  --border-strong: var(--slate-600);
+  --border-fill: var(--bg-fill);
+  --border-elevated: var(--slate-100);
+  --border-media: color-mix(in srgb, var(--neutral-0) var(--alpha-media-border-light), transparent);
+
+  /* Effects */
+  --focus-ring: color-mix(in srgb, var(--blue-400) var(--alpha-focus), transparent);
+  --shadow-media-color: color-mix(in srgb, var(--neutral-1000) var(--alpha-media-shadow-light), transparent);
+  --divider-gradient: radial-gradient(
+    circle,
+    var(--slate-300) 0%,
+    color-mix(in srgb, var(--slate-300) 0%, transparent) 100%
+  );
+
+  /* Status */
+  --warning-fg: var(--amber-700);
+  --warning-fg-muted: color-mix(in srgb, var(--amber-700) var(--alpha-status-muted), transparent);
+  --warning-bg: color-mix(in srgb, var(--amber-600) var(--alpha-status-bg), transparent);
+  --warning-border: color-mix(in srgb, var(--amber-600) var(--alpha-status-border), transparent);
+  --danger-fg: var(--red-600);
+  --danger-fg-muted: color-mix(in srgb, var(--red-600) var(--alpha-status-muted), transparent);
+  --danger-bg: color-mix(in srgb, var(--red-600) var(--alpha-status-bg), transparent);
+  --danger-border: color-mix(in srgb, var(--red-600) var(--alpha-status-border), transparent);
+
+  /* Inline highlight (MDX <Highlight>) */
+  --highlight-yellow-bg: color-mix(in srgb, var(--yellow-100) var(--alpha-highlight-light), transparent);
+  --highlight-yellow-fg: var(--yellow-900);
+  --highlight-blue-bg: color-mix(in srgb, var(--sky-100) var(--alpha-highlight-light), transparent);
+  --highlight-blue-fg: var(--sky-900);
+  --highlight-green-bg: color-mix(in srgb, var(--green-100) var(--alpha-highlight-light), transparent);
+  --highlight-green-fg: var(--green-900);
+  --highlight-purple-bg: color-mix(in srgb, var(--purple-100) var(--alpha-highlight-light), transparent);
+  --highlight-purple-fg: var(--purple-900);
+  --highlight-red-bg: color-mix(in srgb, var(--red-100) var(--alpha-highlight-light), transparent);
+  --highlight-red-fg: var(--red-900);
+
+  /* Activity heatmap */
+  --heatmap-0: var(--slate-200);
+  --heatmap-1: color-mix(in srgb, var(--blue-500) var(--alpha-heatmap-1), transparent);
+  --heatmap-2: color-mix(in srgb, var(--blue-500) var(--alpha-heatmap-2), transparent);
+  --heatmap-3: color-mix(in srgb, var(--blue-500) var(--alpha-heatmap-3), transparent);
+  --heatmap-4: var(--blue-500);
+
+  /* Syntax highlighting (consumed by shiki's css-variables theme) */
+  --shiki-token-comment: var(--code-light-gray);
+  --shiki-token-punctuation: var(--code-light-gray);
+  --shiki-token-keyword: var(--code-light-red);
+  --shiki-token-function: var(--code-light-purple);
+  --shiki-token-string: var(--code-light-navy);
+  --shiki-token-string-expression: var(--code-light-navy);
+  --shiki-token-constant: var(--code-light-blue);
+  --shiki-token-link: var(--code-light-navy);
+  --shiki-token-parameter: var(--code-light-orange);
+}
+
+.dark {
+  --fg-primary: var(--neutral-0);
+  --fg-secondary: var(--neutral-100);
+  --fg-tertiary: var(--neutral-300);
+  --fg-muted: var(--neutral-400);
+  --fg-inverse: var(--neutral-900);
+  --fg-accent: var(--blue-300);
+  --fg-accent-strong: var(--blue-200);
+
+  --bg-canvas: var(--neutral-900);
+  --bg-surface: var(--neutral-900);
+  --bg-elevated: var(--neutral-800);
+  --bg-muted: var(--neutral-850);
+  --bg-pressed: var(--neutral-800);
+  --bg-inverse: var(--neutral-100);
+  --bg-accent: var(--blue-300);
+  --bg-fill-weak: color-mix(in srgb, var(--neutral-0) var(--alpha-weak), transparent);
+  --bg-fill: color-mix(in srgb, var(--neutral-0) var(--alpha-base), transparent);
+  --bg-fill-strong: color-mix(in srgb, var(--neutral-0) var(--alpha-strong), transparent);
+  --bg-scrim: color-mix(in srgb, var(--neutral-1000) var(--alpha-scrim-dark), transparent);
+
+  --border-default: var(--neutral-800);
+  --border-strong: var(--neutral-300);
+  --border-elevated: color-mix(in srgb, var(--neutral-0) var(--alpha-elevated), transparent);
+  --border-media: color-mix(in srgb, var(--neutral-0) var(--alpha-media-border-dark), transparent);
+
+  --focus-ring: color-mix(in srgb, var(--blue-200) var(--alpha-focus), transparent);
+  --shadow-media-color: color-mix(in srgb, var(--neutral-1000) var(--alpha-media-shadow-dark), transparent);
+  --divider-gradient: radial-gradient(
+    circle,
+    var(--neutral-600) 0%,
+    color-mix(in srgb, var(--neutral-600) 0%, transparent) 100%
+  );
+
+  --warning-fg: var(--amber-400);
+  --warning-fg-muted: color-mix(in srgb, var(--amber-400) var(--alpha-status-muted), transparent);
+  --warning-bg: color-mix(in srgb, var(--amber-400) var(--alpha-status-bg), transparent);
+  --warning-border: color-mix(in srgb, var(--amber-400) var(--alpha-status-border), transparent);
+  --danger-fg: var(--red-400);
+  --danger-fg-muted: color-mix(in srgb, var(--red-400) var(--alpha-status-muted), transparent);
+  --danger-bg: color-mix(in srgb, var(--red-400) var(--alpha-status-bg), transparent);
+  --danger-border: color-mix(in srgb, var(--red-400) var(--alpha-status-border), transparent);
+
+  --highlight-yellow-bg: color-mix(in srgb, var(--yellow-400) var(--alpha-highlight-dark), transparent);
+  --highlight-yellow-fg: var(--yellow-300);
+  --highlight-blue-bg: color-mix(in srgb, var(--sky-400) var(--alpha-highlight-dark), transparent);
+  --highlight-blue-fg: var(--sky-300);
+  --highlight-green-bg: color-mix(in srgb, var(--green-400) var(--alpha-highlight-dark), transparent);
+  --highlight-green-fg: var(--green-300);
+  --highlight-purple-bg: color-mix(in srgb, var(--purple-400) var(--alpha-highlight-dark), transparent);
+  --highlight-purple-fg: var(--purple-300);
+  --highlight-red-bg: color-mix(in srgb, var(--red-400) var(--alpha-highlight-dark), transparent);
+  --highlight-red-fg: var(--red-300);
+
+  --heatmap-0: var(--neutral-700);
+
+  --shiki-token-comment: var(--code-dark-gray);
+  --shiki-token-punctuation: var(--code-dark-silver);
+  --shiki-token-keyword: var(--code-dark-red);
+  --shiki-token-function: var(--code-dark-purple);
+  --shiki-token-string: var(--code-dark-sky);
+  --shiki-token-string-expression: var(--code-dark-sky);
+  --shiki-token-constant: var(--code-dark-blue);
+  --shiki-token-link: var(--code-dark-link);
+  --shiki-token-parameter: var(--code-dark-orange);
+}

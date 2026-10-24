@@ -1,5 +1,6 @@
 import { Fragment } from 'react';
 import { LinkEmbed } from '@/components/ui/linkEmbed';
+import { ICON_SIZE } from '@/constants/style.constants';
 import { getEmploymentPeriodLabels } from '@/utils/employment-period-util';
 import { EmploymentPeriod } from './EmploymentPeriod';
 
@@ -38,15 +39,15 @@ const TimelinePeriod = ({ item }: { item: TimelineItem }) =>
       initialLabels={getEmploymentPeriodLabels(item.startMonth, item.endMonth)}
     />
   ) : (
-    <span className='text-gray-mid font-mono text-sm'>{item.period}</span>
+    <span className='text-tertiary font-mono text-label'>{item.period}</span>
   );
 
 const ExternalLinkIcon = () => (
   <svg
     aria-hidden='true'
     className='inline-block shrink-0 align-baseline'
-    width='14'
-    height='14'
+    width={ICON_SIZE.xs}
+    height={ICON_SIZE.xs}
     viewBox='0 0 24 24'
     fill='none'
     stroke='currentColor'
@@ -75,26 +76,26 @@ export const TimelineSection = ({ heading, items }: TimelineSectionProps) => {
                   href={item.href}
                   target='_blank'
                   rel='noreferrer'
-                  className='inline text-lg font-bold text-gray-bold border-b border-background06 hover:opacity-70 transition-opacity duration-150'
+                  className='hover-fade inline text-heading font-bold text-secondary border-b border-fill'
                 >
                   {item.title} <ExternalLinkIcon />
                 </a>
               ) : (
-                <span className='text-lg font-bold text-gray-bold'>{item.title}</span>
+                <span className='text-heading font-bold text-secondary'>{item.title}</span>
               )}
               <div className='hidden tablet:block'>
                 <TimelinePeriod item={item} />
               </div>
             </div>
 
-            <div className='flex items-center gap-2 text-sm text-gray-mid font-medium flex-wrap'>
+            <div className='flex items-center gap-2 text-label text-tertiary font-medium flex-wrap'>
               {item.tags.map((tag, i) => (
                 <Fragment key={tag}>
-                  {i > 0 && <span className='w-px h-3 bg-border' />}
+                  {i > 0 && <span className='w-px h-3 bg-pressed' />}
                   <span>{tag}</span>
                 </Fragment>
               ))}
-              <span aria-hidden='true' className='w-px h-3 bg-border tablet:hidden' />
+              <span aria-hidden='true' className='w-px h-3 bg-pressed tablet:hidden' />
               <div className='font-normal tablet:hidden'>
                 <TimelinePeriod item={item} />
               </div>
@@ -104,12 +105,12 @@ export const TimelineSection = ({ heading, items }: TimelineSectionProps) => {
               {item.description.map((group) => (
                 <div className='column gap-1' key={group.title ?? group.items[0]}>
                   {group.title && (
-                    <h4 className='font-semibold text-[17px] text-gray-bold leading-[1.24] tracking-[-0.022em]'>
+                    <h4 className='font-semibold text-heading text-secondary leading-tight tracking-tight'>
                       {group.title}
                     </h4>
                   )}
                   {group.items.map((line) => (
-                    <p className='text-gray-mid' key={line}>
+                    <p className='text-tertiary' key={line}>
                       {line}
                     </p>
                   ))}

@@ -6,11 +6,19 @@ import type { Activity, BlockElement } from 'react-activity-calendar';
 import { ActivityCalendar } from 'react-activity-calendar';
 
 const ACTIVITY_COLORS = [
-  'var(--activity-0)',
-  'var(--activity-1)',
-  'var(--activity-2)',
-  'var(--activity-3)',
-  'var(--activity-4)',
+  'var(--heatmap-0)',
+  'var(--heatmap-1)',
+  'var(--heatmap-2)',
+  'var(--heatmap-3)',
+  'var(--heatmap-4)',
+];
+
+const ACTIVITY_LEVEL_CLASS = [
+  'bg-heatmap-0',
+  'bg-heatmap-1',
+  'bg-heatmap-2',
+  'bg-heatmap-3',
+  'bg-heatmap-4',
 ];
 
 const CALENDAR_THEME = {
@@ -51,19 +59,12 @@ const Tooltip = React.forwardRef<TooltipHandle>((_, ref) => {
     <div
       ref={elRef}
       aria-hidden='true'
-      className='fixed z-9999 pointer-events-none -translate-x-1/2 -translate-y-full'
+      className='pointer-events-none fixed z-tooltip -mt-2.5 -translate-x-1/2 -translate-y-full opacity-0'
       role='tooltip'
-      style={{ opacity: 0, marginTop: '-10px' }}
     >
-      <div
-        className='relative rounded-md px-2.5 py-1 text-[11px] font-bold shadow-lg'
-        style={{ backgroundColor: 'var(--color-ink)', color: 'var(--color-canvas)' }}
-      >
+      <div className='relative rounded-md bg-inverse px-2.5 py-1 font-bold text-inverse text-micro shadow-popover'>
         <span ref={textRef} />
-        <div
-          className='absolute -bottom-1 left-1/2 h-2 w-2 -translate-x-1/2 rotate-45'
-          style={{ backgroundColor: 'var(--color-ink)' }}
-        />
+        <div className='absolute -bottom-1 left-1/2 h-2 w-2 -translate-x-1/2 rotate-45 bg-inverse' />
       </div>
     </div>
   );
@@ -101,9 +102,7 @@ const GitHubHeatmap = React.memo(function GitHubHeatmap({
         <h2 className='section-heading' id='github-contributions-heading'>
           GitHub Contributions
         </h2>
-        <span className='text-[11px] font-mono' style={{ color: 'var(--color-gray-light)' }}>
-          @toosign00
-        </span>
+        <span className='font-mono text-micro text-muted'>@toosign00</span>
       </div>
       <div className='github-heatmap-wrapper w-full'>
         <ActivityCalendar
@@ -119,11 +118,10 @@ const GitHubHeatmap = React.memo(function GitHubHeatmap({
         />
       </div>
       <div className='flex items-center justify-end gap-0.5 pt-1'>
-        {ACTIVITY_COLORS.map((color, i) => (
+        {ACTIVITY_LEVEL_CLASS.map((levelClass, i) => (
           <div
-            key={color}
-            className='w-1.5 h-1.5 rounded-[1px]'
-            style={{ backgroundColor: color }}
+            key={levelClass}
+            className={`h-1.5 w-1.5 rounded-none ${levelClass}`}
             aria-label={`활동 강도 ${i}`}
             role='img'
           />
@@ -160,7 +158,7 @@ export const ActivityHeatmapClient = ({
   return (
     <section
       aria-labelledby='github-contributions-heading'
-      className='column gap-8 pt-16.25 pb-0 w-full overflow-hidden'
+      className='column w-full gap-8 overflow-hidden pt-16 pb-0'
     >
       <Tooltip ref={tooltipRef} />
       <GitHubHeatmap

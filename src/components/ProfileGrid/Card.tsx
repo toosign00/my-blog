@@ -13,7 +13,7 @@ const Card = forwardRef<HTMLDivElement, CardProps>(function Card(
 ) {
   return (
     <Component
-      className={twMerge('ui-card relative mt-7.5 h-45.75 w-full overflow-hidden', className)}
+      className={twMerge('ui-card relative mt-8 h-48 w-full overflow-hidden', className)}
       ref={ref}
       {...props}
     >
@@ -22,21 +22,14 @@ const Card = forwardRef<HTMLDivElement, CardProps>(function Card(
   );
 });
 
-type CardContentProps = {
-  gap?: number | string;
-} & ComponentPropsWithoutRef<'div'>;
+type CardContentProps = ComponentPropsWithoutRef<'div'>;
 
 const CardContent = forwardRef<HTMLDivElement, CardContentProps>(function CardContent(
-  { children, gap = 0, className, ...props },
+  { children, className, ...props },
   ref
 ) {
   return (
-    <div
-      className={twMerge('row-between h-full w-full p-5', className)}
-      ref={ref}
-      style={{ gap }}
-      {...props}
-    >
+    <div className={twMerge('row-between h-full w-full p-5', className)} ref={ref} {...props}>
       {children}
     </div>
   );

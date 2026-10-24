@@ -13,7 +13,6 @@ export const ResumeDownloadButton = ({
   fileUrl,
   children,
   className,
-  style,
   ...props
 }: ResumeDownloadButtonProps) => {
   const handleClick = () => {
@@ -32,7 +31,6 @@ export const ResumeDownloadButton = ({
       type='button'
       onClick={handleClick}
       className={twMerge('relative', className)}
-      style={style}
       {...props}
     >
       <div>{children}</div>

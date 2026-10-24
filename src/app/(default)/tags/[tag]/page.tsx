@@ -28,7 +28,7 @@ const TagsPage = async ({ params }: TagsPageProps) => {
 
   return (
     <>
-      <h1 className='section-heading mb-7.5'>
+      <h1 className='section-heading mb-8'>
         {tagName} ({tagPosts.length})
       </h1>
       <PostList posts={currentPosts} />

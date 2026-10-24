@@ -43,8 +43,8 @@ const AboutPage = () => {
   return (
     <>
       <JsonLd data={personSchema} />
-      <div className='column pb-16.25'>
-        <div className='column gap-15'>
+      <div className='column pb-16'>
+        <div className='column gap-16'>
           <ProfileCard />
           <HowIWork />
           <TimelineSection heading='Work Experience' items={ABOUT.workExperience} />

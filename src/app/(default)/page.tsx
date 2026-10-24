@@ -5,6 +5,7 @@ import { ActivityHeatmap } from '@/components/ActivityHeatmap';
 import { ProfileGrid } from '@/components/ProfileGrid';
 import { PostGrid } from '@/components/ui/postGrid';
 import { ROUTES } from '@/constants/menu.constants';
+import { ICON_SIZE } from '@/constants/style.constants';
 import { generatePageMetadata } from '@/utils/metadata-util';
 import { getAllPosts } from '@/utils/post-util';
 
@@ -15,13 +16,13 @@ const HomePage = async () => {
   const posts = getLatestPosts(allPosts);
 
   return (
-    <div className='column pb-16.25'>
+    <div className='column pb-16'>
       <h1 className='sr-only'>노현수의 QA 엔지니어링 및 취미 블로그</h1>
       <ProfileGrid />
 
       <ActivityHeatmap />
 
-      <section aria-labelledby='updates-heading' className='column gap-7.5 pt-17.5'>
+      <section aria-labelledby='updates-heading' className='column gap-8 pt-16'>
         <div className='row-between'>
           <h2 className='section-heading' id='updates-heading'>
             Latest Updates
@@ -32,7 +33,7 @@ const HomePage = async () => {
             href={ROUTES.POSTS}
           >
             Expand
-            <Plus size={16} />
+            <Plus size={ICON_SIZE.sm} />
           </Link>
         </div>
         <PostGrid posts={posts} />

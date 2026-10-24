@@ -24,7 +24,7 @@ export const ProfileGrid = async () => {
   return (
     <section
       aria-label={`${METADATA.AUTHOR.NAME}'s profile and views`}
-      className='grid w-full grid-cols-1 gap-16.25 tablet:grid-cols-2'
+      className='grid w-full grid-cols-1 gap-16 tablet:grid-cols-2'
     >
       <div className='column w-full'>
         <h2 className='section-heading' id='profile-heading'>
@@ -32,23 +32,16 @@ export const ProfileGrid = async () => {
         </h2>
         <Link
           aria-label='View about profile'
-          className='focus-ring block w-full transition-transform duration-150 ease-out active:scale-[0.98]'
+          className='focus-ring press block w-full'
           href={ROUTES.ABOUT}
         >
-          <Card.Root style={{ backgroundColor: PROFILE.cardBackgroundColor }}>
+          <Card.Root className='bg-elevated'>
             <Card.Content>
               <fieldset
                 aria-labelledby='profile-heading'
                 className='column m-0 items-start gap-3 self-start border-0 p-0'
               >
-                <div
-                  className='relative h-24.25 w-24.25 select-none overflow-hidden rounded-md border'
-                  style={{
-                    borderColor: PROFILE.profileImageBorderColor,
-                    boxShadow: `0px 10px 39px ${PROFILE.profileImageShadowColor}`,
-                    filter: PROFILE.profileImageFilter,
-                  }}
-                >
+                <div className='relative h-24 w-24 select-none overflow-hidden rounded-md border border-media shadow-media'>
                   <Image
                     alt={`${METADATA.AUTHOR.NAME} profile image`}
                     className='h-full w-full rounded-none border-0 object-cover'
@@ -57,15 +50,12 @@ export const ProfileGrid = async () => {
                     fill
                     {...(blurDataURL && { placeholder: 'blur' as const, blurDataURL })}
                     priority
-                    sizes='6.0625rem'
+                    sizes='6rem'
                     src={PROFILE.profileImage}
                   />
                 </div>
 
-                <p
-                  className='profile-name w-full text-center'
-                  style={{ color: PROFILE.authorTextColor }}
-                >
+                <p className='w-full text-center font-medium text-caption text-primary leading-none'>
                   {METADATA.AUTHOR.NAME}
                 </p>
               </fieldset>
@@ -73,13 +63,10 @@ export const ProfileGrid = async () => {
               <dl className='row-between h-3/4 flex-col items-start'>
                 {authorProfileDetails.map((item) => (
                   <div className='w-full' key={item.title}>
-                    <dt className='profile-sub w-full' style={{ color: PROFILE.titleTextColor }}>
+                    <dt className='w-full font-medium text-micro text-accent-strong'>
                       {item.title}
                     </dt>
-                    <dd
-                      className='profile-title whitespace-pre-wrap'
-                      style={{ color: PROFILE.contentTextColor }}
-                    >
+                    <dd className='whitespace-pre-wrap font-medium text-caption text-primary'>
                       {item.content}
                     </dd>
                   </div>

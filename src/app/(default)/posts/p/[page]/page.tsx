@@ -27,7 +27,7 @@ const PostsPage = async ({ params }: PostsPageProps) => {
 
   return (
     <>
-      <h1 className='section-heading mb-7.5'>Posts ({allPosts.length})</h1>
+      <h1 className='section-heading mb-8'>Posts ({allPosts.length})</h1>
       <PostList posts={currentPosts} />
       <Pagination basePath={ROUTES.POSTS} currentPage={currentPage} totalPages={totalPages} />
     </>

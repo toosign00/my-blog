@@ -38,7 +38,7 @@ export const PostGrid = ({
               href={`/posts/${slug}`}
               key={_id}
             >
-              <div className='relative aspect-[1.8/1] w-full overflow-hidden rounded-lg border border-border'>
+              <div className='relative aspect-cover w-full overflow-hidden rounded-lg border border-default'>
                 <Image
                   alt={title}
                   className='h-full w-full object-cover object-center'
@@ -52,11 +52,11 @@ export const PostGrid = ({
                 />
               </div>
 
-              <h2 className='title post-subtitle -mx-2.5 mt-4 -mb-0.5 line-clamp-2 flex overflow-hidden text-ellipsis rounded-sm px-2.5 py-0.5 transition-colors duration-250 ease-in-out'>
+              <h2 className='title -mx-2.5 mt-4 -mb-0.5 line-clamp-2 flex overflow-hidden text-ellipsis rounded-sm px-2.5 py-0.5 font-medium text-body transition-colors duration-base ease-in-out'>
                 {title}
               </h2>
 
-              <p className='description h4 center-y -mx-2.5 mt-4 -mb-0.5 w-fit rounded-sm px-2.5 py-0.5 text-gray-light transition-colors duration-250 ease-in-out'>
+              <p className='description center-y -mx-2.5 mt-4 -mb-0.5 w-fit rounded-sm px-2.5 py-0.5 font-medium text-caption text-muted transition-colors duration-base ease-in-out'>
                 <RelativeTime time={createdAt} />
                 <PostViews slug={slug} />
               </p>

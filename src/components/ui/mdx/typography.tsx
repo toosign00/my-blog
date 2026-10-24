@@ -11,13 +11,13 @@ const toHeadingId = (children: ReactNode): string => {
 };
 
 export const H1 = (props: ComponentProps<'h1'>) => (
-  <h1 className='mb-6 text-balance font-semibold text-gray-accent text-xl' {...props} />
+  <h1 className='mb-6 text-balance font-semibold text-primary text-heading-lg' {...props} />
 );
 
 export const H2 = ({ children, ...props }: ComponentProps<'h2'>) => (
   <h2
     id={toHeadingId(children)}
-    className='mt-12 mb-6 text-balance font-semibold text-gray-accent text-lg leading-tight tracking-[-0.01em]'
+    className='mt-12 mb-6 text-balance font-semibold text-primary text-heading leading-tight tracking-tight'
     {...props}
   >
     {children}
@@ -27,7 +27,7 @@ export const H2 = ({ children, ...props }: ComponentProps<'h2'>) => (
 export const H3 = ({ children, ...props }: ComponentProps<'h3'>) => (
   <h3
     id={toHeadingId(children)}
-    className='mt-12 mb-6 text-balance font-semibold text-gray-accent leading-tight tracking-[-0.01em]'
+    className='mt-12 mb-6 text-balance font-semibold text-primary leading-tight tracking-tight'
     {...props}
   >
     {children}
@@ -36,7 +36,7 @@ export const H3 = ({ children, ...props }: ComponentProps<'h3'>) => (
 
 export const H4 = (props: ComponentProps<'h4'>) => (
   <h4
-    className='mt-12 mb-6 text-balance font-semibold text-gray-accent text-base leading-snug'
+    className='mt-12 mb-6 text-balance font-semibold text-primary text-body leading-snug'
     {...props}
   />
 );
@@ -50,7 +50,10 @@ export const OL = (props: ComponentProps<'ol'>) => (
 );
 
 export const LI = (props: ComponentProps<'li'>) => (
-  <li className='pl-1 font-normal text-md leading-relaxed [&_ol]:mt-2 [&_ul]:mt-2' {...props} />
+  <li
+    className='pl-1 font-normal text-body-lg leading-relaxed [&_ol]:mt-2 [&_ul]:mt-2'
+    {...props}
+  />
 );
 
 type AnchorProps = Omit<ComponentProps<'a'>, 'href'> & { href?: string };
@@ -58,9 +61,8 @@ type AnchorProps = Omit<ComponentProps<'a'>, 'href'> & { href?: string };
 export const A = ({ href, ...props }: AnchorProps) => (
   <Link
     className={twMerge(
-      'break-keep underline decoration-from-font underline-offset-3 transition-colors duration-150',
-      'text-gray-bold outline-offset-2 hover:text-gray-accent hover:opacity-80',
-      href?.startsWith('https://') && 'external-link'
+      'break-keep underline decoration-from-font underline-offset-3 transition-colors duration-fast',
+      'text-secondary outline-offset-2 hover:text-primary'
     )}
     draggable={false}
     href={href ?? ''}
@@ -79,17 +81,16 @@ export const Strong = (props: ComponentProps<'strong'>) => (
 );
 
 export const P = (props: ComponentProps<'p'>) => (
-  <p className='post-body mt-6 font-normal text-gray-accent text-md' {...props} />
+  <p className='mt-6 font-normal text-primary text-body leading-loose' {...props} />
 );
 
 export const Blockquote = (props: ComponentProps<'blockquote'>) => (
   <blockquote
-    className='column -ml-6 rounded-md border border-border bg-background02 p-4 pl-6 sm:-ml-10 sm:pl-10 md:-ml-14 md:pl-14'
-    style={{ borderLeftWidth: '3px' }}
+    className='column quote-rule -ml-6 rounded-md border border-default bg-fill-weak p-4 pl-6'
     {...props}
   />
 );
 
 export const HR = (props: ComponentProps<'hr'>) => (
-  <hr className='mx-auto my-12 w-24 border-border' {...props} />
+  <hr className='mx-auto my-12 w-24 border-default' {...props} />
 );

@@ -7,10 +7,12 @@ export const ThemeToggle = () => {
   const { resolvedTheme: theme, setTheme } = useTheme();
 
   return (
-    <AfterMount fallback={<div className='ui-button h4 w-full text-gray-accent' />}>
+    <AfterMount
+      fallback={<div className='ui-button w-full font-medium text-caption text-primary' />}
+    >
       <button
         aria-label='Toggle dark or light mode'
-        className='ui-button h4 w-full text-gray-accent hover:bg-background02'
+        className='ui-button w-full font-medium text-caption text-primary hover:bg-fill-weak'
         onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
         type='button'
       >

@@ -25,11 +25,11 @@ export const EmploymentPeriod = ({
 
   return (
     <span className='inline-flex items-center gap-3 whitespace-nowrap'>
-      <span className='font-mono text-sm text-gray-mid'>{labels.period}</span>
+      <span className='font-mono text-label text-tertiary'>{labels.period}</span>
       {labels.duration && (
         <>
-          <span aria-hidden='true' className='w-px h-3 bg-border' />
-          <span className='font-mono text-sm text-gray-mid'>{labels.duration}</span>
+          <span aria-hidden='true' className='w-px h-3 bg-pressed' />
+          <span className='font-mono text-label text-tertiary'>{labels.duration}</span>
         </>
       )}
     </span>

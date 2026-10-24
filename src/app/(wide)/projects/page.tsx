@@ -18,8 +18,8 @@ const ProjectsPage = async ({ searchParams }: ProjectsPageProps) => {
   const resolvedSearchParams = await searchParams;
 
   return (
-    <div className='column pb-16.25'>
-      <h1 className='section-heading mb-7.5'>Projects ({allProjects.length})</h1>
+    <div className='column pb-16'>
+      <h1 className='section-heading mb-8'>Projects ({allProjects.length})</h1>
       <ProjectSection
         initialQuery={resolvedSearchParams.q}
         initialSort={resolvedSearchParams.sort}

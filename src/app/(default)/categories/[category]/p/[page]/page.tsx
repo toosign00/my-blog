@@ -29,7 +29,7 @@ const CategoriesPage = async ({ params }: CategoriesPageProps) => {
 
   return (
     <>
-      <h1 className='section-heading mb-7.5'>
+      <h1 className='section-heading mb-8'>
         {categoryPosts[0].category} ({categoryPosts.length})
       </h1>
       <PostList posts={currentPosts} />

@@ -5,7 +5,7 @@ const cssVariablesTheme = createCssVariablesTheme({});
 const LANGUAGE_CLASS_REGEX = /language-([\w-]+)/;
 
 export const Pre = (props: ComponentProps<'pre'>) => (
-  <pre className='mt-6 whitespace-pre md:whitespace-pre-wrap md:leading-relaxed' {...props} />
+  <pre className='mt-6 whitespace-pre' {...props} />
 );
 
 type CodeProps = ComponentProps<'code'> & {
@@ -49,7 +49,7 @@ export const Code = async (props: CodeProps) => {
 
       return (
         <code
-          className='shiki css-variables inline text-xs md:text-sm'
+          className='shiki css-variables inline text-caption-sm'
           dangerouslySetInnerHTML={{ __html: await highlightedCode }}
         />
       );
@@ -61,7 +61,7 @@ export const Code = async (props: CodeProps) => {
 
       return (
         <code
-          className='shiki css-variables inline text-xs md:text-sm'
+          className='shiki css-variables inline text-caption-sm'
           dangerouslySetInnerHTML={{ __html: await highlightedCode }}
         />
       );

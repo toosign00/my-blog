@@ -7,8 +7,6 @@ interface ViewsWidgetClientProps {
   postCount: number;
 }
 
-const metricNumberStyle = { fontSize: '1.25rem', letterSpacing: '-0.375px' } as const;
-
 function useCountUp(target: number, duration = 1200) {
   const [value, setValue] = useState(0);
 
@@ -45,32 +43,26 @@ export const ViewsWidgetClient = ({ postCount }: ViewsWidgetClientProps) => {
 
   return (
     <div className='flex h-full w-full flex-col justify-center px-5 py-5'>
-      <div className='flex items-baseline justify-between border-b border-border py-3'>
+      <div className='flex items-baseline justify-between border-b border-default py-3'>
         <div className='flex items-center gap-2'>
-          <div
-            className='h-1.5 w-1.5 rounded-full'
-            style={{ backgroundColor: 'var(--color-primary)' }}
-          />
-          <span className='text-xs text-gray-light'>Today</span>
+          <div className='h-1.5 w-1.5 rounded-full bg-accent' />
+          <span className='text-caption-sm text-muted'>Today</span>
         </div>
-        <span
-          className='font-semibold tabular-nums'
-          style={{ ...metricNumberStyle, color: 'var(--color-primary-focus)' }}
-        >
+        <span className='font-semibold text-accent-strong text-heading-lg tabular-nums'>
           {views ? todayCount.toLocaleString() : '-'}
         </span>
       </div>
 
-      <div className='flex items-baseline justify-between border-b border-border py-3'>
-        <span className='text-xs text-gray-light'>Total Visits</span>
-        <span className='font-semibold tabular-nums text-gray-accent' style={metricNumberStyle}>
+      <div className='flex items-baseline justify-between border-b border-default py-3'>
+        <span className='text-caption-sm text-muted'>Total Visits</span>
+        <span className='font-semibold text-heading-lg text-primary tabular-nums'>
           {views ? totalCount.toLocaleString() : '-'}
         </span>
       </div>
 
       <div className='flex items-baseline justify-between py-3'>
-        <span className='text-xs text-gray-light'>Posts</span>
-        <span className='font-semibold tabular-nums text-gray-accent' style={metricNumberStyle}>
+        <span className='text-caption-sm text-muted'>Posts</span>
+        <span className='font-semibold text-heading-lg text-primary tabular-nums'>
           {postCountAnimated.toLocaleString()}
         </span>
       </div>

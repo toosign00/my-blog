@@ -11,18 +11,18 @@ export const EducationSection = () => {
             className='flex flex-col tablet:flex-row tablet:justify-between gap-1 tablet:gap-4'
           >
             <div className='column'>
-              <span className='text-lg font-bold text-gray-bold'>{item.school}</span>
+              <span className='text-heading font-bold text-secondary'>{item.school}</span>
               {'detail' in item ? (
-                <div className='flex items-center gap-2 text-gray-mid'>
+                <div className='flex items-center gap-2 text-tertiary'>
                   <span>{item.major}</span>
-                  <span className='w-px h-3 bg-border' />
+                  <span className='w-px h-3 bg-pressed' />
                   <span>{item.detail}</span>
                 </div>
               ) : (
-                <span className='text-gray-mid'>{item.major}</span>
+                <span className='text-tertiary'>{item.major}</span>
               )}
             </div>
-            <span className='text-gray-mid font-mono text-sm'>{item.period}</span>
+            <span className='text-tertiary font-mono text-label'>{item.period}</span>
           </li>
         ))}
       </ul>

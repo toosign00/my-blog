@@ -4,6 +4,7 @@ import { ChevronDown } from 'lucide-react';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
+import { ICON_SIZE } from '@/constants/style.constants';
 import type { Project } from '@/types/project.types';
 import { searchProjects } from '@/utils/project-search-util';
 import {
@@ -146,10 +147,8 @@ export const ProjectSection = ({
                 <button
                   aria-pressed={isSelected}
                   className={twMerge(
-                    'cursor-pointer rounded-full px-4 py-2 font-medium text-sm transition-colors',
-                    isSelected
-                      ? 'bg-gray-bold text-background'
-                      : 'bg-background05 text-gray-mid hover:bg-gray-hover'
+                    'cursor-pointer rounded-full px-4 py-2 font-medium text-label transition-colors',
+                    isSelected ? 'bg-inverse text-inverse' : 'bg-fill text-tertiary hover:bg-muted'
                   )}
                   key={tag}
                   onClick={() => setSelectedTag(tag)}
@@ -164,7 +163,7 @@ export const ProjectSection = ({
           <div className='grid w-full grid-cols-2 gap-2 mobile:flex'>
             <div className='relative min-w-0 mobile:hidden'>
               <select
-                className='w-full cursor-pointer appearance-none rounded-xl border border-border bg-background py-2 pr-10 pl-4 text-gray-bold text-sm outline-none transition-colors focus:border-gray-mid'
+                className='w-full cursor-pointer appearance-none rounded-lg border border-default bg-canvas py-2 pr-10 pl-4 text-secondary text-label outline-none transition-colors focus:border-strong'
                 aria-label='Project tag'
                 onChange={(event) => setSelectedTag(event.target.value)}
                 value={selectedTag}
@@ -177,14 +176,14 @@ export const ProjectSection = ({
               </select>
               <ChevronDown
                 aria-hidden
-                className='pointer-events-none absolute top-1/2 right-3 -translate-y-1/2 text-gray-mid'
-                size={16}
+                className='pointer-events-none absolute top-1/2 right-3 -translate-y-1/2 text-tertiary'
+                size={ICON_SIZE.sm}
               />
             </div>
 
             <div className='relative min-w-0 mobile:shrink-0'>
               <select
-                className='w-full cursor-pointer appearance-none rounded-xl border border-border bg-background py-2 pr-10 pl-4 text-gray-bold text-sm outline-none transition-colors focus:border-gray-mid mobile:w-auto'
+                className='w-full cursor-pointer appearance-none rounded-lg border border-default bg-canvas py-2 pr-10 pl-4 text-secondary text-label outline-none transition-colors focus:border-strong mobile:w-auto'
                 aria-label='Project sort'
                 onChange={(event) => setSortOption(event.target.value as SortOption)}
                 value={sortOption}
@@ -197,14 +196,14 @@ export const ProjectSection = ({
               </select>
               <ChevronDown
                 aria-hidden
-                className='pointer-events-none absolute top-1/2 right-3 -translate-y-1/2 text-gray-mid'
-                size={16}
+                className='pointer-events-none absolute top-1/2 right-3 -translate-y-1/2 text-tertiary'
+                size={ICON_SIZE.sm}
               />
             </div>
 
             <input
               aria-label='Project search'
-              className='col-span-2 min-w-0 rounded-xl border border-border bg-background px-4 py-2 text-gray-bold text-sm outline-none transition-colors placeholder:text-gray-light focus:border-gray-mid mobile:flex-1'
+              className='col-span-2 min-w-0 rounded-lg border border-default bg-canvas px-4 py-2 text-secondary text-label outline-none transition-colors placeholder:text-muted focus:border-strong mobile:flex-1'
               onChange={(event) => setSearchQuery(event.target.value)}
               placeholder='Search projects...'
               type='search'
@@ -217,7 +216,7 @@ export const ProjectSection = ({
       {filteredProjects.length > 0 ? (
         <ProjectList projects={filteredProjects} />
       ) : (
-        <p className='py-4 text-center text-gray-mid text-sm'>표시할 프로젝트가 없습니다.</p>
+        <p className='py-4 text-center text-tertiary text-label'>표시할 프로젝트가 없습니다.</p>
       )}
     </section>
   );

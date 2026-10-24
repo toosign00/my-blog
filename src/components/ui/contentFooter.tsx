@@ -3,6 +3,7 @@
 import { Share } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { toast } from 'sonner';
+import { ICON_SIZE } from '@/constants/style.constants';
 
 type ContentFooterProps = {
   backButton: ReactNode;
@@ -82,12 +83,12 @@ export const ContentFooter = ({
       {backButton}
       <button
         aria-label={shareButtonAriaLabel}
-        className='focus-ring center-y h3 w-fit cursor-pointer select-none gap-2 py-1.25 pr-2.25 text-gray-accent opacity-100 transition-opacity duration-150 ease-in-out hover:opacity-70'
+        className='focus-ring hover-fade center-y w-fit cursor-pointer select-none gap-2 py-1 pr-2 font-semibold text-body text-primary leading-none tracking-tight'
         onClick={handleShare}
         type='button'
       >
         {shareButtonLabel}
-        <Share size={18} />
+        <Share size={ICON_SIZE.md} />
       </button>
     </footer>
   );
