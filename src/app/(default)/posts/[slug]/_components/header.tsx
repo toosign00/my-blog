@@ -3,6 +3,7 @@ import Link from 'next/link';
 import type { ReactNode } from 'react';
 import { RelativeTime } from '@/components/ui/relativeTime';
 import { ROUTES } from '@/constants/menu.constants';
+import { chipClass } from '@/design-system/components/Chip';
 import type { Post } from '@/types/post.types';
 import { slugify } from '@/utils/text-util';
 
@@ -59,10 +60,7 @@ export const Header = ({
       {tags && tags?.length > 0 && (
         <ul className='center-y mt-6 w-full flex-wrap gap-2'>
           {tags.map((tag) => (
-            <li
-              className='ui-chip center rounded-sm px-1.5 py-0.5 text-tertiary text-caption-sm'
-              key={tag}
-            >
+            <li className={chipClass()} key={tag}>
               <Link
                 className='focus-ring font-medium no-underline hover-fade'
                 href={`${ROUTES.TAGS}/${slugify(tag)}`}

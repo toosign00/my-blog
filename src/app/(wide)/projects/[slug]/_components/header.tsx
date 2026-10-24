@@ -3,6 +3,8 @@ import { ExternalLink, FileText } from 'lucide-react';
 import Image from 'next/image';
 import type { ReactNode } from 'react';
 import { GithubIcon } from '@/components/icons/GithubIcon';
+import { buttonClass } from '@/design-system/components/Button';
+import { Chip } from '@/design-system/components/Chip';
 import { ICON_SIZE } from '@/design-system/tokens/icon';
 import type { Project } from '@/types/project.types';
 
@@ -31,15 +33,14 @@ const ProjectMetaRow = ({ label, children }: ProjectMetaRowProps) => (
 const ProjectTagList = ({ items }: ProjectTagListProps) => (
   <div className='flex flex-wrap gap-2'>
     {items.map((item) => (
-      <span
-        className='rounded-full border border-default px-3 py-1 font-medium text-tertiary text-label'
-        key={item}
-      >
+      <Chip key={item} size='md' tone='outline'>
         {item}
-      </span>
+      </Chip>
     ))}
   </div>
 );
+
+const PROJECT_LINK_CLASS = buttonClass({ className: 'w-full min-w-36 px-4 tablet:w-auto' });
 
 const ProjectActionLinks = ({ repository, docs, url }: ProjectActionLinksProps) => {
   if (!repository && !docs && !url) {
@@ -50,7 +51,7 @@ const ProjectActionLinks = ({ repository, docs, url }: ProjectActionLinksProps) 
     <div className='mt-8 flex flex-wrap gap-2'>
       {repository && (
         <a
-          className='w-full tablet:w-auto min-w-36 focus-ring center text-caption font-medium gap-2 rounded-md border border-default px-4 py-2 text-primary no-underline transition-colors duration-fast ease-in-out hover:bg-muted'
+          className={PROJECT_LINK_CLASS}
           href={repository}
           rel='noopener noreferrer'
           target='_blank'
@@ -61,24 +62,14 @@ const ProjectActionLinks = ({ repository, docs, url }: ProjectActionLinksProps) 
       )}
 
       {docs && (
-        <a
-          className='w-full tablet:w-auto min-w-36 focus-ring center text-caption font-medium gap-2 rounded-md border border-default px-4 py-2 text-primary no-underline transition-colors duration-fast ease-in-out hover:bg-muted'
-          href={docs}
-          rel='noopener noreferrer'
-          target='_blank'
-        >
+        <a className={PROJECT_LINK_CLASS} href={docs} rel='noopener noreferrer' target='_blank'>
           <FileText size={ICON_SIZE.sm} />
           문서 보기
         </a>
       )}
 
       {url && (
-        <a
-          className='w-full tablet:w-auto min-w-36 focus-ring center text-caption font-medium gap-2 rounded-md border border-default px-4 py-2 text-primary no-underline transition-colors duration-fast ease-in-out hover:bg-muted'
-          href={url}
-          rel='noopener noreferrer'
-          target='_blank'
-        >
+        <a className={PROJECT_LINK_CLASS} href={url} rel='noopener noreferrer' target='_blank'>
           <ExternalLink size={ICON_SIZE.sm} />
           배포 사이트
         </a>
@@ -143,9 +134,9 @@ export const ProjectHeader = ({ project }: ProjectHeaderProps) => {
 
       {project.awards && (
         <ProjectMetaRow label='수상내역'>
-          <div className='rounded-full border border-default px-3 py-1 font-medium text-tertiary text-label'>
+          <Chip size='md' tone='outline'>
             {project.awards}
-          </div>
+          </Chip>
         </ProjectMetaRow>
       )}
 

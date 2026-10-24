@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { ROUTES } from '@/constants/menu.constants';
+import { Button, buttonClass } from '@/design-system/components/Button';
 
 interface ErrorPageProps {
   error: Error & { digest?: string };
@@ -20,15 +21,11 @@ const ErrorPage = ({ error, reset }: ErrorPageProps) => {
         </p>
 
         <div className='center gap-2 pt-2'>
-          <button
-            className='ui-button text-caption font-medium min-w-20 px-2 text-secondary'
-            onClick={reset}
-            type='button'
-          >
+          <Button className='min-w-20 text-secondary' onClick={reset}>
             Retry
-          </button>
+          </Button>
           <Link
-            className='ui-button text-caption font-medium min-w-20 px-2 text-secondary'
+            className={buttonClass({ className: 'min-w-20 text-secondary' })}
             href={ROUTES.HOME}
           >
             Home

@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import { Divider } from '@/components/ui/divider';
 import { ROUTES } from '@/constants/menu.constants';
 import { METADATA } from '@/constants/metadata.constants';
+import { Button } from '@/design-system/components/Button';
 import { ICON_SIZE } from '@/design-system/tokens/icon';
 import { ThemeToggle } from '../ThemeToggle';
 import { NavigateMenu } from './NavigateMenu';
@@ -67,15 +68,14 @@ export const Header = () => {
               id='menu-accordion-item'
               value='menu'
             >
-              <button
+              <Button
                 aria-controls='menu-accordion-content'
                 aria-expanded={accordionOpen}
-                className='ui-button px-4 font-medium text-caption text-tertiary hover:bg-fill-weak'
+                className='px-4 text-tertiary'
                 onClick={() => setAccordionOpen((open) => !open)}
-                type='button'
               >
                 {accordionOpen ? '-' : 'menu'}
-              </button>
+              </Button>
               <Accordion.Content
                 aria-labelledby='menu-accordion-item'
                 className='fixed top-header left-0 w-full overflow-hidden border-b border-default bg-canvas px-inline'

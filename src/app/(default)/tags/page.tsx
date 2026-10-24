@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ROUTES } from '@/constants/menu.constants';
 import { METADATA } from '@/constants/metadata.constants';
+import { cardClass } from '@/design-system/components/Card';
 import { generatePageMetadata } from '@/utils/metadata-util';
 import { getAllPosts } from '@/utils/post-util';
 import { slugify } from '@/utils/text-util';
@@ -32,10 +33,7 @@ const TagListPage = async () => {
         <nav aria-label='Tag list'>
           <ul className='m-0 grid list-none grid-cols-auto-fill gap-4 p-0'>
             {tags.map((tag) => (
-              <li
-                className='ui-card rounded-sm transition-colors duration-fast ease-in-out hover:bg-fill-weak'
-                key={tag}
-              >
+              <li className={cardClass({ interactive: true })} key={tag}>
                 <Link
                   aria-label={`${tag} tag (${tagCounts[tag]} posts)`}
                   className='row-between gap-4 px-5 py-2.5 text-primary no-underline'

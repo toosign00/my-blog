@@ -136,28 +136,44 @@ spacing:
   sidebar: 210px
 
 components:
-  ui-card:
+  card:
     backgroundColor: "{colors.bg-surface}"
     borderColor: "{colors.border-default}"
     rounded: "{rounded.lg}"
-  ui-button:
+  button-outline:
     backgroundColor: "{colors.bg-surface}"
     borderColor: "{colors.border-default}"
     textColor: "{colors.fg-primary}"
     typography: "{typography.caption}"
     rounded: "{rounded.md}"
     height: 40px
-  ui-chip:
-    backgroundColor: "{colors.bg-muted}"
-    borderColor: "{colors.border-default}"
-    rounded: "{rounded.sm}"
-  section-action-chip:
-    backgroundColor: "{colors.bg-surface}"
-    textColor: "{colors.fg-muted}"
+    padding: 0 12px
+  button-outline-sm:
     typography: "{typography.caption}"
     rounded: "{rounded.md}"
     height: 32px
-    padding: 0 12px
+  button-outline-lg:
+    typography: "{typography.label}"
+    rounded: "{rounded.lg}"
+    height: 48px
+  button-ghost:
+    textColor: "{colors.fg-primary}"
+    typography: "{typography.body}"
+  chip-soft:
+    backgroundColor: "{colors.bg-muted}"
+    borderColor: "{colors.border-default}"
+    textColor: "{colors.fg-tertiary}"
+    typography: "{typography.caption-sm}"
+    rounded: "{rounded.full}"
+    padding: 2px 8px
+  chip-outline:
+    borderColor: "{colors.border-default}"
+    textColor: "{colors.fg-tertiary}"
+    rounded: "{rounded.full}"
+  chip-solid:
+    backgroundColor: "{colors.bg-inverse}"
+    textColor: "{colors.fg-inverse}"
+    rounded: "{rounded.full}"
   section-heading:
     textColor: "{colors.fg-muted}"
     typography: "{typography.body}"
@@ -193,14 +209,36 @@ src/design-system/
 │   ├── effects.css         radius, 그림자, 블러, 비율, z-index
 │   ├── motion.css          duration, easing, keyframes
 │   └── icon.ts             ICON_SIZE (JS가 숫자를 요구하는 곳)
-└── patterns/               토큰만으로 만든 재사용 패턴 (@utility)
-    ├── interaction.css     focus-ring, hover-fade, press, subtle-scrollbar
-    ├── layout.css          center, column, grid-cols-auto-fill, toc-panel …
-    └── surfaces.css        ui-card, ui-button, ui-chip, section-heading, skeleton-shimmer …
+├── patterns/               토큰만으로 만든 재사용 CSS 패턴 (@utility)
+│   ├── interaction.css     focus-ring, hover-fade, press, subtle-scrollbar
+│   ├── layout.css          center, column, grid-cols-auto-fill, toc-panel …
+│   └── surfaces.css        section-heading, divider-gradient, skeleton-shimmer, steps …
+├── components/             도메인을 모르는 React 컴포넌트
+│   ├── Button/             Button, buttonClass
+│   ├── Chip/               Chip, chipClass
+│   └── Card/               Card, cardClass
+└── tw-merge.ts             타입 스케일을 아는 twMerge (tailwind-merge 직접 import 금지)
 ```
 
 - `src/styles/globals.css`는 위 두 폴더를 import하고 base 스타일만 둔다.
 - 컴포넌트 목록: [`docs/design-system/components.md`](docs/design-system/components.md)
+
+## 컴포넌트
+
+`src/design-system/components/`에는 데이터나 도메인을 모르고 토큰만 쓰는 컴포넌트만 둔다.
+글 목록, 링크 임베드, MDX, 레이아웃처럼 도메인을 아는 것은 `src/components/`에 둔다.
+각 컴포넌트는 같은 스타일을 다른 요소에 입힐 수 있도록 클래스 함수도 함께 내보낸다.
+링크를 버튼처럼 보이게 할 때는 `<Link className={buttonClass(...)}>`를 쓴다.
+
+| 컴포넌트 | 옵션 | 쓰는 곳 |
+| --- | --- | --- |
+| `Button` / `buttonClass` | `variant`: `outline`(기본) · `ghost`, `size`: `sm` 32px · `md` 40px(기본) · `lg` 48px (`outline`에만 적용) | 에러 페이지, 테마 토글, 모바일 메뉴, 홈 "Expand", 프로젝트 링크, 연락처, 뒤로가기/공유 |
+| `Chip` / `chipClass` | `tone`: `soft`(기본) · `outline` · `solid`, `size`: `sm`(기본) · `md` · `lg` | 글 태그, 프로젝트 태그, 스킬 배지, 링크 멘션, MDX `<Badge>` |
+| `Card` / `cardClass` | `padding`: `none`(기본) · `md` · `lg`, `interactive`, `as`: `div` · `section` · `article` | 정책 페이지 섹션, 태그/카테고리 목록, 프로필 카드, 링크 임베드, MDX 표·카드·탭·아코디언 |
+
+- 모든 클래스 합성은 `@/design-system/tw-merge`의 `twMerge`로 한다. `tailwind-merge`를 직접 쓰면
+  `text-label` 같은 타입 스케일 클래스가 색으로 오인돼 사라진다. Biome가 직접 import를 막는다.
+- 새 컴포넌트는 같은 클래스 묶음이 세 곳 이상 반복될 때 만든다.
 
 ## 원칙
 
@@ -220,10 +258,12 @@ Semantic     역할 이름     --fg-primary, --bg-surface, --border-default … 
     ↓
 Tailwind     클래스 노출   text-primary, bg-surface, border-default, text-body, rounded-lg …
     ↓
-patterns/    공용 패턴     ui-card, ui-button, hover-fade, toc-panel …
+patterns/    공용 패턴     hover-fade, focus-ring, toc-panel …
+    ↓
+components/  컴포넌트      Button, Chip, Card
 ```
 
-- 컴포넌트는 **Tailwind 노출 단계와 patterns/가 만든 클래스만** 쓴다. primitive 변수를 직접 참조하지 않는다.
+- 앱 코드는 **Tailwind 노출 단계와 patterns/가 만든 클래스, components/의 컴포넌트만** 쓴다. primitive 변수를 직접 참조하지 않는다.
 - CSS에서 값이 필요하면 semantic 변수(`var(--fg-primary)`)나 `--spacing(n)`을 쓴다.
 - 리터럴 값(hex, px, ms 등)은 `src/design-system/tokens/` 안에서만 허용된다.
 - `reset.css`가 Tailwind 기본 스케일을 모두 지운다. 그래서 `bg-blue-500`, `rounded-xl`, `text-3xl`, `shadow-lg` 같은 클래스는 CSS를 만들지 않는다.

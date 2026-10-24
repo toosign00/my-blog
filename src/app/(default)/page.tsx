@@ -5,6 +5,7 @@ import { ActivityHeatmap } from '@/components/ActivityHeatmap';
 import { ProfileGrid } from '@/components/ProfileGrid';
 import { PostGrid } from '@/components/ui/postGrid';
 import { ROUTES } from '@/constants/menu.constants';
+import { buttonClass } from '@/design-system/components/Button';
 import { ICON_SIZE } from '@/design-system/tokens/icon';
 import { generatePageMetadata } from '@/utils/metadata-util';
 import { getAllPosts } from '@/utils/post-util';
@@ -29,7 +30,7 @@ const HomePage = async () => {
           </h2>
           <Link
             aria-label='Expand to see more posts'
-            className='section-action-chip'
+            className={buttonClass({ size: 'sm', className: 'gap-1.5 text-muted' })}
             href={ROUTES.POSTS}
           >
             Expand

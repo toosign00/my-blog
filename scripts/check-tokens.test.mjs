@@ -63,4 +63,10 @@ describe('extractClassStrings', () => {
     ].join('\n');
     assert.deepEqual(values(source), ['flex gap-2', 'ui-button h-10']);
   });
+
+  it('skips component option values passed to class helpers', () => {
+    const source =
+      "<a className={buttonClass({ size: 'sm', variant: 'ghost', className: 'text-muted' })}>";
+    assert.deepEqual(values(source), ['text-muted']);
+  });
 });

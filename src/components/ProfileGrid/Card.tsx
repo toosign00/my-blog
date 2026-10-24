@@ -1,4 +1,5 @@
 import { type ComponentPropsWithoutRef, type ElementType, forwardRef, type ReactNode } from 'react';
+import { cardClass } from '@/design-system/components/Card';
 import { twMerge } from '@/design-system/tw-merge';
 
 type CardProps = {
@@ -13,7 +14,9 @@ const Card = forwardRef<HTMLDivElement, CardProps>(function Card(
 ) {
   return (
     <Component
-      className={twMerge('ui-card relative mt-8 h-48 w-full overflow-hidden', className)}
+      className={cardClass({
+        className: `relative mt-8 h-48 w-full overflow-hidden ${className ?? ''}`,
+      })}
       ref={ref}
       {...props}
     >

@@ -1,17 +1,22 @@
 # 컴포넌트 카탈로그
 
 각 컴포넌트가 쓰는 토큰과 변형(variant)을 정리했다. 토큰의 값과 규칙은 [`DESIGN.md`](../../DESIGN.md)에 있다.
-공용 패턴(`ui-card`, `ui-button`, `ui-chip` 등)은 `src/design-system/patterns/`에 정의돼 있다.
+디자인 시스템 컴포넌트(`Button`, `Chip`, `Card`)는 `src/design-system/components/`, 공용 CSS 패턴은
+`src/design-system/patterns/`에 있다.
 
-## 공용 패턴 (`src/design-system/patterns/`)
+## 디자인 시스템 컴포넌트
+
+| 컴포넌트 | 기본 모양 | 변형 |
+| --- | --- | --- |
+| `Button` | `outline` `md`: `h-10 rounded-md px-3 text-caption font-medium`, `border-default bg-surface`, hover `bg-fill-weak` | `size` `sm`(h-8) / `lg`(h-12 rounded-lg text-label), `variant` `ghost`(`hover-fade text-body font-semibold`) |
+| `Chip` | `soft` `sm`: `rounded-full border px-2 py-0.5 text-caption-sm font-medium`, `bg-muted text-tertiary` | `tone` `outline`(투명) / `solid`(`bg-inverse text-inverse`), `size` `md`(px-3 py-1 text-label) / `lg`(px-3 py-2) |
+| `Card` | `rounded-lg border-default bg-surface` | `padding` `md`(p-4) / `lg`(p-5), `interactive`(hover `bg-fill-weak`) |
+
+## 공용 CSS 패턴 (`src/design-system/patterns/`)
 
 | 유틸리티 | 구성 | 쓰는 곳 |
 | --- | --- | --- |
-| `ui-card` | `border-default` 헤어라인, `rounded-lg`, `bg-surface` | 카드, 표, 링크 임베드, 태그/카테고리 목록 |
-| `ui-button` | 높이 `h-10`, `border-default`, `rounded-md`, `bg-surface`, 배경 전환 `duration-fast` | 메뉴 버튼, 테마 토글, 에러 페이지 버튼 |
-| `ui-chip` | `border-default`, `rounded-sm`, `bg-muted` | 글 태그, 스킬 배지, 링크 멘션 |
 | `section-heading` | `text-body` 600, `leading-none`, `tracking-tight`, `text-muted` | 모든 섹션 제목 |
-| `section-action-chip` | 높이 `h-8`, `px-3`, `text-caption` 500, `text-muted`, hover `bg-fill-weak` | 홈 "Expand" |
 | `focus-ring` | 포커스 시 `--spacing(0.5)` 두께의 `--focus-ring` | 링크·버튼 전반 |
 | `hover-fade` | hover 시 불투명도 `--opacity-hover-value`(0.7), `duration-fast` | 텍스트 링크, 뒤로가기/공유 |
 | `press` | 눌림 시 `--scale-press`(0.98) | 홈 프로필 카드 |
@@ -37,17 +42,17 @@
 | `ui/postGrid`, `ui/postList` | 썸네일 `aspect-cover rounded-lg border-default`, 제목 `text-body font-medium`, 메타 `text-caption(-sm) text-muted` | hover `bg-muted`, active `bg-pressed` (`POST_CARD_INTERACTION_CLASS`) |
 | `project/ProjectCard` | 썸네일 `aspect-cover`, 태그 `rounded-full text-caption-sm`, 수상 배지 `bg-surface backdrop-blur-sm z-raised` | hover/active는 postGrid와 같음 |
 | `project/ProjectSection` | 필터 칩 `rounded-full text-label`, 입력/셀렉트 `rounded-lg border-default bg-canvas text-label` | 선택됨 `bg-inverse text-inverse`, 기본 `bg-fill text-tertiary`, 포커스 `border-strong` |
-| `ProfileGrid` | `ui-card` + `bg-elevated`, 아바타 `size-24 rounded-md border-media shadow-media`, 라벨 `text-micro text-accent-strong`, 값 `text-caption` | |
+| `ProfileGrid` | `cardClass()` + `bg-elevated`, 아바타 `size-24 rounded-md border-media shadow-media`, 라벨 `text-micro text-accent-strong`, 값 `text-caption` | |
 | `ViewsWidget` | 라벨 `text-caption-sm text-muted`, 숫자 `text-heading-lg font-semibold`, 오늘 `text-accent-strong` + 점 `bg-accent` | |
 | `ActivityHeatmap` | 셀 `--heatmap-0..4`, 범례 `bg-heatmap-*`, 툴팁 `bg-inverse text-inverse text-micro shadow-popover z-tooltip` | |
-| `ui/linkEmbed` | 카드 `ui-card rounded-lg`, 제목 `text-body font-semibold`, 설명 `text-label text-tertiary` | `card`, `mention`(`ui-chip rounded-full`), 로딩(`animate-pulse bg-fill`) |
+| `ui/linkEmbed` | 카드 `cardClass({ padding: 'md' })`, 제목 `text-body font-semibold`, 설명 `text-label text-tertiary` | `card`, `mention`(`chipClass({ size: 'md' })`), 로딩(`animate-pulse bg-fill`) |
 | `ui/pagination` | `size-8 rounded-full text-label` | 기본 `bg-surface border-default`, 현재 `bg-inverse text-inverse` |
 
 ## 글/프로젝트 상세
 
 | 컴포넌트 | 토큰 |
 | --- | --- |
-| 글 헤더 | 커버 `aspect-cover`, 제목 `text-title font-semibold`, 부제 `text-body font-medium text-secondary`, 메타 `text-caption-sm text-muted`, 태그 `ui-chip text-caption-sm` |
+| 글 헤더 | 커버 `aspect-cover`, 제목 `text-title font-semibold`, 부제 `text-body font-medium text-secondary`, 메타 `text-caption-sm text-muted`, 태그 `chipClass()` |
 | 프로젝트 헤더 | 커버 `aspect-cover tablet:aspect-hero`, 제목 `text-title-lg font-bold`, 링크 버튼 `min-w-36 rounded-md border-default hover:bg-muted` |
 | `ui/backButton`, `ui/contentFooter` | `text-body font-semibold leading-none tracking-tight`, `hover-fade`, 아이콘 `ICON_SIZE.md` |
 | `ui/divider` | `h-divider divider-gradient` |
@@ -65,7 +70,7 @@
 | `Pre`/`Code` | `--shiki-token-*`, `text-caption-sm`, 인라인 코드는 `globals.css`의 `border-default bg-fill-weak rounded-xs` | |
 | `Alert` | `grid-cols-leading-icon rounded-lg border px-4 py-3.5`, 제목 `text-label font-semibold`, 본문 `text-label text-tertiary` | `note`/`tip`(`bg-fill-weak border-default`), `warning`(`*-warning`), `destructive`(`*-danger`) |
 | `Steps`/`Step` | `steps-counter border-l border-default pl-6`, 마커 `step-marker size-6 rounded-full border-default bg-canvas text-caption-sm` | |
-| `Table` | `ui-card rounded-lg`, 헤더 `bg-fill-weak text-tertiary font-medium`, 셀 `px-4 py-2.5 text-secondary` | |
+| `Table` | `cardClass()`, 헤더 `bg-fill-weak text-tertiary font-medium`, 셀 `px-4 py-2.5 text-secondary` | |
 | `Highlight` | `bg-highlight-{color} text-highlight-{color} rounded-xs` | `yellow`, `blue`, `green`, `purple`, `red` |
 | `Badge` | `rounded-full border px-2 py-0.5 text-caption-sm font-medium leading-normal` | `default`(`bg-inverse text-inverse`), `muted`(`bg-fill-weak text-tertiary`), `outline`(`bg-transparent text-secondary`) |
 | `Card`/`CardGrid` | `rounded-lg border-default bg-fill-weak p-4`, 그리드 `gap-3 mobile:grid-cols-2` | |
@@ -77,12 +82,12 @@
 | 컴포넌트 | 토큰 |
 | --- | --- |
 | `ProfileCard` | `bg-elevated rounded-lg border-default`, 이미지 `size-24 tablet:size-28 border-media shadow-media`, 이름 `text-title font-bold text-accent-strong`, 다운로드 버튼 hover `bg-fill-weak` / active `bg-fill`, 구분선 `bg-fill-strong` |
-| `ContactBtn` | `ui-card rounded-lg hover:bg-fill-weak`, `text-label font-medium text-secondary`, 아이콘 `ICON_SIZE.lg` |
+| `ContactBtn` | `buttonClass({ size: 'lg' })`, `text-label font-medium text-secondary`, 아이콘 `ICON_SIZE.lg` |
 | `TimelineSection`, `EducationSection`, `CertificateSection` | 항목 제목 `text-heading font-bold text-secondary`, 기간 `font-mono text-label text-tertiary`, 세로 구분선 `w-px h-3 bg-pressed` |
-| `SkillsSection`, `SkillBadge` | `ui-chip px-3 py-2 text-label font-medium text-secondary`, 아이콘 `ICON_SIZE.lg` |
+| `SkillsSection`, `SkillBadge` | `chipClass({ size: 'lg' })` + `text-secondary`, 아이콘 `ICON_SIZE.lg` |
 
 ## 에러 페이지
 
 | 컴포넌트 | 토큰 |
 | --- | --- |
-| `not-found`, `error`, `global-error` | `min-h-status-page`, `text-display-sm tablet:text-display`, 제목 `text-body font-semibold`, 버튼 `ui-button text-caption font-medium min-w-20` |
+| `not-found`, `error`, `global-error` | `min-h-status-page`, `text-display-sm tablet:text-display`, 제목 `text-body font-semibold`, 버튼 `Button` / `buttonClass` + `min-w-20 text-secondary` |

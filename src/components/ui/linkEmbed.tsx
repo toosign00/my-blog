@@ -2,6 +2,8 @@
 import Image from 'next/image';
 import type { ComponentProps } from 'react';
 import { useEffect, useState } from 'react';
+import { cardClass } from '@/design-system/components/Card';
+import { chipClass } from '@/design-system/components/Chip';
 
 interface LinkEmbedProps extends ComponentProps<'a'> {
   url: string;
@@ -128,7 +130,10 @@ export const LinkEmbed = ({
         href={url}
         target='_blank'
         rel='noopener noreferrer'
-        className='ui-chip focus-ring group inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 transition-colors duration-base hover:bg-fill'
+        className={chipClass({
+          size: 'md',
+          className: 'focus-ring group transition-colors duration-base hover:bg-fill',
+        })}
         {...props}
       >
         {!faviconError && (
@@ -175,7 +180,13 @@ export const LinkEmbed = ({
       className='focus-ring block w-full border-0 no-underline'
       {...props}
     >
-      <div className='ui-card group flex flex-col gap-4 overflow-hidden p-4 transition-all duration-base hover:-translate-y-0.5 hover:bg-muted mobile:flex-row'>
+      <div
+        className={cardClass({
+          padding: 'md',
+          className:
+            'group flex flex-col gap-4 overflow-hidden transition-all duration-base hover:-translate-y-0.5 hover:bg-muted mobile:flex-row',
+        })}
+      >
         {thumbnail && !thumbnailError && (
           <div className='relative shrink-0 w-full mobile:w-32 aspect-video mobile:aspect-square overflow-hidden rounded-lg bg-fill'>
             <Image

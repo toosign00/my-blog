@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ROUTES } from '@/constants/menu.constants';
 import { METADATA } from '@/constants/metadata.constants';
+import { cardClass } from '@/design-system/components/Card';
 import { generatePageMetadata } from '@/utils/metadata-util';
 import { getAllPosts } from '@/utils/post-util';
 import { slugify } from '@/utils/text-util';
@@ -28,10 +29,7 @@ const CategoryListPage = async () => {
         <nav aria-label='Category list'>
           <ul className='m-0 grid list-none grid-cols-auto-fill gap-4 p-0'>
             {categories.map((category) => (
-              <li
-                className='ui-card rounded-sm transition-colors duration-fast hover:bg-fill-weak'
-                key={category}
-              >
+              <li className={cardClass({ interactive: true })} key={category}>
                 <Link
                   aria-label={`${category} category (${categoryCounts[category]} posts)`}
                   className='row-between gap-4 px-5 py-2.5 no-underline'

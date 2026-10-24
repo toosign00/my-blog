@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import type { ComponentProps } from 'react';
 import { ROUTES } from '@/constants/menu.constants';
+import { chipClass } from '@/design-system/components/Chip';
 import { ICON_SIZE } from '@/design-system/tokens/icon';
 import { twMerge } from '@/design-system/tw-merge';
 import type { Project } from '@/types/project.types';
@@ -60,7 +61,10 @@ export const ProjectCard = ({
         <div className='mt-4 flex flex-wrap gap-2'>
           {tags.map((tag) => (
             <span
-              className='hoverable-surface rounded-full border border-default px-2 py-1 font-medium text-tertiary text-caption-sm transition-colors duration-base ease-in-out'
+              className={chipClass({
+                tone: 'outline',
+                className: 'hoverable-surface transition-colors duration-base ease-in-out',
+              })}
               key={tag}
             >
               {tag}

@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { ROUTES } from '@/constants/menu.constants';
+import { buttonClass } from '@/design-system/components/Button';
 
 const NotFoundPage = () => {
   return (
@@ -15,7 +16,7 @@ const NotFoundPage = () => {
 
         <div className='center gap-2 pt-2'>
           <Link
-            className='ui-button text-caption font-medium min-w-20 px-2 text-secondary transition-none'
+            className={buttonClass({ className: 'min-w-20 text-secondary' })}
             href={ROUTES.HOME}
           >
             Home

@@ -9,6 +9,7 @@ import {
   useId,
   useState,
 } from 'react';
+import { cardClass } from '@/design-system/components/Card';
 import { twMerge } from '@/design-system/tw-merge';
 
 type TabElement = ReactElement<TabProps>;
@@ -39,7 +40,7 @@ export const Tabs = ({ children, defaultValue }: TabsProps) => {
   const activeTab = tabs.find((tab) => tab.props.value === activeValue) ?? tabs[0];
 
   return (
-    <div className='mt-6 overflow-hidden rounded-lg border border-default bg-fill-weak'>
+    <div className={cardClass({ className: 'mt-6 overflow-hidden bg-fill-weak' })}>
       <div
         aria-label='Content tabs'
         className='flex gap-1 border-default border-b bg-canvas px-1.5 py-1.5'
@@ -108,7 +109,7 @@ export const Accordion = ({ children, defaultValue }: AccordionProps) => {
   }
 
   return (
-    <div className='mt-6 overflow-hidden rounded-lg border border-default bg-fill-weak'>
+    <div className={cardClass({ className: 'mt-6 overflow-hidden bg-fill-weak' })}>
       {items.map((item, index) => {
         const value = item.props.value ?? String(index);
         const open = value === openValue;

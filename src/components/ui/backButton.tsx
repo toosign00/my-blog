@@ -2,10 +2,8 @@
 
 import { ChevronLeft } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
+import { Button } from '@/design-system/components/Button';
 import { ICON_SIZE } from '@/design-system/tokens/icon';
-
-const BACK_BUTTON_CLASS =
-  'focus-ring hover-fade center-y w-fit cursor-pointer select-none gap-2 py-1 pr-2 font-semibold text-body text-primary leading-none tracking-tight';
 
 type BackButtonProps = {
   iconSize?: number;
@@ -30,8 +28,8 @@ export const BackButton = ({ iconSize = ICON_SIZE.md, label = 'Back' }: BackButt
   );
 
   return (
-    <button aria-label='Go back' className={BACK_BUTTON_CLASS} onClick={handleBack} type='button'>
+    <Button aria-label='Go back' onClick={handleBack} variant='ghost'>
       {content}
-    </button>
+    </Button>
   );
 };

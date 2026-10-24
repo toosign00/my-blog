@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
-import { twMerge } from '@/design-system/tw-merge';
+import { cardClass } from '@/design-system/components/Card';
+import { Chip, type ChipTone } from '@/design-system/components/Chip';
 
 interface TableProps {
   headers: string[];
@@ -30,7 +31,7 @@ function TableRow({ row, bordered }: { row: string[]; bordered: boolean }) {
 }
 
 export const Table = ({ headers, rows }: TableProps) => (
-  <div className='ui-card mt-6 w-full overflow-x-auto rounded-lg'>
+  <div className={cardClass({ className: 'mt-6 w-full overflow-x-auto' })}>
     <table className='w-full border-collapse text-label'>
       <thead>
         <tr>
@@ -77,21 +78,16 @@ interface BadgeProps {
   tone?: 'default' | 'muted' | 'outline';
 }
 
-const BADGE_TONE_CLASS: Record<NonNullable<BadgeProps['tone']>, string> = {
-  default: 'border-transparent bg-inverse text-inverse',
-  muted: 'border-default bg-fill-weak text-tertiary',
-  outline: 'border-default bg-transparent text-secondary',
+const BADGE_CHIP_TONE: Record<NonNullable<BadgeProps['tone']>, ChipTone> = {
+  default: 'solid',
+  muted: 'soft',
+  outline: 'outline',
 };
 
 export const Badge = ({ children, tone = 'muted' }: BadgeProps) => (
-  <span
-    className={twMerge(
-      'inline-flex items-center rounded-full border px-2 py-0.5 font-medium text-caption-sm leading-normal',
-      BADGE_TONE_CLASS[tone]
-    )}
-  >
+  <Chip className={tone === 'outline' ? 'text-secondary' : undefined} tone={BADGE_CHIP_TONE[tone]}>
     {children}
-  </span>
+  </Chip>
 );
 
 interface CardProps {
@@ -101,7 +97,7 @@ interface CardProps {
 }
 
 export const Card = ({ title, description, children }: CardProps) => (
-  <section className='rounded-lg border border-default bg-fill-weak p-4'>
+  <section className={cardClass({ padding: 'md', className: 'bg-fill-weak' })}>
     {title && <div className='font-semibold text-primary text-label leading-snug'>{title}</div>}
     {description && <p className='mt-1 text-tertiary text-label leading-relaxed'>{description}</p>}
     {children && <div className='mt-3 text-secondary text-label leading-relaxed'>{children}</div>}

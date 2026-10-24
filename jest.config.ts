@@ -9,6 +9,9 @@ const config: Config = {
   clearMocks: true,
   collectCoverageFrom: [
     'src/design-system/tw-merge.ts',
+    'src/design-system/components/Button/Button.tsx',
+    'src/design-system/components/Card/Card.tsx',
+    'src/design-system/components/Chip/Chip.tsx',
     'src/components/ui/mdx/interactive.tsx',
     'src/components/about/ContactBtn.tsx',
     'src/app/(default)/posts/[slug]/_components/toc.tsx',

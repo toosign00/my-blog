@@ -3,6 +3,7 @@
 import { Share } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { toast } from 'sonner';
+import { Button } from '@/design-system/components/Button';
 import { ICON_SIZE } from '@/design-system/tokens/icon';
 
 type ContentFooterProps = {
@@ -81,15 +82,10 @@ export const ContentFooter = ({
   return (
     <footer className='row-between mt-14 flex-wrap gap-2'>
       {backButton}
-      <button
-        aria-label={shareButtonAriaLabel}
-        className='focus-ring hover-fade center-y w-fit cursor-pointer select-none gap-2 py-1 pr-2 font-semibold text-body text-primary leading-none tracking-tight'
-        onClick={handleShare}
-        type='button'
-      >
+      <Button aria-label={shareButtonAriaLabel} onClick={handleShare} variant='ghost'>
         {shareButtonLabel}
         <Share size={ICON_SIZE.md} />
-      </button>
+      </Button>
     </footer>
   );
 };

@@ -1,6 +1,7 @@
 'use client';
 
 import '@/styles/globals.css';
+import { Button, buttonClass } from '@/design-system/components/Button';
 import { GeistMono } from '@/styles/font';
 
 interface GlobalErrorPageProps {
@@ -26,14 +27,10 @@ export default function GlobalErrorPage({ error, reset }: GlobalErrorPageProps) 
           </p>
 
           <div className='flex gap-2 pt-2'>
-            <button
-              className='ui-button text-caption font-medium min-w-20 px-3 text-secondary'
-              onClick={reset}
-              type='button'
-            >
+            <Button className='min-w-20 text-secondary' onClick={reset}>
               Retry
-            </button>
-            <a className='ui-button text-caption font-medium min-w-20 px-3 text-secondary' href='/'>
+            </Button>
+            <a className={buttonClass({ className: 'min-w-20 text-secondary' })} href='/'>
               Home
             </a>
           </div>

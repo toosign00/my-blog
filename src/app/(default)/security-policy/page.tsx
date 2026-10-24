@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { ROUTES } from '@/constants/menu.constants';
 import { METADATA } from '@/constants/metadata.constants';
+import { Card } from '@/design-system/components/Card';
 import { generatePageMetadata } from '@/utils/metadata-util';
 
 const SecurityPolicyPage = () => {
@@ -14,7 +15,7 @@ const SecurityPolicyPage = () => {
       </header>
 
       <div className='column gap-8 pb-16'>
-        <section className='ui-card column gap-4 rounded-sm p-5'>
+        <Card as='section' className='column gap-4' padding='lg'>
           <h2 className='section-heading'>Contact</h2>
           <p className='leading-relaxed text-tertiary'>
             Please report suspected vulnerabilities by email at{' '}
@@ -24,27 +25,27 @@ const SecurityPolicyPage = () => {
             . Include enough detail to reproduce the issue, affected URLs, and any relevant proof of
             concept.
           </p>
-        </section>
+        </Card>
 
-        <section className='ui-card column gap-4 rounded-sm p-5'>
+        <Card as='section' className='column gap-4' padding='lg'>
           <h2 className='section-heading'>Scope</h2>
           <ul className='m-0 column list-disc gap-2 pl-5 text-tertiary'>
             <li>https://toosign.me and pages served from this blog.</li>
             <li>Public routes, APIs, and static files maintained in this repository.</li>
             <li>Issues that could affect confidentiality, integrity, or availability.</li>
           </ul>
-        </section>
+        </Card>
 
-        <section className='ui-card column gap-4 rounded-sm p-5'>
+        <Card as='section' className='column gap-4' padding='lg'>
           <h2 className='section-heading'>Out of Scope</h2>
           <ul className='m-0 column list-disc gap-2 pl-5 text-tertiary'>
             <li>Third-party services and platforms not operated by this site.</li>
             <li>files.toosign.me and externally hosted files.</li>
             <li>Social accounts, email provider infrastructure, and physical security issues.</li>
           </ul>
-        </section>
+        </Card>
 
-        <section className='ui-card column gap-4 rounded-sm p-5'>
+        <Card as='section' className='column gap-4' padding='lg'>
           <h2 className='section-heading'>Report Details</h2>
           <ul className='m-0 column list-disc gap-2 pl-5 text-tertiary'>
             <li>Affected URL or endpoint.</li>
@@ -52,9 +53,9 @@ const SecurityPolicyPage = () => {
             <li>Steps to reproduce the issue.</li>
             <li>Screenshots or a minimal proof of concept, if available.</li>
           </ul>
-        </section>
+        </Card>
 
-        <section className='ui-card column gap-4 rounded-sm p-5'>
+        <Card as='section' className='column gap-4' padding='lg'>
           <h2 className='section-heading'>Testing Guidelines</h2>
           <ul className='m-0 column list-disc gap-2 pl-5 text-tertiary'>
             <li>Do not access, modify, or delete data that is not yours.</li>
@@ -64,9 +65,9 @@ const SecurityPolicyPage = () => {
             <li>Do not exfiltrate, persist, or publicly share data.</li>
             <li>Give reasonable time to review and resolve the report before public disclosure.</li>
           </ul>
-        </section>
+        </Card>
 
-        <section className='ui-card column gap-4 rounded-sm p-5'>
+        <Card as='section' className='column gap-4' padding='lg'>
           <h2 className='section-heading'>Review Process</h2>
           <p className='leading-relaxed text-tertiary'>
             Valid reports are reviewed as time allows. I try to acknowledge actionable reports
@@ -76,7 +77,7 @@ const SecurityPolicyPage = () => {
             Reports made in good faith and within this policy will not be treated as malicious
             activity.
           </p>
-        </section>
+        </Card>
       </div>
     </>
   );

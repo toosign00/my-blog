@@ -106,17 +106,21 @@ const readBalanced = (text, start) => {
 };
 
 /** Static string literal parts inside an expression (template `${}` holes removed). */
+/** Values of these keys are component options (size: 'md'), not class names. */
+const OPTION_KEY_BEFORE = /\b(?:variant|size|tone|padding|as|type)\s*(?::|={1,3})\s*$/;
+
 const stringLiterals = (expr, offset) => {
   const found = [];
   const re = /'((?:[^'\\\n]|\\.)*)'|"((?:[^"\\\n]|\\.)*)"|`((?:[^`\\]|\\.)*)`/g;
   for (const match of expr.matchAll(re)) {
+    if (OPTION_KEY_BEFORE.test(expr.slice(0, match.index))) continue;
     const value = (match[1] ?? match[2] ?? match[3]).replace(/\$\{[^}]*\}/g, ' ');
     found.push({ value, index: offset + match.index });
   }
   return found;
 };
 
-/** Every string that is used as a className: JSX attributes, twMerge() calls and *_CLASS constants. */
+/** Every string that is used as a className: JSX attributes, twMerge() calls and *_CLASS / *Class constants. */
 export const extractClassStrings = (text) => {
   const strings = [];
   for (const match of text.matchAll(/className=(?=['"{])/g)) {
