@@ -3,7 +3,7 @@
 import { Share } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { toast } from 'sonner';
-import { ICON_SIZE } from '@/constants/style.constants';
+import { ICON_SIZE } from '@/styles/tokens/icon';
 
 type ContentFooterProps = {
   backButton: ReactNode;

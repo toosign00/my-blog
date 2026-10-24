@@ -182,10 +182,9 @@ components:
 이 문서는 블로그 디자인 시스템의 단일 기준이다. 위 frontmatter의 이름과 값은
 `src/styles/tokens/`의 토큰과 1:1로 대응한다. 둘이 다르면 코드가 기준이고, 이 문서를 고친다.
 
-- 토큰 정의: `src/styles/tokens/primitives.css`, `semantic.css`, `theme.css`
+- 토큰 정의: `src/styles/tokens/primitives.css`, `semantic.css`, `theme.css`, `icon.ts`
 - 공용 유틸리티: `src/styles/utilities.css`
 - 컴포넌트 목록: [`docs/design-system/components.md`](docs/design-system/components.md)
-- 이전 값 → 토큰 매핑: [`docs/design-system/inventory.md`](docs/design-system/inventory.md)
 
 ## 원칙
 
@@ -267,7 +266,7 @@ utilities.css    공용 패턴     ui-card, ui-button, hover-fade, z-header, toc
 - 모션: `duration-fast` 150ms, `duration-base` 200ms, `duration-slow` 300ms, `ease-in-out`, `ease-out`.
   자주 쓰는 패턴은 `hover-fade`(hover 시 불투명도 0.7)와 `press`(눌림 시 0.98배)다.
 - 레이어: `z-raised` < `z-overlay` < `z-header` < `z-modal` < `z-tooltip`.
-- 아이콘 크기: `ICON_SIZE.xs|sm|md|lg` = 14/16/18/20px (`src/constants/style.constants.ts`).
+- 아이콘 크기: `ICON_SIZE.xs|sm|md|lg` = 14/16/18/20px (`src/styles/tokens/icon.ts`).
 
 ## 규칙과 검사
 

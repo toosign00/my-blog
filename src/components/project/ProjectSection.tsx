@@ -4,7 +4,7 @@ import { ChevronDown } from 'lucide-react';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
-import { ICON_SIZE } from '@/constants/style.constants';
+import { ICON_SIZE } from '@/styles/tokens/icon';
 import type { Project } from '@/types/project.types';
 import { searchProjects } from '@/utils/project-search-util';
 import {

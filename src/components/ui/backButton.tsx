@@ -2,7 +2,7 @@
 
 import { ChevronLeft } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
-import { ICON_SIZE } from '@/constants/style.constants';
+import { ICON_SIZE } from '@/styles/tokens/icon';
 
 const BACK_BUTTON_CLASS =
   'focus-ring hover-fade center-y w-fit cursor-pointer select-none gap-2 py-1 pr-2 font-semibold text-body text-primary leading-none tracking-tight';

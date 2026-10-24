@@ -5,7 +5,7 @@ import { ActivityHeatmap } from '@/components/ActivityHeatmap';
 import { ProfileGrid } from '@/components/ProfileGrid';
 import { PostGrid } from '@/components/ui/postGrid';
 import { ROUTES } from '@/constants/menu.constants';
-import { ICON_SIZE } from '@/constants/style.constants';
+import { ICON_SIZE } from '@/styles/tokens/icon';
 import { generatePageMetadata } from '@/utils/metadata-util';
 import { getAllPosts } from '@/utils/post-util';
 

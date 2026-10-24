@@ -2,7 +2,7 @@
 
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
-import { ICON_SIZE } from '@/constants/style.constants';
+import { ICON_SIZE } from '@/styles/tokens/icon';
 
 const TRAILING_SLASH = /\/$/;
 

@@ -21,7 +21,7 @@ import { PythonIcon } from '@/components/icons/PythonIcon';
 import { SlackIcon } from '@/components/icons/SlackIcon';
 import { TypeScriptIcon } from '@/components/icons/TypeScriptIcon';
 import { ABOUT } from '@/constants/about.constants';
-import { ICON_SIZE } from '@/constants/style.constants';
+import { ICON_SIZE } from '@/styles/tokens/icon';
 import type { IconProps } from '@/types/icon.types';
 
 const ICON_MAP: Record<string, ComponentType<IconProps>> = {

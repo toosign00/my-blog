@@ -218,7 +218,7 @@ const checkSourceFile = (file, text, designSystem, report) => {
     report(
       file,
       lineOf(source, match.index),
-      `raw icon size ${match[1]}: use ICON_SIZE from style.constants`
+      `raw icon size ${match[1]}: use ICON_SIZE from styles/tokens/icon`
     );
   }
 };

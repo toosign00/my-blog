@@ -5,7 +5,7 @@ import { toast } from 'sonner';
 import { GithubIcon } from '@/components/icons/GithubIcon';
 import { LinkedInIcon } from '@/components/icons/LinkedInIcon';
 import { ABOUT } from '@/constants/about.constants';
-import { ICON_SIZE } from '@/constants/style.constants';
+import { ICON_SIZE } from '@/styles/tokens/icon';
 
 const ICON_MAP = {
   phone: Phone,
