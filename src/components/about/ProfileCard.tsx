@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { ContactButtons } from '@/components/about/ContactBtn';
 import { ResumeDownloadButton } from '@/components/ResumeBtn';
 import { ABOUT } from '@/constants/about.constants';
-import { ICON_SIZE } from '@/styles/tokens/icon';
+import { ICON_SIZE } from '@/design-system/tokens/icon';
 import { createBlur } from '@/utils/blur-util';
 
 const DOWNLOAD_BUTTON_CLASS =

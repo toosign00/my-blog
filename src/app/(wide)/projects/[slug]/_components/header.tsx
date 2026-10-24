@@ -3,7 +3,7 @@ import { ExternalLink, FileText } from 'lucide-react';
 import Image from 'next/image';
 import type { ReactNode } from 'react';
 import { GithubIcon } from '@/components/icons/GithubIcon';
-import { ICON_SIZE } from '@/styles/tokens/icon';
+import { ICON_SIZE } from '@/design-system/tokens/icon';
 import type { Project } from '@/types/project.types';
 
 type ProjectHeaderProps = {

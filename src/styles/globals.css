@@ -1,8 +1,6 @@
 @import "tailwindcss";
-@import "./tokens/primitives.css";
-@import "./tokens/semantic.css";
-@import "./tokens/theme.css";
-@import "./utilities.css";
+@import "../design-system/tokens/index.css";
+@import "../design-system/patterns/index.css";
 
 @layer base {
   html {

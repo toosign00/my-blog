@@ -1,9 +1,9 @@
 # 컴포넌트 카탈로그
 
 각 컴포넌트가 쓰는 토큰과 변형(variant)을 정리했다. 토큰의 값과 규칙은 [`DESIGN.md`](../../DESIGN.md)에 있다.
-공용 패턴(`ui-card`, `ui-button`, `ui-chip` 등)은 `src/styles/utilities.css`에 정의돼 있다.
+공용 패턴(`ui-card`, `ui-button`, `ui-chip` 등)은 `src/design-system/patterns/`에 정의돼 있다.
 
-## 공용 패턴 (`utilities.css`)
+## 공용 패턴 (`src/design-system/patterns/`)
 
 | 유틸리티 | 구성 | 쓰는 곳 |
 | --- | --- | --- |

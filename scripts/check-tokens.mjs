@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Design token guard.
- * Fails when styling bypasses the design system tokens defined in src/styles/tokens/.
+ * Fails when styling bypasses the design system tokens defined in src/design-system/tokens/.
  * Rules and the reasoning behind each exception are documented in DESIGN.md.
  */
 import fs from 'node:fs';
@@ -11,7 +11,7 @@ import { __unstable__loadDesignSystem } from '@tailwindcss/node';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const STYLES_DIR = path.join(ROOT, 'src/styles');
-const TOKENS_DIR = path.join(STYLES_DIR, 'tokens');
+const TOKENS_DIR = path.join(ROOT, 'src/design-system/tokens');
 
 /** Files skipped entirely. Brand icons keep their official brand colors. */
 const IGNORED_PATHS = ['src/components/icons/'];
@@ -163,7 +163,7 @@ const utilityOf = (candidate) => {
 export const checkCandidate = (candidate) => {
   const utility = utilityOf(candidate);
   if (/\[.*\]|\(--/.test(utility)) {
-    return `arbitrary value "${candidate}": add a token to src/styles/tokens/ or a utility to utilities.css`;
+    return `arbitrary value "${candidate}": add a token to src/design-system/tokens/ or a pattern to src/design-system/patterns/`;
   }
   const spacing = utility.match(SPACING_UTILITY);
   if (spacing && !SPACING_STEPS.has(spacing[1])) {
@@ -218,7 +218,7 @@ const checkSourceFile = (file, text, designSystem, report) => {
     report(
       file,
       lineOf(source, match.index),
-      `raw icon size ${match[1]}: use ICON_SIZE from styles/tokens/icon`
+      `raw icon size ${match[1]}: use ICON_SIZE from design-system/tokens/icon`
     );
   }
 };

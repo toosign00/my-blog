@@ -1,0 +1,23 @@
+/*
+ * Removes every default Tailwind scale. Imported before the token files, so only the scales they define
+ * exist: a class such as bg-blue-500, rounded-xl, text-3xl or shadow-lg generates no CSS.
+ */
+@theme {
+  --color-*: initial;
+  --text-*: initial;
+  --font-*: initial;
+  --font-weight-*: initial;
+  --leading-*: initial;
+  --tracking-*: initial;
+  --radius-*: initial;
+  --shadow-*: initial;
+  --inset-shadow-*: initial;
+  --drop-shadow-*: initial;
+  --text-shadow-*: initial;
+  --blur-*: initial;
+  --ease-*: initial;
+  --animate-*: initial;
+  --container-*: initial;
+  --perspective-*: initial;
+  --breakpoint-*: initial;
+}

@@ -1,0 +1,88 @@
+/* Surface patterns: cards, controls, headings and decorative surfaces. */
+
+@utility ui-card {
+  border: var(--length-hairline) solid var(--border-default);
+  border-radius: var(--radius-lg);
+  background-color: var(--bg-surface);
+}
+
+@utility ui-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: --spacing(10);
+  border: var(--length-hairline) solid var(--border-default);
+  border-radius: var(--radius-md);
+  background-color: var(--bg-surface);
+  cursor: pointer;
+  transition: background-color var(--time-fast) var(--ease-in-out);
+}
+
+@utility ui-chip {
+  border: var(--length-hairline) solid var(--border-default);
+  border-radius: var(--radius-sm);
+  background-color: var(--bg-muted);
+  transition: background-color var(--time-fast) var(--ease-in-out);
+}
+
+@utility section-heading {
+  font-size: var(--text-body);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--leading-none);
+  letter-spacing: var(--tracking-tight);
+  color: var(--fg-muted);
+}
+
+@utility section-action-chip {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: --spacing(1.5);
+  height: --spacing(8);
+  padding-inline: --spacing(3);
+  border: var(--length-hairline) solid var(--border-default);
+  border-radius: var(--radius-md);
+  background-color: var(--bg-surface);
+  color: var(--fg-muted);
+  font-size: var(--text-caption);
+  font-weight: var(--font-weight-medium);
+  transition: background-color var(--time-fast) var(--ease-in-out);
+
+  &:hover {
+    background-color: var(--bg-fill-weak);
+  }
+}
+
+@utility divider-gradient {
+  background: var(--divider-gradient);
+}
+
+@utility skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--bg-fill-weak) 25%,
+    var(--border-default) 50%,
+    var(--bg-fill-weak) 75%
+  );
+  background-size: 200% 100%;
+  animation: var(--animate-shimmer);
+}
+
+@utility quote-rule {
+  border-left-width: var(--length-quote-rule);
+}
+
+@utility steps-counter {
+  counter-reset: steps;
+}
+
+/* MDX <Steps>: numbered markers drawn from a CSS counter */
+@utility step-marker {
+  counter-increment: steps;
+
+  /* Tailwind's before: utilities render `content: var(--tw-content)` */
+  &::before {
+    --tw-content: counter(steps);
+    content: var(--tw-content);
+  }
+}

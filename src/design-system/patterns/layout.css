@@ -1,0 +1,58 @@
+/* Layout patterns: flex/grid helpers and page-level placement. */
+
+@utility center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@utility center-y {
+  display: flex;
+  align-items: center;
+}
+
+@utility row-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@utility column {
+  display: flex;
+  flex-direction: column;
+}
+
+@utility column-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+@utility grid-cols-auto-fill {
+  grid-template-columns: repeat(auto-fill, minmax(var(--spacing-grid-min), 1fr));
+}
+
+@utility grid-cols-leading-icon {
+  grid-template-columns: auto 1fr;
+}
+
+@utility grid-rows-collapsed {
+  grid-template-rows: 0fr;
+}
+
+@utility grid-rows-expanded {
+  grid-template-rows: 1fr;
+}
+
+@utility min-h-status-page {
+  min-height: calc(100dvh - --spacing(56));
+}
+
+@utility toc-panel {
+  position: fixed;
+  top: --spacing(36);
+  left: calc(50% + var(--spacing-app) / 2 + --spacing(8));
+  width: --spacing(44);
+  max-height: calc(100vh - --spacing(48));
+}

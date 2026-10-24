@@ -180,10 +180,26 @@ components:
 # 디자인 시스템
 
 이 문서는 블로그 디자인 시스템의 단일 기준이다. 위 frontmatter의 이름과 값은
-`src/styles/tokens/`의 토큰과 1:1로 대응한다. 둘이 다르면 코드가 기준이고, 이 문서를 고친다.
+`src/design-system/tokens/`의 토큰과 1:1로 대응한다. 둘이 다르면 코드가 기준이고, 이 문서를 고친다.
 
-- 토큰 정의: `src/styles/tokens/primitives.css`, `semantic.css`, `theme.css`, `icon.ts`
-- 공용 유틸리티: `src/styles/utilities.css`
+```
+src/design-system/
+├── tokens/                 디자인 값의 유일한 출처
+│   ├── index.css           import 순서 (reset.css가 가장 먼저)
+│   ├── reset.css           Tailwind 기본 스케일 제거
+│   ├── colors.css          팔레트 → 라이트/다크 역할 이름 → Tailwind 색 유틸리티
+│   ├── typography.css      폰트, 타입 스케일, 굵기, 행간, 자간
+│   ├── spacing.css         4px 단계, 레이아웃 길이, 브레이크포인트
+│   ├── effects.css         radius, 그림자, 블러, 비율, z-index
+│   ├── motion.css          duration, easing, keyframes
+│   └── icon.ts             ICON_SIZE (JS가 숫자를 요구하는 곳)
+└── patterns/               토큰만으로 만든 재사용 패턴 (@utility)
+    ├── interaction.css     focus-ring, hover-fade, press, subtle-scrollbar
+    ├── layout.css          center, column, grid-cols-auto-fill, toc-panel …
+    └── surfaces.css        ui-card, ui-button, ui-chip, section-heading, skeleton-shimmer …
+```
+
+- `src/styles/globals.css`는 위 두 폴더를 import하고 base 스타일만 둔다.
 - 컴포넌트 목록: [`docs/design-system/components.md`](docs/design-system/components.md)
 
 ## 원칙
@@ -195,20 +211,23 @@ components:
 
 ## 토큰 계층
 
+토큰 파일은 카테고리별로 나뉘고, 각 파일 안에서 같은 순서로 계층을 쌓는다.
+
 ```
-primitives.css   원시 값       --slate-900, --blue-500, --length-header, --time-fast …
-      ↓
-semantic.css     역할 이름     --fg-primary, --bg-surface, --border-default … (:root / .dark)
-      ↓
-theme.css        Tailwind 노출 text-primary, bg-surface, border-default, text-body, rounded-lg …
-      ↓
-utilities.css    공용 패턴     ui-card, ui-button, hover-fade, z-header, toc-panel …
+Primitives   원시 값       --slate-900, --blue-500, --length-header, --time-fast …
+    ↓
+Semantic     역할 이름     --fg-primary, --bg-surface, --border-default … (:root / .dark)
+    ↓
+Tailwind     클래스 노출   text-primary, bg-surface, border-default, text-body, rounded-lg …
+    ↓
+patterns/    공용 패턴     ui-card, ui-button, hover-fade, toc-panel …
 ```
 
-- 컴포넌트는 **theme.css와 utilities.css가 만든 클래스만** 쓴다. primitive 변수를 직접 참조하지 않는다.
+- 컴포넌트는 **Tailwind 노출 단계와 patterns/가 만든 클래스만** 쓴다. primitive 변수를 직접 참조하지 않는다.
 - CSS에서 값이 필요하면 semantic 변수(`var(--fg-primary)`)나 `--spacing(n)`을 쓴다.
-- 리터럴 값(hex, px, ms 등)은 `src/styles/tokens/` 안에서만 허용된다.
-- theme.css는 Tailwind 기본 스케일을 모두 리셋한다. 그래서 `bg-blue-500`, `rounded-xl`, `text-3xl`, `shadow-lg` 같은 클래스는 CSS를 만들지 않는다.
+- 리터럴 값(hex, px, ms 등)은 `src/design-system/tokens/` 안에서만 허용된다.
+- `reset.css`가 Tailwind 기본 스케일을 모두 지운다. 그래서 `bg-blue-500`, `rounded-xl`, `text-3xl`, `shadow-lg` 같은 클래스는 CSS를 만들지 않는다.
+- 값은 CSS 토큰이 기본이다. TS 토큰(`icon.ts`)은 JS API가 숫자를 요구할 때만 두고, 같은 값을 CSS와 TS에 중복하지 않는다.
 
 ## 색
 
@@ -254,7 +273,7 @@ utilities.css    공용 패턴     ui-card, ui-button, hover-fade, z-header, toc
 - 간격은 4px(`--spacing`)의 배수이고, 허용 단계는
   `0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 16, 20, 24, 28, 32, 36, 40, 44, 48`이다.
 - 레이아웃 치수는 이름 있는 토큰을 쓴다: `max-w-app`, `w-sidebar`, `px-inline`, `h-header`, `w-post-thumb`,
-  `max-w-app-with-sidebar`, `w-app-expanded`, `grid-cols-auto-fill`.
+  `max-w-app-with-sidebar`, `grid-cols-auto-fill`.
 - 브레이크포인트: `mobile` 40rem, `tablet` 60rem, `desktop` 80rem, `wide` 100rem.
   Tailwind 기본 `sm/md/lg`는 정의돼 있지 않다.
 
@@ -265,8 +284,8 @@ utilities.css    공용 패턴     ui-card, ui-button, hover-fade, z-header, toc
 - 블러: `backdrop-blur-sm` 8px, `backdrop-blur-md` 12px.
 - 모션: `duration-fast` 150ms, `duration-base` 200ms, `duration-slow` 300ms, `ease-in-out`, `ease-out`.
   자주 쓰는 패턴은 `hover-fade`(hover 시 불투명도 0.7)와 `press`(눌림 시 0.98배)다.
-- 레이어: `z-raised` < `z-overlay` < `z-header` < `z-modal` < `z-tooltip`.
-- 아이콘 크기: `ICON_SIZE.xs|sm|md|lg` = 14/16/18/20px (`src/styles/tokens/icon.ts`).
+- 레이어: `z-raised` < `z-overlay` < `z-header` < `z-tooltip`.
+- 아이콘 크기: `ICON_SIZE.xs|sm|md|lg` = 14/16/18/20px (`src/design-system/tokens/icon.ts`).
 
 ## 규칙과 검사
 
@@ -295,7 +314,7 @@ utilities.css    공용 패턴     ui-card, ui-button, hover-fade, z-header, toc
 ### 새 값이 필요할 때
 
 1. 기존 토큰으로 표현할 수 있는지 먼저 확인한다.
-2. 없으면 `primitives.css`에 원시 값을 추가한다.
-3. 테마마다 다르면 `semantic.css`의 `:root`와 `.dark` 양쪽에 역할 이름을 추가한다.
-4. `theme.css`에 Tailwind 이름을 등록하거나, 반복 패턴이면 `utilities.css`에 `@utility`를 만든다.
+2. 없으면 해당 카테고리 파일(`colors.css`, `spacing.css` …)의 Primitives 블록에 원시 값을 추가한다.
+3. 테마마다 다르면 같은 파일의 Semantic 블록에서 `:root`와 `.dark` 양쪽에 역할 이름을 추가한다.
+4. 같은 파일의 Tailwind 블록(`@theme`)에 이름을 등록한다. 반복되는 조합이면 `patterns/`에 `@utility`를 만든다.
 5. 이 문서의 frontmatter와 표를 갱신한다.

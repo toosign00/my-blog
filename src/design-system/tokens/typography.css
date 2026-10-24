@@ -1,0 +1,69 @@
+/* Typography: font families, type scale, weights, line heights and letter spacing. */
+
+/* Primitives */
+:root {
+  /* Root font size per viewport */
+  --root-size: 16px;
+  --root-size-desktop: 16.5px;
+  --root-size-wide: 17px;
+
+  --word-spacing-mono: -0.15em;
+}
+
+/* Tailwind */
+@theme {
+  --font-sans:
+    "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto,
+    "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic",
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  --font-mono: var(--font-geist-mono), "Courier New", Courier, monospace;
+
+  /* Type scale: size + default line-height (+ tracking for headings) */
+  --text-display: 8.8rem;
+  --text-display--line-height: 1;
+  --text-display--letter-spacing: -0.03em;
+  --text-display-sm: 6.4rem;
+  --text-display-sm--line-height: 1;
+  --text-display-sm--letter-spacing: -0.03em;
+  --text-title-lg: 1.75rem;
+  --text-title-lg--line-height: 1.25;
+  --text-title-lg--letter-spacing: -0.01em;
+  --text-title: 1.5rem;
+  --text-title--line-height: 1.3;
+  --text-title--letter-spacing: -0.01em;
+  --text-heading-lg: 1.25rem;
+  --text-heading-lg--line-height: 1.4;
+  --text-heading-lg--letter-spacing: -0.01em;
+  --text-heading: 1.125rem;
+  --text-heading--line-height: 1.35;
+  --text-heading--letter-spacing: -0.01em;
+  --text-body-lg: 1rem;
+  --text-body-lg--line-height: 1.8;
+  --text-body: 0.9375rem;
+  --text-body--line-height: 1.6;
+  --text-label: 0.875rem;
+  --text-label--line-height: 1.5;
+  --text-caption: 0.8125rem;
+  --text-caption--line-height: 1.5;
+  --text-caption-sm: 0.75rem;
+  --text-caption-sm--line-height: 1.5;
+  --text-micro: 0.6875rem;
+  --text-micro--line-height: 1.6;
+
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  --leading-none: 1;
+  --leading-tight: 1.25;
+  --leading-snug: 1.4;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.6;
+  --leading-loose: 1.8;
+
+  --tracking-tighter: -0.03em;
+  --tracking-tight: -0.01em;
+  --tracking-normal: 0em;
+  --tracking-wide: 0.025em;
+}
