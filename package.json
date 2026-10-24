@@ -23,7 +23,7 @@
     "check": "pnpm lint && pnpm type-check && pnpm check-tokens"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx,json,jsonc,css}": "biome check --write",
+    "*.{js,jsx,ts,tsx,json,jsonc,css}": "biome check --write --no-errors-on-unmatched",
     "*.{ts,tsx,mdx,css}": "node scripts/check-tokens.mjs"
   },
   "dependencies": {
