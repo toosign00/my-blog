@@ -2,6 +2,40 @@ import { expect, test } from './fixtures';
 
 const projectLinks = /^Read project:/;
 
+test('enables project controls after hydration and preserves the first search', async ({
+  page,
+  next,
+}) => {
+  void next;
+  const { promise: scriptsReady, resolve: releaseScripts } = Promise.withResolvers<void>();
+  await page.route('**/_next/static/**', async (route) => {
+    if (new URL(route.request().url()).pathname.endsWith('.js')) await scriptsReady;
+    await route.fallback();
+  });
+  try {
+    await page.goto('/projects', { waitUntil: 'commit' });
+    const search = page.getByRole('searchbox', { name: 'Project search' });
+    const sort = page.getByRole('combobox', { name: 'Project sort' });
+    const tag = page.getByRole('button', { name: 'QA', exact: true });
+    await expect(search).toBeVisible();
+    await expect(search).toBeDisabled();
+    await expect(sort).toBeDisabled();
+    await expect(tag).toBeDisabled();
+
+    releaseScripts();
+    await expect(search).toBeEnabled();
+    await expect(sort).toBeEnabled();
+    await expect(tag).toBeEnabled();
+    await search.fill('Mobile Bookcase');
+    await expect(page).toHaveURL(/\/projects\?q=Mobile\+Bookcase$/);
+    await expect(page.getByRole('list').getByRole('heading', { level: 2 })).toHaveText([
+      'Mobile Bookcase',
+    ]);
+  } finally {
+    releaseScripts();
+  }
+});
+
 test('filters by tag, sorts alphabetically and restores both after a reload', async ({
   page,
   next,

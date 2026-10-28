@@ -3,6 +3,7 @@
 import { ChevronDown } from 'lucide-react';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
+import { useHasMounted } from '@/hooks/useHasMounted';
 import { ICON_SIZE } from '@/styles/tokens/icon';
 import type { Project } from '@/types/project.types';
 import { searchProjects } from '@/utils/project-search-util';
@@ -65,6 +66,7 @@ export const ProjectSection = ({
   initialSort,
   initialQuery,
 }: ProjectSectionProps) => {
+  const hasMounted = useHasMounted();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
@@ -145,6 +147,7 @@ export const ProjectSection = ({
 
               return (
                 <button
+                  disabled={!hasMounted}
                   aria-pressed={isSelected}
                   className={twMerge(
                     'cursor-pointer rounded-full px-4 py-2 font-medium text-label transition-colors',
@@ -163,6 +166,7 @@ export const ProjectSection = ({
           <div className='grid w-full grid-cols-2 gap-2 mobile:flex'>
             <div className='relative min-w-0 mobile:hidden'>
               <select
+                disabled={!hasMounted}
                 className='w-full cursor-pointer appearance-none rounded-lg border border-default bg-canvas py-2 pr-10 pl-4 text-secondary text-label outline-none transition-colors focus:border-strong'
                 aria-label='Project tag'
                 onChange={(event) => setSelectedTag(event.target.value)}
@@ -183,6 +187,7 @@ export const ProjectSection = ({
 
             <div className='relative min-w-0 mobile:shrink-0'>
               <select
+                disabled={!hasMounted}
                 className='w-full cursor-pointer appearance-none rounded-lg border border-default bg-canvas py-2 pr-10 pl-4 text-secondary text-label outline-none transition-colors focus:border-strong mobile:w-auto'
                 aria-label='Project sort'
                 onChange={(event) => setSortOption(event.target.value as SortOption)}
@@ -202,6 +207,7 @@ export const ProjectSection = ({
             </div>
 
             <input
+              disabled={!hasMounted}
               aria-label='Project search'
               className='col-span-2 min-w-0 rounded-lg border border-default bg-canvas px-4 py-2 text-secondary text-label outline-none transition-colors placeholder:text-muted focus:border-strong mobile:flex-1'
               onChange={(event) => setSearchQuery(event.target.value)}

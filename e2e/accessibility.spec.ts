@@ -7,6 +7,7 @@ async function tabTo(page: Page, target: Locator, backwards = false) {
       ? 'Alt+Tab'
       : 'Tab';
   await expect(target).toBeVisible();
+  await expect(target).toBeEnabled();
   for (let index = 0; index < 40; index++) {
     await page.keyboard.press(backwards ? `Shift+${key}` : key);
     if (await target.evaluate((element) => element === document.activeElement)) return;
