@@ -89,3 +89,38 @@ test.describe('mobile menu', () => {
     await expect(toggle).toHaveAttribute('aria-expanded', 'false');
   });
 });
+
+test.describe('mobile reading', () => {
+  test.use({ viewport: { width: 390, height: 844 } });
+
+  test('reads and shares a post before returning to the list on mobile', async ({
+    context,
+    page,
+    next,
+  }) => {
+    void next;
+    await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+    await page.addInitScript(() => {
+      Object.defineProperty(navigator, 'share', { value: undefined });
+    });
+    await page.goto('/posts');
+    const post = page.getByRole('link', { name: /^Read post:/ }).first();
+    const href = await post.getAttribute('href');
+    await post.click();
+    await expect(page).toHaveURL(new RegExp(`${href}$`));
+    const article = page.getByRole('article');
+    await expect(article.getByRole('heading', { level: 1 })).toBeVisible();
+    await expect(page.getByRole('navigation', { name: 'Table of contents' })).toBeHidden();
+    const heading = article.getByRole('heading', { level: 2 }).first();
+    await heading.scrollIntoViewIfNeeded();
+    await expect(heading).toBeInViewport();
+    await article.getByRole('button', { name: 'Share this post' }).click();
+    await expect(page.getByText('링크가 클립보드에 복사되었어요')).toBeVisible();
+    expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
+      `https://toosign.me${href}`
+    );
+    await article.getByRole('button', { name: 'Go back' }).click();
+    await expect(page).toHaveURL(/\/posts$/);
+    await expect(page.getByRole('link', { name: /^Read post:/ }).first()).toBeVisible();
+  });
+});
