@@ -140,12 +140,12 @@ for (const [kind, response] of [
     next.onFetch((request) =>
       new URL(request.url).hostname === 'github-contributions-api.jogruber.de'
         ? response()
-        : 'abort'
+        : undefined
     );
     const errors: string[] = [];
     page.on('pageerror', (error) => errors.push(error.message));
     page.on('console', (message) => {
-      // Blocked external images are expected; the calendar throws on empty data.
+      // Unregistered resources may be blocked; the calendar throws on empty data.
       if (message.type() === 'error' && !message.text().startsWith('Failed to load resource')) {
         errors.push(message.text());
       }
@@ -163,7 +163,7 @@ test('renders the GitHub contributions section from returned activity', async ({
     if (new URL(request.url).hostname === 'github-contributions-api.jogruber.de') {
       return Response.json({ contributions: [{ date: '2026-09-01', count: 3, level: 2 }] });
     }
-    return 'abort';
+    return undefined;
   });
   await page.goto('/');
   const section = page.getByRole('region', { name: 'GitHub Contributions' });
@@ -185,7 +185,7 @@ test('renders every sitemap page with a heading and without client errors', asyn
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(`${page.url()}: ${error.message}`));
   page.on('console', (message) => {
-    // Blocked external images and scripts are expected in the isolated test server.
+    // Unregistered third-party resources remain blocked by the shared fixture.
     if (message.type() === 'error' && !message.text().startsWith('Failed to load resource')) {
       errors.push(`${page.url()}: ${message.text()}`);
     }

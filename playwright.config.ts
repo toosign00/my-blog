@@ -12,6 +12,7 @@ export default defineConfig({
         '**/accessibility.spec.ts',
         '**/compatibility.spec.ts',
         '**/recovery.spec.ts',
+        '**/images.spec.ts',
       ],
       use: { browserName: 'webkit' },
     },
