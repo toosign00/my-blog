@@ -27,6 +27,7 @@ const ErrorPage = ({ error, reset }: ErrorPageProps) => {
           <Link
             className={buttonClass({ className: 'min-w-20 text-secondary' })}
             href={ROUTES.HOME}
+            onClick={reset}
           >
             Home
           </Link>
