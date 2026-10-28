@@ -16,6 +16,7 @@
     "sync-covers": "node scripts/sync-covers.mjs",
     "check-tokens": "node scripts/check-tokens.mjs",
     "test:scripts": "node --test scripts/*.test.mjs",
+    "test:integration": "node --experimental-strip-types --test tests/integration/*.test.mjs",
     "prepare": "husky",
     "lint": "biome check --write",
     "type-check": "tsc --noEmit",

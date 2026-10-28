@@ -26,8 +26,11 @@ jobs:
           runtime: node@22
           cache: true
 
-      - name: Install Chromium
-        run: pnpm exec playwright install --with-deps chromium
+      - name: Install browsers
+        run: pnpm exec playwright install --with-deps chromium webkit
+
+      - name: Native HTTP regression tests
+        run: pnpm test:integration
 
       # playwright.config.ts starts the dev server with fake credentials and
       # blocks unregistered external requests.

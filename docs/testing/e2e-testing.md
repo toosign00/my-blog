@@ -6,13 +6,19 @@ Jest는 순수 로직과 Client Component를, Playwright는 실제 개발 서버
 ## 실행
 
 ```bash
-pnpm exec playwright install chromium
+pnpm exec playwright install chromium webkit
+pnpm test:integration
 pnpm test:e2e
 ```
 
 빌드는 실행하지 않습니다. 전용 포트 3100과 `.next-e2e` 출력 경로를 사용하며 기존 서버는 재사용하지 않습니다.
 Playwright가 서버를 시작·종료하고, 실패 시 `test-results`에 trace와 screenshot을 남깁니다.
 CI에서는 `.github/workflows/e2e.yml`이 매주 월요일 09:00(KST)과 수동 실행 시 돌며, 실패하면 `test-results`를 아티팩트로 7일간 보관합니다.
+PR 실행 조건은 추가하지 않습니다. 주간·수동 실행에서는 실제 HTTP 회귀 검사도 함께 실행합니다.
+
+기본 명령은 Chromium 전체와 WebKit 핵심 흐름을 실행합니다. WebKit 범위는 프로젝트 검색·조건 복원,
+모바일·키보드 사용, 테마 유지, Clipboard API가 없는 환경의 공유 대체 동작입니다.
+브라우저별 실행은 `pnpm test:e2e --project=chromium` 또는 `pnpm test:e2e --project=webkit`을 사용합니다.
 
 ## 격리와 범위
 
@@ -42,6 +48,17 @@ CI에서는 `.github/workflows/e2e.yml`이 매주 월요일 09:00(KST)과 수동
 - 클립보드 권한을 거부했을 때 공유 복사 오류를 표시하고 성공 알림을 표시하지 않는지 확인합니다.
 - 모바일에서 목록·본문 읽기·링크 복사·목록 복귀 흐름을 확인합니다.
   목차는 현재 모바일에서 숨겨지는 설계이므로 모바일 목차 이동은 검증하지 않습니다.
+- 조회수 기록 응답을 보류해도 글을 읽고 목록으로 이동할 수 있는지, 오류 후 같은 글에 재진입하면
+  복구된 조회수를 표시하는지 확인합니다. 지연 검증은 임의 sleep 대신 응답 해제 신호를 사용합니다.
+- 홈의 기여 달력 렌더링에 사용하는 브라우저 matchMedia API를 실패시켜 실제 오류 화면으로 진입하고,
+  원인을 제거한 뒤 Retry와 Home으로 복구되는지 확인합니다. 운영 코드에 테스트 전용 분기를 넣지 않습니다.
+- 댓글 스크립트 로드가 실패해도 본문과 공유를 계속 사용할 수 있는지 확인합니다.
+- 모바일 긴 제목·코드 블록의 페이지 전체 가로 넘침, 메뉴 닫힘 시 버튼 포커스 유지,
+  키보드 탐색·검색·태그 선택, 모바일 테마 변경 후 새로고침 복원을 확인합니다.
+  정렬 select는 Tab으로 접근 가능한지 확인하며, OS 기본 선택창의 키보드 옵션 변경은 검증하지 않습니다.
+  macOS WebKit의 링크·버튼 탐색은 기본 키보드 설정에 맞춰 Option+Tab을 사용합니다.
+- WebKit 공유 대체 테스트는 Clipboard API를 제거하고 실제 legacy copy 명령의 성공 알림을 확인합니다.
+  OS 클립보드 내용 읽기와 네이티브 공유 시트는 Chromium의 클립보드 검증과 별개입니다.
 - robots.txt 내용과 페이지·피드·API 응답의 보안 헤더를 확인합니다.
 - 개발 서버 검증이므로 프로덕션 빌드·CDN 캐시·배포 환경 검증을 대신하지 않습니다.
 
@@ -51,3 +68,13 @@ CI에서는 `.github/workflows/e2e.yml`이 매주 월요일 09:00(KST)과 수동
 임의 sleep과 화면 전체 snapshot을 사용하지 않습니다.
 성공·빈 결과·오류를 공개 응답으로 확인합니다. 프레임워크 전체를 mock하지 않습니다.
 유닛 커버리지 수치와 E2E 성공 여부는 별도로 보고합니다.
+
+## 실제 HTTP 콜백 회귀 검사
+
+`tests/integration/*.test.mjs`는 Node 내장 테스트 실행기로 실제 로컬 TCP 서버와
+`requestPinnedUrl`을 연결합니다. `pnpm test:integration`으로 실행하며 브라우저와 외부 접속은 필요하지 않습니다.
+Node.js의 TypeScript 타입 제거 기능을 사용하며 CI의 Node.js 22 런타임에서 실행합니다.
+
+정상 200 응답, 600 응답 변환 오류의 Promise 거절·소켓 종료, 요청 중단 후 다음 요청 성공,
+무응답 요청의 시간 초과·소켓 종료를 확인합니다. HTTP 600은 중단 타이머 이전에 RangeError로
+거절되어야 하며, 전역 예외 처리기로 오류를 숨기지 않습니다. HTTPS/TLS 연동 자체는 이 검사의 범위가 아닙니다.
