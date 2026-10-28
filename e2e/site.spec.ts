@@ -11,10 +11,13 @@ test('navigates from the post list to real MDX content and back', async ({ page,
   await expect(page).toHaveURL(new RegExp(`${href}$`));
   await expect(page.locator('article')).toBeVisible();
   await expect(page.locator('article h1')).toBeVisible();
-  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
-    'href',
-    `https://toosign.me${href}`
-  );
+  await expect
+    .poll(() =>
+      page
+        .locator('link[rel="canonical"]')
+        .evaluateAll((links) => links.map((link) => link.getAttribute('href')))
+    )
+    .toEqual([`https://toosign.me${href}`]);
   const schemas = await page.locator('script[type="application/ld+json"]').allTextContents();
   expect(schemas.map((value) => JSON.parse(value)['@type'])).toContain('BlogPosting');
   await page.getByRole('article').getByRole('button', { name: 'Go back' }).click();

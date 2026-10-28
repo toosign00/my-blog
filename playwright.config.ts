@@ -7,7 +7,12 @@ export default defineConfig({
     { name: 'chromium', use: { browserName: 'chromium' } },
     {
       name: 'webkit',
-      testMatch: ['**/projects.spec.ts', '**/accessibility.spec.ts', '**/compatibility.spec.ts'],
+      testMatch: [
+        '**/projects.spec.ts',
+        '**/accessibility.spec.ts',
+        '**/compatibility.spec.ts',
+        '**/recovery.spec.ts',
+      ],
       use: { browserName: 'webkit' },
     },
   ],

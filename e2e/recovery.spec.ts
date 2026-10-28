@@ -109,12 +109,20 @@ test('keeps reading and sharing available when the comments script fails to load
   context,
   page,
   next,
+  browserName,
 }) => {
   void next;
-  await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+  if (browserName === 'chromium') {
+    await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+  }
   await page.addInitScript(() => {
     Object.defineProperty(navigator, 'share', { value: undefined });
   });
+  if (browserName === 'webkit') {
+    await page.addInitScript(() => {
+      Object.defineProperty(navigator, 'clipboard', { value: undefined });
+    });
+  }
   await page.route('https://giscus.app/client.js', (route) => route.abort('failed'));
   const scriptFailed = page.waitForEvent('requestfailed', {
     predicate: (request) => request.url() === 'https://giscus.app/client.js',
@@ -126,7 +134,9 @@ test('keeps reading and sharing available when the comments script fails to load
   await expect(page.getByTitle('Comments')).toHaveCount(0);
   await article.getByRole('button', { name: 'Share this post' }).click();
   await expect(page.getByText('링크가 클립보드에 복사되었어요')).toBeVisible();
-  expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
-    'https://toosign.me/posts/filmlog-01'
-  );
+  if (browserName === 'chromium') {
+    expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
+      'https://toosign.me/posts/filmlog-01'
+    );
+  }
 });
