@@ -38,24 +38,29 @@ export const requestPinnedUrl = (
     const outgoing = request(
       createPinnedRequestOptions(url, resolvedAddress, signal),
       (incoming) => {
-        const status = incoming.statusCode ?? 500;
-        const headers = new Headers();
+        try {
+          const status = incoming.statusCode ?? 500;
+          const headers = new Headers();
 
-        for (const [name, value] of Object.entries(incoming.headers)) {
-          if (Array.isArray(value)) {
-            for (const item of value) {
-              headers.append(name, item);
+          for (const [name, value] of Object.entries(incoming.headers)) {
+            if (Array.isArray(value)) {
+              for (const item of value) {
+                headers.append(name, item);
+              }
+            } else if (value !== undefined) {
+              headers.set(name, value);
             }
-          } else if (value !== undefined) {
-            headers.set(name, value);
           }
-        }
 
-        if (NO_BODY_STATUSES.has(status)) incoming.destroy();
-        const body = NO_BODY_STATUSES.has(status)
-          ? null
-          : (Readable.toWeb(incoming) as ReadableStream<Uint8Array>);
-        resolve(new Response(body, { status, headers }));
+          if (NO_BODY_STATUSES.has(status)) incoming.destroy();
+          const body = NO_BODY_STATUSES.has(status)
+            ? null
+            : (Readable.toWeb(incoming) as ReadableStream<Uint8Array>);
+          resolve(new Response(body, { status, headers }));
+        } catch (error) {
+          incoming.destroy();
+          reject(error);
+        }
       }
     );
 

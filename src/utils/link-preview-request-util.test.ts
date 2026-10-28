@@ -101,6 +101,33 @@ it('defaults a missing status to 500', async () => {
   expect(await result.text()).toBe('response body');
 });
 
+it.each([
+  ['http:', 600, { 'content-type': 'text/html' }],
+  ['https:', 600, { 'content-type': 'text/html' }],
+  ['http:', 200, { 'invalid header': 'value' }],
+  ['https:', 200, { 'invalid header': 'value' }],
+] as const)(
+  'rejects and closes an asynchronous %s response with status %i and headers %j',
+  async (protocol, status, headers) => {
+    const stream = Object.assign(incoming(status), { headers });
+    const transport = protocol === 'https:' ? mockHttps : mockHttp;
+    transport.mockReturnValue(Object.assign(new EventEmitter(), { end: jest.fn() }));
+    const pending = requestPinnedUrl(
+      new URL(`${protocol}//example.com`),
+      { address: '203.0.113.10', family: 4 },
+      new AbortController().signal
+    );
+    const rejection = expect(pending).rejects.toThrow();
+
+    await Promise.resolve();
+    const onResponse = transport.mock.calls[0][1];
+    expect(() => onResponse(stream)).not.toThrow();
+
+    await rejection;
+    expect(stream.destroyed).toBe(true);
+  }
+);
+
 it('rejects transport errors', async () => {
   const outgoing = Object.assign(new EventEmitter(), { end: jest.fn() });
   outgoing.end.mockImplementation(() => outgoing.emit('error', new Error('connection failed')));
