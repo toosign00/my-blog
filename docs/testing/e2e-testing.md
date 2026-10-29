@@ -91,7 +91,7 @@ PR 실행 조건은 추가하지 않습니다. 주간·수동 실행에서는 �
 
 `tests/integration/*.test.mjs`는 Node 내장 테스트 실행기로 실제 로컬 TCP 서버와
 `requestPinnedUrl`을 연결합니다. `pnpm test:integration`으로 실행하며 브라우저와 외부 접속은 필요하지 않습니다.
-Node.js의 TypeScript 타입 제거 기능을 사용하며 CI의 Node.js 22 런타임에서 실행합니다.
+Node.js의 TypeScript 타입 제거 기능을 사용하며, CI에서도 운영 환경과 동일한 Node.js 24 런타임에서 실행합니다.
 
 정상 200 응답, 600 응답 변환 오류의 Promise 거절·소켓 종료, 요청 중단 후 다음 요청 성공,
 무응답 요청의 시간 초과·소켓 종료를 확인합니다. HTTP 600은 중단 타이머 이전에 RangeError로
