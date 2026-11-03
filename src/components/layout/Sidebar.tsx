@@ -1,7 +1,7 @@
 import { Network, Rss } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Divider } from '@/components/ui/divider';
+import { Divider } from '@/components/ui/Divider';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
 import { ROUTES } from '@/constants/menu.constants';
 import { METADATA } from '@/constants/metadata.constants';

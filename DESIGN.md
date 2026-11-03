@@ -126,12 +126,14 @@ utilities.css, components/ui
 7. 숫자로 쓴 아이콘 크기 `size={16}`
 8. `src/styles/` 안의 리터럴 길이·시간·색 (`tokens/` 제외)
 
+Biome는 CSS의 알 수 없는 태그 선택자·at-rule과 `!important` 사용을 오류로 처리한다.
+
 ### 예외
 
 | 대상                                                                | 이유                                  |
 | ------------------------------------------------------------------- | ------------------------------------- |
 | `src/components/icons/*`                                            | 브랜드 로고의 공식 색                 |
-| `src/components/ui/lazyImage.tsx`의 인라인 style                    | 이미지 크기에서 계산한 `aspect-ratio` |
+| `src/components/ui/LazyImage.tsx`의 인라인 style                    | 이미지 크기에서 계산한 `aspect-ratio` |
 | `title`, `subtitle`, `description`, `hoverable-surface`, `group` 등 | 선택자로만 쓰는 마커 클래스           |
 
 새 예외는 `scripts/check-tokens.mjs` 상단 목록에 이유와 함께 추가하고, 이 표도 갱신한다.

@@ -5,9 +5,9 @@ import { POST_CARD_INTERACTION_CLASS } from '@/constants/style.constants';
 import type { Post } from '@/types/post.types';
 import { twMerge } from '@/utils/tw-merge-util';
 
-import { PostViews } from './postViews';
-import { PostViewsProvider } from './postViewsProvider';
-import { RelativeTime } from './relativeTime';
+import { PostViews } from './PostViews';
+import { PostViewsProvider } from './PostViewsProvider';
+import { RelativeTime } from './RelativeTime';
 
 type PostGridProps = ComponentProps<'div'> & {
   className?: string;

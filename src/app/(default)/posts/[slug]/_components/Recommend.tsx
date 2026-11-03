@@ -1,4 +1,4 @@
-import { PostGrid } from '@/components/features/post/postGrid';
+import { PostGrid } from '@/components/features/post/PostGrid';
 import type { Post } from '@/types/post.types';
 
 interface RecommendProps {

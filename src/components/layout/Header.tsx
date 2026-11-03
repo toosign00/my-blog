@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/Button';
-import { Divider } from '@/components/ui/divider';
+import { Divider } from '@/components/ui/Divider';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
 import { ROUTES } from '@/constants/menu.constants';
 import { METADATA } from '@/constants/metadata.constants';

@@ -30,7 +30,7 @@ const MARKER_CLASSES = new Set([
 
 /** `style={{ ... }}` is allowed only for values computed at runtime. */
 const INLINE_STYLE_ALLOWLIST = {
-  'src/components/ui/lazyImage.tsx': 'aspect ratio comes from the image dimensions',
+  'src/components/ui/LazyImage.tsx': 'aspect ratio comes from the image dimensions',
 };
 
 /** Tailwind numeric spacing steps allowed (multiples of --spacing). */

@@ -1,7 +1,7 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import type { Project } from '@/types/project.types';
-import { Footer } from './footer';
+import { Footer } from './Footer';
 
 const mockReplace = jest.fn();
 const mockUsePathname = jest.fn();

@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { RelativeTime } from './relativeTime';
+import { RelativeTime } from './RelativeTime';
 
 beforeEach(() => {
   jest.useFakeTimers();

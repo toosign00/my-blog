@@ -1,10 +1,10 @@
 import Image from 'next/image';
 
 import { Code, Pre } from './code';
-import { Badge, Card, CardGrid, Highlight, Table } from './dataDisplay';
+import { Badge, Card, CardGrid, Highlight, Table } from './data-display';
 import { Alert, Step, Steps } from './flow';
+import { Img } from './Img';
 import { Accordion, AccordionItem, Tab, Tabs } from './interactive';
-import { Img } from './media';
 import { A, Blockquote, H1, H2, H3, H4, HR, LI, OL, P, Strong, UL } from './typography';
 
 export const components = {

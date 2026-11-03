@@ -15,6 +15,15 @@ coverage, and verification rules.
 Before any styling work, read `DESIGN.md`. Use only the design tokens and utilities it lists, and keep
 `pnpm check-tokens` passing.
 
+## File Naming
+
+- React component files and their tests use PascalCase: `PostGrid.tsx`, `PostGrid.test.tsx`.
+- Keep directory entry files named `index.ts` or `index.tsx`, and preserve Next.js reserved filenames.
+- Hooks use camelCase names starting with `use`; other modules use kebab-case.
+- Grouped MDX modules (`code`, `data-display`, `flow`, `interactive`, `mdx-components`, `typography`)
+  keep kebab-case names. Update Biome overrides when adding another grouped module.
+- Preserve acronyms in component names, such as `MySQLIcon.tsx`.
+
 ## 1. Think Before Coding
 
 **Don't assume. Don't hide confusion. Surface tradeoffs.**

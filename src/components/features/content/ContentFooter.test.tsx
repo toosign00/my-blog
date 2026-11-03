@@ -1,6 +1,6 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { ContentFooter } from './contentFooter';
+import { ContentFooter } from './ContentFooter';
 
 const mockToastError = jest.fn();
 const mockToastSuccess = jest.fn();

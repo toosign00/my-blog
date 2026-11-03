@@ -1,5 +1,5 @@
 import { Fragment } from 'react';
-import { LinkEmbed } from '@/components/features/content/linkEmbed';
+import { LinkEmbed } from '@/components/features/content/LinkEmbed';
 import { ICON_SIZE } from '@/styles/tokens/icon';
 import { getEmploymentPeriodLabels } from '@/utils/employment-period-util';
 import { EmploymentPeriod } from './EmploymentPeriod';

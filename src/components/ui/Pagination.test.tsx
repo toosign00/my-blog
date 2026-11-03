@@ -1,5 +1,5 @@
 import { render, screen, within } from '@testing-library/react';
-import { Pagination } from './pagination';
+import { Pagination } from './Pagination';
 
 describe('Pagination', () => {
   it('shows the first five pages and only the next control on the first page', () => {

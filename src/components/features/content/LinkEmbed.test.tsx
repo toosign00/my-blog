@@ -1,6 +1,6 @@
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import type { ImageProps } from 'next/image';
-import { LinkEmbed } from './linkEmbed';
+import { LinkEmbed } from './LinkEmbed';
 
 jest.mock('next/image', () => ({
   __esModule: true,

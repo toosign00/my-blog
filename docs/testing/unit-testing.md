@@ -98,13 +98,14 @@ Jest가 설치되기 전에는 위 명령을 실행 가능한 것으로 간주�
 - 테스트 파일은 대상 코드 옆에 배치합니다.
 - TypeScript 테스트는 `.test.ts`를 사용합니다.
 - React 컴포넌트와 Hook 테스트는 `.test.tsx`를 사용합니다.
+- 컴포넌트와 테스트 파일 이름은 PascalCase로 맞추고, Hook은 기존 camelCase 이름을 유지합니다.
 - 테스트 이름은 관찰 가능한 동작을 영어로 표현합니다.
 
 ```text
 src/utils/format-date.ts
 src/utils/format-date.test.ts
-src/components/search-form.tsx
-src/components/search-form.test.tsx
+src/components/SearchForm.tsx
+src/components/SearchForm.test.tsx
 ```
 
 ### 하지 않음

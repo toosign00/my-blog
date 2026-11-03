@@ -87,7 +87,7 @@ ref를 조작해 해당 분기만 실행하는 테스트는 추가하지 않습�
 
 대상:
 
-- `src/components/features/content/linkEmbed.tsx`
+- `src/components/features/content/LinkEmbed.tsx`
 
 검증할 공개 동작:
 
@@ -118,7 +118,7 @@ ResumeDownloadButton은 사용자 승인 후 동기 window.open 전후에 설정
 - `src/components/ui/ThemeToggle/index.tsx`
 - `src/components/layout/NavigateMenu.tsx`
 - `src/components/features/about/ResumeBtn/index.tsx`
-- `src/components/ui/lazyImage.tsx`
+- `src/components/ui/LazyImage.tsx`
 
 검증할 공개 동작:
 

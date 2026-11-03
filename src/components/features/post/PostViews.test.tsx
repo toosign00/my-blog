@@ -1,8 +1,8 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { render, screen } from '@testing-library/react';
 import type { PropsWithChildren } from 'react';
-import { PostViews } from './postViews';
-import { PostViewsProvider } from './postViewsProvider';
+import { PostViews } from './PostViews';
+import { PostViewsProvider } from './PostViewsProvider';
 
 const fetchMock = jest.fn<ReturnType<typeof fetch>, Parameters<typeof fetch>>();
 

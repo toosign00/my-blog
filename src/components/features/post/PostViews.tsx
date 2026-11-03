@@ -1,6 +1,6 @@
 'use client';
 
-import { usePostViews } from './postViewsProvider';
+import { usePostViews } from './PostViewsProvider';
 
 interface PostViewsProps {
   slug: string;

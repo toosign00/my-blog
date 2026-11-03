@@ -5,7 +5,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { ThemeProvider } from 'next-themes';
 import type { PropsWithChildren } from 'react';
 import { useState } from 'react';
-import { Toaster } from '@/components/ui/toaster';
+import { Toaster } from '@/components/ui/Toaster';
 
 export const AppProviders = ({ children }: PropsWithChildren) => {
   const [queryClient] = useState(() => new QueryClient());

@@ -1,7 +1,7 @@
 'use client';
 
-import { BackButton } from '@/components/features/content/backButton';
-import { ContentFooter } from '@/components/features/content/contentFooter';
+import { BackButton } from '@/components/features/content/BackButton';
+import { ContentFooter } from '@/components/features/content/ContentFooter';
 import { ROUTES } from '@/constants/menu.constants';
 import { METADATA } from '@/constants/metadata.constants';
 import type { Project } from '@/types/project.types';

@@ -1,6 +1,6 @@
 import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { Toc } from './toc';
+import { Toc } from './Toc';
 
 let notify: IntersectionObserverCallback;
 const observe = jest.fn();

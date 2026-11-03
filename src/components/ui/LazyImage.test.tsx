@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import type { ImageProps } from 'next/image';
-import { LazyImage } from './lazyImage';
+import { LazyImage } from './LazyImage';
 
 jest.mock('next/image', () => ({
   __esModule: true,

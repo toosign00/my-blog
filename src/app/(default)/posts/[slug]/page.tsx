@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import type { BlogPosting, WithContext } from 'schema-dts';
-import { BackButton } from '@/components/features/content/backButton';
+import { BackButton } from '@/components/features/content/BackButton';
 import JsonLd from '@/components/JsonLd';
-import { Divider } from '@/components/ui/divider';
+import { Divider } from '@/components/ui/Divider';
 import { ROUTES } from '@/constants/menu.constants';
 import { METADATA } from '@/constants/metadata.constants';
 import type { Post } from '@/types/post.types';
@@ -15,12 +15,12 @@ import {
   getPostToc,
   PostNotFoundError,
 } from '@/utils/post-util';
-import { Footer } from './_components/footer';
-import { Giscus } from './_components/giscus';
-import { Header } from './_components/header';
-import { Recommend } from './_components/recommend';
-import { Toc } from './_components/toc';
-import { ViewCounter } from './_components/view-counter';
+import { Footer } from './_components/Footer';
+import { Giscus } from './_components/Giscus';
+import { Header } from './_components/Header';
+import { Recommend } from './_components/Recommend';
+import { Toc } from './_components/Toc';
+import { ViewCounter } from './_components/ViewCounter';
 
 interface PostPageProps {
   params: Promise<{ slug: string }>;

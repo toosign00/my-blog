@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import type { ReactNode } from 'react';
-import { RelativeTime } from '@/components/features/post/relativeTime';
+import { RelativeTime } from '@/components/features/post/RelativeTime';
 import { chipClass } from '@/components/ui/Chip';
 import { ROUTES } from '@/constants/menu.constants';
 import type { Post } from '@/types/post.types';

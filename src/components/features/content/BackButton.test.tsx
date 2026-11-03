@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { BackButton } from './backButton';
+import { BackButton } from './BackButton';
 
 const mockReplace = jest.fn();
 const mockUsePathname = jest.fn();

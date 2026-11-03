@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import type { ComponentProps } from 'react';
-import { LazyImage } from '@/components/ui/lazyImage';
+import { LazyImage } from '@/components/ui/LazyImage';
 
 import { getRemoteImagePlaceholder } from '@/utils/image-placeholder-util';
 import { twMerge } from '@/utils/tw-merge-util';

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { PostList } from '@/components/features/post/postList';
-import { Pagination } from '@/components/ui/pagination';
+import { PostList } from '@/components/features/post/PostList';
+import { Pagination } from '@/components/ui/Pagination';
 import { ROUTES } from '@/constants/menu.constants';
 import { METADATA, POST } from '@/constants/metadata.constants';
 import { generatePageMetadata } from '@/utils/metadata-util';

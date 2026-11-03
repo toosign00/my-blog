@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
   "files": {
-    "includes": ["**", "!src/styles/**/*.css", "!pnpm-lock.yaml", "!.next", "!node_modules"],
+    "includes": ["**", "!pnpm-lock.yaml", "!.next", "!node_modules"],
     "ignoreUnknown": true
   },
   "vcs": {
@@ -71,7 +71,14 @@
         "noUselessElse": "error",
         "useSelfClosingElements": "error",
         "useTemplate": "error",
-        "useFilenamingConvention": "off",
+        "useFilenamingConvention": {
+          "level": "error",
+          "options": {
+            "filenameCases": ["kebab-case"],
+            "strictCase": false,
+            "requireAscii": true
+          }
+        },
         "noRestrictedImports": {
           "level": "error",
           "options": {
@@ -85,7 +92,7 @@
         "noUnusedImports": "error",
         "noUnusedVariables": "error",
         "noUndeclaredDependencies": "error",
-        "noUnknownTypeSelector": "off",
+        "noUnknownTypeSelector": "error",
         "useUniqueElementIds": "off"
       },
       "suspicious": {
@@ -93,11 +100,11 @@
         "noExplicitAny": "warn",
         "noEmptyBlockStatements": "error",
         "noArrayIndexKey": "warn",
-        "noUnknownAtRules": "off"
+        "noUnknownAtRules": "error"
       },
       "complexity": {
         "useLiteralKeys": "error",
-        "noImportantStyles": "off"
+        "noImportantStyles": "error"
       },
       "performance": {
         "noDelete": "off",
@@ -118,8 +125,7 @@
         "useSemanticElements": "off"
       },
       "nursery": {
-        "noFloatingPromises": "warn",
-        "useTailwindSortedClasses": "off"
+        "noFloatingPromises": "warn"
       }
     }
   },
@@ -161,6 +167,63 @@
         "rules": {
           "correctness": {
             "noUnusedVariables": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["src/components/**/*.tsx", "src/app/**/_components/**/*.tsx"],
+      "linter": {
+        "rules": {
+          "style": {
+            "useFilenamingConvention": {
+              "level": "error",
+              "options": {
+                "filenameCases": ["PascalCase"],
+                "strictCase": false
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["src/hooks/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "useFilenamingConvention": {
+              "level": "error",
+              "options": {
+                "filenameCases": ["camelCase"],
+                "strictCase": false,
+                "match": "(use[A-Z].*?)[.](.+)"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": [
+        "**/index.*",
+        "src/components/features/mdx/code.*",
+        "src/components/features/mdx/data-display.*",
+        "src/components/features/mdx/flow.*",
+        "src/components/features/mdx/interactive.*",
+        "src/components/features/mdx/mdx-components.*",
+        "src/components/features/mdx/typography.*"
+      ],
+      "linter": {
+        "rules": {
+          "style": {
+            "useFilenamingConvention": {
+              "level": "error",
+              "options": {
+                "filenameCases": ["kebab-case"],
+                "strictCase": false
+              }
+            }
           }
         }
       }

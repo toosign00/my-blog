@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import type { CreativeWork, WithContext } from 'schema-dts';
-import { BackButton } from '@/components/features/content/backButton';
+import { BackButton } from '@/components/features/content/BackButton';
 import JsonLd from '@/components/JsonLd';
-import { Divider } from '@/components/ui/divider';
+import { Divider } from '@/components/ui/Divider';
 import { ROUTES } from '@/constants/menu.constants';
 import { METADATA } from '@/constants/metadata.constants';
 import { generatePageMetadata } from '@/utils/metadata-util';
@@ -14,9 +14,9 @@ import {
   getProjectPageDataBySlug,
   ProjectNotFoundError,
 } from '@/utils/project-util';
-import { Footer } from './_components/footer';
-import { ProjectHeader } from './_components/header';
-import { Recommend } from './_components/recommend';
+import { Footer } from './_components/Footer';
+import { ProjectHeader } from './_components/ProjectHeader';
+import { Recommend } from './_components/Recommend';
 
 interface ProjectPageProps {
   params: Promise<{ slug: string }>;

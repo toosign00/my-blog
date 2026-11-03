@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ActivityHeatmap } from '@/components/features/home/ActivityHeatmap';
 import { ProfileGrid } from '@/components/features/home/ProfileGrid';
-import { PostGrid } from '@/components/features/post/postGrid';
+import { PostGrid } from '@/components/features/post/PostGrid';
 import { buttonClass } from '@/components/ui/Button';
 import { ROUTES } from '@/constants/menu.constants';
 import { ICON_SIZE } from '@/styles/tokens/icon';
