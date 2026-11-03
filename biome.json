@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
   "files": {
-    "includes": ["**", "!src/styles/**/*.css", "!.next", "!node_modules"],
+    "includes": ["**", "!src/styles/**/*.css", "!pnpm-lock.yaml", "!.next", "!node_modules"],
     "ignoreUnknown": true
   },
   "vcs": {
@@ -119,7 +119,7 @@
       },
       "nursery": {
         "noFloatingPromises": "warn",
-        "useSortedClasses": "off"
+        "useTailwindSortedClasses": "off"
       }
     }
   },
