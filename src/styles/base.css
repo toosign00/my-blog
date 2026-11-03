@@ -70,23 +70,22 @@
   }
 
   .github-heatmap-wrapper > article {
-    width: 100% !important;
-    max-width: none !important;
+    min-width: 100%;
   }
 
   .github-heatmap-wrapper > article > div {
-    width: 100% !important;
+    width: 100%;
   }
 
   .github-heatmap-wrapper svg {
-    width: 100% !important;
-    height: auto !important;
-    display: block !important;
+    width: 100%;
+    height: auto;
+    display: block;
     overflow: visible;
   }
 
   .github-heatmap-wrapper footer {
-    display: none !important;
+    display: none;
   }
 }
 
