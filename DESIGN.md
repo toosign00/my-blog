@@ -61,29 +61,28 @@ utilities.css, components/ui
 
 ### 색
 
-| 클래스 | 쓰임 |
-| --- | --- |
-| `text-primary` / `secondary` / `tertiary` / `muted` | 제목·본문 / 부제 / 설명·메타·아이콘 / 날짜·섹션 제목·placeholder |
-| `text-inverse` + `bg-inverse` | 선택된 칩, 현재 페이지, 툴팁 |
-| `text-accent`, `text-accent-strong`, `bg-accent` | 링크, 프로필 라벨, 방문 수 |
-| `bg-canvas`, `bg-surface`, `bg-elevated` | 페이지 배경, 카드, 프로필 카드 |
-| `bg-muted`, `bg-pressed` | 카드 hover, active |
-| `bg-fill-weak`, `bg-fill`, `bg-fill-strong` | 코드 배경·버튼 hover, 스켈레톤, 선택 영역 |
-| `border-default`, `border-strong`, `border-fill`, `border-elevated`, `border-media` | 헤어라인, 포커스된 입력, 링크 밑줄, 프로필 카드, 이미지 |
-| `*-warning`, `*-danger` (`text`, `text-*-muted`, `bg`, `border`) | MDX `<Alert>` |
-| `bg-highlight-{color}` + `text-highlight-{color}` | MDX `<Highlight>` |
-| `bg-heatmap-0..4` | GitHub 기여 그래프 |
+| 클래스                                                                              | 쓰임                                                             |
+| ----------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| `text-primary` / `secondary` / `tertiary` / `muted`                                 | 제목·본문 / 부제 / 설명·메타·아이콘 / 날짜·섹션 제목·placeholder |
+| `text-inverse` + `bg-inverse`                                                       | 선택된 칩, 현재 페이지, 툴팁                                     |
+| `text-accent`, `text-accent-strong`, `bg-accent`                                    | 링크, 프로필 라벨, 방문 수                                       |
+| `bg-canvas`, `bg-surface`, `bg-elevated`                                            | 페이지 배경, 카드, 프로필 카드                                   |
+| `bg-muted`, `bg-pressed`                                                            | 카드 hover, active                                               |
+| `bg-fill-weak`, `bg-fill`, `bg-fill-strong`                                         | 코드 배경·버튼 hover, 스켈레톤, 선택 영역                        |
+| `border-default`, `border-strong`, `border-fill`, `border-elevated`, `border-media` | 헤어라인, 포커스된 입력, 링크 밑줄, 프로필 카드, 이미지          |
+| `*-warning`, `*-danger` (`text`, `text-*-muted`, `bg`, `border`)                    | MDX `<Alert>`                                                    |
+| `bg-highlight-{color}` + `text-highlight-{color}`                                   | MDX `<Highlight>`                                                |
+| `bg-heatmap-0..4`                                                                   | GitHub 기여 그래프                                               |
 
 ### 타이포그래피
 
-| 클래스 | 쓰임 |
-| --- | --- |
-| `text-display`, `text-display-sm` | 404·에러 페이지의 큰 글자 |
-| `text-title-lg`, `text-title` | 프로젝트 제목 / 글·페이지 제목 |
-| `text-heading-lg`, `text-heading` | MDX h1·지표 숫자 / MDX h2·경력 항목 제목 |
-| `text-body-lg`, `text-body` | MDX 목록 항목 / 글 본문(`leading-loose`)·카드 제목·버튼 라벨 |
-| `text-label`, `text-caption`, `text-caption-sm`, `text-micro` | 메뉴·표·폼 / 메타 정보·작은 버튼 / 날짜·태그·코드 / 저작권 |
-
+| 클래스                                                        | 쓰임                                                         |
+| ------------------------------------------------------------- | ------------------------------------------------------------ |
+| `text-display`, `text-display-sm`                             | 404·에러 페이지의 큰 글자                                    |
+| `text-title-lg`, `text-title`                                 | 프로젝트 제목 / 글·페이지 제목                               |
+| `text-heading-lg`, `text-heading`                             | MDX h1·지표 숫자 / MDX h2·경력 항목 제목                     |
+| `text-body-lg`, `text-body`                                   | MDX 목록 항목 / 글 본문(`leading-loose`)·카드 제목·버튼 라벨 |
+| `text-label`, `text-caption`, `text-caption-sm`, `text-micro` | 메뉴·표·폼 / 메타 정보·작은 버튼 / 날짜·태그·코드 / 저작권   |
 - 굵기 `font-normal`, `font-medium`, `font-semibold`, `font-bold`
 - 행간 `leading-none` … `leading-loose`, 자간 `tracking-tighter` … `tracking-wide`
 - 글꼴 `font-sans`(Pretendard), `font-mono`(Geist Mono)
@@ -104,12 +103,11 @@ utilities.css, components/ui
 각 컴포넌트는 같은 스타일을 다른 요소에 입히는 클래스 함수도 내보낸다.
 링크를 버튼처럼 보이게 할 때는 `<Link className={buttonClass(...)}>`를 쓴다.
 
-| 컴포넌트 | 옵션 | 쓰는 곳 |
-| --- | --- | --- |
+| 컴포넌트                 | 옵션                                                                                      | 쓰는 곳                                                                   |
+| ------------------------ | ----------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
 | `Button` / `buttonClass` | `variant`: `outline`(기본), `ghost` / `size`: `sm`, `md`(기본), `lg` (`outline`에만 적용) | 에러 페이지, 테마 토글, 모바일 메뉴, 프로젝트 링크, 연락처, 뒤로가기·공유 |
-| `Chip` / `chipClass` | `tone`: `soft`(기본), `outline`, `solid` / `size`: `sm`(기본), `md`, `lg` | 글·프로젝트 태그, 스킬 배지, 링크 멘션, MDX `<Badge>` |
-| `Card` / `cardClass` | `padding`: `none`(기본), `md`, `lg` / `interactive` / `as`: `div`, `section`, `article` | 정책 페이지, 태그·카테고리 목록, 프로필 카드, 링크 임베드, MDX 표·카드·탭 |
-
+| `Chip` / `chipClass`     | `tone`: `soft`(기본), `outline`, `solid` / `size`: `sm`(기본), `md`, `lg`                 | 글·프로젝트 태그, 스킬 배지, 링크 멘션, MDX `<Badge>`                     |
+| `Card` / `cardClass`     | `padding`: `none`(기본), `md`, `lg` / `interactive` / `as`: `div`, `section`, `article`   | 정책 페이지, 태그·카테고리 목록, 프로필 카드, 링크 임베드, MDX 표·카드·탭 |
 - 클래스 합성은 `@/utils/tw-merge-util`의 `twMerge`로 한다. `tailwind-merge`를 직접 쓰면 `text-label` 같은
   타입 스케일 클래스가 색으로 오인돼 사라진다. Biome가 직접 import를 막는다.
 - 새 컴포넌트는 같은 클래스 묶음이 세 곳 이상 반복될 때 만든다.
@@ -130,11 +128,11 @@ utilities.css, components/ui
 
 ### 예외
 
-| 대상 | 이유 |
-| --- | --- |
-| `src/components/icons/*` | 브랜드 로고의 공식 색 |
-| `src/components/ui/lazyImage.tsx`의 인라인 style | 이미지 크기에서 계산한 `aspect-ratio` |
-| `title`, `subtitle`, `description`, `hoverable-surface`, `group` 등 | 선택자로만 쓰는 마커 클래스 |
+| 대상                                                                | 이유                                  |
+| ------------------------------------------------------------------- | ------------------------------------- |
+| `src/components/icons/*`                                            | 브랜드 로고의 공식 색                 |
+| `src/components/ui/lazyImage.tsx`의 인라인 style                    | 이미지 크기에서 계산한 `aspect-ratio` |
+| `title`, `subtitle`, `description`, `hoverable-surface`, `group` 등 | 선택자로만 쓰는 마커 클래스           |
 
 새 예외는 `scripts/check-tokens.mjs` 상단 목록에 이유와 함께 추가하고, 이 표도 갱신한다.
 

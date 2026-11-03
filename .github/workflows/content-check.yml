@@ -5,10 +5,10 @@ on:
     branches:
       - main
     paths:
-      - 'src/app/posts/_articles/**'
-      - 'src/app/projects/_projects/**'
-      - '.github/scripts/check-content.mjs'
-      - '.github/workflows/content-check.yml'
+      - "src/app/posts/_articles/**"
+      - "src/app/projects/_projects/**"
+      - ".github/scripts/check-content.mjs"
+      - ".github/workflows/content-check.yml"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}

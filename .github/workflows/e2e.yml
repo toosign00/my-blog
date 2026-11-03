@@ -3,7 +3,7 @@ name: E2E
 on:
   schedule:
     # GitHub Actions cron uses UTC: Monday 00:00 UTC = Monday 09:00 KST.
-    - cron: '0 0 * * 1'
+    - cron: "0 0 * * 1"
   workflow_dispatch:
 
 concurrency:
