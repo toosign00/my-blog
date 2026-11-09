@@ -1,15 +1,8 @@
 import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { renderToString } from 'react-dom/server';
 import type { Project } from '@/types/project.types';
 import { ProjectSection } from './ProjectSection';
-
-const mockUsePathname = jest.fn();
-const mockUseSearchParams = jest.fn();
-
-jest.mock('next/navigation', () => ({
-  usePathname: () => mockUsePathname(),
-  useSearchParams: () => mockUseSearchParams(),
-}));
 
 const projects: Project[] = [
   {
@@ -57,8 +50,6 @@ const getProjectNames = () =>
 describe('ProjectSection', () => {
   beforeEach(() => {
     window.history.replaceState(null, '', '/projects');
-    mockUsePathname.mockReturnValue('/projects');
-    mockUseSearchParams.mockReturnValue(new URLSearchParams());
   });
 
   afterEach(() => {
@@ -110,7 +101,6 @@ describe('ProjectSection', () => {
 
   it('applies tag, sort, and search state from the URL', async () => {
     window.history.replaceState(null, '', '/projects?tag=React&sort=alphabetical&q=Web');
-    mockUseSearchParams.mockReturnValue(new URLSearchParams('tag=React&sort=alphabetical&q=Web'));
 
     render(<ProjectSection projects={projects} />);
 
@@ -125,9 +115,46 @@ describe('ProjectSection', () => {
     ]);
   });
 
-  it('falls back to the default filters for unsupported initial values', () => {
-    mockUseSearchParams.mockReturnValue(new URLSearchParams('tag=All'));
+  it('prefers the current URL over stale initial values when remounted', () => {
+    window.history.replaceState(null, '', '/projects?q=Mentoring');
 
+    render(<ProjectSection initialQuery='Observability' projects={projects} />);
+
+    expect(screen.getByRole('searchbox', { name: 'Project search' })).toHaveValue('Mentoring');
+    expect(window.location.search).toBe('?q=Mentoring');
+  });
+
+  it('renders the filters from props on the server', () => {
+    window.history.replaceState(null, '', '/projects?q=Mentoring');
+
+    const html = renderToString(
+      <ProjectSection
+        initialQuery='Web'
+        initialSort='newest'
+        initialTag='Missing'
+        projects={projects}
+      />
+    );
+
+    expect(html).toContain('value="Web"');
+    expect(html).toContain('<option value="newest" selected="">');
+    expect(html).toMatch(/aria-pressed="true"[^>]*>All</);
+    expect(renderToString(<ProjectSection projects={projects} />)).toContain('value=""');
+  });
+
+  it('applies the URL again after browser history traversal', () => {
+    render(<ProjectSection projects={projects} />);
+
+    act(() => {
+      window.history.replaceState(null, '', '/projects?tag=Mobile');
+      window.dispatchEvent(new PopStateEvent('popstate'));
+    });
+
+    expect(screen.getByRole('combobox', { name: 'Project tag' })).toHaveValue('Mobile');
+    expect(getProjectNames()).toEqual(['Read project: Community Runway']);
+  });
+
+  it('falls back to the default filters for unsupported initial values', () => {
     render(<ProjectSection initialSort='unsupported' initialTag='Missing' projects={projects} />);
 
     expect(screen.getByRole('combobox', { name: 'Project tag' })).toHaveValue('All');
@@ -156,7 +183,6 @@ describe('ProjectSection', () => {
     const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const searchParams = new URLSearchParams('tag=React&sort=alphabetical&q=Web');
     window.history.replaceState(null, '', `/projects?${searchParams.toString()}`);
-    mockUseSearchParams.mockReturnValue(searchParams);
 
     render(
       <ProjectSection
