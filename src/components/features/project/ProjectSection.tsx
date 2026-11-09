@@ -1,8 +1,8 @@
 'use client';
 
 import { ChevronDown } from 'lucide-react';
-import { usePathname, useSearchParams } from 'next/navigation';
-import { useEffect, useMemo, useState } from 'react';
+import { addTransitionType, startTransition, useEffect, useMemo, useState } from 'react';
+import { URL_SYNC_TRANSITION_TYPE } from '@/constants/style.constants';
 import { useHasMounted } from '@/hooks/useHasMounted';
 import { ICON_SIZE } from '@/styles/tokens/icon';
 import type { Project } from '@/types/project.types';
@@ -67,29 +67,48 @@ export const ProjectSection = ({
   initialQuery,
 }: ProjectSectionProps) => {
   const hasMounted = useHasMounted();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
 
   const allTags = useMemo(
     () => ['All', ...Array.from(new Set(projects.flatMap((project) => project.tags)))],
     [projects]
   );
 
-  const [selectedTag, setSelectedTag] = useState(() => normalizeTag(initialTag, allTags));
-  const [searchQuery, setSearchQuery] = useState(() => initialQuery ?? '');
-  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState(() => initialQuery ?? '');
-  const [sortOption, setSortOption] = useState<SortOption>(() => normalizeSortOption(initialSort));
+  // A client remount after browser back can receive a stale RSC snapshot as props, so the
+  // current URL wins over them outside the server render.
+  const [urlParams] = useState(() =>
+    typeof window === 'undefined' ? null : new URLSearchParams(window.location.search)
+  );
+  const [selectedTag, setSelectedTag] = useState(() =>
+    normalizeTag(urlParams ? (urlParams.get('tag') ?? undefined) : initialTag, allTags)
+  );
+  const [searchQuery, setSearchQuery] = useState(() =>
+    urlParams ? (urlParams.get('q') ?? '') : (initialQuery ?? '')
+  );
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState(() => searchQuery);
+  const [sortOption, setSortOption] = useState<SortOption>(() =>
+    normalizeSortOption(urlParams ? (urlParams.get('sort') ?? undefined) : initialSort)
+  );
 
+  // Read the URL only on mount and history traversal. Subscribing to useSearchParams (or
+  // usePathname in dev) re-renders on our own replaceState echo, which can undo newer input and
+  // trigger a view transition that drops input events.
   useEffect(() => {
-    const urlTag = normalizeTag(searchParams.get('tag') ?? undefined, allTags);
-    const urlSort = normalizeSortOption(searchParams.get('sort') ?? undefined);
-    const urlQuery = searchParams.get('q') ?? '';
+    const syncFromUrl = () => {
+      const searchParams = new URLSearchParams(window.location.search);
+      const urlTag = normalizeTag(searchParams.get('tag') ?? undefined, allTags);
+      const urlSort = normalizeSortOption(searchParams.get('sort') ?? undefined);
+      const urlQuery = searchParams.get('q') ?? '';
 
-    setSelectedTag((current) => (current === urlTag ? current : urlTag));
-    setSortOption((current) => (current === urlSort ? current : urlSort));
-    setSearchQuery((current) => (current === urlQuery ? current : urlQuery));
-    setDebouncedSearchQuery((current) => (current === urlQuery ? current : urlQuery));
-  }, [allTags, searchParams]);
+      setSelectedTag((current) => (current === urlTag ? current : urlTag));
+      setSortOption((current) => (current === urlSort ? current : urlSort));
+      setSearchQuery((current) => (current === urlQuery ? current : urlQuery));
+      setDebouncedSearchQuery((current) => (current === urlQuery ? current : urlQuery));
+    };
+
+    syncFromUrl();
+    window.addEventListener('popstate', syncFromUrl);
+    return () => window.removeEventListener('popstate', syncFromUrl);
+  }, [allTags]);
 
   useEffect(() => {
     const timeoutId = window.setTimeout(() => {
@@ -120,13 +139,18 @@ export const ProjectSection = ({
       params.set('q', debouncedSearchQuery);
     }
 
+    const { pathname } = window.location;
     const nextUrl = params.toString() ? `${pathname}?${params.toString()}` : pathname;
-    const currentUrl = `${window.location.pathname}${window.location.search}`;
+    const currentUrl = `${pathname}${window.location.search}`;
 
     if (nextUrl !== currentUrl) {
-      window.history.replaceState(null, '', nextUrl);
+      // Next turns replaceState into a router transition; the type keeps the page view transition off.
+      startTransition(() => {
+        addTransitionType(URL_SYNC_TRANSITION_TYPE);
+        window.history.replaceState(null, '', nextUrl);
+      });
     }
-  }, [debouncedSearchQuery, pathname, selectedTag, sortOption]);
+  }, [debouncedSearchQuery, selectedTag, sortOption]);
 
   const filteredProjects = useMemo(() => {
     const filtered = projects.filter((project) => {
