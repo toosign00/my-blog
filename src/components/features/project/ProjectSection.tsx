@@ -73,10 +73,10 @@ export const ProjectSection = ({
     [projects]
   );
 
-  // A client remount after browser back can receive a stale RSC snapshot as props, so the
-  // current URL wins over them outside the server render.
+  // A client-only remount (e.g. browser back) can receive a stale RSC snapshot as props, so the
+  // current URL wins there. Server render and hydration keep the props to match the HTML.
   const [urlParams] = useState(() =>
-    typeof window === 'undefined' ? null : new URLSearchParams(window.location.search)
+    hasMounted ? new URLSearchParams(window.location.search) : null
   );
   const [selectedTag, setSelectedTag] = useState(() =>
     normalizeTag(urlParams ? (urlParams.get('tag') ?? undefined) : initialTag, allTags)
@@ -99,10 +99,10 @@ export const ProjectSection = ({
       const urlSort = normalizeSortOption(searchParams.get('sort') ?? undefined);
       const urlQuery = searchParams.get('q') ?? '';
 
-      setSelectedTag((current) => (current === urlTag ? current : urlTag));
-      setSortOption((current) => (current === urlSort ? current : urlSort));
-      setSearchQuery((current) => (current === urlQuery ? current : urlQuery));
-      setDebouncedSearchQuery((current) => (current === urlQuery ? current : urlQuery));
+      setSelectedTag(urlTag);
+      setSortOption(urlSort);
+      setSearchQuery(urlQuery);
+      setDebouncedSearchQuery(urlQuery);
     };
 
     syncFromUrl();

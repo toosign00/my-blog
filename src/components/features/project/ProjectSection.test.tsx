@@ -1,5 +1,6 @@
 import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { renderToString } from 'react-dom/server';
 import type { Project } from '@/types/project.types';
 import { ProjectSection } from './ProjectSection';
 
@@ -121,6 +122,24 @@ describe('ProjectSection', () => {
 
     expect(screen.getByRole('searchbox', { name: 'Project search' })).toHaveValue('Mentoring');
     expect(window.location.search).toBe('?q=Mentoring');
+  });
+
+  it('renders the filters from props on the server', () => {
+    window.history.replaceState(null, '', '/projects?q=Mentoring');
+
+    const html = renderToString(
+      <ProjectSection
+        initialQuery='Web'
+        initialSort='newest'
+        initialTag='Missing'
+        projects={projects}
+      />
+    );
+
+    expect(html).toContain('value="Web"');
+    expect(html).toContain('<option value="newest" selected="">');
+    expect(html).toMatch(/aria-pressed="true"[^>]*>All</);
+    expect(renderToString(<ProjectSection projects={projects} />)).toContain('value=""');
   });
 
   it('applies the URL again after browser history traversal', () => {
