@@ -147,6 +147,23 @@ test('restores project filters and results after returning from a detail with br
   ]);
 });
 
+test('restores project filters when returning with the in-page back button', async ({
+  page,
+  next,
+}) => {
+  void next;
+  await page.goto('/projects?tag=QA&sort=alphabetical&q=Flow');
+  await page.getByRole('link', { name: 'Read project: Commerce Flow' }).click();
+  await expect(page).toHaveURL(/\/projects\/commerce-flow$/);
+
+  await page.getByRole('article').getByRole('button', { name: 'Go back' }).first().click();
+  await expect(page).toHaveURL(/\/projects\?tag=QA&sort=alphabetical&q=Flow$/);
+  await expect(page.getByRole('searchbox', { name: 'Project search' })).toHaveValue('Flow');
+  await expect(page.getByRole('list').getByRole('heading', { level: 2 })).toHaveText([
+    'Commerce Flow',
+  ]);
+});
+
 test('preserves an edited project search across browser forward and back', async ({
   page,
   next,
