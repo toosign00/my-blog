@@ -6,7 +6,7 @@ allowBuilds:
 minimumReleaseAgeExclude:
   - "@types/react-dom@19.2.4"
   - "@types/react@19.2.18"
-  - lucide-react@1.28.0
+  - lucide-react@1.28.0 || 1.75.0
   - "@biomejs/biome@2.5.12"
   - "@biomejs/cli-darwin-arm64@2.5.12"
   - "@biomejs/cli-darwin-x64@2.5.12"
@@ -26,6 +26,10 @@ minimumReleaseAgeExclude:
   - "@shikijs/types@4.5.0"
   - "@types/node@26.6.4"
   - shiki@4.5.0
+  - "@tanstack/query-core@5.108.0"
+  - "@tanstack/query-devtools@5.108.0"
+  - "@tanstack/react-query-devtools@5.108.0"
+  - "@tanstack/react-query@5.108.0"
 
 overrides:
   postcss@<8.5.10: ^8.5.10
