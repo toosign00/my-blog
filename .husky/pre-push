@@ -1,2 +1,2 @@
-pnpm type-check
-pnpm test
+pnpm exec tsc --noEmit
+pnpm test:unit

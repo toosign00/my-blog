@@ -249,9 +249,9 @@ Jest에 추가하지 않습니다.
 검증 명령:
 
 ```bash
-pnpm test -- path/to/file.test.ts
-pnpm test:coverage
-pnpm type-check
+pnpm test:unit path/to/file.test.ts
+pnpm test:unit --coverage
+pnpm exec tsc --noEmit
 pnpm exec biome check path/to/changed-file.ts path/to/changed-file.test.ts
 git diff --check
 ```

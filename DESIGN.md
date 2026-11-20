@@ -114,7 +114,7 @@ utilities.css, components/ui
 
 ## 규칙과 검사
 
-`pnpm check-tokens`(`scripts/check-tokens.mjs`)가 다음을 실패로 처리한다.
+`node scripts/check-tokens.mjs`가 다음을 실패로 처리한다.
 `pnpm check`, lint-staged, CI에서 실행된다.
 
 1. Tailwind 임의값: `p-[13px]`, `z-(--x)`, `[counter-reset:x]`

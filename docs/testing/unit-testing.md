@@ -82,14 +82,13 @@ TypeScript 7은 `ts-node`가 사용하는 컴파일러 API를 제공하지 않�
 ```json
 {
   "scripts": {
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage"
+    "test:unit": "jest"
   }
 }
 ```
 
 Jest가 설치되기 전에는 위 명령을 실행 가능한 것으로 간주하지 않습니다.
+변경 감시는 `pnpm test:unit --watch`, 커버리지 검사는 `pnpm test:unit --coverage`로 실행합니다.
 
 ## 파일 배치와 네이밍
 
@@ -294,7 +293,7 @@ it('marks a past publication date as published', () => {
 ### 기준선 설정
 
 1. 첫 번째 유효한 테스트 묶음을 작성합니다.
-2. `pnpm test:coverage`를 실행합니다.
+2. `pnpm test:unit --coverage`를 실행합니다.
 3. 출력된 Statements, Branches, Functions, Lines의 전역 수치를 `jest.config.ts`의
    `coverageThreshold.global`에 기록합니다.
 4. 이후 커버리지가 높아지면 해당 기준값도 함께 올립니다.
@@ -326,25 +325,25 @@ Jest 도입 후 다음 순서로 검증합니다.
 1. 관련 테스트만 실행합니다.
 
    ```bash
-   pnpm test -- path/to/file.test.ts
+   pnpm test:unit path/to/file.test.ts
    ```
 
 2. 전체 유닛 테스트를 실행합니다.
 
    ```bash
-   pnpm test
+   pnpm test:unit
    ```
 
 3. 전체 커버리지를 확인합니다.
 
    ```bash
-   pnpm test:coverage
+   pnpm test:unit --coverage
    ```
 
 4. 타입과 변경한 TypeScript 파일의 정적 검사를 실행합니다.
 
    ```bash
-   pnpm type-check
+   pnpm exec tsc --noEmit
    pnpm exec biome check path/to/changed-file.ts path/to/changed-file.test.ts
    ```
 

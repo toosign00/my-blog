@@ -2,6 +2,21 @@
 
 테스트 작업을 시작하기 전에 대상에 맞는 기준을 확인합니다.
 
+## 실행 명령
+
+| 명령             | 범위                                        |
+| ---------------- | ------------------------------------------- |
+| `pnpm test:unit` | Jest 유닛 테스트                            |
+| `pnpm test:node` | 스크립트와 실제 로컬 HTTP·HTTPS 통합 테스트 |
+| `pnpm test:e2e`  | Playwright 브라우저·서버 연동 테스트        |
+
+유닛 테스트의 변경 감시는 `pnpm test:unit --watch`, 커버리지 검사는
+`pnpm test:unit --coverage`로 실행합니다. `test:node`의 HTTPS 검사에는 `openssl`이 필요합니다.
+
+정적 검사는 `pnpm check`로 포맷·린트, 타입, 디자인 토큰을 순서대로 확인합니다.
+파일을 수정하지 않으며, 한 단계가 실패하면 이후 단계는 실행하지 않습니다.
+포맷·린트의 자동 수정은 `pnpm fix`로 별도 실행합니다.
+
 ## Jest 유닛 테스트
 
 다음 대상은 [`unit-testing.md`](./unit-testing.md)를 반드시 따릅니다.

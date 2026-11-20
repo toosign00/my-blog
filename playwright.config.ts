@@ -29,7 +29,7 @@ export default defineConfig({
     screenshot: 'only-on-failure',
   },
   webServer: {
-    command: 'pnpm sync-covers && pnpm exec next dev --hostname 127.0.0.1 --port 3100',
+    command: 'node scripts/sync-covers.mjs && pnpm exec next dev --hostname 127.0.0.1 --port 3100',
     url: 'http://127.0.0.1:3100/indexnow-key.txt',
     reuseExistingServer: false,
     timeout: 120_000,

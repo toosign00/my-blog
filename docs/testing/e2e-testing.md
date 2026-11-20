@@ -7,14 +7,15 @@ Jest는 순수 로직과 Client Component를, Playwright는 실제 개발 서버
 
 ```bash
 pnpm exec playwright install chromium webkit
-pnpm test:integration
+pnpm test:node
 pnpm test:e2e
 ```
 
 빌드는 실행하지 않습니다. 전용 포트 3100과 `.next-e2e` 출력 경로를 사용하며 기존 서버는 재사용하지 않습니다.
 Playwright가 서버를 시작·종료하고, 실패 시 `test-results`에 trace와 screenshot을 남깁니다.
 CI에서는 `.github/workflows/e2e.yml`이 매주 월요일 09:00(KST)과 수동 실행 시 돌며, 실패하면 `test-results`를 아티팩트로 7일간 보관합니다.
-PR 실행 조건은 추가하지 않습니다. 주간·수동 실행에서는 실제 HTTP 회귀 검사도 함께 실행합니다.
+브라우저 테스트의 PR 실행 조건은 추가하지 않습니다. 주간·수동 실행에서는 `test:node`도 함께 실행합니다.
+`test:node`는 일반 CI의 PR·push 검사에서도 실행합니다.
 
 기본 명령은 Chromium 전체와 WebKit 핵심 흐름을 실행합니다. WebKit 범위는 프로젝트 검색·조건 복원,
 모바일·키보드 사용, 테마 유지, Clipboard API가 없는 환경의 공유 대체 동작과 오류·복구 4개,
@@ -90,7 +91,8 @@ PR 실행 조건은 추가하지 않습니다. 주간·수동 실행에서는 �
 ## 실제 HTTP·HTTPS 콜백 회귀 검사
 
 `tests/integration/*.test.mjs`는 Node 내장 테스트 실행기로 실제 로컬 TCP 서버와
-`requestPinnedUrl`을 연결합니다. `pnpm test:integration`으로 실행하며 브라우저와 외부 접속은 필요하지 않습니다.
+`requestPinnedUrl`을 연결합니다. `pnpm test:node`로 실행하며 `scripts/*.test.mjs`도 함께 검사합니다.
+브라우저와 외부 접속은 필요하지 않습니다.
 Node.js의 TypeScript 타입 제거 기능을 사용하며, CI에서도 운영 환경과 동일한 Node.js 24 런타임에서 실행합니다.
 
 정상 200 응답, 600 응답 변환 오류의 Promise 거절·소켓 종료, 요청 중단 후 다음 요청 성공,
