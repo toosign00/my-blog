@@ -1,0 +1,70 @@
+name: Dependabot Auto-merge
+
+on:
+  pull_request_target:
+    branches:
+      - main
+    types: [opened, synchronize, reopened, ready_for_review]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  dependabot:
+    if: >-
+      github.event.pull_request.user.login == 'dependabot[bot]' &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      !github.event.pull_request.draft
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        shell: bash
+    permissions:
+      contents: write
+      pull-requests: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      PR_URL: ${{ github.event.pull_request.html_url }}
+      PR_HEAD: ${{ github.event.pull_request.head.sha }}
+    steps:
+      # pull_request_target has write access: never check out or execute PR code.
+      - name: Verify Dependabot metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@25dd0e34f4fe68f24cc83900b1fe3fe149efef98 # v3
+
+      - name: Merge verified patch after required checks
+        if: steps.metadata.outputs['update-type'] == 'version-update:semver-patch'
+        env:
+          DEPENDENCIES: ${{ steps.metadata.outputs.updated-dependencies-json }}
+        run: |
+          jq -e 'length > 0 and all(.[]; .updateType == "version-update:semver-patch")' <<< "$DEPENDENCIES"
+
+          for attempt in {1..40}; do
+            pr=$(gh pr view "$PR_URL" --json headRefOid,commits,mergeStateStatus,isDraft,state)
+            # fetch-metadata verifies the first commit; accept only that exact, sole commit.
+            jq -e --arg head "$PR_HEAD" '
+              .headRefOid == $head and (.commits | length) == 1 and
+              .commits[0].oid == $head and .isDraft == false and .state == "OPEN"
+            ' <<< "$pr" > /dev/null
+
+            state=$(jq -r '.mergeStateStatus' <<< "$pr")
+            case "$state" in
+              CLEAN)
+                gh pr merge --squash --match-head-commit "$PR_HEAD" "$PR_URL"
+                exit 0
+                ;;
+              DIRTY)
+                echo "Merge conflict: manual review required."
+                exit 1
+                ;;
+            esac
+            sleep 15
+          done
+
+          echo "Required checks did not pass within 10 minutes; leaving PR open."
+          exit 1
