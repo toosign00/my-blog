@@ -32,4 +32,6 @@ minimumReleaseAgeExclude:
   - "@tanstack/react-query@5.108.0"
 
 overrides:
+  # GHSA-g3hv-75wg-m249; remove once glob/test-exclude accept minimatch 11.
+  "minimatch@>=9 <11": 11.0.9
   postcss@<8.5.10: ^8.5.10
